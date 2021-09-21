@@ -1,3 +1,7 @@
+- Fixed `shutdown-menu` not running on `tau` due to `LOCALE_ARCHIVE_2_27` not being set
+- Fixed `tau` using the wrong monitor names when initializing `i3` workspaces
+- Changed some `i3` keybinds to use variables to make them easier to read
+- Use `pkgs.i3-ws` in `i3` config instead of adding it to `home.packages`
 - Added `.gitkeep` to ensure the `using` folder exists after initial checkout
 - Moved `shutdown-menu.sh` to `overlays/shutdown-menu.nix` and manually patch the `PATH` to include `rofi` for NixOS
 - Renamed `gpd` to `gpx` to be more inline with the other `--delete` aliases

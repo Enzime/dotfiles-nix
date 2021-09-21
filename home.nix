@@ -14,9 +14,6 @@ in lib.recursiveUpdate {
     ranger
     peco
     neovim
-  ] ++ lib.optionals using.i3 [
-    # `i3-ws` doesn't build on non-NixOS when sandboxing is enabled :|
-    i3-ws
   ];
 
   home.sessionVariables = mkMerge [
@@ -31,7 +28,7 @@ in lib.recursiveUpdate {
       QT_FONT_DPI                  = 96;
     })
   ];
-  
+
   xresources.properties = mkIf using.hidpi {
     "*dpi" = 192;
     "Xcursor.size" = 48;
@@ -326,7 +323,15 @@ in lib.recursiveUpdate {
         unfocused       = { border = "#333333"; background = "#0d0c0c"; text = "#888888"; indicator = "#292d2e"; childBorder = "#0d0c0c"; };
       };
 
-      keybindings = let mod = "Mod1"; in {
+      keybindings = let
+        mod = "Mod1";
+        screenshotFilename = "/data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
+        # i3-ws fails to build with sandboxing enabled on non-NixOS OSes
+        # WORKAROUND: sudo nix build nixpkgs.i3-ws --option sandbox false
+        i3-ws = "${pkgs.i3-ws}/bin/i3-ws";
+        maim = "${pkgs.maim}/bin/maim";
+        xdotool = "${pkgs.xdotool}/bin/xdotool";
+      in {
         # start a terminal
         "${mod}+Return" = "exec ${pkgs.termite}/bin/termite";
         "${mod}+Shift+Return" = "exec ${pkgs.termite}/bin/termite --name floating";
@@ -336,9 +341,9 @@ in lib.recursiveUpdate {
         "Mod4+e" = "exec ${pkgs.shutdown-menu} -p rofi -c";
 
         # take screenshots
-        "Control+Shift+2" = "exec bash -c '${pkgs.maim}/bin/maim -i $(${pkgs.xdotool}/bin/xdotool getactivewindow) /data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png'";
-        "Control+Shift+3" = "exec bash -c '${pkgs.maim}/bin/maim /data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png'";
-        "Control+Shift+4" = "exec bash -c '${pkgs.maim}/bin/maim -s /data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png'";
+        "Control+Shift+2" = "exec bash -c '${maim} -i $(${xdotool} getactivewindow) ${screenshotFilename}'";
+        "Control+Shift+3" = "exec bash -c '${maim} ${screenshotFilename}'";
+        "Control+Shift+4" = "exec bash -c '${maim} -s ${screenshotFilename}'";
 
         "${mod}+Shift+q" = "kill";
         "Control+${mod}+q" = "exec ${pkgs.xorg.xkill}/bin/xkill";
@@ -389,49 +394,49 @@ in lib.recursiveUpdate {
 
         "${mod}+a" = "focus parent";
 
-        "Control+${mod}+1" = "exec i3-ws 1";
-        "Control+${mod}+2" = "exec i3-ws 2";
-        "Control+${mod}+3" = "exec i3-ws 3";
-        "Control+${mod}+4" = "exec i3-ws 4";
-        "Control+${mod}+5" = "exec i3-ws 5";
-        "Control+${mod}+6" = "exec i3-ws 6";
-        "Control+${mod}+7" = "exec i3-ws 7";
-        "Control+${mod}+8" = "exec i3-ws 8";
-        "Control+${mod}+9" = "exec i3-ws 9";
-        "Control+${mod}+0" = "exec i3-ws 10";
+        "Control+${mod}+1" = "exec ${i3-ws} 1";
+        "Control+${mod}+2" = "exec ${i3-ws} 2";
+        "Control+${mod}+3" = "exec ${i3-ws} 3";
+        "Control+${mod}+4" = "exec ${i3-ws} 4";
+        "Control+${mod}+5" = "exec ${i3-ws} 5";
+        "Control+${mod}+6" = "exec ${i3-ws} 6";
+        "Control+${mod}+7" = "exec ${i3-ws} 7";
+        "Control+${mod}+8" = "exec ${i3-ws} 8";
+        "Control+${mod}+9" = "exec ${i3-ws} 9";
+        "Control+${mod}+0" = "exec ${i3-ws} 10";
 
-        "${mod}+1" = "exec i3-ws --ws 1";
-        "${mod}+2" = "exec i3-ws --ws 2";
-        "${mod}+3" = "exec i3-ws --ws 3";
-        "${mod}+4" = "exec i3-ws --ws 4";
-        "${mod}+5" = "exec i3-ws --ws 5";
-        "${mod}+6" = "exec i3-ws --ws 6";
-        "${mod}+7" = "exec i3-ws --ws 7";
-        "${mod}+8" = "exec i3-ws --ws 8";
-        "${mod}+9" = "exec i3-ws --ws 9";
-        "${mod}+0" = "exec i3-ws --ws 10";
+        "${mod}+1" = "exec ${i3-ws} --ws 1";
+        "${mod}+2" = "exec ${i3-ws} --ws 2";
+        "${mod}+3" = "exec ${i3-ws} --ws 3";
+        "${mod}+4" = "exec ${i3-ws} --ws 4";
+        "${mod}+5" = "exec ${i3-ws} --ws 5";
+        "${mod}+6" = "exec ${i3-ws} --ws 6";
+        "${mod}+7" = "exec ${i3-ws} --ws 7";
+        "${mod}+8" = "exec ${i3-ws} --ws 8";
+        "${mod}+9" = "exec ${i3-ws} --ws 9";
+        "${mod}+0" = "exec ${i3-ws} --ws 10";
 
-        "${mod}+Shift+1" = "exec i3-ws --ws --shift 1";
-        "${mod}+Shift+2" = "exec i3-ws --ws --shift 2";
-        "${mod}+Shift+3" = "exec i3-ws --ws --shift 3";
-        "${mod}+Shift+4" = "exec i3-ws --ws --shift 4";
-        "${mod}+Shift+5" = "exec i3-ws --ws --shift 5";
-        "${mod}+Shift+6" = "exec i3-ws --ws --shift 6";
-        "${mod}+Shift+7" = "exec i3-ws --ws --shift 7";
-        "${mod}+Shift+8" = "exec i3-ws --ws --shift 8";
-        "${mod}+Shift+9" = "exec i3-ws --ws --shift 9";
-        "${mod}+Shift+0" = "exec i3-ws --ws --shift 10";
+        "${mod}+Shift+1" = "exec ${i3-ws} --ws --shift 1";
+        "${mod}+Shift+2" = "exec ${i3-ws} --ws --shift 2";
+        "${mod}+Shift+3" = "exec ${i3-ws} --ws --shift 3";
+        "${mod}+Shift+4" = "exec ${i3-ws} --ws --shift 4";
+        "${mod}+Shift+5" = "exec ${i3-ws} --ws --shift 5";
+        "${mod}+Shift+6" = "exec ${i3-ws} --ws --shift 6";
+        "${mod}+Shift+7" = "exec ${i3-ws} --ws --shift 7";
+        "${mod}+Shift+8" = "exec ${i3-ws} --ws --shift 8";
+        "${mod}+Shift+9" = "exec ${i3-ws} --ws --shift 9";
+        "${mod}+Shift+0" = "exec ${i3-ws} --ws --shift 10";
 
-        "Control+${mod}+Shift+1" = "exec i3-ws --shift 1";
-        "Control+${mod}+Shift+2" = "exec i3-ws --shift 2";
-        "Control+${mod}+Shift+3" = "exec i3-ws --shift 3";
-        "Control+${mod}+Shift+4" = "exec i3-ws --shift 4";
-        "Control+${mod}+Shift+5" = "exec i3-ws --shift 5";
-        "Control+${mod}+Shift+6" = "exec i3-ws --shift 6";
-        "Control+${mod}+Shift+7" = "exec i3-ws --shift 7";
-        "Control+${mod}+Shift+8" = "exec i3-ws --shift 8";
-        "Control+${mod}+Shift+9" = "exec i3-ws --shift 9";
-        "Control+${mod}+Shift+0" = "exec i3-ws --shift 10";
+        "Control+${mod}+Shift+1" = "exec ${i3-ws} --shift 1";
+        "Control+${mod}+Shift+2" = "exec ${i3-ws} --shift 2";
+        "Control+${mod}+Shift+3" = "exec ${i3-ws} --shift 3";
+        "Control+${mod}+Shift+4" = "exec ${i3-ws} --shift 4";
+        "Control+${mod}+Shift+5" = "exec ${i3-ws} --shift 5";
+        "Control+${mod}+Shift+6" = "exec ${i3-ws} --shift 6";
+        "Control+${mod}+Shift+7" = "exec ${i3-ws} --shift 7";
+        "Control+${mod}+Shift+8" = "exec ${i3-ws} --shift 8";
+        "Control+${mod}+Shift+9" = "exec ${i3-ws} --shift 9";
+        "Control+${mod}+Shift+0" = "exec ${i3-ws} --shift 10";
 
         "${mod}+Shift+c" = "reload";
         "${mod}+Shift+r" = "restart";

@@ -1,8 +1,14 @@
 self: super: {
-  # Due to this script using `command -v` to check the `PATH` for `rofi`
-  # the easiest way to make it work on NixOS to manually patch the `PATH`
   shutdown-menu = super.writeScript "shutdown-menu" ''
+    # Due to this script using `command -v` to check the `PATH` for `rofi`
+    # the easiest way to make it work on NixOS to manually patch the `PATH`
     export PATH=${super.rofi}/bin:$PATH
+    
+    # On `tau`, `rofi` fails to run due to this environment variable being missing
+    # This is because `i3` is being run by Arch's `lightdm` which doesn't source
+    # `.zshrc` and by extension `hm-session-variables.sh`
+    export LOCALE_ARCHIVE_2_27="${super.glibcLocales}/lib/locale/locale-archive"
+
     # Use rofi/zenity to change system runstate thanks to systemd.
     #
     # Note: this currently relies on associative array support in the shell.

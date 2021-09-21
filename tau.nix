@@ -5,13 +5,9 @@ let
 in {
   xsession.windowManager.i3 = mkDefault {
     extraConfig = ''
-      workspace 101 output DisplayPort-1
-      workspace 201 output DisplayPort-0
-      workspace 301 output DisplayPort-2
+      workspace 101 output eDP1
       
       exec --no-startup-id i3 workspace 101
-      exec --no-startup-id i3 workspace 201
-      exec --no-startup-id i3 workspace 301
 
       exec --no-startup-id xrandr --output eDP1 --scale '1.6x1.6'
       exec --no-startup-id nm-applet

@@ -20,11 +20,28 @@ $ sudo systemctl start nix-daemon.socket
 $ sudo usermod -aG nix-users enzime
 ```
 
+
 ## 2. Add Nixpkgs channel
 
 ```sh
 $ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 $ nix-channel --update
+```
+
+### Fix missing root `nixpkgs` channel
+
+If you get warnings like:
+
+```plaintext
+warning: Nix search path entry '/nix/var/nix/profiles/per-user/root/channels/nixpkgs' does not exist, ignoring
+```
+
+On Arch, remove `nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixpkgs` from `NIX_PATH`
+
+The line in `/etc/profile.d/nix-daemon.sh` should look like:
+
+```sh
+export NIX_PATH="/nix/var/nix/profiles/per-user/root/channels"
 ```
 
 ## 3. Set up nixpkgs config
