@@ -1,3 +1,5 @@
+- Added `.gitkeep` to ensure the `using` folder exists after initial checkout
+- Moved `shutdown-menu.sh` to `overlays/shutdown-menu.nix` and manually patch the `PATH` to include `rofi` for NixOS
 - Renamed `gpd` to `gpx` to be more inline with the other `--delete` aliases
 - Added `gaf` and `gtx` alias
 - Added empty `zeta.nix`

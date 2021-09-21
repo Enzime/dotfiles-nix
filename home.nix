@@ -15,8 +15,8 @@ in lib.recursiveUpdate {
     peco
     neovim
   ] ++ lib.optionals using.i3 [
-    # TODO: fix `i3-ws` not building on tau
-    # i3-ws
+    # `i3-ws` doesn't build on non-NixOS when sandboxing is enabled :|
+    i3-ws
   ];
 
   home.sessionVariables = mkMerge [
@@ -333,7 +333,7 @@ in lib.recursiveUpdate {
 
         # lock screen
         "Mod4+l" = "exec loginctl lock-session";
-        "Mod4+e" = "exec ${./shutdown-menu.sh} -p rofi -c";
+        "Mod4+e" = "exec ${pkgs.shutdown-menu} -p rofi -c";
 
         # take screenshots
         "Control+Shift+2" = "exec bash -c '${pkgs.maim}/bin/maim -i $(${pkgs.xdotool}/bin/xdotool getactivewindow) /data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png'";
@@ -703,6 +703,9 @@ services.polybar = mkIf using.i3 {
       "j" = "add volume -2";
       "k" = "add volume 2";
       "l" = "seek 5";
+
+      "Shift+LEFT" = "seek -60";
+      "Shift+RIGHT" = "seek +60";
 
       "Z-Q" = "quit";
 
