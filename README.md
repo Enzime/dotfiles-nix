@@ -11,7 +11,29 @@ $ sudo apt install nix
 $ sudo usermod -aG nix-users enzime
 ```
 
-## 2. Install home-manager
+### Arch
+
+```sh
+$ sudo pacman -S nix
+$ sudo systemctl enable nix-daemon.socket
+$ sudo systemctl start nix-daemon.socket
+$ sudo usermod -aG nix-users enzime
+```
+
+## 2. Add Nixpkgs channel
+
+```sh
+$ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+$ nix-channel --update
+```
+
+## 3. Clone this repo
+
+```sh
+git clone https://github.com/Enzime/dotfiles-nix ~/.config/nixpkgs
+```
+
+## 4. Install home-manager
 
 https://github.com/nix-community/home-manager#installation
 
@@ -23,18 +45,18 @@ $ nix-channel --update
 $ nix-shell '<home-manager>' -A install
 ```
 
-## 3. Set up home
-
-Run this command each time before `home-manager` is properly set up to ensure your `PATH` is correct:
+Ensure `~/.zshrc` was generated correctly, if it was not, run this command after fixing things to regenerate home based of `home.nix`:
 
 ```sh
-$ export PATH=~/.nix-profile/bin:$PATH
-```
-
-Ensure `~/.config/nixpkgs/home.nix` is correct and then run:
-
-```
 $ home-manager switch
 ```
 
-Ensure `~/.zshrc` was generated correctly, then log out and back in to verify everything is working
+Then log out and back in and ensure everything is working
+
+## 5. Update Git remote
+
+Now that everything should be set up, you can update the remote URL:
+
+```sh
+git remote set-url origin gh:Enzime/dotfiles-nix
+```

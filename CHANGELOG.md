@@ -1,0 +1,23 @@
+- Moved `nixpkgs.overlays` to individual files in `overlays/` so `nix-env` will pick up the overlays as well
+- Added `hidpi` environment variables and Xresources from `tau`
+- Changed `/home/enzime` to `~` to make the home path flexible
+- Imported `gtk` config from `phi` only for `phi`
+- Imported `shairport-sync` service from `phi`
+- Use rycee's `sd-switch` for switching `systemd` service configurations
+- Imported `redshift` config from `phi`
+- Changed `polybar` config from `phi` to support both `phi` and `tau`
+- Moved `i3.extraConfig` from `using/i3` to `<hostname>.nix`
+- Use `mkDefault` to partially override `mkIf` attrsets
+- Added `<hostname>.nix` files which get imported and merged depending on the contents of `using/hostname`
+- Added `pre-commit` hook for preventing TODOs from `tau`
+- Added `gcpa` and `gcpc` aliases for `cherry-pick` options
+- Added `shutdown-menu.sh` from EndeavourOS
+- Created `gitignore` with known files in `using` directory
+- Imported `i3` config from `phi`
+- Source `~/.zshrc.secrets` to store environment variables outside of `git`
+- Fixed `source ~/.zshrc` failing because `unalias` was being run multiple times
+- Added `using.X` based on `using/X` files to specify what configurations should be built
+- Imported `feh` config from `phi`
+- Created a CHANGELOG because `git` commit messages aren't good for storing lots of small changes
+- Removed `<backspace>` unbind as it also unbinded `<BS>` in `termite` in addition to `<C-h>`
+- Imported `home.nix` from `zeta`
