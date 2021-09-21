@@ -1,3 +1,7 @@
+- Renamed `gpd` to `gpx` to be more inline with the other `--delete` aliases
+- Added `gaf` and `gtx` alias
+- Added empty `zeta.nix`
+- Disabled advice about adding ignored files to `git`
 - Moved `nixpkgs.overlays` to individual files in `overlays/` so `nix-env` will pick up the overlays as well
 - Added `hidpi` environment variables and Xresources from `tau`
 - Changed `/home/enzime` to `~` to make the home path flexible

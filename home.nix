@@ -64,6 +64,9 @@ in lib.recursiveUpdate {
     delta.enable = true;
 
     extraConfig = {
+      advice = {
+        addIgnoredFile = false;
+      };
       core = {
         hooksPath = "~/.config/git/hooks";
       };
@@ -276,6 +279,7 @@ in lib.recursiveUpdate {
       ranger = "ranger-cd";
 
       gai = "git add --interactive";
+      gaf = "git add --force";
       gbc = "gbfm -c";
       gbC = "gbfm -C";
       gbu = "git branch --set-upstream-to";
@@ -290,12 +294,13 @@ in lib.recursiveUpdate {
       gf = "gfa --prune";
       gF = "git fetch";
       gln = "gl -n";
-      gpd = "gp --delete";
+      gpx = "gp --delete";
       gRv = "gR -v";
       gs = "git status";
       gss = "git stash save -p";
       gsS = "git stash save --include-untracked";
       gS = "git show";
+      gtx = "git tag --delete";
     };
   };
 

@@ -27,11 +27,37 @@ $ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 $ nix-channel --update
 ```
 
-## 3. Clone this repo
+## 3. Set up nixpkgs config
+
+1\. Clone the repo to `~/.config/nixpkgs`
 
 ```sh
 git clone https://github.com/Enzime/dotfiles-nix ~/.config/nixpkgs
 ```
+
+2\. Create empty files in `using` based on your current system
+
+Possible files are:
+
+- `i3`
+- `gnome`
+- `hidpi`
+
+If any are missing here, they will be listed in `.gitignore` or at the top of `home.nix`
+
+3\. Create a file `using/hostname` which contains your hostname e.g.
+
+```plaintext
+zeta
+```
+
+4\. Create a file `<hostname>.nix` with the contents:
+
+```nix
+{...}: {}
+```
+
+5\. Create an empty file `~/.zshrc.secrets`
 
 ## 4. Install home-manager
 
@@ -45,13 +71,19 @@ $ nix-channel --update
 $ nix-shell '<home-manager>' -A install
 ```
 
-Ensure `~/.zshrc` was generated correctly, if it was not, run this command after fixing things to regenerate home based of `home.nix`:
+Check that `~/.zshrc` was generated correctly:
+
+```
+$ source ~/.zshrc
+```
+
+To regenerate the home environment based on any changes to `home.nix`, you can run:
 
 ```sh
 $ home-manager switch
 ```
 
-Then log out and back in and ensure everything is working
+After ensuring that `~/.zshrc` has been generated correctly, log out and back in and ensure everything is working
 
 ## 5. Update Git remote
 
