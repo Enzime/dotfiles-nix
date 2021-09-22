@@ -8,13 +8,12 @@ let
   };
 
   inherit (lib) mkIf mkMerge readFile;
-in lib.recursiveUpdate {
-  home.packages = with pkgs; [
-    htop
-    ranger
-    peco
-    neovim
-  ];
+in mkMerge [{
+  # Replace `with pkgs;` with `inherit (pkgs)`
+  # https://nix.dev/anti-patterns/language#with-attrset-expression
+  home.packages = builtins.attrValues {
+    inherit (pkgs) htop ranger peco neovim;
+  };
 
   home.sessionVariables = mkMerge [
     {
@@ -300,6 +299,9 @@ in lib.recursiveUpdate {
       gtx = "git tag --delete";
     };
   };
+  
+  programs.direnv.enable = true; 
+  programs.direnv.nix-direnv.enable = true;
 
   xsession.windowManager.i3 = mkIf using.i3 {
     enable = true;
@@ -544,9 +546,7 @@ services.polybar = mkIf using.i3 {
     };
   };
   script = ''
-    polybar left &
     polybar centre &
-    polybar right &
   '';
 }; 
   
@@ -782,4 +782,4 @@ services.polybar = mkIf using.i3 {
   };
 
   programs.home-manager.enable = true;
-} (import (./. + "/${lib.removeSuffix "\n" (readFile ./using/hostname)}.nix") { inherit lib pkgs; })
+} (import (./. + "/${lib.removeSuffix "\n" (readFile ./using/hostname)}.nix") { inherit lib pkgs; })]

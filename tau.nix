@@ -1,25 +1,23 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 
 let
-    inherit (lib) mkDefault;
-in {
-  xsession.windowManager.i3 = mkDefault {
-    extraConfig = ''
-      workspace 101 output eDP1
-      
-      exec --no-startup-id i3 workspace 101
+    inherit (lib) mkForce mkMerge;
+in mkMerge [{
+  xsession.windowManager.i3.extraConfig = ''
+    workspace 101 output eDP1
 
-      exec --no-startup-id xrandr --output eDP1 --scale '1.6x1.6'
-      exec --no-startup-id nm-applet
-      exec --no-startup-id xss-lock -- bash -c "i3lock -c 000000; xset dpms force off"
-      exec --no-startup-id slack
-    '';
-  };
+    exec --no-startup-id i3 workspace 101
+
+    exec --no-startup-id xrandr --output eDP1 --scale '1.6x1.6'
+    exec --no-startup-id nm-applet
+    exec --no-startup-id xss-lock -- bash -c "i3lock -c 000000; xset dpms force off"
+    exec --no-startup-id slack
+  '';
   
-  services.polybar = mkDefault {
+  services.polybar = {
     config = {
       "bar/base" = {
-        modules-right = "battery wireless ethernet fs memory date";
+        modules-right = mkForce "battery wireless ethernet fs memory date";
       };
 
       "bar/centre" = {
@@ -39,8 +37,5 @@ in {
         label-full = "BAT FULL 100%";
       };
     };
-    script = ''
-      polybar centre &
-    '';
   };
-}
+} (import (./work.nix) { inherit lib pkgs; })]

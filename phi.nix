@@ -1,33 +1,31 @@
 { lib, pkgs, ... }:
 
 let
-    inherit (lib) mkDefault;
+    inherit (lib) mkForce;
 in {
   # Disable tab bar when using vertical tabs
   home.file.".mozilla/firefox/userChrome.css".text = ''
     #TabsToolbar { visibility: collapse !important; }
   '';
 
-  xsession.windowManager.i3 = mkDefault {
-    extraConfig = ''
-      workspace 101 output DisplayPort-1
-      workspace 201 output DisplayPort-0
-      workspace 301 output DisplayPort-2
-      
-      exec --no-startup-id i3 workspace 101
-      exec --no-startup-id i3 workspace 201
-      exec --no-startup-id i3 workspace 301
+  xsession.windowManager.i3.extraConfig = ''
+    workspace 101 output DisplayPort-1
+    workspace 201 output DisplayPort-0
+    workspace 301 output DisplayPort-2
 
-      # lightdm is set up to autologin, so we still want the user to login
-      exec --no-startup-id i3lock
-    '';
-  };
+    exec --no-startup-id i3 workspace 101
+    exec --no-startup-id i3 workspace 201
+    exec --no-startup-id i3 workspace 301
 
-  services.polybar = mkDefault {
+    # lightdm is set up to autologin, so we still want the user to login
+    exec --no-startup-id i3lock
+  '';
+
+  services.polybar = {
     config = {
       "bar/base" = {
         # TODO: just prepend `nixpkgs` to `modules-right`
-        modules-right = "nixpkgs wireless ethernet fs memory date";
+        modules-right = mkForce "nixpkgs wireless ethernet fs memory date";
       };
 
       "bar/left" = {
@@ -77,7 +75,7 @@ in {
         interval = 300;
       };
     };
-    script = ''
+    script = mkForce ''
       polybar left &
       polybar centre &
       polybar right &

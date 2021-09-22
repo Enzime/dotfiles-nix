@@ -1,3 +1,10 @@
+- Changed `services.polybar.script` default value to only specify the `centre` bar
+- Use `mkForce` instead of `mkDefault` which doesn't always override values in `home.nix`
+- Removed `mkDefault attrset` wrapper around `xsession.windowManager.i3.extraConfig` as `mkMerge` correctly sets multiline strings
+- Use `mkMerge` intead of `recursiveUpdate` to support overriding lists
+- Use `inherit (pkgs)` instead of `with pkgs;` to be explicit about the scope
+- Created new `work.nix` and `import` it on `tau` and `zeta`
+- Added `direnv` and `nix-direnv` for automatic `shell.nix` switching
 - Fixed `shutdown-menu` not running on `tau` due to `LOCALE_ARCHIVE_2_27` not being set
 - Fixed `tau` using the wrong monitor names when initializing `i3` workspaces
 - Changed some `i3` keybinds to use variables to make them easier to read
