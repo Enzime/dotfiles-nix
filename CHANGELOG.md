@@ -1,3 +1,4 @@
+- Added `Inspiration` section to README
 - Changed `services.polybar.script` default value to only specify the `centre` bar
 - Use `mkForce` instead of `mkDefault` which doesn't always override values in `home.nix`
 - Removed `mkDefault attrset` wrapper around `xsession.windowManager.i3.extraConfig` as `mkMerge` correctly sets multiline strings

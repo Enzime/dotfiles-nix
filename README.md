@@ -1,3 +1,7 @@
+# Inspiration
+
+- `using/X` is based off https://github.com/jonringer/nixpkgs-config
+
 # Usage
 
 ## 1. Install Nix
