@@ -781,5 +781,7 @@ services.polybar = mkIf using.i3 {
     };
   };
 
+  services.udiskie.enable = true;
+
   programs.home-manager.enable = true;
 } (import (./. + "/${lib.removeSuffix "\n" (readFile ./using/hostname)}.nix") { inherit lib pkgs; })]

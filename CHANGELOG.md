@@ -1,3 +1,4 @@
+- Added `udiskie` to automount all the things
 - Added `Inspiration` section to README
 - Changed `services.polybar.script` default value to only specify the `centre` bar
 - Use `mkForce` instead of `mkDefault` which doesn't always override values in `home.nix`
