@@ -17,7 +17,8 @@ in mkMerge [{
   services.polybar = {
     config = {
       "bar/base" = {
-        modules-right = mkForce "battery wireless ethernet fs memory date";
+        # TODO: add `battery` into `modules-right`
+        modules-right = mkForce "dotfiles battery wireless ethernet fs memory date";
       };
 
       "bar/centre" = {

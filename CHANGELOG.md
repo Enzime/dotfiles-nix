@@ -1,3 +1,4 @@
+- Replaced `nixpkgs` `polybar` module with `dotfiles` module to show if the system is running the latest dotfiles
 - Added `udiskie` to automount all the things
 - Added `Inspiration` section to README
 - Changed `services.polybar.script` default value to only specify the `centre` bar

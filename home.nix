@@ -15,6 +15,8 @@ in mkMerge [{
     inherit (pkgs) htop ranger peco neovim;
   };
 
+  home.extraBuilderCommands = "ln -sv ${./.} $out/dotfiles";
+
   home.sessionVariables = mkMerge [
     {
       EDITOR = "vim";
@@ -467,7 +469,7 @@ services.polybar = mkIf using.i3 {
       font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
 
       modules-left = "i3";
-      modules-right = "wireless ethernet fs memory date";
+      modules-right = "dotfiles wireless ethernet fs memory date";
 
       module-margin-left = 2;
       module-margin-right = 2;
@@ -543,6 +545,31 @@ services.polybar = mkIf using.i3 {
     "module/wireless" = {
       type = "internal/network";
       interface = "wlo1";
+    };
+
+    "module/dotfiles" = {
+      type = "custom/script";
+      exec = "${pkgs.writeShellScript "latest-dotfiles" ''
+        # get latest commit hash for dotfiles
+        LATEST=$(${pkgs.curl}/bin/curl -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.coreutils}/bin/cut -d ' ' -f 2)
+
+        # get commit hash of currently running dotfiles
+        cd /nix/var/nix/profiles/per-user/enzime/home-manager/dotfiles/
+        RUNNING=$(${pkgs.git}/bin/git rev-parse HEAD)
+
+        UPDATE_FOUND=false
+
+        if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST $RUNNING 2>/dev/null; then
+          UPDATE_FOUND=true
+        fi
+
+        if [[ $UPDATE_FOUND == "true" ]]; then
+          echo  $(echo $LATEST | ${pkgs.coreutils}/bin/cut -c -7)
+        else
+          echo  $(echo $(${pkgs.git}/bin/git describe --always --dirty))
+        fi
+      ''}";
+      interval = 300;
     };
   };
   script = ''
