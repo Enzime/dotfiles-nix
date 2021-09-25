@@ -336,15 +336,12 @@ in mkMerge [{
         maim = "${pkgs.maim}/bin/maim";
         xdotool = "${pkgs.xdotool}/bin/xdotool";
       in {
-        # start a terminal
         "${mod}+Return" = "exec ${pkgs.termite}/bin/termite";
         "${mod}+Shift+Return" = "exec ${pkgs.termite}/bin/termite --name floating";
 
-        # lock screen
         "Mod4+l" = "exec loginctl lock-session";
         "Mod4+e" = "exec ${pkgs.shutdown-menu} -p rofi -c";
 
-        # take screenshots
         "Control+Shift+2" = "exec bash -c '${maim} -i $(${xdotool} getactivewindow) ${screenshotFilename}'";
         "Control+Shift+3" = "exec bash -c '${maim} ${screenshotFilename}'";
         "Control+Shift+4" = "exec bash -c '${maim} -s ${screenshotFilename}'";
@@ -398,17 +395,7 @@ in mkMerge [{
 
         "${mod}+a" = "focus parent";
 
-        "Control+${mod}+1" = "exec ${i3-ws} 1";
-        "Control+${mod}+2" = "exec ${i3-ws} 2";
-        "Control+${mod}+3" = "exec ${i3-ws} 3";
-        "Control+${mod}+4" = "exec ${i3-ws} 4";
-        "Control+${mod}+5" = "exec ${i3-ws} 5";
-        "Control+${mod}+6" = "exec ${i3-ws} 6";
-        "Control+${mod}+7" = "exec ${i3-ws} 7";
-        "Control+${mod}+8" = "exec ${i3-ws} 8";
-        "Control+${mod}+9" = "exec ${i3-ws} 9";
-        "Control+${mod}+0" = "exec ${i3-ws} 10";
-
+        # switch between workspaces on the current monitor
         "${mod}+1" = "exec ${i3-ws} --ws 1";
         "${mod}+2" = "exec ${i3-ws} --ws 2";
         "${mod}+3" = "exec ${i3-ws} --ws 3";
@@ -431,6 +418,18 @@ in mkMerge [{
         "${mod}+Shift+9" = "exec ${i3-ws} --ws --shift 9";
         "${mod}+Shift+0" = "exec ${i3-ws} --ws --shift 10";
 
+        # switch monitors
+        "Control+${mod}+1" = "exec ${i3-ws} 1";
+        "Control+${mod}+2" = "exec ${i3-ws} 2";
+        "Control+${mod}+3" = "exec ${i3-ws} 3";
+        "Control+${mod}+4" = "exec ${i3-ws} 4";
+        "Control+${mod}+5" = "exec ${i3-ws} 5";
+        "Control+${mod}+6" = "exec ${i3-ws} 6";
+        "Control+${mod}+7" = "exec ${i3-ws} 7";
+        "Control+${mod}+8" = "exec ${i3-ws} 8";
+        "Control+${mod}+9" = "exec ${i3-ws} 9";
+        "Control+${mod}+0" = "exec ${i3-ws} 10";
+
         "Control+${mod}+Shift+1" = "exec ${i3-ws} --shift 1";
         "Control+${mod}+Shift+2" = "exec ${i3-ws} --shift 2";
         "Control+${mod}+Shift+3" = "exec ${i3-ws} --shift 3";
@@ -451,6 +450,29 @@ in mkMerge [{
 
       modes = {
         osu = { End = "mode default"; };
+        resize = {
+          h = "resize shrink width 2 px or 2 ppt";
+          j = "resize grow height 2 px or 2 ppt";
+          k = "resize shrink height 2 px or 2 ppt";
+          l = "resize grow width 2 px or 2 ppt";
+
+          Left = "resize shrink width 2 px or 2 ppt";
+          Down = "resize grow height 2 px or 2 ppt";
+          Up = "resize shrink height 2 px or 2 ppt";
+          Right = "resize grow width 2 px or 2 ppt";
+
+          "Shift+h" = "resize shrink width 20 px or 20 ppt";
+          "Shift+j" = "resize grow height 20 px or 20 ppt";
+          "Shift+k" = "resize shrink height 20 px or 20 ppt";
+          "Shift+l" = "resize grow width 20 px or 20 ppt";
+
+          "Shift+Left" = "resize shrink width 20 px or 20 ppt";
+          "Shift+Down" = "resize grow height 20 px or 20 ppt";
+          "Shift+Up" = "resize shrink height 20 px or 20 ppt";
+          "Shift+Right" = "resize grow width 20 px or 20 ppt";
+
+          Escape = "mode default";
+        };
       };
     };
   };
@@ -809,6 +831,8 @@ services.polybar = mkIf using.i3 {
   };
 
   services.udiskie.enable = true;
+
+  home.file.".mozilla/native-messaging-hosts/ff2mpv.json".source = "${pkgs.ff2mpv}/lib/mozilla/native-messaging-hosts/ff2mpv.json";
 
   programs.home-manager.enable = true;
 } (import (./. + "/${lib.removeSuffix "\n" (readFile ./using/hostname)}.nix") { inherit lib pkgs; })]
