@@ -215,6 +215,35 @@ in mkMerge [{
         git --no-pager diff --binary --no-color ''${1:-origin/master}...''${2:-HEAD} | grep -i '^\+.*todo'
       }
 
+      # https://github.com/nix-community/nix-direnv#shell-integration
+      nixify() {
+        if [ ! -e ./.envrc ]; then
+          echo "use nix" > .envrc
+          direnv allow
+        fi
+        if [[ ! -e shell.nix ]]; then
+          cat > shell.nix <<'EOF'
+with import <nixpkgs> {};
+mkShell {
+  nativeBuildInputs = [
+    bashInteractive
+  ];
+}
+EOF
+          ''${EDITOR:-vim} shell.nix
+        fi
+      }
+
+      flakifiy() {
+        if [ ! -e flake.nix ]; then
+          nix flake new -t github:nix-community/nix-direnv .
+        elif [ ! -e .envrc ]; then
+          echo "use flake" > .envrc
+          direnv allow
+        fi
+        ''${EDITOR:-vim} flake.nix
+      }
+
       function ranger-cd {
         tempfile=$(mktemp)
         \ranger --choosedir="$tempfile" "''${@:-$(pwd)}" < $TTY
