@@ -38,9 +38,6 @@ Plug 'haya14busa/incsearch.vim'
 " Highlight current word under cursor
 Plug 'RRethy/vim-illuminate'
 
-" Display colours inline
-Plug 'ap/vim-css-color'
-
 " Show marks on the sidebar
 Plug 'kshenoy/vim-signature'
 
@@ -52,6 +49,7 @@ PlugIf !exists('g:vscode'), 'Shougo/denite.nvim', { 'do': function('DoRemote') }
 PlugIf !exists('g:vscode'), 'tpope/vim-fugitive'
 PlugIf !exists('g:vscode'), 'tpope/vim-commentary'
 PlugIf !exists('g:vscode'), 'mbbill/undotree'
+PlugIf !exists('g:vscode'), 'ap/vim-css-color'
 
 PlugIf !exists('g:vscode'), 'octol/vim-cpp-enhanced-highlight'
 PlugIf !exists('g:vscode'), 'pangloss/vim-javascript'
@@ -142,6 +140,7 @@ hi link illuminatedWord Visual
 syntax on
 set mouse=a
 set nowrap
+let g:terminal_scrollback_buffer_size = 100000
 
 " Defaults for if `sleuth.vim` fail
 set expandtab
@@ -169,8 +168,6 @@ nnoremap <Leader>R :source $MYVIMRC<CR>
 " Operator remapping
 map y <Plug>(operator-flashy)
 map Y "+<Plug>(operator-flashy)
-
-let g:terminal_scrollback_buffer_size = 100000
 
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)

@@ -7,7 +7,7 @@ let
     hidpi = builtins.pathExists ./using/hidpi;
   };
 
-  inherit (lib) mkIf mkMerge readFile;
+  inherit (lib) assertMsg hasAttrByPath mkIf mkMerge readFile;
 in mkMerge [{
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
@@ -317,6 +317,8 @@ in mkMerge [{
   programs.vscode = {
     enable = true;
     extensions = [
+      pkgs.vscode-extensions.asvetliakov.vscode-neovim
+
       pkgs.vscode-extensions.eamodio.gitlens
       pkgs.vscode-extensions.shardulm94.trailing-spaces
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
@@ -324,13 +326,9 @@ in mkMerge [{
       # pkgs.vscode-extensions.ms-python.python
       pkgs.vscode-extensions.ms-python.vscode-pylance
       pkgs.vscode-extensions.jnoortheen.nix-ide
-    ] ++ (if (!lib.hasAttrByPath ["asvetliakov" "vscode-neovim"] pkgs.vscode-extensions)
-           then pkgs.vscode-utils.extensionsFromVscodeMarketplace [ {
-            name = "vscode-neovim";
-            publisher = "asvetliakov";
-            version = "0.0.82";
-            sha256 = "17f0jzg9vdbqdjnnc5i1q28ij2kckvvxi7fw9szmyy754f074jb1";
-           } ] else assert (lib.assertMsg false "vscode-neovim is now accessible through nixpkgs"); [ pkgs.vscode-extensions.asvetliakov.vscode-neovim ] );
+
+      pkgs.vscode-extensions.kamikillerto.vscode-colorize
+    ];
     userSettings = {
       "telemetry.enableTelemetry" = false;
       "telemetry.enableCrashReporter" = false;
@@ -349,6 +347,10 @@ in mkMerge [{
       "diffEditor.ignoreTrimWhitespace" = false;
       "trailing-spaces.trimOnSave" = true;
       "trailing-spaces.highlightCurrentLine" = false;
+
+      "colorize.include" = [ "*" ];
+      "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
+      "colorize.hide_current_line_decorations" = false;
     };
   };
 
