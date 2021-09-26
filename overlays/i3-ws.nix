@@ -9,12 +9,12 @@ self: super: {
       fetchSubmodules = true;
     };
 
-    buildInputs = with super; [
-      i3 jsoncpp libsigcxx
-    ];
+    buildInputs = builtins.attrValues {
+      inherit (super) i3 jsoncpp libsigcxx;
+    };
 
-    nativeBuildInputs = with super; [
-      cmake pkgconfig
-    ];
+    nativeBuildInputs = builtins.attrValues {
+      inherit (super) cmake pkgconfig;
+    };
   };
 }

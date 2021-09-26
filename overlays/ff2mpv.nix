@@ -10,9 +10,9 @@ self: super: {
       sha256 = "1xmyzi671fny6z2445dp5lc02bdgaivpvn8y56g0p7jxs5rj9sbs";
     };
 
-    buildInputs = with super; [
-      python3 mpv
-    ];
+    buildInputs = builtins.attrValues {
+      inherit (super) python3 mpv;
+    };
 
     patchPhase = ''
       patchShebangs .

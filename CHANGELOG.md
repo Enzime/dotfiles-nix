@@ -1,3 +1,9 @@
+- Replaced `Cond` with `PlugIf` command for conditionally loading `vim` plugins
+- Added out of tree `vscode-neovim` extension with an automatic self-destruct for when it is in tree
+- Fixed `vim` command not opening `neovim` from `home-manager`
+- Added `neovim` config and `VSCode` config
+- Enabled unfree packages for `VSCode`
+- Replaced `with pkgs;` usage with `inherit (pkgs)` in overlays
 - Added missing `resize` mode bindings for `i3`
 - Converted manual `ff2mpv` installation on `phi` into a package
 - Replaced `nixpkgs` `polybar` module with `dotfiles` module to show if the system is running the latest dotfiles

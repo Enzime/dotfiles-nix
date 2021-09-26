@@ -12,9 +12,9 @@ in mkMerge [{
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
   home.packages = builtins.attrValues {
-    inherit (pkgs) htop ranger peco neovim;
+    inherit (pkgs) htop ranger peco;
   };
-
+  
   home.extraBuilderCommands = "ln -sv ${./.} $out/dotfiles";
 
   home.sessionVariables = mkMerge [
@@ -304,6 +304,43 @@ in mkMerge [{
   
   programs.direnv.enable = true; 
   programs.direnv.nix-direnv.enable = true;
+
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+    # Adding `vim-plug` to `plugins` does not load it, just source it directly instead
+    extraConfig = ''
+      source ${pkgs.vimPlugins.vim-plug.rtp}/plug.vim
+    '' + readFile ./files/init.vim;
+  };
+
+  programs.vscode = {
+    enable = true;
+    extensions = [
+      pkgs.vscode-extensions.eamodio.gitlens
+      pkgs.vscode-extensions.dbaeumer.vscode-eslint
+      # Currently broken on `nixpkgs-unstable`, disable until https://github.com/NixOS/nixpkgs/issues/137314 is fixed
+      # pkgs.vscode-extensions.ms-python.python
+      pkgs.vscode-extensions.ms-python.vscode-pylance
+      pkgs.vscode-extensions.jnoortheen.nix-ide
+    ] ++ (if (!lib.hasAttrByPath ["asvetliakov" "vscode-neovim"] pkgs.vscode-extensions)
+           then pkgs.vscode-utils.extensionsFromVscodeMarketplace [ {
+            name = "vscode-neovim";
+            publisher = "asvetliakov";
+            version = "0.0.82";
+            sha256 = "17f0jzg9vdbqdjnnc5i1q28ij2kckvvxi7fw9szmyy754f074jb1";
+           } ] else assert (lib.assertMsg false "vscode-neovim is now accessible through nixpkgs"); [ pkgs.vscode-extensions.asvetliakov.vscode-neovim ] );
+    userSettings = {
+      "editor.codeActionsOnSave" = {
+        "source.fixAll" = true;
+      };
+      "telemetry.enableTelemetry" = false;
+      "telemetry.enableCrashReporter" = false;
+      "workbench.enableExperiments" = false;
+      "workbench.settings.enableNaturalLanguageSearch" = false;
+      "vscode-neovim.neovimExecutablePaths.linux" = "${pkgs.neovim}/bin/nvim";
+    };
+  };
 
   xsession.windowManager.i3 = mkIf using.i3 {
     enable = true;
