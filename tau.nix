@@ -13,7 +13,7 @@ in mkMerge [{
     exec --no-startup-id xss-lock -- bash -c "i3lock -c 000000; xset dpms force off"
     exec --no-startup-id slack
   '';
-  
+
   services.polybar = {
     config = {
       "bar/base" = {
@@ -24,7 +24,7 @@ in mkMerge [{
       "bar/centre" = {
         monitor = "eDP1";
       };
-      
+
       "module/battery" = {
         type = "internal/battery";
         battery = "BAT1";

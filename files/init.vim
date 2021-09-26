@@ -22,8 +22,8 @@ Plug 'airodactyl/neovim-ranger'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'rhysd/clever-f.vim'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'junegunn/vim-easy-align'
-Plug 'will133/vim-dirdiff'
 
 " Automatic indent settings
 Plug 'tpope/vim-sleuth'
@@ -71,6 +71,7 @@ if !exists('g:vscode')
     set modeline
     set number
     set relativenumber
+    let g:strip_whitespace_on_save = 1
 
     " Support 24-bit colours in terminals
     set termguicolors
@@ -169,7 +170,6 @@ nnoremap <Leader>R :source $MYVIMRC<CR>
 map y <Plug>(operator-flashy)
 map Y "+<Plug>(operator-flashy)
 
-" Make terminal mode magical
 let g:terminal_scrollback_buffer_size = 100000
 
 map / <Plug>(incsearch-forward)

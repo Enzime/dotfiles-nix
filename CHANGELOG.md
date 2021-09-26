@@ -1,3 +1,5 @@
+- Added editor plugins to visualize and trim trailing whitespace
+- Added some `VSCode` settings from `tau`
 - Replaced `Cond` with `PlugIf` command for conditionally loading `vim` plugins
 - Added out of tree `vscode-neovim` extension with an automatic self-destruct for when it is in tree
 - Fixed `vim` command not opening `neovim` from `home-manager`

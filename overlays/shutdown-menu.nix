@@ -3,7 +3,7 @@ self: super: {
     # Due to this script using `command -v` to check the `PATH` for `rofi`
     # the easiest way to make it work on NixOS to manually patch the `PATH`
     export PATH=${super.rofi}/bin:$PATH
-    
+
     # On `tau`, `rofi` fails to run due to this environment variable being missing
     # This is because `i3` is being run by Arch's `lightdm` which doesn't source
     # `.zshrc` and by extension `hm-session-variables.sh`
@@ -30,11 +30,11 @@ self: super: {
 
     # You should have received a copy of the GNU General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    
+
     #######################################################################
     #                            BEGIN CONFIG                             #
     #######################################################################
-    
+
     # Use a custom lock script
     #LOCKSCRIPT="i3lock-extra -m pixelize"
 

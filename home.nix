@@ -14,7 +14,7 @@ in mkMerge [{
   home.packages = builtins.attrValues {
     inherit (pkgs) htop ranger peco;
   };
-  
+
   home.extraBuilderCommands = "ln -sv ${./.} $out/dotfiles";
 
   home.sessionVariables = mkMerge [
@@ -81,7 +81,7 @@ in mkMerge [{
         "https://github.com/" = { insteadOf = [ "gh:" "ghro:" ]; };
         "ssh://git@github.com/" = { insteadOf = "ghp:"; pushInsteadOf = "gh:"; };
         "___PUSH_DISABLED___" = { pushInsteadOf = "ghro:"; };
-      }; 
+      };
     };
   };
 
@@ -301,8 +301,8 @@ in mkMerge [{
       gtx = "git tag --delete";
     };
   };
-  
-  programs.direnv.enable = true; 
+
+  programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
 
   programs.neovim = {
@@ -318,6 +318,7 @@ in mkMerge [{
     enable = true;
     extensions = [
       pkgs.vscode-extensions.eamodio.gitlens
+      pkgs.vscode-extensions.shardulm94.trailing-spaces
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
       # Currently broken on `nixpkgs-unstable`, disable until https://github.com/NixOS/nixpkgs/issues/137314 is fixed
       # pkgs.vscode-extensions.ms-python.python
@@ -331,14 +332,23 @@ in mkMerge [{
             sha256 = "17f0jzg9vdbqdjnnc5i1q28ij2kckvvxi7fw9szmyy754f074jb1";
            } ] else assert (lib.assertMsg false "vscode-neovim is now accessible through nixpkgs"); [ pkgs.vscode-extensions.asvetliakov.vscode-neovim ] );
     userSettings = {
-      "editor.codeActionsOnSave" = {
-        "source.fixAll" = true;
-      };
       "telemetry.enableTelemetry" = false;
       "telemetry.enableCrashReporter" = false;
       "workbench.enableExperiments" = false;
       "workbench.settings.enableNaturalLanguageSearch" = false;
+
       "vscode-neovim.neovimExecutablePaths.linux" = "${pkgs.neovim}/bin/nvim";
+
+      "editor.codeActionsOnSave" = {
+        "source.fixAll" = true;
+      };
+
+      "editor.lineNumbers" = "relative";
+      "editor.renderFinalNewline" = false;
+      "files.insertFinalNewline" = true;
+      "diffEditor.ignoreTrimWhitespace" = false;
+      "trailing-spaces.trimOnSave" = true;
+      "trailing-spaces.highlightCurrentLine" = false;
     };
   };
 
@@ -634,8 +644,8 @@ services.polybar = mkIf using.i3 {
   script = ''
     polybar centre &
   '';
-}; 
-  
+};
+
   programs.termite = mkIf using.i3 {
     enable = true;
     font = "DejaVu Sans Mono 10";
@@ -845,7 +855,7 @@ services.polybar = mkIf using.i3 {
     };
     latitude = "-38.0";
     longitude = "145.2";
-  }; 
+  };
 
   systemd.user.startServices = "sd-switch";
 
