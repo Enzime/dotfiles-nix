@@ -1,3 +1,4 @@
+- Removed `C-e` binding in `VSCode` to access `ranger` in the built-in terminal
 - Added `nixify` and `flakeify` from `nix-direnv`
 - Added inline colours to `VSCode`
 - Moved out of tree `vscode-neovim` extensions into their own overlay that magically merges them into `vscode-extensions`

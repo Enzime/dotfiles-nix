@@ -358,6 +358,9 @@ EOF
 
       pkgs.vscode-extensions.kamikillerto.vscode-colorize
     ];
+    keybindings = [
+      { "key" = "ctrl+e"; "command" = "-workbench.action.quickOpen"; }
+    ];
     userSettings = {
       "telemetry.enableTelemetry" = false;
       "telemetry.enableCrashReporter" = false;
