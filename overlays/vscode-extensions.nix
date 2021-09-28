@@ -15,6 +15,15 @@ in {
       };
     });
 
+    ethansk.restore-terminals = (assert (!hasAttrByPath ["ethansk" "restore-terminals"] super.vscode-extensions); buildVscodeMarketplaceExtension {
+      mktplcRef = {
+        name = "restore-terminals";
+        publisher = "ethansk";
+        version = "1.1.6";
+        sha256 = "1j58sia9s89p43rgcnjic6lygihs452ahzw4wjygq9y82nk32a2w";
+      };
+    });
+
     kamikillerto.vscode-colorize = (assert (!hasAttrByPath ["kamikillerto" "vscode-colorize"] super.vscode-extensions); buildVscodeMarketplaceExtension {
       mktplcRef = {
         name = "vscode-colorize";
