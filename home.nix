@@ -360,6 +360,7 @@ EOF
     ];
     keybindings = [
       { "key" = "ctrl+e"; "command" = "-workbench.action.quickOpen"; }
+      { "key" = "ctrl+shift+c"; "command" = "-workbench.action.terminal.openNativeConsole"; "when" = "!terminalFocus"; }
     ];
     userSettings = {
       "telemetry.enableTelemetry" = false;
@@ -385,6 +386,8 @@ EOF
       "colorize.include" = [ "*" ];
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
       "colorize.hide_current_line_decorations" = false;
+
+      "terminal.external.linuxExec" = "termite";
     };
   };
 
@@ -430,7 +433,9 @@ EOF
         "Control+Shift+4" = "exec bash -c '${maim} -s ${screenshotFilename}'";
 
         "${mod}+Shift+q" = "kill";
-        "Control+${mod}+q" = "exec ${pkgs.xorg.xkill}/bin/xkill";
+        # `xkill` will fail to grab the cursor if executed on button press
+        # WORKAROUND: https://www.reddit.com/r/i3wm/wiki/faq/screenshot_binding
+        "Control+${mod}+q" = "--release exec ${pkgs.xorg.xkill}/bin/xkill";
         "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
 
         "Control+${mod}+Left" = "focus output left";

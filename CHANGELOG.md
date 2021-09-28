@@ -1,3 +1,6 @@
+- Changed the default external terminal in `VSCode` to `termite`
+- Removed `C-S-c` binding in `VSCode`
+- Fixed `xkill` `i3` binding
 - Added `VSCode` extensions for work from `tau`
 - Changed default `VSCode` theme to `Monokai`
 - Removed `C-e` binding in `VSCode` to access `ranger` in the built-in terminal
