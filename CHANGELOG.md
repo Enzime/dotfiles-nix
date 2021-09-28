@@ -1,3 +1,4 @@
+- Changed default `VSCode` theme to `Monokai`
 - Removed `C-e` binding in `VSCode` to access `ranger` in the built-in terminal
 - Added `nixify` and `flakeify` from `nix-direnv`
 - Added inline colours to `VSCode`

@@ -369,6 +369,8 @@ EOF
 
       "vscode-neovim.neovimExecutablePaths.linux" = "${pkgs.neovim}/bin/nvim";
 
+      "workbench.colorTheme" = "Monokai";
+
       "editor.codeActionsOnSave" = {
         "source.fixAll" = true;
       };
