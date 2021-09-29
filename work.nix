@@ -2,7 +2,7 @@
 
 {
   home.packages = builtins.attrValues {
-    inherit (pkgs) aws-vault;
+    inherit (pkgs) awscli2 aws-vault;
   };
 
   programs.vscode.extensions = [
