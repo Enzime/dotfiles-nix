@@ -66,6 +66,9 @@ in mkMerge [{
         addIgnoredFile = false;
       };
       core = {
+        excludesFile = "${pkgs.writeText "global_ignore" ''
+          /start.sh
+        ''}";
         hooksPath = "~/.config/git/hooks";
       };
       init = {
