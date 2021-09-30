@@ -1,3 +1,4 @@
+- Added `mongodb-tools` for work
 - Added `awscli2` for work
 - Changed the default external terminal in `VSCode` to `termite`
 - Removed `C-S-c` binding in `VSCode`

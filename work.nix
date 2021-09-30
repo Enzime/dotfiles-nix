@@ -2,7 +2,7 @@
 
 {
   home.packages = builtins.attrValues {
-    inherit (pkgs) awscli2 aws-vault;
+    inherit (pkgs) awscli2 aws-vault mongodb-tools;
   };
 
   programs.vscode.extensions = [
