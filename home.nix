@@ -438,7 +438,7 @@ EOF
         "${mod}+Shift+q" = "kill";
         # `xkill` will fail to grab the cursor if executed on button press
         # WORKAROUND: https://www.reddit.com/r/i3wm/wiki/faq/screenshot_binding
-        "Control+${mod}+q" = "--release exec ${pkgs.xorg.xkill}/bin/xkill";
+        "Control+Mod4+${mod}+q" = "--release exec ${pkgs.xorg.xkill}/bin/xkill";
         "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
 
         "Control+${mod}+Left" = "focus output left";
