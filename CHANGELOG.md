@@ -1,3 +1,4 @@
+- Removed `VSCode` extensions available in `nixos-unstable`
 - Made `xkill` keybind harder to press to prevent unintentional presses
 - Added global `gitignore`
 - Added `mongodb-tools` for work
