@@ -8,5 +8,14 @@
   programs.vscode.extensions = [
     pkgs.vscode-extensions.ethansk.restore-terminals
     pkgs.vscode-extensions.editorconfig.editorconfig
+    pkgs.vscode-extensions.rioj7.commandOnAllFiles
   ];
+
+  programs.vscode.userSettings = {
+    "restoreTerminals.keepExistingTerminalsOpen" = true;
+    "commandOnAllFiles.commands"."Trailing Spaces: Delete" = {
+      "command" = "trailing-spaces.deleteTrailingSpaces";
+      "includeFileExtensions" = [ ".js" ".json" ];
+    };
+  };
 }

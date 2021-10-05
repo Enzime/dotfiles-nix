@@ -1,3 +1,4 @@
+- Added `Command on All Files` extension to trim trailing whitespace on every file
 - Removed `VSCode` extensions available in `nixos-unstable`
 - Made `xkill` keybind harder to press to prevent unintentional presses
 - Added global `gitignore`
