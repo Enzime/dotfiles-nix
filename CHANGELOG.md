@@ -1,3 +1,11 @@
+- Specify which GNOME shell extensions to enable declaratively
+- Use GNOME's `drive-menu` instead of `udiskie`
+- Added initial `homeConfigurations` for `phi` and `tau`
+- Fixed `home.nix` not building on `tau` due to missing brackets around `builtins.attrValues`
+- Added `slack` to `work.nix`
+- Added `1password-gui`
+- Added tray icons and a clipboard manager to GNOME
+- Renamed `homeConfiguration` to `username@hostname` so `home-manager switch` requires no arguments
 - Added initial `zeta` NixOS configs
 - Changed `inputs.nixpkgs` to use custom `config` and `overlays` due to `~/.config/nixpkgs/overlays` no longer being using when building as a `flake`
 - Created `hosts/<hostname>` folders to accomodating storing per-host home (`home.nix`, formerly `<hostname>.nix`) and system configs (`configuration.nix` and `hardware-configuration.nix` for NixOS) in one folder

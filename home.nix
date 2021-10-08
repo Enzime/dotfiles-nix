@@ -17,8 +17,10 @@ in mkMerge [{
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
   home.packages = builtins.attrValues {
-    inherit (pkgs) htop ranger peco;
-  };
+    inherit (pkgs) htop ranger peco _1password-gui;
+  } ++ lib.optionals using.gnome (builtins.attrValues {
+    inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator;
+  });
 
   home.extraBuilderCommands = "ln -sv ${./.} $out/dotfiles";
 
@@ -573,127 +575,127 @@ EOF
     };
   };
 
-services.polybar = mkIf using.i3 {
-  enable = true;
-  package = pkgs.polybar.override { i3Support = true; };
-  config = {
-    "bar/base" = {
-      width = "100%";
-      height = 27;
-      background = "#0d0c0c";
-      foreground = "#fff5ed";
+  services.polybar = mkIf using.i3 {
+    enable = true;
+    package = pkgs.polybar.override { i3Support = true; };
+    config = {
+      "bar/base" = {
+        width = "100%";
+        height = 27;
+        background = "#0d0c0c";
+        foreground = "#fff5ed";
 
-      font-0 = "Fira Mono:pixelsize=10;1";
-      font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
+        font-0 = "Fira Mono:pixelsize=10;1";
+        font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
 
-      modules-left = "i3";
-      modules-right = "dotfiles wireless ethernet fs memory date";
+        modules-left = "i3";
+        modules-right = "dotfiles wireless ethernet fs memory date";
 
-      module-margin-left = 2;
-      module-margin-right = 2;
+        module-margin-left = 2;
+        module-margin-right = 2;
 
-      scroll-up = "i3wm-wsprev";
-      scroll-down = "i3wm-wsnext";
+        scroll-up = "i3wm-wsprev";
+        scroll-down = "i3wm-wsnext";
+      };
+
+      "bar/centre" = {
+        "inherit" = "bar/base";
+        height = mkIf using.hidpi 54;
+
+        font-0 = mkIf using.hidpi "Fira Mono:pixelsize=20;1";
+        font-1 = mkIf using.hidpi "Font Awesome 5 Free:style=Solid:pixelsize=20;1";
+
+        tray-position = "right";
+        tray-scale = mkIf using.hidpi "1.0";
+        tray-maxsize = mkIf using.hidpi 54;
+      };
+
+      "module/i3" = {
+        type = "internal/i3";
+        pin-workspaces = true;
+        wrapping-scroll = false;
+        label-mode-padding = 2;
+        label-mode-foreground = "#000000";
+        label-mode-background = "#ffb52a";
+        label-focused = "%index%";
+        label-focused-background = "#fff";
+        label-focused-foreground = "#000";
+        label-focused-padding = 2;
+
+        label-unfocused = "%index%";
+        label-unfocused-padding = 2;
+
+        label-visible = "%index%";
+        label-visible-background = "#292929";
+        label-visible-padding = 2;
+
+        label-urgent = "%index%";
+        label-urgent-background = "#ff3f3d";
+        label-urgent-padding = 2;
+      };
+
+      "module/memory" = {
+        type = "internal/memory";
+        label = "RAM %percentage_used%% F%gb_free%";
+      };
+
+      "module/date" = {
+        type = "internal/date";
+        date = "%a %b %d";
+        time = "%I:%M:%S %p";
+        label = "%date% %time%";
+        format-background = "#292929";
+        format-padding = 3;
+      };
+
+      "module/fs" = {
+        type = "internal/fs";
+        interval = 1;
+        mount-0 = "/";
+        label-mounted = "%mountpoint% %percentage_used%% F%free%";
+      };
+
+      "module/ethernet" = {
+        type = "internal/network";
+        interface = "enp34s0";
+        label-connected = "E:%downspeed% %upspeed%";
+        label-disconnected = "E: Disconnected";
+      };
+
+      "module/wireless" = {
+        type = "internal/network";
+        interface = "wlo1";
+      };
+
+      "module/dotfiles" = {
+        type = "custom/script";
+        exec = "${pkgs.writeShellScript "latest-dotfiles" ''
+          # get latest commit hash for dotfiles
+          LATEST=$(${pkgs.curl}/bin/curl -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.coreutils}/bin/cut -d ' ' -f 2)
+
+          # get commit hash of currently running dotfiles
+          cd /nix/var/nix/profiles/per-user/enzime/home-manager/dotfiles/
+          RUNNING=$(${pkgs.git}/bin/git rev-parse HEAD)
+
+          UPDATE_FOUND=false
+
+          if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST $RUNNING 2>/dev/null; then
+            UPDATE_FOUND=true
+          fi
+
+          if [[ $UPDATE_FOUND == "true" ]]; then
+            echo  $(echo $LATEST | ${pkgs.coreutils}/bin/cut -c -7)
+          else
+            echo  $(echo $(${pkgs.git}/bin/git describe --always --dirty))
+          fi
+        ''}";
+        interval = 300;
+      };
     };
-
-    "bar/centre" = {
-      "inherit" = "bar/base";
-      height = mkIf using.hidpi 54;
-
-      font-0 = mkIf using.hidpi "Fira Mono:pixelsize=20;1";
-      font-1 = mkIf using.hidpi "Font Awesome 5 Free:style=Solid:pixelsize=20;1";
-
-      tray-position = "right";
-      tray-scale = mkIf using.hidpi "1.0";
-      tray-maxsize = mkIf using.hidpi 54;
-    };
-
-    "module/i3" = {
-      type = "internal/i3";
-      pin-workspaces = true;
-      wrapping-scroll = false;
-      label-mode-padding = 2;
-      label-mode-foreground = "#000000";
-      label-mode-background = "#ffb52a";
-      label-focused = "%index%";
-      label-focused-background = "#fff";
-      label-focused-foreground = "#000";
-      label-focused-padding = 2;
-
-      label-unfocused = "%index%";
-      label-unfocused-padding = 2;
-
-      label-visible = "%index%";
-      label-visible-background = "#292929";
-      label-visible-padding = 2;
-
-      label-urgent = "%index%";
-      label-urgent-background = "#ff3f3d";
-      label-urgent-padding = 2;
-    };
-
-    "module/memory" = {
-      type = "internal/memory";
-      label = "RAM %percentage_used%% F%gb_free%";
-    };
-
-    "module/date" = {
-      type = "internal/date";
-      date = "%a %b %d";
-      time = "%I:%M:%S %p";
-      label = "%date% %time%";
-      format-background = "#292929";
-      format-padding = 3;
-    };
-
-    "module/fs" = {
-      type = "internal/fs";
-      interval = 1;
-      mount-0 = "/";
-      label-mounted = "%mountpoint% %percentage_used%% F%free%";
-    };
-
-    "module/ethernet" = {
-      type = "internal/network";
-      interface = "enp34s0";
-      label-connected = "E:%downspeed% %upspeed%";
-      label-disconnected = "E: Disconnected";
-    };
-
-    "module/wireless" = {
-      type = "internal/network";
-      interface = "wlo1";
-    };
-
-    "module/dotfiles" = {
-      type = "custom/script";
-      exec = "${pkgs.writeShellScript "latest-dotfiles" ''
-        # get latest commit hash for dotfiles
-        LATEST=$(${pkgs.curl}/bin/curl -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.coreutils}/bin/cut -d ' ' -f 2)
-
-        # get commit hash of currently running dotfiles
-        cd /nix/var/nix/profiles/per-user/enzime/home-manager/dotfiles/
-        RUNNING=$(${pkgs.git}/bin/git rev-parse HEAD)
-
-        UPDATE_FOUND=false
-
-        if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST $RUNNING 2>/dev/null; then
-          UPDATE_FOUND=true
-        fi
-
-        if [[ $UPDATE_FOUND == "true" ]]; then
-          echo  $(echo $LATEST | ${pkgs.coreutils}/bin/cut -c -7)
-        else
-          echo  $(echo $(${pkgs.git}/bin/git describe --always --dirty))
-        fi
-      ''}";
-      interval = 300;
-    };
+    script = ''
+      polybar centre &
+    '';
   };
-  script = ''
-    polybar centre &
-  '';
-};
 
   programs.termite = mkIf using.i3 {
     enable = true;
@@ -755,6 +757,16 @@ services.polybar = mkIf using.i3 {
       binding = "<Super>t";
       command = "gnome-terminal";
       name = "Launch Terminal";
+    };
+
+    "org/gnome/shell" = {
+      disabled-extensions = [];
+
+      enabled-extensions = [
+        "clipboard-indicator@tudmotu.com"
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "drive-menu@gnome-shell-extensions.gcampax.github.com"
+      ];
     };
 
     "org/gnome/terminal/legacy" = {
@@ -926,7 +938,7 @@ services.polybar = mkIf using.i3 {
     };
   };
 
-  services.udiskie.enable = true;
+  services.udiskie.enable = mkIf (!using.gnome) true;
 
   home.file.".mozilla/native-messaging-hosts/ff2mpv.json".source = "${pkgs.ff2mpv}/lib/mozilla/native-messaging-hosts/ff2mpv.json";
 

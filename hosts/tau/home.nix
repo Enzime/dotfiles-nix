@@ -39,4 +39,4 @@ in mkMerge [{
       };
     };
   };
-} (import (./work.nix) { inherit lib pkgs; })]
+} (import (../../work.nix) { inherit lib pkgs; })]

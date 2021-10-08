@@ -2,7 +2,7 @@
 
 {
   home.packages = builtins.attrValues {
-    inherit (pkgs) awscli2 aws-vault mongodb-tools;
+    inherit (pkgs) awscli2 aws-vault mongodb-tools slack;
   };
 
   programs.vscode.extensions = [

@@ -34,7 +34,34 @@
       ];
     };
 
-    homeConfigurations.zeta-nixos = inputs.home-manager.lib.homeManagerConfiguration {
+    # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
+    # OR
+    # home-manager build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos
+    homeConfigurations."enzime@phi-nixos" = inputs.home-manager.lib.homeManagerConfiguration {
+      system = "x86_64-linux";
+      pkgs = nixpkgs;
+      configuration = import ./home.nix;
+      homeDirectory = "/home/enzime";
+      username = "enzime";
+      extraSpecialArgs = {
+        hostname = "phi";
+        using = { i3 = true; };
+      };
+    };
+
+    homeConfigurations."enzime@tauendeavour" = inputs.home-manager.lib.homeManagerConfiguration {
+      system = "x86_64-linux";
+      pkgs = nixpkgs;
+      configuration = import ./home.nix;
+      homeDirectory = "/home/enzime";
+      username = "enzime";
+      extraSpecialArgs = {
+        hostname = "tau";
+        using = { i3 = true; hidpi = true; };
+      };
+    };
+
+    homeConfigurations."enzime@zeta-nixos" = inputs.home-manager.lib.homeManagerConfiguration {
       system = "x86_64-linux";
       pkgs = nixpkgs;
       configuration = import ./home.nix;
