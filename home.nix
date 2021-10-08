@@ -1,13 +1,18 @@
-{ pkgs, lib, ... }:
-
-let
+{ pkgs, lib, specialArgs ? {
+  # Fallback to `/using/` files for non-flake systems
+  hostname = (lib.removeSuffix "\n" (lib.readFile ./using/hostname));
   using = {
     i3 = builtins.pathExists ./using/i3;
     gnome = builtins.pathExists ./using/gnome;
     hidpi = builtins.pathExists ./using/hidpi;
   };
+}, ... }:
 
-  inherit (lib) assertMsg hasAttrByPath mkIf mkMerge readFile;
+let
+  inherit (lib) assertMsg attrByPath hasAttrByPath mkIf mkMerge readFile;
+  inherit (specialArgs) hostname;
+
+  using = { i3 = false; gnome = false; hidpi = false; } // specialArgs.using;
 in mkMerge [{
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
@@ -926,4 +931,4 @@ services.polybar = mkIf using.i3 {
   home.file.".mozilla/native-messaging-hosts/ff2mpv.json".source = "${pkgs.ff2mpv}/lib/mozilla/native-messaging-hosts/ff2mpv.json";
 
   programs.home-manager.enable = true;
-} (import (./. + "/${lib.removeSuffix "\n" (readFile ./using/hostname)}.nix") { inherit lib pkgs; })]
+} (import (./hosts + "/${hostname}/home.nix") { inherit lib pkgs; }) ]

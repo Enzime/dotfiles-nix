@@ -1,3 +1,8 @@
+- Added initial `zeta` NixOS configs
+- Changed `inputs.nixpkgs` to use custom `config` and `overlays` due to `~/.config/nixpkgs/overlays` no longer being using when building as a `flake`
+- Created `hosts/<hostname>` folders to accomodating storing per-host home (`home.nix`, formerly `<hostname>.nix`) and system configs (`configuration.nix` and `hardware-configuration.nix` for NixOS) in one folder
+- Added `specialArgs` support to allow specifying `using.X` from `flake.nix`
+- Added `flake.nix` and `flake.lock`
 - Added `Command on All Files` extension to trim trailing whitespace on every file
 - Removed `VSCode` extensions available in `nixos-unstable`
 - Made `xkill` keybind harder to press to prevent unintentional presses
