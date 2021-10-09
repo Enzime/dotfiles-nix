@@ -2,8 +2,9 @@
   inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
 
-  outputs = { self, nixpkgs, home-manager }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils-plus }:
 
   let
     inherit (nixpkgs.lib) foldr getAttr mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
@@ -37,11 +38,17 @@
       nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
         modules = [
-          ({ ... }: {
+          ({ inputs, ... }: {
+            environment.systemPackages = [ home-manager.packages.${system}.home-manager ];
+
             # Add flake revision to `nixos-version --json`
             system.configurationRevision = mkIf (self ? rev) self.rev;
-            nix.registry.nixpkgs.flake = nixpkgs;
+
+            # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
+            nix.linkInputs = true;
+            nix.generateRegistryFromInputs = true;
           })
+          flake-utils-plus.nixosModules.autoGenFromInputs
           ./configuration.nix
           ./hosts/${host}/configuration.nix
         ] ++ nixosModules ++ [
@@ -54,6 +61,8 @@
             home-manager.users.${user}.imports = home;
           }
         ];
+        # Required for `flake-utils-plus` to generate stuff
+        specialArgs = { inherit inputs; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage

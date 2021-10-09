@@ -287,6 +287,7 @@
 
           UPDATE_FOUND=false
 
+          export GIT_DIR=~/.config/nixpkgs/.git
           if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST $RUNNING 2>/dev/null; then
             UPDATE_FOUND=true
           fi
