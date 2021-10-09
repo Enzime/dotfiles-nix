@@ -210,13 +210,13 @@ in {
         fi
         if [[ ! -e shell.nix ]]; then
           cat > shell.nix <<'EOF'
-with import <nixpkgs> {};
-mkShell {
-  nativeBuildInputs = [
-    bashInteractive
-  ];
-}
-EOF
+      with import <nixpkgs> {};
+      mkShell {
+        nativeBuildInputs = [
+          bashInteractive
+        ];
+      }
+      EOF
           ''${EDITOR:-vim} shell.nix
         fi
       }
@@ -273,6 +273,9 @@ EOF
       bindkey '^Er' carry-ranger
       bindkey '^Ec' carry-ranger-cd
       bindkey -s ',R' 'source ~/.zshrc^M'
+
+      # Allow using `#`, `~` and `^` without escape
+      unsetopt EXTENDED_GLOB
 
       if [ -z "$__ZSHRC_SOURCED" ]; then
         unalias gfc

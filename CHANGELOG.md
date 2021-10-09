@@ -1,3 +1,5 @@
+- Changed `GNOME` to display AM/PM
+- Disabled `EXTENDED_GLOB` in `zsh` to allow for using `#` without escape
 - Added `flake-utils-plus` JUST to generate the `registry` and `/etc/nix/inputs/<input>`
 - Changed `nixpkgs` in the `registry` to refer to the `nixpkgs` used when building the system
 - Make `dotfiles` version accessible through `nixos-version --json` to allow `polybar` to check the currently running `dotfiles`

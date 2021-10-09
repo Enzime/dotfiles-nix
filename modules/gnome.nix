@@ -13,6 +13,7 @@
 
     dconf.settings = {
       "org/gnome/desktop/interface" = {
+        clock-format = "12h";
         clock-show-seconds = true;
         clock-show-weekday = true;
       };
@@ -40,6 +41,10 @@
 
       "org/gnome/terminal/legacy" = {
         theme-variant = "dark";
+      };
+
+      "org/gtk/settings/file-chooser" = {
+        clock-format = "12h";
       };
     };
   };
