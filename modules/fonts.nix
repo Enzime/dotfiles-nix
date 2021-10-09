@@ -1,7 +1,7 @@
 {
-  nixosModule = { pkgs, ... }: {
-    fonts.fonts = builtins.attrValues {
-      inherit (pkgs) dejavu_fonts;
+  hmModule = { pkgs, ... }: {
+    home.packages = builtins.attrValues {
+      inherit (pkgs) dejavu_fonts noto-fonts-cjk;
     };
   };
 }

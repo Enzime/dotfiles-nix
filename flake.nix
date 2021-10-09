@@ -25,17 +25,12 @@
     ) (builtins.readDir ./modules);
 
     mkConfigurations = configs: foldr (recursiveUpdate) {} (map (mkConfiguration) configs);
-    mkConfiguration = { system, nixos ? false, host, hostSuffix ? "-nixos", user, modules, using }:
+    mkConfiguration = { system, nixos ? false, host, hostSuffix ? "-nixos", user, modules }:
     let
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (builtins.filter (builtins.hasAttr "nixosModule") modules);
       hmModules = map (getAttr "hmModule") (builtins.filter (builtins.hasAttr "hmModule") modules);
-      home = [ ./home.nix ] ++ hmModules;
-
-      extraSpecialArgs = {
-        inherit using;
-        hostname = host;
-      };
+      home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules;
     in {
       # nix build ~/.config/nixpkgs#nixosConfigurations.enzime@phi-nixos.config.system.build.toplevel
       # OR
@@ -48,8 +43,8 @@
         ] ++ nixosModules ++ [
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
             home-manager.users.${user}.imports = home;
-            home-manager.extraSpecialArgs = extraSpecialArgs;
           }
         ];
       }; } else { };
@@ -58,7 +53,7 @@
       # OR
       # home-manager build --flake ~/.config/nixpkgs#enzime@phi-nixos
       homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
-        inherit system pkgs extraSpecialArgs;
+        inherit system pkgs;
         configuration = {};
         homeDirectory = "/home/${user}";
         username = user;
@@ -72,9 +67,8 @@
       host = "phi";
       user = "enzime";
       modules = builtins.attrValues {
-        inherit (modules) duckdns fonts gaming samba thunar;
+        inherit (modules) duckdns fonts gaming i3 samba thunar;
       };
-      using = { i3 = true; };
     }
     {
       system = "x86_64-linux";
@@ -82,9 +76,8 @@
       hostSuffix = "endeavour";
       user = "enzime";
       modules = builtins.attrValues {
-        inherit (modules) work;
+        inherit (modules) i3 work;
       };
-      using = { i3 = true; hidpi = true; };
     }
     {
       system = "x86_64-linux";
@@ -92,9 +85,8 @@
       host = "zeta";
       user = "enzime";
       modules = builtins.attrValues {
-        inherit (modules) work;
+        inherit (modules) gnome work;
       };
-      using = { gnome = true; };
     }
   ];
 }

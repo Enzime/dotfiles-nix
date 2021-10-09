@@ -1,7 +1,7 @@
 { lib, pkgs, ... }:
 
 let
-    inherit (lib) mkForce;
+  inherit (lib) mkForce;
 in {
   home.packages = builtins.attrValues {
     inherit (pkgs) signal-desktop;
@@ -20,9 +20,6 @@ in {
     exec --no-startup-id i3 workspace 101
     exec --no-startup-id i3 workspace 201
     exec --no-startup-id i3 workspace 301
-
-    # lightdm is set up to autologin, so we still want the user to login
-    exec --no-startup-id i3lock
   '';
 
   services.polybar = {

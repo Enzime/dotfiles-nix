@@ -15,10 +15,6 @@
 
   networking.interfaces.enp34s0.useDHCP = true;
 
-  services.xserver.enable = true;
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.displayManager.defaultSession = "none+i3";
-
   # Install firmware-linux-nonfree (includes Navi10 drivers)
   hardware.enableRedistributableFirmware = true;
   services.xserver.videoDrivers = [ "amdgpu" ];

@@ -1,8 +1,20 @@
 { pkgs, lib, ... }:
 
 let
-    inherit (lib) mkForce;
+  inherit (lib) mkForce;
 in {
+  home.sessionVariables = {
+    GDK_SCALE                    = 2;
+    GDK_DPI_SCALE                = 0.5;
+    QT_AUTO_SCREEN_SCALE_FACTOR  = 1;
+    QT_FONT_DPI                  = 96;
+  };
+
+  xresources.properties = {
+    "*dpi" = 192;
+    "Xcursor.size" = 48;
+  };
+
   xsession.windowManager.i3.extraConfig = ''
     workspace 101 output eDP1
 
@@ -23,6 +35,15 @@ in {
 
       "bar/centre" = {
         monitor = "eDP1";
+
+        # scale everything by 2 for HiDPI
+        height = 54;
+
+        font-0 = "Fira Mono:pixelsize=20;1";
+        font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=20;1";
+
+        tray-scale = "1.0";
+        tray-maxsize = 54;
       };
 
       "module/battery" = {
