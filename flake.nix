@@ -3,11 +3,18 @@
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs:
+  outputs = { self, nixpkgs, home-manager }:
 
   let
-    inherit (inputs.nixpkgs) lib;
-    inherit (inputs.nixpkgs.lib) mapAttrs' mapAttrsToList nameValuePair removeSuffix;
+    inherit (nixpkgs.lib) foldr getAttr mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
+
+    importOverlay = filename: _: importFrom ./overlays filename;
+
+    pkgs = import nixpkgs {
+      system = "x86_64-linux";
+      config.allowUnfree = true;
+      overlays = mapAttrsToList importOverlay (builtins.readDir ./overlays);
+    };
 
     importFrom = path: filename: import (path + ("/" + filename));
 
@@ -17,99 +24,77 @@
         (importFrom ./modules filename)
     ) (builtins.readDir ./modules);
 
-    importOverlay = filename: _: importFrom ./overlays filename;
+    mkConfigurations = configs: foldr (recursiveUpdate) {} (map (mkConfiguration) configs);
+    mkConfiguration = { system, nixos ? false, host, hostSuffix ? "-nixos", user, modules, using }:
+    let
+      hostname = "${host}${hostSuffix}";
+      nixosModules = map (getAttr "nixosModule") (builtins.filter (builtins.hasAttr "nixosModule") modules);
+      hmModules = map (getAttr "hmModule") (builtins.filter (builtins.hasAttr "hmModule") modules);
+      home = [ ./home.nix ] ++ hmModules;
 
-    nixpkgs = import inputs.nixpkgs {
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-      overlays = mapAttrsToList importOverlay (builtins.readDir ./overlays);
-    };
-  in {
-    # nix build ~/.config/nixpkgs#nixosConfigurations.enzime@phi-nixos.config.system.build.toplevel
-    # OR
-    # nixos-rebuild build --flake ~/.config/nixpkgs#phi-nixos
-    nixosConfigurations.phi-nixos = lib.nixosSystem {
-      system = "x86_64-linux";
-      pkgs = nixpkgs;
-      modules = [
-        ./configuration.nix
-        ./hosts/phi/configuration.nix
-        modules.duckdns.nixosModule
-        modules.gaming.nixosModule
-        modules.samba.nixosModule
-        modules.thunar.nixosModule
-        inputs.home-manager.nixosModules.home-manager {
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.enzime = import ./home.nix;
-          home-manager.extraSpecialArgs = {
-            hostname = "phi";
-            using = { i3 = true; };
-          };
-          home-manager.sharedModules = lib.optional (lib.hasAttrByPath [ "gaming" "hmModule" ] modules) (modules.gaming.hmModule { pkgs = nixpkgs; })
-          ++ lib.optional (lib.hasAttrByPath [ "duckdns" "hmModule" ] modules) (modules.duckdns.hmModule { pkgs = nixpkgs; })
-          ++ lib.optional (lib.hasAttrByPath [ "thunar" "hmModule" ] modules) (modules.thunar.hmModule { pkgs = nixpkgs; })
-          ++ lib.optional (lib.hasAttrByPath [ "fonts" "hmModule" ] modules) (modules.fonts.hmModule { pkgs = nixpkgs; });
-        }
-      ];
-    };
-
-    nixosConfigurations.zeta-nixos = lib.nixosSystem {
-      system = "x86_64-linux";
-      pkgs = nixpkgs;
-      modules = [
-        ./configuration.nix
-        ./hosts/zeta/configuration.nix
-        inputs.home-manager.nixosModules.home-manager {
-          home-manager.useGlobalPkgs = true;
-          home-manager.users.enzime = import ./home.nix;
-          home-manager.extraSpecialArgs = {
-            hostname = "zeta";
-            using = { gnome = true; };
-          };
-        }
-      ];
-    };
-
-    # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
-    # OR
-    # home-manager build --flake ~/.config/nixpkgs#enzime@phi-nixos
-    homeConfigurations."enzime@phi-nixos" = inputs.home-manager.lib.homeManagerConfiguration {
-      system = "x86_64-linux";
-      pkgs = nixpkgs;
-      configuration = import ./home.nix;
-      homeDirectory = "/home/enzime";
-      username = "enzime";
-      extraModules = [ modules.gaming.hmModule ];
       extraSpecialArgs = {
-        hostname = "phi";
-        using = { i3 = true; };
+        inherit using;
+        hostname = host;
+      };
+    in {
+      # nix build ~/.config/nixpkgs#nixosConfigurations.enzime@phi-nixos.config.system.build.toplevel
+      # OR
+      # nixos-rebuild build --flake ~/.config/nixpkgs#phi-nixos
+      nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
+        inherit system pkgs;
+        modules = [
+          ./configuration.nix
+          ./hosts/${host}/configuration.nix
+        ] ++ nixosModules ++ [
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.${user}.imports = home;
+            home-manager.extraSpecialArgs = extraSpecialArgs;
+          }
+        ];
+      }; } else { };
+
+      # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
+      # OR
+      # home-manager build --flake ~/.config/nixpkgs#enzime@phi-nixos
+      homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
+        inherit system pkgs extraSpecialArgs;
+        configuration = {};
+        homeDirectory = "/home/${user}";
+        username = user;
+        extraModules = home;
       };
     };
-
-    homeConfigurations."enzime@tauendeavour" = inputs.home-manager.lib.homeManagerConfiguration {
+  in mkConfigurations [
+    {
       system = "x86_64-linux";
-      pkgs = nixpkgs;
-      configuration = import ./home.nix;
-      homeDirectory = "/home/enzime";
-      username = "enzime";
-      extraModules = [ modules.work.hmModule ];
-      extraSpecialArgs = {
-        hostname = "tau";
-        using = { i3 = true; hidpi = true; };
+      nixos = true;
+      host = "phi";
+      user = "enzime";
+      modules = builtins.attrValues {
+        inherit (modules) duckdns fonts gaming samba thunar;
       };
-    };
-
-    homeConfigurations."enzime@zeta-nixos" = inputs.home-manager.lib.homeManagerConfiguration {
+      using = { i3 = true; };
+    }
+    {
       system = "x86_64-linux";
-      pkgs = nixpkgs;
-      configuration = import ./home.nix;
-      homeDirectory = "/home/enzime";
-      username = "enzime";
-      extraModules = [ modules.work.hmModule ];
-      extraSpecialArgs = {
-        hostname = "zeta";
-        using = { gnome = true; };
+      host = "tau";
+      hostSuffix = "endeavour";
+      user = "enzime";
+      modules = builtins.attrValues {
+        inherit (modules) work;
       };
-    };
-  };
+      using = { i3 = true; hidpi = true; };
+    }
+    {
+      system = "x86_64-linux";
+      nixos = true;
+      host = "zeta";
+      user = "enzime";
+      modules = builtins.attrValues {
+        inherit (modules) work;
+      };
+      using = { gnome = true; };
+    }
+  ];
 }
