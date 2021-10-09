@@ -1,3 +1,12 @@
+- Added `fonts.nixosModule`
+- Changed `home-manager` to follow `nixpkgs` to only have one reference to `nixpkgs` in `flake.lock`
+- Moved `udiskie` from `home.nix` to `modules/thunar`
+- Only import `work` as a `home-manager` module in `flake.nix`
+- Added `result` to `gitignore` as it was being generated often due to the `build` subcommand
+- Converted `gaming` and `work` into `modules`
+- Changed `flake.nix` to automatically import all the `modules` and `overlays` from their respective folders
+- Created `modules` folder containing `<module>.nix` files with 2 attributes `nixosModule` and `hmModule`
+- Migrated `phi` to `flakes`
 - Specify which GNOME shell extensions to enable declaratively
 - Use GNOME's `drive-menu` instead of `udiskie`
 - Added initial `homeConfigurations` for `phi` and `tau`

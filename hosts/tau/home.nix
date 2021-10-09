@@ -1,8 +1,8 @@
 { pkgs, lib, ... }:
 
 let
-    inherit (lib) mkForce mkMerge;
-in mkMerge [{
+    inherit (lib) mkForce;
+in {
   xsession.windowManager.i3.extraConfig = ''
     workspace 101 output eDP1
 
@@ -39,4 +39,4 @@ in mkMerge [{
       };
     };
   };
-} (import (../../work.nix) { inherit lib pkgs; })]
+}

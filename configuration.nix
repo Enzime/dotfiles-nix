@@ -7,13 +7,22 @@
     experimental-features = nix-command flakes
   '');
 
+  system.extraSystemBuilderCmds = "ln -sv ${./.} $out/dotfiles";
+
   time.timeZone = "Australia/Melbourne";
+  i18n.defaultLocale = "en_AU.UTF-8";
 
   environment.systemPackages = builtins.attrValues {
-    inherit (pkgs) neovim wget ranger firefox;
+    inherit (pkgs) wget ranger firefox;
   };
 
   programs.zsh.enable = true;
+  programs.neovim.enable = true;
+  programs.neovim.vimAlias = true;
+
+  # Setting `useDHCP` globally is deprecated
+  # manually set `useDHCP` for individual interfaces
+  networking.useDHCP = false;
 
   services.openssh.enable = true;
 

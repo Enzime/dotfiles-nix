@@ -17,7 +17,7 @@ in mkMerge [{
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
   home.packages = builtins.attrValues {
-    inherit (pkgs) htop ranger peco _1password-gui;
+    inherit (pkgs) htop ranger peco _1password-gui qalculate-gtk pavucontrol;
   } ++ lib.optionals using.gnome (builtins.attrValues {
     inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator;
   });
@@ -937,8 +937,6 @@ EOF
       };
     };
   };
-
-  services.udiskie.enable = mkIf (!using.gnome) true;
 
   home.file.".mozilla/native-messaging-hosts/ff2mpv.json".source = "${pkgs.ff2mpv}/lib/mozilla/native-messaging-hosts/ff2mpv.json";
 

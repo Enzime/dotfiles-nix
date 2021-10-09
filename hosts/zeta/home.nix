@@ -1,1 +1,1 @@
-import ../../work.nix
+{ ... }: {}

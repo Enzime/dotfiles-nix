@@ -3,6 +3,10 @@
 let
     inherit (lib) mkForce;
 in {
+  home.packages = builtins.attrValues {
+    inherit (pkgs) signal-desktop;
+  };
+
   # Disable tab bar when using vertical tabs
   home.file.".mozilla/firefox/userChrome.css".text = ''
     #TabsToolbar { visibility: collapse !important; }
