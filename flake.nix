@@ -8,6 +8,7 @@
   let
     inherit (nixpkgs.lib) foldr getAttr mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
 
+    importFrom = path: filename: import (path + ("/" + filename));
     importOverlay = filename: _: importFrom ./overlays filename;
 
     pkgs = import nixpkgs {
@@ -15,8 +16,6 @@
       config.allowUnfree = true;
       overlays = mapAttrsToList importOverlay (builtins.readDir ./overlays);
     };
-
-    importFrom = path: filename: import (path + ("/" + filename));
 
     modules = mapAttrs' (
       filename: _: nameValuePair
@@ -38,12 +37,20 @@
       nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
         modules = [
+          ({ ... }: {
+            # Add flake revision to `nixos-version --json`
+            system.configurationRevision = mkIf (self ? rev) self.rev;
+            nix.registry.nixpkgs.flake = nixpkgs;
+          })
           ./configuration.nix
           ./hosts/${host}/configuration.nix
         ] ++ nixosModules ++ [
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
+
+            # Required for `fonts.fontconfig.enable = true;`
             home-manager.useUserPackages = true;
+
             home-manager.users.${user}.imports = home;
           }
         ];

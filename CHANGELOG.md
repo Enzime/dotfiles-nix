@@ -1,3 +1,5 @@
+- Changed `nixpkgs` in the `registry` to refer to the `nixpkgs` used when building the system
+- Make `dotfiles` version accessible through `nixos-version --json` to allow `polybar` to check the currently running `dotfiles`
 - Changed `fonts` into `hmModule`
 - Deprecate non-Flake usage
 - Removed `using/X` system and migrated `hosts/home.nix` imports to `flake.nix`

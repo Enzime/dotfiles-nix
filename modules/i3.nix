@@ -276,12 +276,14 @@
       "module/dotfiles" = {
         type = "custom/script";
         exec = "${pkgs.writeShellScript "latest-dotfiles" ''
+          # necessary for `nixos-version` to find `cat`...
+          export PATH=${pkgs.coreutils}/bin:$PATH
+
           # get latest commit hash for dotfiles
           LATEST=$(${pkgs.curl}/bin/curl -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.coreutils}/bin/cut -d ' ' -f 2)
 
           # get commit hash of currently running dotfiles
-          cd /nix/var/nix/profiles/per-user/enzime/home-manager/dotfiles/
-          RUNNING=$(${pkgs.git}/bin/git rev-parse HEAD)
+          RUNNING=$(/run/current-system/sw/bin/nixos-version --json | ${pkgs.jq}/bin/jq -r .configurationRevision)
 
           UPDATE_FOUND=false
 
@@ -290,9 +292,9 @@
           fi
 
           if [[ $UPDATE_FOUND == "true" ]]; then
-            echo  $(echo $LATEST | ${pkgs.coreutils}/bin/cut -c -7)
+            echo  $(echo $LATEST | cut -c -7)
           else
-            echo  $(echo $(${pkgs.git}/bin/git describe --always --dirty))
+            echo  $(echo $RUNNING | cut -c -7)
           fi
         ''}";
         interval = 300;
