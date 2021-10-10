@@ -405,7 +405,8 @@ in {
     map gD  cd /dev
     map gH  cd /home
     map gl  cd ~/.local/share
-    map gn  cd /nix
+    map gn  cd /etc/nix
+    map gN  cd /nix/var/nix
 
     map C   eval fm.open_console('rename ')
     map cw  bulkrename

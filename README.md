@@ -1,6 +1,7 @@
 # Inspiration
 
 - `using/X` is based off https://github.com/jonringer/nixpkgs-config
+- `overlays/paperwm/flake.nix` is based off https://github.com/nix-community/neovim-nightly-overlay/blob/master/flake.nix
 
 # Usage
 

@@ -3,8 +3,11 @@
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
+  inputs."overlays/paperwm".url = path:overlays/paperwm;
+  inputs."overlays/paperwm".inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
+  inputs."overlays/paperwm".inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils-plus }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils-plus, ... }:
 
   let
     inherit (nixpkgs.lib) foldr getAttr mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
@@ -15,7 +18,7 @@
     pkgs = import nixpkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
-      overlays = mapAttrsToList importOverlay (builtins.readDir ./overlays);
+      overlays = [ inputs."overlays/paperwm".overlay ] ++ mapAttrsToList importOverlay (builtins.readDir ./overlays);
     };
 
     modules = mapAttrs' (
@@ -24,8 +27,8 @@
         (importFrom ./modules filename)
     ) (builtins.readDir ./modules);
 
-    mkConfigurations = configs: foldr (recursiveUpdate) {} (map (mkConfiguration) configs);
-    mkConfiguration = { system, nixos ? false, host, hostSuffix ? "-nixos", user, modules }:
+    mkConfigurations = configs: foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
+    mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, modules }:
     let
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (builtins.filter (builtins.hasAttr "nixosModule") modules);
@@ -55,6 +58,7 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
 
+            # `home-manager` uses `/etc/profiles/per-user/` instead of `~/.nix-profile`
             # Required for `fonts.fontconfig.enable = true;`
             home-manager.useUserPackages = true;
 
@@ -70,7 +74,7 @@
       # home-manager build --flake ~/.config/nixpkgs#enzime@phi-nixos
       homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
         inherit system pkgs;
-        configuration = {};
+        configuration = { };
         homeDirectory = "/home/${user}";
         username = user;
         extraModules = home;
@@ -78,28 +82,28 @@
     };
   in mkConfigurations [
     {
-      system = "x86_64-linux";
-      nixos = true;
       host = "phi";
       user = "enzime";
+      system = "x86_64-linux";
+      nixos = true;
       modules = builtins.attrValues {
-        inherit (modules) duckdns fonts gaming i3 samba thunar;
+        inherit (modules) duckdns fonts gaming gnome i3 samba thunar;
       };
     }
     {
-      system = "x86_64-linux";
       host = "tau";
       hostSuffix = "endeavour";
       user = "enzime";
+      system = "x86_64-linux";
       modules = builtins.attrValues {
         inherit (modules) i3 work;
       };
     }
     {
-      system = "x86_64-linux";
-      nixos = true;
       host = "zeta";
       user = "enzime";
+      system = "x86_64-linux";
+      nixos = true;
       modules = builtins.attrValues {
         inherit (modules) gnome work;
       };

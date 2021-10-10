@@ -1,3 +1,6 @@
+- Added `overlays/paperwm` subflake to track the branch `next-release` using `nix flake update` automatically
+- Added `paperwm@next-release` overlay for GNOME 40
+- Changed `ranger` `cd /nix` binding to `cd /nix/var/nix` and `gN` to prevent the significant load time of `/nix/store`
 - Changed `GNOME` to display AM/PM
 - Disabled `EXTENDED_GLOB` in `zsh` to allow for using `#` without escape
 - Added `flake-utils-plus` JUST to generate the `registry` and `/etc/nix/inputs/<input>`

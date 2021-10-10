@@ -8,7 +8,7 @@
 
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator;
+      inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator paperwm;
     };
 
     dconf.settings = {
