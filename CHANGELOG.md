@@ -1,3 +1,5 @@
+- Automatically import subflakes in `overlays` e.g. `overlays/paperwm`
+- Replaced `rec { }` usage with `let ... in { }`
 - Added `overlays/paperwm` subflake to track the branch `next-release` using `nix flake update` automatically
 - Added `paperwm@next-release` overlay for GNOME 40
 - Changed `ranger` `cd /nix` binding to `cd /nix/var/nix` and `gN` to prevent the significant load time of `/nix/store`

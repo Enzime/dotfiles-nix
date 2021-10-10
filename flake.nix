@@ -10,29 +10,36 @@
   outputs = inputs@{ self, nixpkgs, home-manager, flake-utils-plus, ... }:
 
   let
-    inherit (nixpkgs.lib) foldr getAttr mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
+    inherit (builtins) hasAttr filter getAttr readDir;
+    inherit (nixpkgs.lib) attrValues foldr filterAttrs getAttrFromPath hasSuffix mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
 
     importFrom = path: filename: import (path + ("/" + filename));
+
     importOverlay = filename: _: importFrom ./overlays filename;
+    regularOverlays = filterAttrs (name: _: hasSuffix ".nix" name) (readDir ./overlays);
+    importedRegularOverlays = mapAttrsToList importOverlay regularOverlays;
+
+    flakeOverlays = builtins.attrNames (filterAttrs (_: type: type == "directory") (readDir ./overlays));
+    importedFlakeOverlays = map (name: getAttrFromPath [ "overlays/${name}" "overlay" ] inputs) flakeOverlays;
 
     pkgs = import nixpkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
-      overlays = [ inputs."overlays/paperwm".overlay ] ++ mapAttrsToList importOverlay (builtins.readDir ./overlays);
+      overlays = importedRegularOverlays ++ importedFlakeOverlays;
     };
 
     modules = mapAttrs' (
       filename: _: nameValuePair
         (removeSuffix ".nix" filename)
         (importFrom ./modules filename)
-    ) (builtins.readDir ./modules);
+    ) (readDir ./modules);
 
     mkConfigurations = configs: foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
     mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, modules }:
     let
       hostname = "${host}${hostSuffix}";
-      nixosModules = map (getAttr "nixosModule") (builtins.filter (builtins.hasAttr "nixosModule") modules);
-      hmModules = map (getAttr "hmModule") (builtins.filter (builtins.hasAttr "hmModule") modules);
+      nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modules);
+      hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modules);
       home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules;
     in {
       # nix build ~/.config/nixpkgs#nixosConfigurations.enzime@phi-nixos.config.system.build.toplevel

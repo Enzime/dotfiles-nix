@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-  inherit (lib) assertMsg attrByPath hasAttrByPath mkIf mkMerge readFile;
+  inherit (lib) attrByPath hasAttrByPath mkIf mkMerge readFile;
 in {
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
