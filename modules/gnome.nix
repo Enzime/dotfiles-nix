@@ -1,14 +1,12 @@
 {
   nixosModule = { ... }: {
     # GNOME runs Wayland by default
-    services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
   };
 
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator paperwm;
+      inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator;
     };
 
     dconf.settings = {
@@ -30,7 +28,7 @@
       };
 
       "org/gnome/shell" = {
-        disabled-extensions = [];
+        disabled-extensions = [ ];
 
         enabled-extensions = [
           "clipboard-indicator@tudmotu.com"
@@ -38,6 +36,8 @@
           "drive-menu@gnome-shell-extensions.gcampax.github.com"
         ];
       };
+
+      "org/gnome/shell/overrides" = { };
 
       "org/gnome/terminal/legacy" = {
         theme-variant = "dark";

@@ -26,6 +26,9 @@
 
   services.openssh.enable = true;
 
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+
   # On first setup, run `nixos-enter` then `passwd enzime`.
   users.users.enzime = {
     isNormalUser = true;

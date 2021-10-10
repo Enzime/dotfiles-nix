@@ -48,7 +48,7 @@
       nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
         modules = [
-          ({ inputs, ... }: {
+          ({ ... }: {
             environment.systemPackages = [ home-manager.packages.${system}.home-manager ];
 
             # Add flake revision to `nixos-version --json`

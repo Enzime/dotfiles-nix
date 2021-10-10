@@ -1,8 +1,6 @@
 {
   nixosModule = { ... }: {
-    services.xserver.enable = true;
     services.xserver.windowManager.i3.enable = true;
-    services.xserver.displayManager.defaultSession = "none+i3";
   };
 
   hmModule = { pkgs, ... }: {
@@ -17,7 +15,7 @@
     services.polybar.enable = true;
 
     xsession.windowManager.i3.config = {
-      bars = [];
+      bars = [ ];
       startup = [
         { command = "systemctl --user restart polybar"; always = true; notification = false; }
         { command = "signal-desktop"; }
