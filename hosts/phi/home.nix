@@ -45,6 +45,13 @@ in {
     '';
   };
 
+  dconf.settings = {
+    # `phi` never sleeps
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-type = "nothing";
+    };
+  };
+
   gtk = {
     enable = true;
     theme = {

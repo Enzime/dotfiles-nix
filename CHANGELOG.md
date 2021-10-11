@@ -1,3 +1,4 @@
+- Changed `phi` to never sleep when using GNOME
 - Moved base `services.xserver` settings to base `configuration.nix` and set `gdm` as the default display manager
 - Moved `paperwm` from `gnome` module to its own module for extra packages and config
 - Removed `config.nix` to see if it has any effect
