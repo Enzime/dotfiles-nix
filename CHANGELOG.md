@@ -1,3 +1,7 @@
+- Changed `W-e` to launch `ranger` and `W-S-e` to launch a file explorer in GNOME
+- Added `xclip` as a runtime dependency (`propagatedBuildInputs`) of `ranger`
+- Added `assert` guards for overlays that create new derivations to ensure they aren't in `nixpkgs` already
+- Use `overrideAttrs` instead of `overrideDerivation`
 - Changed `phi` to never sleep when using GNOME
 - Moved base `services.xserver` settings to base `configuration.nix` and set `gdm` as the default display manager
 - Moved `paperwm` from `gnome` module to its own module for extra packages and config

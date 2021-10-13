@@ -1,5 +1,5 @@
 self: super: {
-  ff2mpv = super.stdenv.mkDerivation (
+  ff2mpv = (assert (!builtins.hasAttr "ff2mpv" super); super.stdenv.mkDerivation (
     let
       pname = "ff2mpv";
       version = "3.8.0";
@@ -29,5 +29,5 @@ self: super: {
         cp ff2mpv.json $out/lib/mozilla/native-messaging-hosts
       '';
     }
-  );
+  ));
 }

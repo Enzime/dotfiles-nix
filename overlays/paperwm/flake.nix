@@ -7,7 +7,7 @@
   outputs = { self, nixpkgs, paperwm, flake-utils }: {
     overlay = final: prev: {
       gnomeExtensions = prev.lib.recursiveUpdate prev.gnomeExtensions {
-        paperwm = prev.gnomeExtensions.paperwm.overrideDerivation (old:
+        paperwm = prev.gnomeExtensions.paperwm.overrideAttrs (old:
           let
             version = "pre-40.0";
           in {

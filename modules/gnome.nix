@@ -17,8 +17,11 @@
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {
-        custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
-        home = [ "<Super>e" ];
+        custom-keybindings = [
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        ];
+        home = [ "<Shift><Super>e" ];
       };
 
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -27,13 +30,20 @@
         name = "Launch Terminal";
       };
 
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+        binding = "<Super>e";
+        command = "gtk-launch ranger.desktop";
+        name = "Launch Ranger";
+      };
+
       "org/gnome/shell" = {
         disabled-extensions = [ ];
 
         enabled-extensions = [
-          "clipboard-indicator@tudmotu.com"
-          "appindicatorsupport@rgcjonas.gmail.com"
           "drive-menu@gnome-shell-extensions.gcampax.github.com"
+
+          "appindicatorsupport@rgcjonas.gmail.com"
+          "clipboard-indicator@tudmotu.com"
         ];
       };
 
