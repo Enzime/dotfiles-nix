@@ -1,3 +1,4 @@
+- Added `ripgrep`
 - Updated `latest-dotfiles` `polybar` script to use `configRevision` and handle dirty revisions
 - Added `configRevision` arg to modules to specify the clean/dirty revision hashes
 - Changed `assert` guard on `nixFlakes` to check if 2.4 is stable yet

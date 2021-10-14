@@ -6,7 +6,9 @@ in {
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
   home.packages = builtins.attrValues {
-    inherit (pkgs) htop ranger peco _1password-gui qalculate-gtk pavucontrol;
+    inherit (pkgs) peco ripgrep htop ranger;
+
+    inherit (pkgs) _1password-gui qalculate-gtk pavucontrol;
   };
 
   # Allow fonts to be specified in `home.packages`
