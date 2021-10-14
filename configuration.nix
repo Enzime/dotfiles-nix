@@ -1,11 +1,14 @@
-{ config, pkgs, ... }:
+{ config, configRevision, pkgs, ... }:
 
 {
-  # FUTURE: remove these lines when `nix flakes` is stable one day hopefully
-  nix.package = (assert pkgs.nix != pkgs.nixFlakes; pkgs.nixFlakes);
-  nix.extraOptions = (assert pkgs.nix != pkgs.nixFlakes; ''
+  # Ensure that the current stable version of Nix is not yet 2.4
+  nix.package = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; pkgs.nixFlakes);
+  nix.extraOptions = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; ''
     experimental-features = nix-command flakes
   '');
+
+  # Add flake revision to `nixos-version --json`
+  system.configurationRevision = configRevision.full;
 
   system.extraSystemBuilderCmds = "ln -sv ${./.} $out/dotfiles";
 

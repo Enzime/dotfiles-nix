@@ -41,6 +41,11 @@
       nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modules);
       hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modules);
       home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules;
+
+      configRevision = {
+        full = if (self ? rev) then self.rev else self.dirtyRev;
+        short = if (self ? rev) then self.shortRev else self.dirtyShortRev;
+      };
     in {
       # nix build ~/.config/nixpkgs#nixosConfigurations.enzime@phi-nixos.config.system.build.toplevel
       # OR
@@ -50,9 +55,6 @@
         modules = [
           ({ ... }: {
             environment.systemPackages = [ home-manager.packages.${system}.home-manager ];
-
-            # Add flake revision to `nixos-version --json`
-            system.configurationRevision = mkIf (self ? rev) self.rev;
 
             # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
             nix.linkInputs = true;
@@ -70,10 +72,11 @@
             home-manager.useUserPackages = true;
 
             home-manager.users.${user}.imports = home;
+            home-manager.extraSpecialArgs = { inherit configRevision; };
           }
         ];
         # Required for `flake-utils-plus` to generate stuff
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs configRevision; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
@@ -85,6 +88,7 @@
         homeDirectory = "/home/${user}";
         username = user;
         extraModules = home;
+        extraSpecialArgs = { inherit configRevision; };
       };
     };
   in mkConfigurations [

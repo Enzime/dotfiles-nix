@@ -1,3 +1,7 @@
+- Updated `latest-dotfiles` `polybar` script to use `configRevision` and handle dirty revisions
+- Added `configRevision` arg to modules to specify the clean/dirty revision hashes
+- Changed `assert` guard on `nixFlakes` to check if 2.4 is stable yet
+- Added `Nix` overlay to patch `nixFlakes` with `dirtyRev` and `dirtyShortRev`
 - Changed `ranger` overlay to be outdated based on version
 - Added Night Light settings in GNOME
 - Changed `W-e` to launch `ranger` and `W-S-e` to launch a file explorer in GNOME

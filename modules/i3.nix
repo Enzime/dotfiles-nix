@@ -3,7 +3,7 @@
     services.xserver.windowManager.i3.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { pkgs, configRevision, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) fira-mono font-awesome;
     };
@@ -281,19 +281,19 @@
           LATEST=$(${pkgs.curl}/bin/curl -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.coreutils}/bin/cut -d ' ' -f 2)
 
           # get commit hash of currently running dotfiles
-          RUNNING=$(/run/current-system/sw/bin/nixos-version --json | ${pkgs.jq}/bin/jq -r .configurationRevision)
+          RUNNING=${configRevision.full}
 
           UPDATE_FOUND=false
 
           export GIT_DIR=~/.config/nixpkgs/.git
-          if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST $RUNNING 2>/dev/null; then
+          if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST ''${RUNNING%-dirty} 2>/dev/null; then
             UPDATE_FOUND=true
           fi
 
           if [[ $UPDATE_FOUND == "true" ]]; then
             echo  $(echo $LATEST | cut -c -7)
           else
-            echo  $(echo $RUNNING | cut -c -7)
+            echo  ${configRevision.short}
           fi
         ''}";
         interval = 300;
