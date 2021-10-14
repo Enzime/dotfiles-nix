@@ -4,7 +4,7 @@
     services.xserver.desktopManager.gnome.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator;
     };
@@ -14,6 +14,12 @@
         clock-format = "12h";
         clock-show-seconds = true;
         clock-show-weekday = true;
+      };
+
+      "org/gnome/settings-daemon/plugins/color" = {
+        night-light-enabled = true;
+        night-light-schedule-automatic = true;
+        night-light-temperature = lib.hm.gvariant.mkUint32 3500;
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {

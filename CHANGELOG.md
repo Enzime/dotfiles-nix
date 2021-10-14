@@ -1,3 +1,5 @@
+- Changed `ranger` overlay to be outdated based on version
+- Added Night Light settings in GNOME
 - Changed `W-e` to launch `ranger` and `W-S-e` to launch a file explorer in GNOME
 - Added `xclip` as a runtime dependency (`propagatedBuildInputs`) of `ranger`
 - Added `assert` guards for overlays that create new derivations to ensure they aren't in `nixpkgs` already
