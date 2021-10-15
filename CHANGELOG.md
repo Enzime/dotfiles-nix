@@ -1,3 +1,4 @@
+- Added `nixFlakes` to `home.packages`
 - Added `ripgrep`
 - Updated `latest-dotfiles` `polybar` script to use `configRevision` and handle dirty revisions
 - Added `configRevision` arg to modules to specify the clean/dirty revision hashes
