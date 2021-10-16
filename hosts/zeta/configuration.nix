@@ -12,8 +12,6 @@
 
   networking.interfaces.eno1.useDHCP = true;
 
-  i18n.defaultLocale = "en_AU.UTF-8";
-
   # Check that this can be bumped before changing it
   system.stateVersion = "21.05";
 }

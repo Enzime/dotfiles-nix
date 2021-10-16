@@ -1,3 +1,4 @@
+- Added initial `delta` NixOS configs
 - Added `nixFlakes` to `home.packages`
 - Added `ripgrep`
 - Updated `latest-dotfiles` `polybar` script to use `configRevision` and handle dirty revisions
