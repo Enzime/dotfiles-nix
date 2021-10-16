@@ -1,3 +1,4 @@
+- Fixed typo in `nix build` command for `nixosConfigurations`
 - Added initial `delta` NixOS configs
 - Added `nixFlakes` to `home.packages`
 - Added `ripgrep`

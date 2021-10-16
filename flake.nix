@@ -47,7 +47,7 @@
         short = if (self ? rev) then self.shortRev else self.dirtyShortRev;
       };
     in {
-      # nix build ~/.config/nixpkgs#nixosConfigurations.enzime@phi-nixos.config.system.build.toplevel
+      # nix build ~/.config/nixpkgs#nixosConfigurations.phi-nixos.config.system.build.toplevel
       # OR
       # nixos-rebuild build --flake ~/.config/nixpkgs#phi-nixos
       nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
