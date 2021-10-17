@@ -285,6 +285,11 @@
 
           UPDATE_FOUND=false
 
+          if [[ $RUNNING == "dirty-inputs" ]]; then
+            echo  $RUNNING
+            exit
+          fi
+
           export GIT_DIR=~/.config/nixpkgs/.git
           if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST ''${RUNNING%-dirty} 2>/dev/null; then
             UPDATE_FOUND=true

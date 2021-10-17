@@ -1,3 +1,7 @@
+- Added `nixpkgs` patch to fix building `steam`
+- Use `flake-utils-plus.lib.patchChannel` to patch Nixpkgs
+- Converted `nix` `overlay` into a flake to allow overriding the `Nix` package with local sources
+- Fixed building when one or more inputs are overridden with `--override-input`
 - Fixed typo in `nix build` command for `nixosConfigurations`
 - Added initial `delta` NixOS configs
 - Added `nixFlakes` to `home.packages`
