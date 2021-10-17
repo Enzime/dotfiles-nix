@@ -1,3 +1,5 @@
+- Use `Python` VSCode extension from `nixpkgs`
+- Removed patch required for building `steam`
 - Added `nixpkgs` patch to fix building `steam`
 - Use `flake-utils-plus.lib.patchChannel` to patch Nixpkgs
 - Converted `nix` `overlay` into a flake to allow overriding the `Nix` package with local sources

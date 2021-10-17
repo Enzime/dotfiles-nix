@@ -35,12 +35,6 @@
         url = "https://github.com/NixOS/nixpkgs/commit/4f704e88b8c37d4514dc0a669986bc47ac2e86f0.patch";
         sha256 = "sha256-EipMNHcqZitoGURYogz5u1AESSWld/ET4DdGzuVNWqE=";
       })
-      # Fixes building Steam
-      (fetchpatch {
-        name = "tracker-patch-failing-test-due-to-float-comparison.patch";
-        url = "https://github.com/NixOS/nixpkgs/commit/b0ed9c8372686a513c947c204956e7a28e7e7147.patch";
-        sha256 = "sha256-j/cs4wK1twKSGHFoWtZI1g1IdWqVO0Dt6vSaADB64eo=";
-      })
     ];
 
     patchedNixpkgs = flake-utils-plus.lib.patchChannel "x86_64-linux" nixpkgs patches;

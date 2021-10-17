@@ -355,8 +355,7 @@ in {
       pkgs.vscode-extensions.eamodio.gitlens
       pkgs.vscode-extensions.shardulm94.trailing-spaces
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
-      # Currently broken on `nixpkgs-unstable`, disable until https://github.com/NixOS/nixpkgs/issues/137314 is fixed
-      # pkgs.vscode-extensions.ms-python.python
+      pkgs.vscode-extensions.ms-python.python
       pkgs.vscode-extensions.ms-python.vscode-pylance
       pkgs.vscode-extensions.jnoortheen.nix-ide
 
