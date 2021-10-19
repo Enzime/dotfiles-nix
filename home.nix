@@ -9,7 +9,7 @@ in {
     # Necessary for non-NixOS systems which won't have the flakiest version of Nix
     nixFlakes = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; pkgs.nixFlakes);
 
-    inherit (pkgs) peco ripgrep htop ranger;
+    inherit (pkgs) peco ripgrep jq htop ranger;
 
     inherit (pkgs) _1password-gui qalculate-gtk pavucontrol;
   };

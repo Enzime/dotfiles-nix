@@ -1,3 +1,5 @@
+- Added `firefox-wayland` for use with GNOME
+- Added `jq`
 - Use `home-manager` to manage `xss-lock` instead of `NixOS` module
 - Moved `xss-lock` config from `phi` to `i3` module
 - Changed `gdm` on `phi` to never sleep

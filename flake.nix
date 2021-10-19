@@ -30,6 +30,7 @@
     patches = let
       inherit (import nixpkgs { system = "x86_64-linux"; }) fetchpatch;
     in [
+      # Add `services.samba.openFirewall = true;` when this patch stops working
       (fetchpatch {
         name = "samba-open-firewall-ports-by-default.patch";
         url = "https://github.com/NixOS/nixpkgs/commit/4f704e88b8c37d4514dc0a669986bc47ac2e86f0.patch";
