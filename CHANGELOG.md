@@ -1,3 +1,7 @@
+- Use `home-manager` to manage `xss-lock` instead of `NixOS` module
+- Moved `xss-lock` config from `phi` to `i3` module
+- Changed `gdm` on `phi` to never sleep
+- Added `laptop` module with initial touchpad settings
 - Use `Python` VSCode extension from `nixpkgs`
 - Removed patch required for building `steam`
 - Added `nixpkgs` patch to fix building `steam`

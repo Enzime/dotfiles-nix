@@ -13,6 +13,7 @@
     programs.feh.enable = true;
     services.redshift.enable = true;
     services.polybar.enable = true;
+    services.screen-locker.enable = true;
 
     xsession.windowManager.i3.config = {
       bars = [ ];
@@ -367,5 +368,8 @@
       latitude = "-38.0";
       longitude = "145.2";
     };
+
+    services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
+    services.screen-locker.xautolock.enable = false;
   };
 }

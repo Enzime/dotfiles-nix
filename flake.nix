@@ -115,7 +115,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrValues {
-        inherit (modules) fonts gnome i3;
+        inherit (modules) fonts gnome i3 laptop;
       };
     }
     {
@@ -133,7 +133,7 @@
       user = "enzime";
       system = "x86_64-linux";
       modules = builtins.attrValues {
-        inherit (modules) i3 work;
+        inherit (modules) i3 work laptop;
       };
     }
     {

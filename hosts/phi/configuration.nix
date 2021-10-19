@@ -19,8 +19,7 @@
   hardware.enableRedistributableFirmware = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  programs.xss-lock.enable = true;
-  programs.xss-lock.lockerCommand = "${pkgs.i3lock}/bin/i3lock -c 000000";
+  services.xserver.displayManager.gdm.autoSuspend = true;
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
