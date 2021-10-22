@@ -27,20 +27,7 @@
     flakeOverlays = attrNames (filterAttrs (_: type: type == "directory") (readDir ./overlays));
     importedFlakeOverlays = map (name: getAttrFromPath [ "overlays/${name}" "overlay" ] inputs) flakeOverlays;
 
-    patches = let
-      inherit (import nixpkgs { system = "x86_64-linux"; }) fetchpatch;
-    in [
-      # Add `services.samba.openFirewall = true;` when this patch stops working
-      (fetchpatch {
-        name = "samba-open-firewall-ports-by-default.patch";
-        url = "https://github.com/NixOS/nixpkgs/commit/4f704e88b8c37d4514dc0a669986bc47ac2e86f0.patch";
-        sha256 = "sha256-EipMNHcqZitoGURYogz5u1AESSWld/ET4DdGzuVNWqE=";
-      })
-    ];
-
-    patchedNixpkgs = flake-utils-plus.lib.patchChannel "x86_64-linux" nixpkgs patches;
-
-    pkgs = import patchedNixpkgs {
+    pkgs = import nixpkgs {
       system = "x86_64-linux";
       config.allowUnfree = true;
       overlays = importedRegularOverlays ++ importedFlakeOverlays;

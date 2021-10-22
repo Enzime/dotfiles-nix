@@ -16,11 +16,13 @@
         } else {
           version = "${old.version}-dirtier";
 
-          patches = old.patches ++ [ (prev.fetchpatch {
-            name = "add-dirtyRev-and-dirtyShortRev-to-fetchGit.patch";
-            url = "https://github.com/Enzime/nix/commit/f0a84fba74b9e8e83c9778d4aa0e2641241ebc0d.patch";
-            sha256 = "sha256-TaVlwmI4mra7h8m6vkqUpGfDqmrMCvm1hdK99f8gNKE=";
-          }) ];
+          patches = old.patches ++ [
+            (prev.fetchpatch {
+              name = "add-dirtyRev-and-dirtyShortRev-to-fetchGit.patch";
+              url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/5385.patch";
+              sha256 = "sha256-50qV1srrwbCICgY9XRvX7EHpU1ZtdXE8jkCgy5QeMh0=";
+            })
+          ];
         }
       );
     };

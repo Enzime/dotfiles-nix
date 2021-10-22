@@ -1,3 +1,7 @@
+- Enabled `nix-direnv` flake support
+- Updated `nix` patch for `dirtyRev`
+- Changed `samba` module to open firewall ports until `services.samba.openFirewall` option exists
+- Removed `nixpkgs` patching functionality as it cannot handle patching modules
 - Added `firefox-wayland` for use with GNOME
 - Added `jq`
 - Use `home-manager` to manage `xss-lock` instead of `NixOS` module
