@@ -1,3 +1,4 @@
+- Changed `.direnv` and `.envrc` to be globally ignored by `git`
 - Enabled `nix-direnv` flake support
 - Updated `nix` patch for `dirtyRev`
 - Changed `samba` module to open firewall ports until `services.samba.openFirewall` option exists

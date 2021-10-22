@@ -62,6 +62,8 @@ in {
       core = {
         excludesFile = "${pkgs.writeText "global_ignore" ''
           /start.sh
+          .direnv
+          .envrc
         ''}";
         hooksPath = "~/.config/git/hooks";
       };
