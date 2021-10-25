@@ -1,3 +1,8 @@
+- Changed `VSCode` keybinds for binds that overlap with `neovim`
+- Added comments to `VSCode` keybinds
+- Added `pantheon-polkit-agent` `systemd` user service so VSCode can `sudo`
+- Changed `VSCode` settings to respect global `gitignore`
+- Changed `steam` to use the NixOS module which fixes Steam not launching at all anymore
 - Changed `.direnv` and `.envrc` to be globally ignored by `git`
 - Enabled `nix-direnv` flake support
 - Updated `nix` patch for `dirtyRev`

@@ -371,5 +371,20 @@
 
     services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
     services.screen-locker.xautolock.enable = false;
+
+    systemd.user.services.pantheon-polkit-agent = {
+      Unit = {
+        Description = "Pantheon Polkit Agent";
+        After = [ "graphical-session-pre.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+
+      Install = { WantedBy = [ "graphical-session.target" ]; };
+
+      Service = {
+        ExecStart =
+          "${pkgs.pantheon.pantheon-agent-polkit}/libexec/policykit-1-pantheon/io.elementary.desktop.agent-polkit";
+      };
+    };
   };
 }

@@ -64,6 +64,7 @@ in {
           /start.sh
           .direnv
           .envrc
+          result
         ''}";
         hooksPath = "~/.config/git/hooks";
       };
@@ -365,8 +366,23 @@ in {
       pkgs.vscode-extensions.kamikillerto.vscode-colorize
     ];
     keybindings = [
-      { "key" = "ctrl+e"; "command" = "-workbench.action.quickOpen"; }
-      { "key" = "ctrl+shift+c"; "command" = "-workbench.action.terminal.openNativeConsole"; "when" = "!terminalFocus"; }
+      # Fix `C-e` not working in terminal
+      { key = "ctrl+e"; command = "-workbench.action.quickOpen"; }
+      # Disable opening external terminal with `C-S-c`
+      { key = "ctrl+shift+c"; command = "-workbench.action.terminal.openNativeConsole"; when = "!terminalFocus"; }
+
+      # Use `C-o` to open files
+      { key = "ctrl+o"; command = "-vscode-neovim.send"; when = "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'"; }
+
+      # Use `C-,` as a leader key
+      { key = "ctrl+,"; command = "-workbench.action.openSettings"; }
+      # Use `openSettings2` instead to show as the keybinding for "Open Settings (UI)"
+      { key = "ctrl+, ctrl+,"; command = "workbench.action.openSettings2"; }
+      { key = "ctrl+, ctrl+."; command = "workbench.action.openGlobalKeybindings"; }
+
+      # Use `C-r` solely for redoing in `neovim`
+      { key = "ctrl+r"; command = "-workbench.action.openRecent"; }
+      { key = "ctrl+, ctrl+r"; command = "workbench.action.openRecent"; }
     ];
     userSettings = {
       "telemetry.enableTelemetry" = false;
@@ -378,6 +394,8 @@ in {
 
       "workbench.colorTheme" = "Monokai";
 
+      "files.simpleDialog.enable" = true;
+
       "editor.codeActionsOnSave" = {
         "source.fixAll" = true;
       };
@@ -388,6 +406,7 @@ in {
       "diffEditor.ignoreTrimWhitespace" = false;
       "trailing-spaces.trimOnSave" = true;
       "trailing-spaces.highlightCurrentLine" = false;
+      "search.useGlobalIgnoreFiles" = true;
 
       "colorize.include" = [ "*" ];
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
