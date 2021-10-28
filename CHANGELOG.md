@@ -1,3 +1,4 @@
+- Added `zsh` patch to fix `git stash drop` completions
 - Changed `VSCode` keybinds for binds that overlap with `neovim`
 - Added comments to `VSCode` keybinds
 - Added `pantheon-polkit-agent` `systemd` user service so VSCode can `sudo`
