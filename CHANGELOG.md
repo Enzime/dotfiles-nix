@@ -1,3 +1,5 @@
+- Added `zsh-you-should-use` plugin
+- Use `excludes` parameter for `fetchpatch` instead of a manually crafted patch
 - Added `zsh` patch to fix `git stash drop` completions
 - Changed `VSCode` keybinds for binds that overlap with `neovim`
 - Added comments to `VSCode` keybinds

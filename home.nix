@@ -125,9 +125,14 @@ in {
     prezto = {
       enable = true;
 
+      pmoduleDirs = [
+        "${pkgs.zsh-you-should-use}/share/zsh/plugins"
+      ];
+
       pmodules = [
         "environment"
         "terminal"
+        "you-should-use"
         "editor"
         "history"
         "directory"
