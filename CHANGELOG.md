@@ -1,3 +1,4 @@
+- Removed `prezto` `utility` module as it breaks `cp` and `mv` with `sudo`
 - Added `zsh-you-should-use` plugin
 - Use `excludes` parameter for `fetchpatch` instead of a manually crafted patch
 - Added `zsh` patch to fix `git stash drop` completions

@@ -137,7 +137,6 @@ in {
         "history"
         "directory"
         "spectrum"
-        "utility"
         # `git` just needs to be before `completion`
         "git"
         "completion"
@@ -313,6 +312,7 @@ in {
       sudo = "echo \"zsh: command not found: sudo\"";
 
       ls = "ls -F --color=auto";
+      mkdir = "mkdir -p";  # the only thing that was useful from the `utility` module
 
       l = "ls -lah";
       ranger = "ranger-cd";
