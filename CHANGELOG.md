@@ -1,3 +1,5 @@
+- Enabled `autosquash` by default when rebasing
+- Changed to `nixos-21.05` for GNOME 40 to be able to run COSMIC
 - Removed `prezto` `utility` module as it breaks `cp` and `mv` with `sudo`
 - Added `zsh-you-should-use` plugin
 - Use `excludes` parameter for `fetchpatch` instead of a manually crafted patch

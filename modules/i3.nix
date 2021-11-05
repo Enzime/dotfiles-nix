@@ -3,7 +3,7 @@
     services.xserver.windowManager.i3.enable = true;
   };
 
-  hmModule = { pkgs, configRevision, ... }: {
+  hmModule = { pkgs, lib, configRevision, options, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) fira-mono font-awesome;
     };
@@ -370,7 +370,10 @@
     };
 
     services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
-    services.screen-locker.xautolock.enable = false;
+    systemd.user.services.xautolock-session = (
+      assert (!lib.hasAttrByPath [ "services" "screen-locker" "xautolock" "enable" ] options);
+      lib.mkForce {}
+    );
 
     systemd.user.services.pantheon-polkit-agent = {
       Unit = {

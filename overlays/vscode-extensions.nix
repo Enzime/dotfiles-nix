@@ -6,6 +6,15 @@ let
 in {
   vscode-extensions = recursiveUpdate super.vscode-extensions {
     # The `assert` ensures that the extension isn't already present in `nixpkgs`
+    asvetliakov.vscode-neovim = (assert (!hasAttrByPath ["asvetliakov" "vscode-neovim"] super.vscode-extensions); buildVscodeMarketplaceExtension {
+      mktplcRef = {
+        name = "vscode-neovim";
+        publisher = "asvetliakov";
+        version = "0.0.82";
+        sha256 = "17f0jzg9vdbqdjnnc5i1q28ij2kckvvxi7fw9szmyy754f074jb1";
+      };
+    });
+
     ethansk.restore-terminals = (assert (!hasAttrByPath ["ethansk" "restore-terminals"] super.vscode-extensions); buildVscodeMarketplaceExtension {
       mktplcRef = {
         name = "restore-terminals";
@@ -15,12 +24,30 @@ in {
       };
     });
 
+    kamikillerto.vscode-colorize = (assert (!hasAttrByPath ["kamikillerto" "vscode-colorize"] super.vscode-extensions); buildVscodeMarketplaceExtension {
+      mktplcRef = {
+        name = "vscode-colorize";
+        publisher = "kamikillerto";
+        version = "0.11.1";
+        sha256 = "1h82b1jz86k2qznprng5066afinkrd7j3738a56idqr3vvvqnbsm";
+      };
+    });
+
     rioj7.commandOnAllFiles = (assert (!hasAttrByPath ["rioj7" "commandOnAllFiles"] super.vscode-extensions); buildVscodeMarketplaceExtension {
       mktplcRef = {
         name = "commandOnAllFiles";
         publisher = "rioj7";
         version = "0.3.0";
         sha256 = "04f1sb5rxjwkmidpymhqanv8wvp04pnw66098836dns906p4gldl";
+      };
+    });
+
+    shardulm94.trailing-spaces = (assert (!hasAttrByPath ["shardulm94" "trailing-spaces"] super.vscode-extensions); buildVscodeMarketplaceExtension {
+      mktplcRef = {
+        publisher = "shardulm94";
+        name = "trailing-spaces";
+        version = "0.3.1";
+        sha256 = "0h30zmg5rq7cv7kjdr5yzqkkc1bs20d72yz9rjqag32gwf46s8b8";
       };
     });
   };

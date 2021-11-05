@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-  inherit (lib) attrByPath hasAttrByPath mkIf mkMerge readFile;
+  inherit (lib) attrByPath mkIf mkMerge readFile;
 in {
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
@@ -73,6 +73,9 @@ in {
       };
       fetch = {
         prune = true;
+      };
+      rebase = {
+        autoSquash = true;
       };
       pull = {
         ff = "only";
