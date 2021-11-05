@@ -10,6 +10,7 @@
   inputs."overlays/nix".inputs.inheritedNix.follows = "nix";
   inputs."overlays/nix".inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
   inputs."overlays/nix".inputs.nixpkgs.follows = "nixpkgs";
+  inputs."overlays/nixpkgs".url = path:overlays/nixpkgs;
   inputs.nix.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, ... }:
@@ -112,7 +113,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrValues {
-        inherit (modules) duckdns fonts gaming gnome i3 samba thunar;
+        inherit (modules) duckdns fonts gaming gnome cosmic i3 samba thunar;
       };
     }
     {

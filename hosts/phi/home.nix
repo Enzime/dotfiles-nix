@@ -51,12 +51,4 @@ in {
       sleep-inactive-ac-type = "nothing";
     };
   };
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita";
-    };
-    gtk3.extraCss = "decoration {box-shadow: none; margin: 0;}";
-  };
 }

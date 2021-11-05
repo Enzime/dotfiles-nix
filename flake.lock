@@ -165,6 +165,20 @@
         "type": "path"
       }
     },
+    "overlays/nixpkgs": {
+      "inputs": {
+        "unstable": "unstable"
+      },
+      "locked": {
+        "narHash": "sha256-9+fIbZGR8wSCfvy8iH8R6HjcaCxr+2djVKGP32yJIlo=",
+        "path": "overlays/nixpkgs",
+        "type": "path"
+      },
+      "original": {
+        "path": "overlays/nixpkgs",
+        "type": "path"
+      }
+    },
     "overlays/paperwm": {
       "inputs": {
         "flake-utils": [
@@ -210,7 +224,24 @@
         "nix": "nix",
         "nixpkgs": "nixpkgs",
         "overlays/nix": "overlays/nix",
+        "overlays/nixpkgs": "overlays/nixpkgs",
         "overlays/paperwm": "overlays/paperwm"
+      }
+    },
+    "unstable": {
+      "locked": {
+        "lastModified": 1635844945,
+        "narHash": "sha256-tZcL307dj28jgEU1Wdn+zwG9neyW0H2+ZjdVhvJxh9g=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b67e752c29f18a0ca5534a07661366d6a2c2e649",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     }
   },
