@@ -1,3 +1,5 @@
+- Use new `VSCode` telemetry setting as the old settings are deprecated
+- Added `pop-launcher`
 - Added `cosmic` module
 - Enabled `autosquash` by default when rebasing
 - Changed to `nixos-21.05` for GNOME 40 to be able to run COSMIC

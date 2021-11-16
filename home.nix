@@ -393,8 +393,7 @@ in {
       { key = "ctrl+, ctrl+r"; command = "workbench.action.openRecent"; }
     ];
     userSettings = {
-      "telemetry.enableTelemetry" = false;
-      "telemetry.enableCrashReporter" = false;
+      "telemetry.telemetryLevel" = "off";
       "workbench.enableExperiments" = false;
       "workbench.settings.enableNaturalLanguageSearch" = false;
 

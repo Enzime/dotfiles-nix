@@ -1,7 +1,7 @@
 {
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) pop-control-center;
+      inherit (pkgs) pop-control-center pop-launcher;
       inherit (pkgs.gnomeExtensions) pop-cosmic pop-shell cosmic-dock cosmic-workspaces;
     };
 
