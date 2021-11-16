@@ -11,5 +11,13 @@ self: super: {
         versionAtMost "1.9.3" old.version
       ); old.propagatedBuildInputs ++ [ super.xclip ]
     );
+
+    patches = (old.patches or [ ]) ++ [
+      (super.fetchpatch {
+        name = "fix-ctrl-arrows-in-termite.patch";
+        url = "https://github.com/ranger/ranger/compare/master...Enzime:feature/support-modifier-arrow-keys.patch";
+        sha256 = "sha256-HongXSjIiVoD0l159Uu8sPhtc1iE0mpnGypjISFCc58=";
+      })
+    ];
   });
 }

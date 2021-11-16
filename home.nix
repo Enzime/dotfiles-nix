@@ -424,6 +424,8 @@ in {
   };
 
   xdg.configFile."ranger/rc.conf".text = ''
+    set hidden_filter ^\.|\.(?:pyc|pyo|swp)$|^lost\+found$|^__(py)?cache__$
+
     set preview_images true
 
     set dirname_in_tabs true
