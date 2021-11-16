@@ -484,7 +484,6 @@ in {
 
     map ,R  source ~/.config/ranger/rc.conf
 
-    # TODO: fix
     cmap <C-left>   eval fm.ui.console.move_word(left=1)
     cmap <C-right>  eval fm.ui.console.move_word(right=1)
   '';

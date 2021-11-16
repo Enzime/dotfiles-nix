@@ -1,3 +1,4 @@
+- Use updated patch to fix `C-arrow` inside `VSCode` for `ranger`
 - Added `C-arrow` support patch for `ranger`
 - Removed `.bak` as a hidden file in `ranger`
 - Use new `VSCode` telemetry setting as the old settings are deprecated
