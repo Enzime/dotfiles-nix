@@ -442,28 +442,28 @@ in {
     map uT  tag_remove
 
     unmap gL
-    map ga  cd -r .
-    map gc  cd ~/.config
-    map gC  eval fm.cd(ranger.CONFDIR)
-    map gd  cd /data
-    map gD  cd /dev
-    map gH  cd /home
-    map gl  cd ~/.local/share
-    map gn  cd /etc/nix
-    map gN  cd /nix/var/nix
+    map   ga  cd -r .
+    map   gc  cd ~/.config
+    map   gC  eval fm.cd(ranger.CONFDIR)
+    map   gd  cd /data
+    map   gD  cd /dev
+    map   gH  cd /home
+    map   gl  cd ~/.local/share
+    map   gn  cd /etc/nix
+    map   gN  cd /nix/var/nix
 
     map C   eval fm.open_console('rename ')
     map cw  bulkrename
 
     unmap <C-n>
-    map <C-t>   tab_new ~
-    map <C-f>   tab_move 1
-    map <C-a>   tab_move -1
-    map t<bg>   draw_bookmarks
-    map t<any>  eval fm.tab_new(path=fm.bookmarks[str(fm.ui.keybuffer)[-1]])
-    map t.      tab_new .
-    map dt      tab_close
-    map ut      tab_restore
+    map   <C-t>   tab_new ~
+    map   <C-f>   tab_move 1
+    map   <C-a>   tab_move -1
+    map   t<bg>   draw_bookmarks
+    map   t<any>  eval fm.tab_new(path=fm.bookmarks[str(fm.ui.keybuffer)[-1]])
+    map   t.      tab_new .
+    map   dt      tab_close
+    map   ut      tab_restore
 
     # M A G I C
     # `tg<any>` makes a new tab then goes to the folder specified by `g<any>`
@@ -484,9 +484,14 @@ in {
 
     map ,R  source ~/.config/ranger/rc.conf
 
+    map     <C-l> backup_edit
+    copymap <C-l> <C-right>
+
     cmap <C-left>   eval fm.ui.console.move_word(left=1)
     cmap <C-right>  eval fm.ui.console.move_word(right=1)
   '';
+
+  xdg.configFile."ranger/commands.py".source = ./files/commands.py;
 
   programs.mpv = {
     enable = true;

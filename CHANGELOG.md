@@ -1,3 +1,5 @@
+- Added `<C-right>` and `<C-l>` binding in `ranger` to execute `:backup_edit`
+- Added `:backup_edit` `ranger` command to allow editing symlinks created by `home-manager`
 - Use updated patch to fix `C-arrow` inside `VSCode` for `ranger`
 - Added `C-arrow` support patch for `ranger`
 - Removed `.bak` as a hidden file in `ranger`
