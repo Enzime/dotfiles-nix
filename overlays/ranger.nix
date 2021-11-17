@@ -15,8 +15,8 @@ self: super: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
         name = "fix-ctrl-arrows.patch";
-        url = "https://github.com/Enzime/ranger/commit/02d8c8f8500d46490d6724f92cf4e8ea89888d75.patch";
-        sha256 = "sha256-P48pn4vZgwW5JOhRm07a0/57+pNwpL+0JMDeyV9BRXg=";
+        url = "https://github.com/Enzime/ranger/commit/9e60541f3e360e2019d0b671852249771b843761.patch";
+        sha256 = "sha256-R3Qia9++n8SC/fG72GwLYbjwmx/oyEm5BfC2/6nziqI=";
       })
     ];
   });
