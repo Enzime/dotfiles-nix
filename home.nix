@@ -36,6 +36,11 @@ in {
     robots=off
   '';
 
+  programs.aria2.enable = true;
+  programs.aria2.settings = {
+    continue = true;
+  };
+
   xdg.userDirs = {
     enable = true;
     desktop = "\$HOME";
