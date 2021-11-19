@@ -1,3 +1,4 @@
+- Disabled `VSCode` automatically checking for updates as the version is managed by `nixpkgs`
 - Updated `ranger` patch to work when `TERM_PROGRAM` (from `xterm.js`) is not set
 - Added `<C-right>` and `<C-l>` binding in `ranger` to execute `:backup_edit`
 - Added `:backup_edit` `ranger` command to allow editing symlinks created by `home-manager`
