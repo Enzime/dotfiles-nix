@@ -104,7 +104,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrValues {
-        inherit (modules) fonts gnome i3 laptop;
+        inherit (modules) cosmic fonts gnome i3 laptop;
       };
     }
     {
@@ -113,7 +113,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrValues {
-        inherit (modules) duckdns fonts gaming gnome cosmic i3 samba thunar;
+        inherit (modules) cosmic duckdns fonts gaming gnome i3 samba thunar;
       };
     }
     {
