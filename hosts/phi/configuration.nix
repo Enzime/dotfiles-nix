@@ -31,17 +31,20 @@
 
   services.xserver.xrandrHeads = [ {
     output = "DisplayPort-1";
-    primary = true;
     monitorConfig = ''
-      ModeLine "1920x1080@239.8"  594.27  1920 1948 1980 2040  1080 1137 1145 1215 +hsync -vsync
-      Option "Rotate" "right"
-      Option "PreferredMode" "1920x1080@239.8"
+      ModeLine "2560x1440@165.08"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
+      Option "PreferredMode" "2560x1440@165.08"
+      Option "Rotate" "left"
     '';
   }
   {
-    output = "DisplayPort-2";
+    output = "DisplayPort-0";
+    primary = true;
     monitorConfig = ''
-      Option "RightOf" "DisplayPort-1"
+      ModeLine "2560x1440@165.08"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
+      Option "PreferredMode" "2560x1440@165.08"
+      Option "RightOf" "DisplayPort-0"
+      Option "Position" "1440 660"
     '';
   } ];
 

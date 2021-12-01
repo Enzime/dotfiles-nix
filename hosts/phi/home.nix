@@ -15,11 +15,9 @@ in {
   xsession.windowManager.i3.extraConfig = ''
     workspace 101 output DisplayPort-1
     workspace 201 output DisplayPort-0
-    workspace 301 output DisplayPort-2
 
     exec --no-startup-id i3 workspace 101
     exec --no-startup-id i3 workspace 201
-    exec --no-startup-id i3 workspace 301
   '';
 
   services.polybar = {
@@ -32,16 +30,10 @@ in {
       "bar/centre" = {
         monitor = "DisplayPort-0";
       };
-
-      "bar/right" = {
-        "inherit" = "bar/base";
-        monitor = "DisplayPort-2";
-      };
     };
     script = mkForce ''
       polybar left &
       polybar centre &
-      polybar right &
     '';
   };
 
