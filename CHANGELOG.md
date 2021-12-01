@@ -1,3 +1,4 @@
+- Changed `phi` to use `pipewire` instead of `pulseaudio`
 - Changed to new dual 27" monitor setup on `phi`
 - Removed 34" ultrawide monitor from `phi`
 - Fixed `gdm` going to sleep despite NixOS configuration setting
