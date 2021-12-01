@@ -1,3 +1,5 @@
+- Removed 34" ultrawide monitor from `phi`
+- Fixed `gdm` going to sleep despite NixOS configuration setting
 - Added `discord` on `delta`
 - Added `aria2`
 - Disabled `VSCode` automatically checking for updates as the version is managed by `nixpkgs`
