@@ -47,7 +47,8 @@
         "${mod}+Return" = "exec ${pkgs.termite}/bin/termite";
         "${mod}+Shift+Return" = "exec ${pkgs.termite}/bin/termite --name floating";
 
-        "Mod4+l" = "exec loginctl lock-session";
+        # When pressing the keybinding too fast, `i3lock` will turn the screen back on
+        "Mod4+l" = "--release exec ${pkgs.xorg.xset}/bin/xset dpms force off";
         "Mod4+e" = "exec ${pkgs.shutdown-menu} -p rofi -c";
 
         "Control+Shift+2" = "exec bash -c '${maim} -i $(${xdotool} getactivewindow) ${screenshotFilename}'";

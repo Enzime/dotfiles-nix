@@ -1,3 +1,4 @@
+- Fixed locking screen not turning off displays
 - Changed `phi` to use `pipewire` instead of `pulseaudio`
 - Changed to new dual 27" monitor setup on `phi`
 - Removed 34" ultrawide monitor from `phi`
