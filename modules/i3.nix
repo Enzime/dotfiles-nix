@@ -1,11 +1,20 @@
 {
   nixosModule = { ... }: {
     services.xserver.windowManager.i3.enable = true;
+
+    # Allows storage devices to be controlled over D-Bus
+    services.udisks2.enable = true;
+    # Used as an abstraction over udisk2 by file managers
+    services.gvfs.enable = true;
+
+    # Some D-Bus errors were occuring on `switch` without this line
+    programs.dconf.enable = true;
   };
 
   hmModule = { pkgs, lib, configRevision, options, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) fira-mono font-awesome;
+      inherit (pkgs.xfce) thunar;
     };
 
     xsession.windowManager.i3.enable = true;
@@ -14,6 +23,7 @@
     services.redshift.enable = true;
     services.polybar.enable = true;
     services.screen-locker.enable = true;
+    services.udiskie.enable = true;
 
     xsession.windowManager.i3.config = {
       bars = [ ];

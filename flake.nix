@@ -113,7 +113,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrValues {
-        inherit (modules) cosmic duckdns fonts gaming gnome i3 samba thunar;
+        inherit (modules) cosmic duckdns fonts gaming gnome i3 samba;
       };
     }
     {
