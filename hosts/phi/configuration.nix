@@ -38,7 +38,6 @@
     monitorConfig = ''
       ModeLine "2560x1440@165.08"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
       Option "PreferredMode" "2560x1440@165.08"
-      Option "Rotate" "left"
     '';
   }
   {

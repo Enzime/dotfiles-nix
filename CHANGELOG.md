@@ -1,3 +1,4 @@
+- Changed left monitor to be landscape
 - Merged `thunar` module into `i3` module until a proper module inheritance system
 - Fixed locking screen not turning off displays
 - Changed `phi` to use `pipewire` instead of `pulseaudio`
