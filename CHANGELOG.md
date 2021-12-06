@@ -1,3 +1,4 @@
+- Use `mpv` from `nixos-unstable` as it uses `yt-dlp` instead of `youtube-dl`
 - Fixed `flakify` misspelling
 - Added `gRs` and `gRh` aliases
 - Changed left monitor to be landscape

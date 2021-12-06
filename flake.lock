@@ -170,7 +170,7 @@
         "unstable": "unstable"
       },
       "locked": {
-        "narHash": "sha256-9+fIbZGR8wSCfvy8iH8R6HjcaCxr+2djVKGP32yJIlo=",
+        "narHash": "sha256-v7wIQL9KLA/aRjfPPv5i0yZPc6Xrk7dal1PWcS3LP5A=",
         "path": "overlays/nixpkgs",
         "type": "path"
       },

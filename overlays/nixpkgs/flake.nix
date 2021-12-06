@@ -3,6 +3,7 @@
 
   outputs = { self, unstable }: {
     overlay = final: prev: {
+      mpv = unstable.legacyPackages.x86_64-linux.mpv;
       neovim = unstable.legacyPackages.x86_64-linux.neovim;
     };
   };
