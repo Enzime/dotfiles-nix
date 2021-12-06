@@ -1,3 +1,4 @@
+- Fixed `flakify` misspelling
 - Added `gRs` and `gRh` aliases
 - Changed left monitor to be landscape
 - Merged `thunar` module into `i3` module until a proper module inheritance system
