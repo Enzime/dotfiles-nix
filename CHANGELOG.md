@@ -1,3 +1,4 @@
+- Added `gRs` and `gRh` aliases
 - Changed left monitor to be landscape
 - Merged `thunar` module into `i3` module until a proper module inheritance system
 - Fixed locking screen not turning off displays
@@ -143,7 +144,7 @@
 - Added `.gitkeep` to ensure the `using` folder exists after initial checkout
 - Moved `shutdown-menu.sh` to `overlays/shutdown-menu.nix` and manually patch the `PATH` to include `rofi` for NixOS
 - Renamed `gpd` to `gpx` to be more inline with the other `--delete` aliases
-- Added `gaf` and `gtx` alias
+- Added `gaf` and `gtx` aliases
 - Added empty `zeta.nix`
 - Disabled advice about adding ignored files to `git`
 - Moved `nixpkgs.overlays` to individual files in `overlays/` so `nix-env` will pick up the overlays as well

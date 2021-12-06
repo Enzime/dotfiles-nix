@@ -342,6 +342,8 @@ in {
       gF = "git fetch";
       gln = "gl -n";
       gpx = "gp --delete";
+      gRh = "git reset --hard";
+      gRs = "git reset --soft";
       gRv = "gR -v";
       gs = "git status";
       gss = "git stash save -p";
