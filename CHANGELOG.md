@@ -1,3 +1,4 @@
+- Fixed `:w` broken in `vscode-neovim`
 - Fixed `use flake` not using the flake specified by using `nix-direnv` from `nixos-unstable`
 - Changed `nixpkgs` to `cosmic` branch to make `--override-input` optional
 - Use `mpv` from `nixos-unstable` as it uses `yt-dlp` instead of `youtube-dl`
