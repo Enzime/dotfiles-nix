@@ -1,0 +1,152 @@
+function ga {
+  if [[ -z $1 ]]; then
+    git add -p
+  else
+    git add $@
+  fi
+}
+
+function gbfm {
+  if [[ ! -z $3 ]]; then
+    start=$3
+  elif [[ $(git rev-parse --abbrev-ref HEAD) == "HEAD" ]]; then
+    start=HEAD
+  elif git remote get-url upstream >/dev/null 2>&1; then
+    start=upstream
+  elif git remote get-url origin >/dev/null 2>&1; then
+    start=origin
+  else
+    echo "Unknown start point"
+    return 1
+  fi
+
+  git switch --no-track $1 $2 $start
+}
+
+function gfc {
+  git clone $@ || return 1
+  cd ./*(/om[1]) || return 1
+  default_branch=$(git branch --show-current)
+  git checkout origin || return 1
+  git branch --delete $default_branch || return 1
+}
+
+function gps {
+  branch=$(git rev-parse --abbrev-ref HEAD) || return 1
+
+  if git remote get-url fork >/dev/null 2>&1; then
+    remote=fork
+  elif git remote get-url origin >/dev/null 2>&1; then
+    remote=origin
+  elif [[ -z $1 ]]; then
+    remote=$1
+  else
+    echo "No remote specified"
+    return 1
+  fi
+
+  if [[ $branch != "HEAD" ]]; then
+    git push --set-upstream $remote $branch
+  else
+    echo "Not on a branch"
+    return 1
+  fi
+}
+
+function gt {
+  git --no-pager diff --binary --no-color | grep -i '^\+.*todo'
+}
+
+function gts {
+  git --no-pager diff --binary --no-color --cached | grep -i '^\+.*todo'
+}
+
+function gtu {
+  git --no-pager diff --binary --no-color ${1:-origin/master}...${2:-HEAD} | grep -i '^\+.*todo'
+}
+
+# https://github.com/nix-community/nix-direnv#shell-integration
+nixify() {
+  if [ ! -e ./.envrc ]; then
+    echo "use nix" > .envrc
+    direnv allow
+  fi
+  if [[ ! -e shell.nix ]]; then
+    cat > shell.nix <<'EOF'
+with import <nixpkgs> {};
+mkShell {
+  nativeBuildInputs = [
+    bashInteractive
+  ];
+}
+EOF
+    ${EDITOR:-vim} shell.nix
+  fi
+}
+
+flakify() {
+  if [ ! -e flake.nix ]; then
+    nix flake new -t github:nix-community/nix-direnv .
+  elif [ ! -e .envrc ]; then
+    echo "use flake" > .envrc
+    direnv allow
+  fi
+  ${EDITOR:-vim} flake.nix
+}
+
+function ranger-cd {
+  tempfile=$(mktemp)
+  \ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+  test -f "$tempfile" &&
+  if [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
+      cd -- "$(cat "$tempfile")"
+  fi
+  rm -f -- "$tempfile"
+}
+
+function carry-ranger {
+  \ranger < $TTY
+  VISUAL=true zle edit-command-line
+}
+
+function carry-ranger-cd {
+  ranger-cd
+  VISUAL=true zle edit-command-line
+}
+
+function peco_select_history() {
+  local peco
+  [[ -z "$LBUFFER" ]] && peco="peco" || peco='peco --query "$LBUFFER"'
+  BUFFER=$(fc -l -n 1 | tac | eval $peco)
+  CURSOR=$#BUFFER         # move cursor
+  zle -R -c               # refresh
+}
+
+zle -N peco_select_history
+bindkey '^R' peco_select_history
+bindkey -r '^S'
+
+autoload -z edit-command-line
+zle -N edit-command-line
+
+zle -N carry-ranger
+zle -N carry-ranger-cd
+
+bindkey '^E^E' edit-command-line
+bindkey '^Er' carry-ranger
+bindkey '^Ec' carry-ranger-cd
+bindkey -s ',R' 'source ~/.zshrc^M'
+
+bindkey -r '^[OA'
+bindkey -r '^[OB'
+
+# Allow using `#`, `~` and `^` without escape
+unsetopt EXTENDED_GLOB
+
+if [ -z "$__ZSHRC_SOURCED" ]; then
+  unalias gfc
+fi
+
+export __ZSHRC_SOURCED=1
+
+. ~/.zshrc.secrets

@@ -1,3 +1,5 @@
+- Removed `Up/Down` keybindings in `zsh`
+- Extracted multiple files out of `home.nix` for syntax highlighting when editing
 - Replaced deprecated `i3ws-*` `polybar` commands with `#i3.*`
 - Changed the system tray to show up on `phi`'s left monitor
 - Changed `phi`'s left monitor to be the primary monitor
