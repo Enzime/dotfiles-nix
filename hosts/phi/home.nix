@@ -25,18 +25,18 @@ in {
 
   services.polybar = {
     config = {
-      "bar/left" = {
-        "inherit" = "bar/base";
+      "bar/centre" = {
         monitor = "DisplayPort-1";
       };
 
-      "bar/centre" = {
+      "bar/right" = {
+        "inherit" = "bar/base";
         monitor = "DisplayPort-0";
       };
     };
     script = mkForce ''
-      polybar left &
       polybar centre &
+      polybar right &
     '';
   };
 

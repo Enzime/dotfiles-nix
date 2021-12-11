@@ -1,3 +1,5 @@
+- Replaced deprecated `i3ws-*` `polybar` commands with `#i3.*`
+- Changed the system tray to show up on `phi`'s left monitor
 - Changed `phi`'s left monitor to be the primary monitor
 - Fixed incorrect `position` for `phi`'s right monitor as the left monitor is now landscape
 - Removed `nixpkgs` overlay as we are back on `nixos-unstable`

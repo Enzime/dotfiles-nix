@@ -217,8 +217,8 @@
         module-margin-left = 2;
         module-margin-right = 2;
 
-        scroll-up = "i3wm-wsprev";
-        scroll-down = "i3wm-wsnext";
+        scroll-up = "#i3.prev";
+        scroll-down = "#i3.next";
       };
 
       "bar/centre" = {
