@@ -1,5 +1,6 @@
+- Removed `nixpkgs` overlay as we are back on `nixos-unstable`
 - Changed `assert` guard on `experimental-features` to fail every time a new version of Nix comes out
-- Only override `vscode-extensions.asvetliakov.vscode-neovim` if `nixpkgs` is using an older version
+- Changed `vscode-extensions` overlay to only override `asvetliakov.vscode-neovim` if `nixpkgs` is using an older version
 - Removed `zsh` overlay as the patch is already included on `nixos-unstable`
 - Use `nix` instead of `nixFlakes` now that 2.4 is out
 - Added `1password` to `i3` startup commands for every host
