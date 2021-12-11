@@ -1,3 +1,5 @@
+- Changed `unstable` to allow `unfree` packages
+- Use `_1password-gui` from `unstable`
 - Fixed `:w` broken in `vscode-neovim`
 - Fixed `use flake` not using the flake specified by using `nix-direnv` from `nixos-unstable`
 - Changed `nixpkgs` to `cosmic` branch to make `--override-input` optional

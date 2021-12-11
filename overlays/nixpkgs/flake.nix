@@ -1,11 +1,14 @@
 {
   inputs.unstable.url = github:NixOS/nixpkgs/nixos-unstable;
 
-  outputs = { self, unstable }: {
+  outputs = { self, unstable }: let
+    pkgs = import unstable { system = "x86_64-linux"; config.allowUnfree = true; };
+  in {
     overlay = final: prev: {
-      mpv = unstable.legacyPackages.x86_64-linux.mpv;
-      neovim = unstable.legacyPackages.x86_64-linux.neovim;
-      nix-direnv = unstable.legacyPackages.x86_64-linux.nix-direnv;
+      _1password-gui = pkgs._1password-gui;
+      mpv = pkgs.mpv;
+      neovim = pkgs.neovim;
+      nix-direnv = pkgs.nix-direnv;
     };
   };
 }

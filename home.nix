@@ -18,7 +18,6 @@ in {
     experimental-features = nix-command flakes
   '');
 
-
   # Allow fonts to be specified in `home.packages`
   fonts.fontconfig.enable = true;
 
