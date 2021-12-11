@@ -28,12 +28,6 @@
     flakeOverlays = attrNames (filterAttrs (_: type: type == "directory") (readDir ./overlays));
     importedFlakeOverlays = map (name: getAttrFromPath [ "overlays/${name}" "overlay" ] inputs) flakeOverlays;
 
-    pkgs = import nixpkgs {
-      system = "x86_64-linux";
-      config.allowUnfree = true;
-      overlays = importedRegularOverlays ++ importedFlakeOverlays;
-    };
-
     modules = mapAttrs' (
       filename: _: nameValuePair
         (removeSuffix ".nix" filename)
@@ -43,6 +37,12 @@
     mkConfigurations = configs: foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
     mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, modules }:
     let
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = importedRegularOverlays ++ importedFlakeOverlays;
+      };
+
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modules);
       hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modules);

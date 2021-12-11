@@ -1,3 +1,4 @@
+- Replaced all hardcoded `x86_64-linux` uses with `system` variable
 - Changed `unstable` to allow `unfree` packages
 - Use `_1password-gui` from `unstable`
 - Fixed `:w` broken in `vscode-neovim`
