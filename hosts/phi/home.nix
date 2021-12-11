@@ -12,13 +12,16 @@ in {
     #TabsToolbar { visibility: collapse !important; }
   '';
 
-  xsession.windowManager.i3.extraConfig = ''
-    workspace 101 output DisplayPort-1
-    workspace 201 output DisplayPort-0
+  xsession.windowManager.i3.config.startup = [
+    { command = "signal-desktop"; always = true; }
+    { command = "i3 workspace 101"; notification = false; }
+    { command = "i3 workspace 201"; notification = false; }
+  ];
 
-    exec --no-startup-id i3 workspace 101
-    exec --no-startup-id i3 workspace 201
-  '';
+  xsession.windowManager.i3.config.workspaceOutputAssign = [
+    { workspace = "101"; output = "DisplayPort-1"; }
+    { workspace = "201"; output = "DisplayPort-0"; }
+  ];
 
   services.polybar = {
     config = {

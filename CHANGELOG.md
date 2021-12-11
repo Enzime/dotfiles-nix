@@ -1,3 +1,11 @@
+- Changed `assert` guard on `experimental-features` to fail every time a new version of Nix comes out
+- Only override `vscode-extensions.asvetliakov.vscode-neovim` if `nixpkgs` is using an older version
+- Removed `zsh` overlay as the patch is already included on `nixos-unstable`
+- Use `nix` instead of `nixFlakes` now that 2.4 is out
+- Added `1password` to `i3` startup commands for every host
+- Changed `signal-desktop` to only start up on `phi`
+- Removed usage of `i3.extraConfig`
+- Changed to `nixos-unstable` for `i3.config.workspaceOutputAssign`
 - Replaced all hardcoded `x86_64-linux` uses with `system` variable
 - Changed `unstable` to allow `unfree` packages
 - Use `_1password-gui` from `unstable`
@@ -52,7 +60,7 @@
 - Removed patch required for building `steam`
 - Added `nixpkgs` patch to fix building `steam`
 - Use `flake-utils-plus.lib.patchChannel` to patch Nixpkgs
-- Converted `nix` `overlay` into a flake to allow overriding the `Nix` package with local sources
+- Converted `nix` overlay into a flake to allow overriding the `Nix` package with local sources
 - Fixed building when one or more inputs are overridden with `--override-input`
 - Fixed typo in `nix build` command for `nixosConfigurations`
 - Added initial `delta` NixOS configs

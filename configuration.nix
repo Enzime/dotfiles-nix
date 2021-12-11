@@ -1,9 +1,8 @@
-{ config, configRevision, pkgs, ... }:
+{ config, configRevision, pkgs, lib, ... }:
 
 {
-  # Ensure that the current stable version of Nix is not yet 2.4
-  nix.package = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; pkgs.nixFlakes);
-  nix.extraOptions = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; ''
+  # Ensure current version of Nix is exactly 2.4
+  nix.extraOptions = (assert (lib.hasPrefix "2.4-" pkgs.nix.version); ''
     experimental-features = nix-command flakes
   '');
 

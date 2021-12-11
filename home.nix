@@ -1,20 +1,18 @@
 { pkgs, lib, ... }:
 
 let
-  inherit (lib) attrByPath mkIf mkMerge readFile;
+  inherit (lib) attrByPath hasPrefix mkIf mkMerge readFile versionOlder;
 in {
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
   home.packages = builtins.attrValues {
-    # Necessary for non-NixOS systems which won't have the flakiest version of Nix
-    nixFlakes = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; pkgs.nixFlakes);
-
     inherit (pkgs) peco ripgrep jq htop ranger;
 
     inherit (pkgs) _1password-gui qalculate-gtk pavucontrol;
   };
 
-  xdg.configFile."nix/nix.conf".text = (assert (builtins.compareVersions pkgs.nix.version "2.4") < 0; ''
+  # Ensure current version of Nix is exactly 2.4
+  xdg.configFile."nix/nix.conf".text = (assert (hasPrefix "2.4-" pkgs.nix.version); ''
     experimental-features = nix-command flakes
   '');
 
@@ -354,7 +352,6 @@ in {
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
-  programs.direnv.nix-direnv.enableFlakes = true;
 
   programs.neovim = {
     enable = true;

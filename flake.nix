@@ -1,6 +1,6 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/cosmic;
-  inputs.home-manager.url = github:nix-community/home-manager/release-21.05;
+  inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
   inputs."overlays/paperwm".url = path:overlays/paperwm;

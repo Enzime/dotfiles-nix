@@ -6,7 +6,7 @@
 
   outputs = { self, nixpkgs, inheritedNix, nix, flake-utils }: {
     overlay = final: prev: {
-      nixFlakes = assert (builtins.compareVersions prev.nix.version "2.4") < 0; prev.nixFlakes.overrideAttrs (old:
+      nix = prev.nix.overrideAttrs (old:
         # `inheritedNix` and `nix` should always have the same NAR hash
         # except when `inheritedNix` is overridden using `--override-input nix ...`
         if (inheritedNix.narHash != nix.narHash) then {
@@ -28,9 +28,9 @@
     };
   } // (
     flake-utils.lib.eachDefaultSystem (system: {
-      packages.nixFlakes = (import nixpkgs { inherit system; overlays = [ self.overlay ]; }).nixFlakes;
+      packages.nix = (import nixpkgs { inherit system; overlays = [ self.overlay ]; }).nix;
 
-      defaultPackage = self.packages.${system}.nixFlakes;
+      defaultPackage = self.packages.${system}.nix;
     })
   );
 }

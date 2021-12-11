@@ -29,7 +29,7 @@
       bars = [ ];
       startup = [
         { command = "systemctl --user restart polybar"; always = true; notification = false; }
-        { command = "signal-desktop"; }
+        { command = "1password"; notification = false; }
       ];
 
       window = {
@@ -381,10 +381,7 @@
     };
 
     services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
-    systemd.user.services.xautolock-session = (
-      assert (!lib.hasAttrByPath [ "services" "screen-locker" "xautolock" "enable" ] options);
-      lib.mkForce {}
-    );
+    services.screen-locker.xautolock.enable = false;
 
     systemd.user.services.pantheon-polkit-agent = {
       Unit = {
