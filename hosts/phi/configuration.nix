@@ -35,6 +35,7 @@
 
   services.xserver.xrandrHeads = [ {
     output = "DisplayPort-1";
+    primary = true;
     monitorConfig = ''
       ModeLine "2560x1440@165.08"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
       Option "PreferredMode" "2560x1440@165.08"
@@ -42,12 +43,10 @@
   }
   {
     output = "DisplayPort-0";
-    primary = true;
     monitorConfig = ''
       ModeLine "2560x1440@165.08"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
       Option "PreferredMode" "2560x1440@165.08"
       Option "RightOf" "DisplayPort-0"
-      Option "Position" "1440 660"
     '';
   } ];
 

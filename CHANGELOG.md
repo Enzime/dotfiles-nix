@@ -1,3 +1,5 @@
+- Changed `phi`'s left monitor to be the primary monitor
+- Fixed incorrect `position` for `phi`'s right monitor as the left monitor is now landscape
 - Removed `nixpkgs` overlay as we are back on `nixos-unstable`
 - Changed `assert` guard on `experimental-features` to fail every time a new version of Nix comes out
 - Changed `vscode-extensions` overlay to only override `asvetliakov.vscode-neovim` if `nixpkgs` is using an older version
@@ -16,7 +18,7 @@
 - Use `mpv` from `nixos-unstable` as it uses `yt-dlp` instead of `youtube-dl`
 - Fixed `flakify` misspelling
 - Added `gRs` and `gRh` aliases
-- Changed left monitor to be landscape
+- Changed `phi`'s left monitor to be landscape
 - Merged `thunar` module into `i3` module until a proper module inheritance system
 - Fixed locking screen not turning off displays
 - Changed `phi` to use `pipewire` instead of `pulseaudio`
