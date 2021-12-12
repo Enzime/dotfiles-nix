@@ -158,6 +158,7 @@ in {
       gbu = "git branch --set-upstream-to";
       gbv = "git branch -vv";
       gca = "git commit --amend";
+      gcf = "git commit --fixup";
       gco = "git checkout --patch";
       gcpa = "git cherry-pick --abort";
       gcpc = "git cherry-pick --continue";

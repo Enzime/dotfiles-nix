@@ -1,3 +1,5 @@
+- Removed `gcfS`, `gcF`, `gcFS` and `gr` aliases
+- Changed `gcf` alias to `git commit --fixup`
 - Fixed `shairport-sync` and `rpiplay` on `phi`
 - Changed `flake-utils-plus` to also generate `NIX_PATH` for `nixos-generators` and `comma`
 - Removed `Up/Down` keybindings in `zsh`

@@ -144,7 +144,11 @@ bindkey -r '^[OB'
 unsetopt EXTENDED_GLOB
 
 if [ -z "$__ZSHRC_SOURCED" ]; then
+  unalias gcfS
+  unalias gcF
+  unalias gcFS
   unalias gfc
+  unalias gr
 fi
 
 export __ZSHRC_SOURCED=1
