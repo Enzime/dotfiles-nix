@@ -37,4 +37,13 @@
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
+
+  # Taken directly from:
+  # https://github.com/NixOS/nixpkgs/blob/HEAD/nixos/modules/services/networking/shairport-sync.nix#L74-L93
+  services.avahi.enable = true;
+  services.avahi.publish.enable = true;
+  services.avahi.publish.userServices = true;
+
+  networking.firewall.allowedTCPPorts = [ 5000 ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 6001; to = 6011; } ];
 }

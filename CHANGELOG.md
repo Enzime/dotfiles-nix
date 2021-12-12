@@ -1,3 +1,4 @@
+- Fixed `shairport-sync` and `rpiplay` on `phi`
 - Changed `flake-utils-plus` to also generate `NIX_PATH` for `nixos-generators` and `comma`
 - Removed `Up/Down` keybindings in `zsh`
 - Extracted multiple files out of `home.nix` for syntax highlighting when editing
