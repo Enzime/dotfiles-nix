@@ -63,6 +63,7 @@
 
             # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
             nix.linkInputs = true;
+            nix.generateNixPathFromInputs = true;
             nix.generateRegistryFromInputs = true;
           })
           flake-utils-plus.nixosModules.autoGenFromInputs
