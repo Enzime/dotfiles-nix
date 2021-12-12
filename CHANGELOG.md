@@ -1,3 +1,5 @@
+- Fixed `sudo` outputting its args as part of the command not found
+- Use `nix-index` to provide `command-not-found` functionality
 - Changed `,R` to `<C-e><C-r>` to make `,` nicer to type
 - Added `comma`
 - Use `github:Enzime/nixpkgs/localhost` for both `cosmic` and `systemd-boot-extra-entries`

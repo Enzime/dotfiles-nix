@@ -143,7 +143,7 @@ in {
 
     shellAliases = {
       _ = "\\sudo ";
-      sudo = "echo \"zsh: command not found: sudo\"";
+      sudo = "printf \"zsh: command not found: sudo\\n\"";
 
       ls = "ls -F --color=auto";
       mkdir = "mkdir -p";  # the only thing that was useful from the `utility` module
@@ -183,14 +183,14 @@ in {
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
 
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
-    # Adding `vim-plug` to `plugins` does not load it, just source it directly instead
-    extraConfig = ''
-      source ${pkgs.vimPlugins.vim-plug.rtp}/plug.vim
-    '' + readFile ./files/init.vim;
-  };
+  programs.nix-index.enable = true;
+
+  programs.neovim.enable = true;
+  programs.neovim.vimAlias = true;
+  # Adding `vim-plug` to `plugins` does not load it, just source it directly instead
+  programs.neovim.extraConfig = ''
+    source ${pkgs.vimPlugins.vim-plug.rtp}/plug.vim
+  '' + readFile ./files/init.vim;
 
   programs.vscode = {
     enable = true;
