@@ -6,7 +6,7 @@ in {
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
   home.packages = builtins.attrValues {
-    inherit (pkgs) peco ripgrep jq htop ranger;
+    inherit (pkgs) peco ripgrep jq htop ranger comma;
 
     inherit (pkgs) _1password-gui qalculate-gtk pavucontrol;
   };

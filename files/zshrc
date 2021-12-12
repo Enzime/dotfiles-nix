@@ -135,7 +135,7 @@ zle -N carry-ranger-cd
 bindkey '^E^E' edit-command-line
 bindkey '^Er' carry-ranger
 bindkey '^Ec' carry-ranger-cd
-bindkey -s ',R' 'source ~/.zshrc^M'
+bindkey -s '^E^R' 'source ~/.zshrc^M'
 
 bindkey -r '^[OA'
 bindkey -r '^[OB'

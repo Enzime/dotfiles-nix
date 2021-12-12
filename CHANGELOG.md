@@ -1,3 +1,5 @@
+- Changed `,R` to `<C-e><C-r>` to make `,` nicer to type
+- Added `comma`
 - Use `github:Enzime/nixpkgs/localhost` for both `cosmic` and `systemd-boot-extra-entries`
 - Added `netboot.xyz` to boot menu
 - Removed `gcfS`, `gcF`, `gcFS` and `gr` aliases
