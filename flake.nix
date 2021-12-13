@@ -16,7 +16,7 @@
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
-    inherit (nixpkgs.lib) attrValues foldr filterAttrs getAttrFromPath hasSuffix mapAttrs' mapAttrsToList mkIf nameValuePair recursiveUpdate removeSuffix;
+    inherit (nixpkgs.lib) attrValues foldr filterAttrs getAttrFromPath hasSuffix mapAttrs' mapAttrsToList mkIf nameValuePair optional recursiveUpdate removeSuffix;
 
     importFrom = path: filename: import (path + ("/" + filename));
 
@@ -45,7 +45,7 @@
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modules);
       hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modules);
-      home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules;
+      home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules ++ optional (!nixos) ./modules/non-nixos.nix;
 
       configRevision = {
         full = if (self ? rev) then self.rev else if (self ? dirtyRev) then self.dirtyRev else "dirty-inputs";

@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-  inherit (lib) attrByPath hasPrefix mkIf mkMerge readFile versionOlder;
+  inherit (lib) attrByPath hasPrefix mkIf mkMerge readFile;
 in {
   # Replace `with pkgs;` with `inherit (pkgs)`
   # https://nix.dev/anti-patterns/language#with-attrset-expression
