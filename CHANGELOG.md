@@ -1,3 +1,4 @@
+- Removed `<C-t>` binding in `ranger` in favour of explicit `t<dir>` binds
 - Removed alias escaping when calling `ranger`
 - Removed `ranger` alias to execute `ranger-cd`
 - Added `sr` alias for `sudo ranger`
