@@ -169,6 +169,7 @@ in {
       gF = "git fetch";
       gln = "gl -n";
       gpx = "gp --delete";
+      grias = "gri --autostash";
       gRh = "git reset --hard";
       gRs = "git reset --soft";
       gRv = "gR -v";
