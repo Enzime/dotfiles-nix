@@ -1,3 +1,4 @@
+- Fixed clipboard not working in `neovim`
 - Added `non-nixos` `home-manager` module
 - Fixed non-NixOS not using patched Nix
 - Fixed `sudo` outputting its args as part of the command not found

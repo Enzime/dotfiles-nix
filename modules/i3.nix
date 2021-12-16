@@ -13,7 +13,7 @@
 
   hmModule = { pkgs, lib, configRevision, options, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) fira-mono font-awesome;
+      inherit (pkgs) xclip fira-mono font-awesome;
       inherit (pkgs.xfce) thunar;
     };
 
