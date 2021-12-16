@@ -15,7 +15,7 @@
   i18n.defaultLocale = "en_AU.UTF-8";
 
   environment.systemPackages = builtins.attrValues {
-    inherit (pkgs) wget ranger firefox;
+    inherit (pkgs) wget ranger firefox spotify;
   };
 
   programs.zsh.enable = true;
