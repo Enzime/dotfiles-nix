@@ -1,3 +1,6 @@
+- Removed alias escaping when calling `ranger`
+- Removed `ranger` alias to execute `ranger-cd`
+- Added `sr` alias for `sudo ranger`
 - Fixed clipboard not working in `neovim`
 - Added `non-nixos` `home-manager` module
 - Fixed non-NixOS not using patched Nix

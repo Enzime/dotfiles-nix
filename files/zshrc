@@ -96,7 +96,7 @@ flakify() {
 
 function ranger-cd {
   tempfile=$(mktemp)
-  \ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+  ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
   test -f "$tempfile" &&
   if [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
       cd -- "$(cat "$tempfile")"
@@ -105,7 +105,7 @@ function ranger-cd {
 }
 
 function carry-ranger {
-  \ranger < $TTY
+  ranger < $TTY
   VISUAL=true zle edit-command-line
 }
 

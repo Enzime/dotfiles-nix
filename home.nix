@@ -149,7 +149,7 @@ in {
       mkdir = "mkdir -p";  # the only thing that was useful from the `utility` module
 
       l = "ls -lah";
-      ranger = "ranger-cd";
+      sr = "_ ranger";
 
       gai = "git add --interactive";
       gaf = "git add --force";
