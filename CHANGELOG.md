@@ -1,3 +1,4 @@
+- Added `gsc` alias
 - Added `spotify`
 - Added `grias` alias
 - Removed `<C-t>` binding in `ranger` in favour of explicit `t<dir>` binds

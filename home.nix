@@ -174,6 +174,7 @@ in {
       gRs = "git reset --soft";
       gRv = "gR -v";
       gs = "git status";
+      gsc = "gfc --depth=1";
       gss = "git stash save -p";
       gsS = "git stash save --include-untracked";
       gS = "git show";
