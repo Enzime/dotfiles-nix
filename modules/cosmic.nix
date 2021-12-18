@@ -1,4 +1,6 @@
 {
+  imports = [ "gnome" ];
+
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) pop-control-center pop-launcher;

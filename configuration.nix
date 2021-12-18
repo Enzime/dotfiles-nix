@@ -15,7 +15,7 @@
   i18n.defaultLocale = "en_AU.UTF-8";
 
   environment.systemPackages = builtins.attrValues {
-    inherit (pkgs) wget ranger firefox spotify;
+    inherit (pkgs) wget ranger;
   };
 
   programs.zsh.enable = true;
@@ -27,9 +27,6 @@
   networking.useDHCP = false;
 
   services.openssh.enable = true;
-
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
 
   # On first setup, run `nixos-enter` then `passwd enzime`.
   users.users.enzime = {

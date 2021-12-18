@@ -1,4 +1,6 @@
 {
+  imports = [ "graphical" ];
+
   nixosModule = { ... }: {
     services.xserver.inputClassSections = [ ''
       Identifier    "CTL-472"

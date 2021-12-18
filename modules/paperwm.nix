@@ -1,4 +1,6 @@
 {
+  imports = [ "gnome" ];
+
   hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs.gnomeExtensions) paperwm;

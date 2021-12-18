@@ -1,4 +1,6 @@
 {
+  imports = [ "graphical" ];
+
   nixosModule = { ... }: {
     services.xserver.windowManager.i3.enable = true;
 

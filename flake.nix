@@ -16,7 +16,7 @@
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
-    inherit (nixpkgs.lib) attrValues foldr filterAttrs getAttrFromPath hasSuffix mapAttrs' mapAttrsToList mkIf nameValuePair optional recursiveUpdate removeSuffix;
+    inherit (nixpkgs.lib) concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs' mapAttrsToList mkIf nameValuePair optional recursiveUpdate removeSuffix unique;
 
     importFrom = path: filename: import (path + ("/" + filename));
 
@@ -33,6 +33,12 @@
         (importFrom ./modules filename)
     ) (readDir ./modules);
 
+    modules' = modules;
+
+    getModuleList = a: let
+      imports = if (modules.${a} ? imports) then modules.${a}.imports else [];
+    in if (imports == []) then [a] else [a] ++ unique (concatMap getModuleList imports);
+
     mkConfigurations = configs: foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
     mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, modules }:
     let
@@ -42,10 +48,13 @@
         overlays = importedRegularOverlays ++ importedFlakeOverlays;
       };
 
+      moduleList = unique (concatMap getModuleList modules) ++ optional (!nixos) "non-nixos";
+      modulesToImport = map (name: getAttr name modules') moduleList;
+
       hostname = "${host}${hostSuffix}";
-      nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modules);
-      hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modules);
-      home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules ++ optional (!nixos) ./modules/non-nixos.nix;
+      nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modulesToImport);
+      hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modulesToImport);
+      home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules;
 
       configRevision = {
         full = if (self ? rev) then self.rev else if (self ? dirtyRev) then self.dirtyRev else "dirty-inputs";
@@ -103,8 +112,8 @@
       user = "enzime";
       system = "x86_64-linux";
       nixos = true;
-      modules = builtins.attrValues {
-        inherit (modules) cosmic fonts gnome i3 laptop;
+      modules = builtins.attrNames {
+        inherit (modules) cosmic i3 laptop;
       };
     }
     {
@@ -112,8 +121,8 @@
       user = "enzime";
       system = "x86_64-linux";
       nixos = true;
-      modules = builtins.attrValues {
-        inherit (modules) cosmic duckdns fonts gaming gnome i3 samba;
+      modules = builtins.attrNames {
+        inherit (modules) cosmic duckdns gaming i3 samba;
       };
     }
     {
@@ -121,7 +130,7 @@
       hostSuffix = "endeavour";
       user = "enzime";
       system = "x86_64-linux";
-      modules = builtins.attrValues {
+      modules = builtins.attrNames {
         inherit (modules) i3 work laptop;
       };
     }
@@ -130,7 +139,7 @@
       user = "enzime";
       system = "x86_64-linux";
       nixos = true;
-      modules = builtins.attrValues {
+      modules = builtins.attrNames {
         inherit (modules) gnome work;
       };
     }

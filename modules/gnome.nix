@@ -1,4 +1,6 @@
 {
+  imports = [ "graphical" ];
+
   nixosModule = { ... }: {
     # GNOME runs Wayland by default
     services.xserver.desktopManager.gnome.enable = true;
