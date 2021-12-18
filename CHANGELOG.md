@@ -1,3 +1,5 @@
+- Changed `graphical` to import `ios`
+- Added `ios` module for connecting to iOS devices
 - Moved `editorconfig` `VSCode` extension from `work` module to `home.nix`
 - Changed `non-nixos` module into a regular module
 - Added `graphical` module to be the base of any graphical system
