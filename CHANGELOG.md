@@ -1,3 +1,4 @@
+- Moved `editorconfig` `VSCode` extension from `work` module to `home.nix`
 - Changed `non-nixos` module into a regular module
 - Added `graphical` module to be the base of any graphical system
 - Added `imports` attribute for modules to import other modules recursively

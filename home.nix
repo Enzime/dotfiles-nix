@@ -200,6 +200,7 @@ in {
       pkgs.vscode-extensions.asvetliakov.vscode-neovim
 
       pkgs.vscode-extensions.eamodio.gitlens
+      pkgs.vscode-extensions.editorconfig.editorconfig
       pkgs.vscode-extensions.shardulm94.trailing-spaces
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
       pkgs.vscode-extensions.ms-python.python
