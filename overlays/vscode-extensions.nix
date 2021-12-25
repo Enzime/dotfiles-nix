@@ -5,16 +5,6 @@ let
   inherit (super.vscode-utils) buildVscodeMarketplaceExtension;
 in {
   vscode-extensions = recursiveUpdate super.vscode-extensions {
-    # Only override if version in `nixpkgs` is older
-    asvetliakov.vscode-neovim = (assert versionOlder (getVersion super.vscode-extensions.asvetliakov.vscode-neovim) "0.0.83"; buildVscodeMarketplaceExtension {
-      mktplcRef = {
-        name = "vscode-neovim";
-        publisher = "asvetliakov";
-        version = "0.0.83";
-        sha256 = "1giybf12p0h0fm950w9bwvzdk77771zfkylrqs9h0lhbdzr92qbl";
-      };
-    });
-
     # The `assert` ensures that the extension isn't already present in `nixpkgs`
     ethansk.restore-terminals = (assert (!hasAttrByPath ["ethansk" "restore-terminals"] super.vscode-extensions); buildVscodeMarketplaceExtension {
       mktplcRef = {

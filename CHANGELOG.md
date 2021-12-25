@@ -1,3 +1,8 @@
+- Renamed flake `overlays` to `<name>-overlay` as `/` is not allowed in flake IDs
+- Added `ripgrep` patch to fix `VSCode` not respecting globally ignored `git` files
+- Added `mpv` and `vscode` modules
+- Removed graphical applications from `home.packages` in `base` module
+- Removed `home.nix` and `configuration.nix` in favour of `base` module
 - Changed `graphical` to import `ios`
 - Added `ios` module for connecting to iOS devices
 - Moved `editorconfig` `VSCode` extension from `work` module to `home.nix`

@@ -1,16 +1,21 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
+
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
-  inputs."overlays/paperwm".url = path:overlays/paperwm;
-  inputs."overlays/paperwm".inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
-  inputs."overlays/paperwm".inputs.nixpkgs.follows = "nixpkgs";
-  inputs."overlays/nix".url = path:overlays/nix;
-  inputs."overlays/nix".inputs.inheritedNix.follows = "nix";
-  inputs."overlays/nix".inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
-  inputs."overlays/nix".inputs.nixpkgs.follows = "nixpkgs";
+
   inputs.nix.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.paperwm-overlay.url = path:overlays/paperwm;
+  inputs.paperwm-overlay.inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
+  inputs.paperwm-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.nix-overlay.url = path:overlays/nix;
+  inputs.nix-overlay.inputs.inheritedNix.follows = "nix";
+  inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
+  inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, ... }:
 
@@ -25,7 +30,7 @@
     importedRegularOverlays = mapAttrsToList importOverlay regularOverlays;
 
     flakeOverlays = attrNames (filterAttrs (_: type: type == "directory") (readDir ./overlays));
-    importedFlakeOverlays = map (name: getAttrFromPath [ "overlays/${name}" "overlay" ] inputs) flakeOverlays;
+    importedFlakeOverlays = map (name: getAttrFromPath [ "${name}-overlay" "overlay" ] inputs) flakeOverlays;
 
     modules = mapAttrs' (
       filename: _: nameValuePair
@@ -48,13 +53,13 @@
         overlays = importedRegularOverlays ++ importedFlakeOverlays;
       };
 
-      moduleList = unique (concatMap getModuleList modules) ++ optional (!nixos) "non-nixos";
+      moduleList = unique (concatMap getModuleList (modules ++ [ "base" ] ++ optional (!nixos) "non-nixos"));
       modulesToImport = map (name: getAttr name modules') moduleList;
 
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modulesToImport);
       hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modulesToImport);
-      home = [ ./home.nix ./hosts/${host}/home.nix ] ++ hmModules;
+      home = [ ./hosts/${host}/home.nix ] ++ hmModules;
 
       configRevision = {
         full = if (self ? rev) then self.rev else if (self ? dirtyRev) then self.dirtyRev else "dirty-inputs";
@@ -76,7 +81,6 @@
             nix.generateRegistryFromInputs = true;
           })
           flake-utils-plus.nixosModules.autoGenFromInputs
-          ./configuration.nix
           ./hosts/${host}/configuration.nix
         ] ++ nixosModules ++ [
           home-manager.nixosModules.home-manager {
