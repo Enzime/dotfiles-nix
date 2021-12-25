@@ -25,10 +25,12 @@
     # manually set `useDHCP` for individual interfaces
     networking.useDHCP = false;
 
-    services.openssh.enable = true;
+    security.sudo.extraConfig = ''
+      Defaults rootpw
+    '';
 
-    services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = true;
+    services.openssh.enable = true;
+    services.openssh.permitRootLogin = "prohibit-password";
 
     # On first setup, run `nixos-enter` then `passwd enzime`.
     users.users.enzime = {

@@ -1,3 +1,4 @@
+- Use `root` password for `sudo`
 - Changed `spotify` command to start `spotify-tray`
 - Added `spotify-tray`
 - Renamed flake `overlays` to `<name>-overlay` as `/` is not allowed in flake IDs
