@@ -3,9 +3,9 @@
 
   nixosModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) firefox spotify qalculate-gtk pavucontrol;
+      inherit (pkgs) firefox qalculate-gtk pavucontrol;
 
-      inherit (pkgs) _1password-gui;
+      inherit (pkgs) _1password-gui spotify spotify-tray;
     };
 
     services.xserver.enable = true;

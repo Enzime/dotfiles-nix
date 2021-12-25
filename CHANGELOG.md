@@ -1,3 +1,5 @@
+- Changed `spotify` command to start `spotify-tray`
+- Added `spotify-tray`
 - Renamed flake `overlays` to `<name>-overlay` as `/` is not allowed in flake IDs
 - Added `ripgrep` patch to fix `VSCode` not respecting globally ignored `git` files
 - Added `mpv` and `vscode` modules
