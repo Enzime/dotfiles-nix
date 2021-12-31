@@ -1,3 +1,4 @@
+- Changed `tau` to NixOS
 - Use `root` password for `sudo`
 - Changed `spotify` command to start `spotify-tray`
 - Added `spotify-tray`
@@ -93,7 +94,7 @@
 - Removed `nixpkgs` patching functionality as it cannot handle patching modules
 - Added `firefox-wayland` for use with GNOME
 - Added `jq`
-- Use `home-manager` to manage `xss-lock` instead of `NixOS` module
+- Use `home-manager` to manage `xss-lock` instead of NixOS module
 - Moved `xss-lock` config from `phi` to `i3` module
 - Changed `gdm` on `phi` to never sleep
 - Added `laptop` module with initial touchpad settings

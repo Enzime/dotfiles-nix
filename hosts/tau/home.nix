@@ -16,13 +16,13 @@ in {
   };
 
   xsession.windowManager.i3.config.startup = [
-    { command = "xrandr --output eDP1 --scale '1.6x1.6'"; notification = false; }
+    { command = "xrandr --output eDP-1 --scale '1.6x1.6'"; notification = false; }
     { command = "nm-applet"; notification = false; }
     { command = "slack"; notification = false; }
   ];
 
   xsession.windowManager.i3.config.workspaceOutputAssign = [
-    { workspace = "101"; output = "eDP1"; }
+    { workspace = "101"; output = "eDP-1"; }
   ];
 
   services.polybar = {
@@ -33,7 +33,7 @@ in {
       };
 
       "bar/centre" = {
-        monitor = "eDP1";
+        monitor = "eDP-1";
 
         # scale everything by 2 for HiDPI
         height = 54;

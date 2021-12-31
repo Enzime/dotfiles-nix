@@ -131,11 +131,11 @@
     }
     {
       host = "tau";
-      hostSuffix = "endeavour";
       user = "enzime";
       system = "x86_64-linux";
+      nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) i3 work laptop;
+        inherit (modules) cosmic i3 work laptop;
       };
     }
     {
