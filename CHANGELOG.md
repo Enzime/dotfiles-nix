@@ -1,3 +1,5 @@
+- Changed `VSCode` to never show `.direnv` in the sidebar
+- Use system file chooser instead of `simpleDialog` inside `VSCode`
 - Changed `tau` to NixOS
 - Use `root` password for `sudo`
 - Changed `spotify` command to start `spotify-tray`

@@ -43,8 +43,6 @@
 
       "workbench.colorTheme" = "Monokai";
 
-      "files.simpleDialog.enable" = true;
-
       "editor.codeActionsOnSave" = {
         "source.fixAll" = true;
       };
@@ -55,7 +53,11 @@
       "diffEditor.ignoreTrimWhitespace" = false;
       "trailing-spaces.trimOnSave" = true;
       "trailing-spaces.highlightCurrentLine" = false;
+
       "search.useGlobalIgnoreFiles" = true;
+      "files.exclude" = {
+        "**/.direnv" = true;
+      };
 
       "colorize.include" = [ "*" ];
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
