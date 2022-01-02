@@ -17,7 +17,9 @@
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, ... }:
+  inputs.nixos-hardware.url = github:NixOS/nixos-hardware;
+
+  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, nixos-hardware, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -38,14 +40,12 @@
         (importFrom ./modules filename)
     ) (readDir ./modules);
 
-    modules' = modules;
-
     getModuleList = a: let
       imports = if (modules.${a} ? imports) then modules.${a}.imports else [];
     in if (imports == []) then [a] else [a] ++ unique (concatMap getModuleList imports);
 
     mkConfigurations = configs: foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
-    mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, modules }:
+    mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, extraModules ? [ ], ... }@config:
     let
       pkgs = import nixpkgs {
         inherit system;
@@ -53,8 +53,8 @@
         overlays = importedRegularOverlays ++ importedFlakeOverlays;
       };
 
-      moduleList = unique (concatMap getModuleList (modules ++ [ "base" ] ++ optional (!nixos) "non-nixos"));
-      modulesToImport = map (name: getAttr name modules') moduleList;
+      moduleList = unique (concatMap getModuleList (config.modules ++ [ "base" ] ++ optional (!nixos) "non-nixos"));
+      modulesToImport = map (name: getAttr name modules) moduleList;
 
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modulesToImport);
@@ -93,7 +93,7 @@
             home-manager.users.${user}.imports = home;
             home-manager.extraSpecialArgs = { inherit configRevision; };
           }
-        ];
+        ] ++ extraModules;
         # Required for `flake-utils-plus` to generate stuff
         specialArgs = { inherit inputs configRevision; };
       }; } else { };
@@ -137,6 +137,7 @@
       modules = builtins.attrNames {
         inherit (modules) cosmic i3 work laptop;
       };
+      extraModules = [ nixos-hardware.nixosModules.microsoft-surface ];
     }
     {
       host = "zeta";
