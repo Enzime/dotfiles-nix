@@ -3,16 +3,19 @@
     programs.vscode.enable = true;
     programs.vscode.extensions = [
       pkgs.vscode-extensions.asvetliakov.vscode-neovim
-
       pkgs.vscode-extensions.eamodio.gitlens
+      pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+
       pkgs.vscode-extensions.editorconfig.editorconfig
+      pkgs.vscode-extensions.kamikillerto.vscode-colorize
       pkgs.vscode-extensions.shardulm94.trailing-spaces
+
+      # Language support
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
+      pkgs.vscode-extensions.jnoortheen.nix-ide
       pkgs.vscode-extensions.ms-python.python
       pkgs.vscode-extensions.ms-python.vscode-pylance
-      pkgs.vscode-extensions.jnoortheen.nix-ide
-
-      pkgs.vscode-extensions.kamikillerto.vscode-colorize
+      pkgs.vscode-extensions.xadillax.viml
     ];
     programs.vscode.keybindings = [
       # Fix `C-e` not working in terminal
@@ -35,6 +38,7 @@
     ];
     programs.vscode.userSettings = {
       "update.mode" = "manual";
+      "extensions.autoUpdate" = false;
       "telemetry.telemetryLevel" = "off";
       "workbench.enableExperiments" = false;
       "workbench.settings.enableNaturalLanguageSearch" = false;

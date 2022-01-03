@@ -23,5 +23,14 @@ in {
         sha256 = "04f1sb5rxjwkmidpymhqanv8wvp04pnw66098836dns906p4gldl";
       };
     });
+
+    xadillax.viml = (assert (!hasAttrByPath ["xadillax" "viml"] super.vscode-extensions); buildVscodeMarketplaceExtension {
+      mktplcRef = {
+        name = "viml";
+        publisher = "xadillax";
+        version = "1.0.1";
+        sha256 = "sha256-mzf2PBSbvmgPjchyKmTaf3nASUi5/S9Djpoeh0y8gH0=";
+      };
+    });
   };
 }

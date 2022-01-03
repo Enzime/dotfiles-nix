@@ -1,3 +1,5 @@
+- Added untracked `viml` `VSCode` extension into config
+- Changed `VSCode` to never autoupdate extensions
 - Changed `VSCode` to never show `.direnv` in the sidebar
 - Use system file chooser instead of `simpleDialog` inside `VSCode`
 - Changed `tau` to NixOS
