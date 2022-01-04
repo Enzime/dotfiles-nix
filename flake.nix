@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
 
-  inputs.home-manager.url = github:nix-community/home-manager;
+  inputs.home-manager.url = github:Enzime/home-manager/immutable-extensions-dir;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;

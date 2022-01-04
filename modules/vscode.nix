@@ -1,6 +1,7 @@
 {
   hmModule = { pkgs, ... }: {
     programs.vscode.enable = true;
+    programs.vscode.immutableExtensionsDir = true;
     programs.vscode.extensions = [
       pkgs.vscode-extensions.asvetliakov.vscode-neovim
       pkgs.vscode-extensions.eamodio.gitlens
@@ -39,6 +40,8 @@
     programs.vscode.userSettings = {
       "update.mode" = "manual";
       "extensions.autoUpdate" = false;
+      "extensions.autoCheckUpdates" = false;
+
       "telemetry.telemetryLevel" = "off";
       "workbench.enableExperiments" = false;
       "workbench.settings.enableNaturalLanguageSearch" = false;
