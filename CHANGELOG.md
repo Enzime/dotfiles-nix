@@ -1,3 +1,6 @@
+- Added `eris`
+- Use `user` from `flake.nix` as the default username
+- Use `hostname` generated in `flake.nix`
 - Disabled `VSCode` extension update checks as VSCode can't update the extensions
 - Use immutable `VSCode` extensions directory to ensure it is declaratively managed
 - Added untracked `viml` `VSCode` extension into config

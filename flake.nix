@@ -74,6 +74,8 @@
         modules = [
           ({ ... }: {
             environment.systemPackages = [ home-manager.packages.${system}.home-manager ];
+            
+            networking.hostName = hostname;
 
             # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
             nix.linkInputs = true;
@@ -95,7 +97,7 @@
           }
         ];
         # Required for `flake-utils-plus` to generate stuff
-        specialArgs = { inherit inputs configRevision; };
+        specialArgs = { inherit inputs configRevision user; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
@@ -145,6 +147,16 @@
       nixos = true;
       modules = builtins.attrNames {
         inherit (modules) gnome work;
+      };
+    }
+    {
+      host = "eris";
+      hostSuffix = "";
+      user = "human";
+      system = "x86_64-linux";
+      nixos = true;
+      modules = builtins.attrNames {
+        inherit (modules) i3;
       };
     }
   ];

@@ -6,8 +6,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "delta-nixos";
-
   hardware.cpu.intel.updateMicrocode = true;
 
   networking.interfaces.wlp4s0.useDHCP = true;

@@ -8,8 +8,6 @@
 
   hardware.cpu.amd.updateMicrocode = true;
 
-  networking.hostName = "zeta-nixos";
-
   networking.interfaces.eno1.useDHCP = true;
 
   # Check that this can be bumped before changing it

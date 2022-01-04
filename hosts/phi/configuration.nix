@@ -12,8 +12,6 @@
   # Run latest kernel for Ryzen and Navi10
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "phi-nixos";
-
   networking.interfaces.enp34s0.useDHCP = true;
 
   # Install firmware-linux-nonfree (includes Navi10 drivers)

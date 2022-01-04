@@ -1,5 +1,5 @@
 {
-  nixosModule = { config, configRevision, pkgs, lib, ... }: {
+  nixosModule = { config, configRevision, user, pkgs, lib, ... }: {
     # Ensure exact version of Nix has been manually verified
     nix.extraOptions = (assert (lib.hasPrefix "2.5.1-" pkgs.nix.version); ''
       experimental-features = nix-command flakes
@@ -32,8 +32,8 @@
     services.openssh.enable = true;
     services.openssh.permitRootLogin = "prohibit-password";
 
-    # On first setup, run `nixos-enter` then `passwd enzime`.
-    users.users.enzime = {
+    # On first setup, run `nixos-enter` then `passwd <user>`.
+    users.users.${user} = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
