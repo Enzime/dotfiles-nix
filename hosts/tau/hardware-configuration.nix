@@ -8,7 +8,13 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci" "nvme" "usb_storage" "sd_mod"
+    "pinctrl_icelake"
+    "surface_aggregator" "surface_aggregator_registry" "surface_hid_core" "surface_hid"
+    "intel_lpss" "intel_lpss_pci"
+    "8250_dw"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];

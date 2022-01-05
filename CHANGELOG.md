@@ -1,3 +1,4 @@
+- Fixed keyboard not working in `initrd` for `tau`
 - Added `eris`
 - Use `user` from `flake.nix` as the default username
 - Use `hostname` generated in `flake.nix`
