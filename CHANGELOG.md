@@ -1,3 +1,6 @@
+- Removed `delta`
+- Removed unnecessary `networking.hostName` in `phi/configuration.nix`
+- Added `tmux`
 - Fixed keyboard not working in `initrd` for `tau`
 - Added `eris`
 - Use `user` from `flake.nix` as the default username

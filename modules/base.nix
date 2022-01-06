@@ -55,7 +55,7 @@
     # Replace `with pkgs;` with `inherit (pkgs)`
     # https://nix.dev/anti-patterns/language#with-attrset-expression
     home.packages = builtins.attrValues {
-      inherit (pkgs) peco ripgrep jq htop ranger comma;
+      inherit (pkgs) peco ripgrep jq htop ranger comma tmux;
     };
 
     # Ensure exact version of Nix has been manually verified

@@ -114,15 +114,6 @@
     };
   in mkConfigurations [
     {
-      host = "delta";
-      user = "enzime";
-      system = "x86_64-linux";
-      nixos = true;
-      modules = builtins.attrNames {
-        inherit (modules) cosmic i3 laptop;
-      };
-    }
-    {
       host = "phi";
       user = "enzime";
       system = "x86_64-linux";

@@ -8,8 +8,6 @@
 
   hardware.cpu.intel.updateMicrocode = true;
 
-  networking.hostName = "tau-nixos";
-
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
   services.udev.extraHwdb = ''
