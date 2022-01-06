@@ -17,7 +17,10 @@
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, ... }:
+  inputs.agenix.url = "github:ryantm/agenix";
+  inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, agenix, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -73,8 +76,8 @@
         inherit system pkgs;
         modules = [
           ({ ... }: {
-            environment.systemPackages = [ home-manager.packages.${system}.home-manager ];
-            
+            environment.systemPackages = [ home-manager.defaultPackage.${system} agenix.defaultPackage.${system} ];
+
             networking.hostName = hostname;
 
             # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
@@ -83,6 +86,7 @@
             nix.generateRegistryFromInputs = true;
           })
           flake-utils-plus.nixosModules.autoGenFromInputs
+          agenix.nixosModules.age
           ./hosts/${host}/configuration.nix
         ] ++ nixosModules ++ [
           home-manager.nixosModules.home-manager {
