@@ -1,4 +1,12 @@
 {
+  nixosModule = { user, ... }: {
+    age.secrets.aws_config = {
+      file = ../secrets/aws_config.age;
+      path = "/home/${user}/.aws/config";
+      owner = user;
+    };
+  };
+
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) awscli2 aws-vault mongodb-tools slack;
@@ -18,5 +26,4 @@
       };
     };
   };
-
 }

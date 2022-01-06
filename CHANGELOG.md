@@ -1,3 +1,4 @@
+- Added `~/.aws/config` for `work`
 - Fixed `vim` file encoding breaking when using `git commit` with `age` encrypted files
 - Changed `duckdns` module to store `subdomain` and `token` as secrets
 - Use `agenix` for secrets in my dotfiles
