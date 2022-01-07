@@ -1,5 +1,5 @@
 {
-  nixosModule = { config, configRevision, user, pkgs, lib, ... }: {
+  nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
     # Ensure exact version of Nix has been manually verified
     nix.extraOptions = (assert (lib.hasPrefix "2.5.1-" pkgs.nix.version); ''
       experimental-features = nix-command flakes
@@ -38,6 +38,14 @@
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
     };
+
+    age.secrets.zshrc = let
+      file = ../secrets/zshrc_${host}.age;
+    in (lib.mkIf (builtins.pathExists file) {
+      inherit file;
+      path = "/home/${user}/.zshrc.secrets";
+      owner = user;
+    });
 
     # Taken directly from:
     # https://github.com/NixOS/nixpkgs/blob/HEAD/nixos/modules/services/networking/shairport-sync.nix#L74-L93

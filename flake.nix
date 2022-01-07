@@ -101,7 +101,7 @@
           }
         ];
         # Required for `flake-utils-plus` to generate stuff
-        specialArgs = { inherit inputs configRevision user; };
+        specialArgs = { inherit inputs configRevision user host; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
