@@ -1,3 +1,6 @@
+- Added `~/.zshrc.secrets` for `tau`
+- Moved `AWS_VAULT_PROMPT=zenity` out of `~/.zshrc.secrets`
+- Fixed `dotfiles` folder pointing to `modules` subfolder
 - Fixed `nano` and `ranger` not launching for `root` due to `termite`'s `terminfo` missing
 - Use `neovim` as the default editor for `root`
 - Fixed `vim` not being able to open `zip` files

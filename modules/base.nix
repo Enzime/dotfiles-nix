@@ -8,7 +8,7 @@
     # Add flake revision to `nixos-version --json`
     system.configurationRevision = configRevision.full;
 
-    system.extraSystemBuilderCmds = "ln -sv ${./.} $out/dotfiles";
+    system.extraSystemBuilderCmds = "ln -sv ${./..} $out/dotfiles";
 
     time.timeZone = "Australia/Melbourne";
     i18n.defaultLocale = "en_AU.UTF-8";
@@ -75,7 +75,7 @@
     # Allow fonts to be specified in `home.packages`
     fonts.fontconfig.enable = true;
 
-    home.extraBuilderCommands = "ln -sv ${./.} $out/dotfiles";
+    home.extraBuilderCommands = "ln -sv ${./..} $out/dotfiles";
 
     home.sessionVariables = {
       EDITOR = "vim";

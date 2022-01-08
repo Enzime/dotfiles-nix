@@ -13,6 +13,10 @@
       inherit (pkgs.gnome) zenity;
     };
 
+    programs.zsh.initExtra = ''
+      export AWS_VAULT_PROMPT="zenity"
+    '';
+
     programs.vscode.extensions = [
       pkgs.vscode-extensions.ethansk.restore-terminals
       pkgs.vscode-extensions.rioj7.commandOnAllFiles
