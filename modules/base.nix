@@ -14,12 +14,13 @@
     i18n.defaultLocale = "en_AU.UTF-8";
 
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) wget ranger;
+      inherit (pkgs) wget ranger zip unzip;
     };
 
     programs.zsh.enable = true;
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
+    programs.neovim.defaultEditor = true;
 
     # Setting `useDHCP` globally is deprecated
     # manually set `useDHCP` for individual interfaces

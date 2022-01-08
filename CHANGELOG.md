@@ -1,3 +1,6 @@
+- Fixed `nano` and `ranger` not launching for `root` due to `termite`'s `terminfo` missing
+- Use `neovim` as the default editor for `root`
+- Fixed `vim` not being able to open `zip` files
 - Added `~/.zshrc.secrets` for `phi`
 - Added `~/.aws/config` for `work`
 - Fixed `vim` file encoding breaking when using `git commit` with `age` encrypted files

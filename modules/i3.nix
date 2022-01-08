@@ -1,7 +1,12 @@
 {
   imports = [ "graphical" ];
 
-  nixosModule = { ... }: {
+  nixosModule = { pkgs, ... }: {
+    # Ensure termite's terminfo is available for root as well
+    environment.systemPackages = builtins.attrValues {
+      inherit (pkgs) termite;
+    };
+
     services.xserver.windowManager.i3.enable = true;
 
     # Allows storage devices to be controlled over D-Bus
