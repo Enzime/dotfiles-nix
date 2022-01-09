@@ -118,8 +118,7 @@ function peco_select_history() {
   local peco
   [[ -z "$LBUFFER" ]] && peco="peco" || peco='peco --query "$LBUFFER"'
   BUFFER=$(fc -l -n 1 | tac | eval $peco)
-  CURSOR=$#BUFFER         # move cursor
-  zle -R -c               # refresh
+  VISUAL=true zle edit-command-line
 }
 
 zle -N peco_select_history

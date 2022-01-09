@@ -1,3 +1,5 @@
+- Fixed arrow keys being rebound after closing `peco` launched via `C-r`
+- Changed `nixos-rebuild` to store the inputs for a system generation
 - Added `~/.zshrc.secrets` for `tau`
 - Moved `AWS_VAULT_PROMPT=zenity` out of `~/.zshrc.secrets`
 - Fixed `dotfiles` folder pointing to `modules` subfolder
