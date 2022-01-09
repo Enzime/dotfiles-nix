@@ -14,6 +14,8 @@
 
   networking.interfaces.enp34s0.useDHCP = true;
 
+  nix.registry.ln.to = { type = "git"; url = "file:///home/enzime/nix/nixpkgs"; };
+
   # Install firmware-linux-nonfree (includes Navi10 drivers)
   hardware.enableRedistributableFirmware = true;
   services.xserver.videoDrivers = [ "amdgpu" ];

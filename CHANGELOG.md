@@ -1,3 +1,5 @@
+- Added `ln` alias for `~/nix/nixpkgs` on `phi`
+- Added `n` alias for `flake:nixpkgs`
 - Fixed arrow keys being rebound after closing `peco` launched via `C-r`
 - Changed `nixos-rebuild` to store the inputs for a system generation
 - Added `~/.zshrc.secrets` for `tau`

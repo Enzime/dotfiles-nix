@@ -17,6 +17,8 @@
       inherit (pkgs) wget ranger zip unzip;
     };
 
+    nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
+
     programs.zsh.enable = true;
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
