@@ -66,7 +66,7 @@ function gtu {
 }
 
 # https://github.com/nix-community/nix-direnv#shell-integration
-nixify() {
+function nixify {
   if [ ! -e ./.envrc ]; then
     echo "use nix" > .envrc
     direnv allow
@@ -84,7 +84,7 @@ EOF
   fi
 }
 
-flakify() {
+function flakify {
   if [ ! -e flake.nix ]; then
     nix flake new -t github:nix-community/nix-direnv .
   elif [ ! -e .envrc ]; then
@@ -106,19 +106,29 @@ function ranger-cd {
 
 function carry-ranger {
   ranger < $TTY
-  VISUAL=true zle edit-command-line
+  zle push-line
+  zle accept-line
 }
 
 function carry-ranger-cd {
   ranger-cd
-  VISUAL=true zle edit-command-line
+  zle push-line
+  zle accept-line
 }
 
-function peco_select_history() {
+function peco_select_history {
   local peco
   [[ -z "$LBUFFER" ]] && peco="peco" || peco='peco --query "$LBUFFER"'
   BUFFER=$(fc -l -n 1 | tac | eval $peco)
-  VISUAL=true zle edit-command-line
+  zle end-of-line
+  zle push-line
+  zle accept-line
+}
+
+function source-zshrc {
+  zle push-line
+  BUFFER="source ~/.zshrc"
+  zle accept-line
 }
 
 zle -N peco_select_history
@@ -128,13 +138,14 @@ bindkey -r '^S'
 autoload -z edit-command-line
 zle -N edit-command-line
 
+zle -N source-zshrc
 zle -N carry-ranger
 zle -N carry-ranger-cd
 
 bindkey '^E^E' edit-command-line
 bindkey '^Er' carry-ranger
 bindkey '^Ec' carry-ranger-cd
-bindkey -s '^E^R' 'source ~/.zshrc^M'
+bindkey '^E^R' source-zshrc
 
 bindkey -r '^[OA'
 bindkey -r '^[OB'

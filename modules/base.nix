@@ -14,7 +14,7 @@
     i18n.defaultLocale = "en_AU.UTF-8";
 
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) wget ranger zip unzip;
+      inherit (pkgs) wget ranger zip unzip sshfs;
     };
 
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
@@ -66,7 +66,7 @@
     # Replace `with pkgs;` with `inherit (pkgs)`
     # https://nix.dev/anti-patterns/language#with-attrset-expression
     home.packages = builtins.attrValues {
-      inherit (pkgs) peco ripgrep jq htop ranger comma tmux;
+      inherit (pkgs) peco ripgrep jq htop ranger comma tmux tree;
     };
 
     # Ensure exact version of Nix has been manually verified
@@ -204,10 +204,11 @@
         sudo = "printf \"zsh: command not found: sudo\\n\"";
 
         ls = "ls -F --color=auto";
-        mkdir = "mkdir -p";  # the only thing that was useful from the `utility` module
 
         l = "ls -lah";
+        nb = "nix build";
         sr = "_ ranger";
+        w = "where -s";
 
         gai = "git add --interactive";
         gaf = "git add --force";

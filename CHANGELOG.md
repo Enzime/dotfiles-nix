@@ -1,3 +1,10 @@
+- Fixed cursor not at the end of the line after using `peco`
+- Added `sshfs` and `tree`
+- Added `nb` and `w` aliases
+- Removed superfluous `mkdir` alias
+- Changed `zshrc` function definitions to be more consistent
+- Added `source-zshrc` widget to always successfully `source ~/.zshrc`
+- Fixed `zle` widgets exiting with error when rerendering the prompt
 - Added `ln` alias for `~/nix/nixpkgs` on `phi`
 - Added `n` alias for `flake:nixpkgs`
 - Fixed arrow keys being rebound after closing `peco` launched via `C-r`
