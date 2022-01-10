@@ -1,3 +1,5 @@
+- Added `vm` module to set account passwords to make VMs usable
+- Added `tigervnc`
 - Added `d` alias for `~/dotfiles`
 - Added `nixosImages/bcachefs` output for building an ISO with `bcachefs` support
 - Fixed cursor not at the end of the line after using `peco`

@@ -1,4 +1,6 @@
 {
+  imports = [ "vm" ];
+
   nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
     # Ensure exact version of Nix has been manually verified
     nix.extraOptions = (assert (lib.hasPrefix "2.5.1-" pkgs.nix.version); ''
