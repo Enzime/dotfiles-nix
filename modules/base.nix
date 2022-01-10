@@ -17,6 +17,7 @@
       inherit (pkgs) wget ranger zip unzip sshfs;
     };
 
+    nix.registry.d.to = { type = "git"; url = "file:///home/${user}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
 
     programs.zsh.enable = true;

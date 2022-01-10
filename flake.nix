@@ -4,23 +4,28 @@
   inputs.home-manager.url = github:Enzime/home-manager/immutable-extensions-dir;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.flake-utils.url = github:numtide/flake-utils;
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
+  inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
   inputs.nix.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.paperwm-overlay.url = path:overlays/paperwm;
-  inputs.paperwm-overlay.inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
+  inputs.paperwm-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.paperwm-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.nix-overlay.url = path:overlays/nix;
   inputs.nix-overlay.inputs.inheritedNix.follows = "nix";
-  inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils-plus/flake-utils";
+  inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.agenix.url = "github:ryantm/agenix";
   inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils-plus, agenix, ... }:
+  inputs.nixos-generators.url = "github:nix-community/nixos-generators";
+  inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+
+  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -116,7 +121,7 @@
         extraSpecialArgs = { inherit configRevision; };
       };
     };
-  in mkConfigurations [
+  in (mkConfigurations [
     {
       host = "phi";
       user = "enzime";
@@ -154,5 +159,18 @@
         inherit (modules) i3;
       };
     }
-  ];
+  ]) // (
+    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: {
+      packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {
+        pkgs = import nixpkgs { inherit system; };
+        format = "install-iso";
+        modules = [
+          ({ modulesPath, ... }: {
+            imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix" ];
+            boot.supportedFilesystems = [ "bcachefs" ];
+          })
+        ];
+      };
+    })
+  );
 }

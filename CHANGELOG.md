@@ -1,3 +1,5 @@
+- Added `d` alias for `~/dotfiles`
+- Added `nixosImages/bcachefs` output for building an ISO with `bcachefs` support
 - Fixed cursor not at the end of the line after using `peco`
 - Added `sshfs` and `tree`
 - Added `nb` and `w` aliases
