@@ -7,6 +7,7 @@
       inherit (pkgs) termite;
     };
 
+    services.xserver.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3.enable = true;
 
     # Allows storage devices to be controlled over D-Bus

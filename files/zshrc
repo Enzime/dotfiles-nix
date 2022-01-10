@@ -163,4 +163,4 @@ fi
 
 export __ZSHRC_SOURCED=1
 
-. ~/.zshrc.secrets
+source ~/.zshrc.secrets

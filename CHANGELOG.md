@@ -1,3 +1,7 @@
+- Added `hmModule` for `vm` module
+- Fixed VM waiting 90 seconds every boot for non-existent networking interfaces
+- Replaced `.` with `source` in `zshrc`
+- Changed default session to `i3`
 - Added `vm` module to set account passwords to make VMs usable
 - Added `tigervnc`
 - Added `d` alias for `~/dotfiles`
