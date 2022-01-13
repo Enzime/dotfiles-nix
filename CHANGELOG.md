@@ -1,3 +1,5 @@
+- Use `keys.nix` in NixOS modules for `AuthorizedKeys`
+- Moved public keys into `keys.nix`
 - Use `VSCode` to edit `git commit` messages when using the integrated terminal
 - Added `hmModule` for `vm` module
 - Fixed VM waiting 90 seconds every boot for non-existent networking interfaces

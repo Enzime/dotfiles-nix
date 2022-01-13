@@ -73,6 +73,8 @@
         full = if (self ? rev) then self.rev else if (self ? dirtyRev) then self.dirtyRev else "dirty-inputs";
         short = if (self ? rev) then self.shortRev else if (self ? dirtyRev) then self.dirtyShortRev else "dirty-inputs";
       };
+
+      keys = import ./keys.nix;
     in {
       # nix build ~/.config/nixpkgs#nixosConfigurations.phi-nixos.config.system.build.toplevel
       # OR
@@ -106,7 +108,7 @@
           }
         ];
         # Required for `flake-utils-plus` to generate stuff
-        specialArgs = { inherit inputs configRevision user host; };
+        specialArgs = { inherit inputs configRevision user host keys; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
