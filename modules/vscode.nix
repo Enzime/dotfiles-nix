@@ -72,5 +72,13 @@
 
       "terminal.external.linuxExec" = "termite";
     };
+
+    programs.git.extraConfig.core.editor = "${pkgs.writeShellScript "use-vscode-sometimes" ''
+      if [[ $TERM_PROGRAM = "vscode" ]]; then
+        code --wait "$@"
+      else
+        vim "$@"
+      fi
+    ''}";
   };
 }
