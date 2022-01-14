@@ -117,9 +117,15 @@ function carry-ranger-cd {
 }
 
 function peco_select_history {
-  local peco
-  [[ -z "$LBUFFER" ]] && peco="peco" || peco='peco --query "$LBUFFER"'
-  BUFFER=$(fc -l -n 1 | tac | eval $peco)
+  local tac
+
+  if (( $+commands[tac] )); then
+    tac="tac"
+  else
+    tac="tail -r"
+  fi
+
+  BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
   zle end-of-line
   zle push-line
   zle accept-line

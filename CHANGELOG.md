@@ -1,3 +1,10 @@
+- Added `nix-index` module as `nix-index` is currently broken on `aarch64-darwin`
+- Fixed `C-r` on `macOS` as `tac` isn't available
+- Use `stdenv.hostPlatform` to test the current platform
+- Fixed `hostSuffix` being `-nixos` by default even when `nixos = false;`
+- Use `mkIf` in `non-nixos` to make the module optional
+- Moved `xdg` configuration to new module as it is Linux specific
+- Added `chi`
 - Use `keys.nix` in NixOS modules for `AuthorizedKeys`
 - Moved public keys into `keys.nix`
 - Use `VSCode` to edit `git commit` messages when using the integrated terminal

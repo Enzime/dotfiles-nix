@@ -53,7 +53,7 @@
     in if (imports == []) then [a] else [a] ++ unique (concatMap getModuleList imports);
 
     mkConfigurations = configs: foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
-    mkConfiguration = { host, hostSuffix ? "-nixos", user, system, nixos ? false, modules }:
+    mkConfiguration = { host, hostSuffix ? if nixos then "-nixos" else "", user, system, nixos ? false, modules }:
     let
       pkgs = import nixpkgs {
         inherit system;
@@ -61,7 +61,7 @@
         overlays = importedRegularOverlays ++ importedFlakeOverlays;
       };
 
-      moduleList = unique (concatMap getModuleList (modules ++ [ "base" ] ++ optional (!nixos) "non-nixos"));
+      moduleList = unique (concatMap getModuleList ([ "base" ] ++ modules));
       modulesToImport = map (name: getAttr name modules') moduleList;
 
       hostname = "${host}${hostSuffix}";
@@ -75,6 +75,8 @@
       };
 
       keys = import ./keys.nix;
+
+      extraHomeManagerArgs = { inherit nixos configRevision; };
     in {
       # nix build ~/.config/nixpkgs#nixosConfigurations.phi-nixos.config.system.build.toplevel
       # OR
@@ -104,7 +106,7 @@
             home-manager.useUserPackages = true;
 
             home-manager.users.${user}.imports = home;
-            home-manager.extraSpecialArgs = { inherit configRevision; };
+            home-manager.extraSpecialArgs = extraHomeManagerArgs;
           }
         ];
         # Required for `flake-utils-plus` to generate stuff
@@ -117,13 +119,19 @@
       homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
         inherit system pkgs;
         configuration = { };
-        homeDirectory = "/home/${user}";
+        homeDirectory = if (hasSuffix "linux" system) then "/home/${user}" else "/Users/${user}";
         username = user;
         extraModules = home;
-        extraSpecialArgs = { inherit configRevision; };
+        extraSpecialArgs = extraHomeManagerArgs;
       };
     };
   in (mkConfigurations [
+    {
+      host = "chi";
+      user = "enzime";
+      system = "aarch64-darwin";
+      modules = [ ];
+    }
     {
       host = "phi";
       user = "enzime";

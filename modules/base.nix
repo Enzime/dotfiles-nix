@@ -1,5 +1,5 @@
 {
-  imports = [ "vm" ];
+  imports = [ "nix-index" "non-nixos" "vm" "xdg" ];
 
   nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
     # Ensure exact version of Nix has been manually verified
@@ -47,11 +47,11 @@
 
     age.secrets.zshrc = let
       file = ../secrets/zshrc_${host}.age;
-    in (lib.mkIf (builtins.pathExists file) {
+    in lib.mkIf (builtins.pathExists file) {
       inherit file;
       path = "/home/${user}/.zshrc.secrets";
       owner = user;
-    });
+    };
 
     # Taken directly from:
     # https://github.com/NixOS/nixpkgs/blob/HEAD/nixos/modules/services/networking/shairport-sync.nix#L74-L93
@@ -64,12 +64,13 @@
   };
 
   hmModule = { pkgs, lib, ... }: let
-    inherit (lib) attrByPath hasPrefix mkIf mkMerge readFile;
+    inherit (lib) hasPrefix hasSuffix mkIf readFile;
+    inherit (pkgs.stdenv) hostPlatform;
   in {
     # Replace `with pkgs;` with `inherit (pkgs)`
     # https://nix.dev/anti-patterns/language#with-attrset-expression
     home.packages = builtins.attrValues {
-      inherit (pkgs) peco ripgrep jq htop ranger comma tmux tree;
+      inherit (pkgs) peco ripgrep jq htop ranger tmux tree;
     };
 
     # Ensure exact version of Nix has been manually verified
@@ -97,18 +98,6 @@
     programs.aria2.enable = true;
     programs.aria2.settings = {
       continue = true;
-    };
-
-    xdg.userDirs = {
-      enable = true;
-      desktop = "\$HOME";
-      documents = "\$HOME";
-      download = "/data/Downloads";
-      music = "\$HOME";
-      pictures = "/data/Pictures";
-      publicShare = "\$HOME";
-      templates = "\$HOME";
-      videos = "\$HOME";
     };
 
     programs.git = {
@@ -247,8 +236,6 @@
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
 
-    programs.nix-index.enable = true;
-
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
     # Adding `vim-plug` to `plugins` does not load it, just source it directly instead
@@ -259,23 +246,7 @@
     xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
     xdg.configFile."ranger/commands.py".source = ../files/commands.py;
 
-    systemd.user.startServices = "sd-switch";
-
-    systemd.user.services.shairport-sync = {
-      Unit = {
-        Description = "shairport-sync";
-        After = [ "network.target" "avahi-daemon.service" ];
-      };
-      Service = {
-        # Arguments are taken directly from:
-        # https://github.com/NixOS/nixpkgs/blob/HEAD/nixos/modules/services/networking/shairport-sync.nix#L32
-        ExecStart = "${pkgs.shairport-sync}/bin/shairport-sync -v -o pa";
-        RuntimeDirectory = "shairport-sync";
-      };
-      Install = {
-        WantedBy = [ "default.target" ];
-      };
-    };
+    systemd.user.startServices = mkIf (hostPlatform.isLinux) "sd-switch";
 
     programs.home-manager.enable = true;
   };
