@@ -1,3 +1,4 @@
+- Disabled `GitLens`'s rebase todo editor
 - Use `concurrency` to only run 1 workflow run at a time
 - Use `jobs.<job_id>.strategy.max-parallel` to only run 1 job at a time
 - Use `jobs.<job_id>.strategy.matrix` to specify job level variables

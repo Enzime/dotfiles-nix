@@ -66,6 +66,11 @@
         "**/.direnv" = true;
       };
 
+      # Don't use GitLens to edit git rebase commands
+      "workbench.editorAssociations" = {
+        "git-rebase-todo" = "default";
+      };
+
       "colorize.include" = [ "*" ];
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
       "colorize.hide_current_line_decorations" = false;
