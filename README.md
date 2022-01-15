@@ -1,6 +1,5 @@
 # Inspiration
 
-- `using/X` is based off https://github.com/jonringer/nixpkgs-config
 - `overlays/paperwm/flake.nix` is based off https://github.com/nix-community/neovim-nightly-overlay/blob/master/flake.nix
 
 # Setup
@@ -10,9 +9,11 @@
 Add to `/etc/nixos/configuration.nix`:
 
 ```nix
-nix.extraOptions = ''
-  experimental-features = nix-command flakes
-'';
+{
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+}
 ```
 
 ## Non-NixOS
@@ -26,9 +27,9 @@ experimental-features = nix-command flakes
 # Usage
 
 ```
-home-manager switch /path/to/your/clone#enzime@phi-nixos
+nixos-rebuild build-vm --flake github:Enzime/dotfiles-nix#phi-nixos
 ```
 
 ```
-sudo nixos-rebuild switch /path/to/your/clone#phi-nixos
+home-manager switch --flake github:Enzime/dotfiles-nix#enzime@phi-nixos
 ```

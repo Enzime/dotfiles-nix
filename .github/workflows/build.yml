@@ -9,9 +9,6 @@ jobs:
       max-parallel: 1
       matrix:
         include:
-          - name: enzime@chi
-            output: homeConfigurations."enzime@chi".activationPackage
-            os: macos-11
           - name: phi-nixos
             output: nixosConfigurations.phi-nixos.config.system.build.toplevel
             os: ubuntu-latest
