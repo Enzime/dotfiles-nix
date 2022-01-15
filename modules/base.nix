@@ -1,5 +1,5 @@
 {
-  imports = [ "nix-index" "non-nixos" "vm" "xdg" ];
+  imports = [ "cachix" "nix-index" "non-nixos" "vm" "xdg" ];
 
   nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
     # Ensure exact version of Nix has been manually verified
