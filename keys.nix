@@ -8,5 +8,6 @@
   hosts = {
     phi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxOi/S1TLBg8/ZRX5XfCTlM8A+I0q0pQksrxtfjdYFP";
     tau = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4Yk5eL/z/I9KhXm1ZsOBQiIBgdGZe1xUTz8whBWe4u";
+    apollo = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDVVHXZq7684xQZGSLGmHiSCbl+WjfkZGgzk1Kz28nXY";
   };
 }

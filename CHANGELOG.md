@@ -1,3 +1,6 @@
+- Use `systemd-networkd` for configuring `apollo`'s interfaces statically
+- Added `apollo`
+- Refactored `termite` into its own module and always install `termite.terminfo`
 - Disabled building `chi` in GitHub workflow as GitHub does not have `aarch64-darwin` runners
 - Disabled `GitLens`'s rebase todo editor
 - Use `concurrency` to only run 1 workflow run at a time

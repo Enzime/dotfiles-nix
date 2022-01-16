@@ -2,11 +2,6 @@
   imports = [ "graphical" ];
 
   nixosModule = { pkgs, ... }: {
-    # Ensure termite's terminfo is available for root as well
-    environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) termite;
-    };
-
     services.xserver.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3.enable = true;
 
@@ -26,7 +21,6 @@
     };
 
     xsession.windowManager.i3.enable = true;
-    programs.termite.enable = true;
     programs.feh.enable = true;
     services.redshift.enable = true;
     services.polybar.enable = true;
@@ -324,48 +318,6 @@
         interval = 300;
       };
     };
-
-    programs.termite.font = "DejaVu Sans Mono 10";
-    programs.termite.scrollbackLines = -1;
-    programs.termite.colorsExtra = ''
-      # special
-      foreground      = #fff5ed
-      foreground_bold = #fff5ed
-      cursor          = #00ccff
-      background      = #0d0c0c
-
-      # black
-      color0  = #0a0a0a
-      color8  = #73645d
-
-      # red
-      color1  = #e61f00
-      color9  = #ff3f3d
-
-      # green
-      color2  = #6dd200
-      color10 = #c1ff05
-
-      # yellow
-      color3  = #fa6800
-      color11 = #ffa726
-
-      # blue
-      color4  = #255ae4
-      color12 = #00ccff
-
-      # magenta
-      color5  = #ff0084
-      color13 = #ff65a0
-
-      # cyan
-      color6  = #36fcd3
-      color14 = #96ffe3
-
-      # white
-      color7  = #b6afab
-      color15 = #fff5ed
-    '';
 
     programs.feh = {
       buttons = {

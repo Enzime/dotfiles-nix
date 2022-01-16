@@ -160,6 +160,14 @@
       };
     }
     {
+      host = "apollo";
+      hostSuffix = "";
+      user = "human";
+      system = "x86_64-linux";
+      nixos = true;
+      modules = builtins.attrNames { };
+    }
+    {
       host = "eris";
       hostSuffix = "";
       user = "human";

@@ -18,6 +18,9 @@ jobs:
           - name: zeta-nixos
             output: nixosConfigurations.zeta-nixos.config.system.build.toplevel
             os: ubuntu-latest
+          - name: apollo
+            output: nixosConfigurations.apollo.config.system.build.toplevel
+            os: ubuntu-latest
           - name: eris
             output: nixosConfigurations.eris.config.system.build.toplevel
             os: ubuntu-latest
