@@ -1,3 +1,5 @@
+- Added `vetur` for Vue
+- Added `podman` for rootless `docker`
 - Use `systemd-networkd` for configuring `apollo`'s interfaces statically
 - Added `apollo`
 - Refactored `termite` into its own module and always install `termite.terminfo`

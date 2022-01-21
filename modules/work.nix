@@ -5,6 +5,9 @@
       path = "/home/${user}/.aws/config";
       owner = user;
     };
+
+    virtualisation.podman.enable = true;
+    virtualisation.podman.dockerCompat = true;
   };
 
   hmModule = { pkgs, ... }: {
@@ -20,6 +23,7 @@
     programs.vscode.extensions = [
       pkgs.vscode-extensions.ethansk.restore-terminals
       pkgs.vscode-extensions.rioj7.commandOnAllFiles
+      pkgs.vscode-extensions.octref.vetur
     ];
 
     programs.vscode.userSettings = {
