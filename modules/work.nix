@@ -12,7 +12,7 @@
 
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) awscli2 aws-vault mongodb-tools slack;
+      inherit (pkgs) awscli2 aws-vault mongodb-tools postman slack;
       inherit (pkgs.gnome) zenity;
     };
 
