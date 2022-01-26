@@ -1,3 +1,4 @@
+- Added `firefox` module
 - Use `nix` to generate `/etc/nixos` and `$XDG_CONFIG_HOME/nixpkgs` symlinks to `~/dotfiles`
 - Added `wireless` module
 - Moved generic laptop `polybar` config to `laptop` module

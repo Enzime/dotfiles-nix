@@ -1,5 +1,5 @@
 {
-  imports = [ "fonts" "mpv" "vscode" "ios" ];
+  imports = [ "firefox" "fonts" "mpv" "vscode" "ios" ];
 
   nixosModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
