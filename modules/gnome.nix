@@ -8,7 +8,6 @@
 
   hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) firefox-wayland;
       inherit (pkgs.gnomeExtensions) appindicator clipboard-indicator;
     };
 

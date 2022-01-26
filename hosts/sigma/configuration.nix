@@ -10,6 +10,8 @@
 
   networking.interfaces.wlp170s0.useDHCP = true;
 
+  services.fprintd.enable = true;
+
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
 }

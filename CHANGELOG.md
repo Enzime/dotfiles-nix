@@ -1,3 +1,5 @@
+- Enabled `fprintd` for fingerprint reader support
+- Fixed `firefox-wayland` causing conflicts between `firefox` and `gnome` modules
 - Changed installer ISO to use Cachix binary cache and enable flakes by default
 - Added `firefox` module
 - Use `nix` to generate `/etc/nixos` and `$XDG_CONFIG_HOME/nixpkgs` symlinks to `~/dotfiles`

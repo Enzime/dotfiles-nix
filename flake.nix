@@ -147,7 +147,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) i3 laptop;
+        inherit (modules) gnome i3 laptop;
       };
     }
     {
