@@ -1,3 +1,8 @@
+- Added `wireless` module
+- Moved generic laptop `polybar` config to `laptop` module
+- Fixed touchpad on `sigma` not working in `i3`
+- Added public keys for `sigma`
+- Added `sigma`
 - Added `postman` for work
 - Added `vetur` for Vue
 - Added `podman` for rootless `docker`

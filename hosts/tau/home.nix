@@ -1,8 +1,6 @@
 { pkgs, lib, ... }:
 
-let
-  inherit (lib) mkForce;
-in {
+{
   home.sessionVariables = {
     GDK_SCALE                    = 2;
     GDK_DPI_SCALE                = 0.5;
@@ -27,11 +25,6 @@ in {
 
   services.polybar = {
     config = {
-      "bar/base" = {
-        # TODO: add `battery` into `modules-right`
-        modules-right = mkForce "dotfiles battery wireless ethernet fs memory date";
-      };
-
       "bar/centre" = {
         monitor = "eDP-1";
 
@@ -46,16 +39,8 @@ in {
       };
 
       "module/battery" = {
-        type = "internal/battery";
         battery = "BAT1";
         adapter = "ADP1";
-        full-at = 98;
-
-        time-format = "%H:%M";
-
-        label-discharging = "DIS %percentage%% %time% remaining";
-        label-charging = "CHG %percentage%% %time% till full";
-        label-full = "BAT FULL 100%";
       };
     };
   };

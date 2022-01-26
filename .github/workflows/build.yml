@@ -12,6 +12,9 @@ jobs:
           - name: phi-nixos
             output: nixosConfigurations.phi-nixos.config.system.build.toplevel
             os: ubuntu-latest
+          - name: sigma-nixos
+            output: nixosConfigurations.sigma-nixos.config.system.build.toplevel
+            os: ubuntu-latest
           - name: tau-nixos
             output: nixosConfigurations.tau-nixos.config.system.build.toplevel
             os: ubuntu-latest
