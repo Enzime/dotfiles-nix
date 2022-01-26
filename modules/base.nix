@@ -19,6 +19,8 @@
       inherit (pkgs) wget ranger zip unzip sshfs;
     };
 
+    environment.etc."nixos".source = "/home/${user}/dotfiles";
+
     nix.registry.d.to = { type = "git"; url = "file:///home/${user}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
 
@@ -63,7 +65,7 @@
     networking.firewall.allowedUDPPortRanges = [ { from = 6001; to = 6011; } ];
   };
 
-  hmModule = { pkgs, lib, ... }: let
+  hmModule = { config, pkgs, lib, ... }: let
     inherit (lib) hasPrefix hasSuffix mkIf readFile;
     inherit (pkgs.stdenv) hostPlatform;
   in {
@@ -80,6 +82,8 @@
 
     # Allow fonts to be specified in `home.packages`
     fonts.fontconfig.enable = true;
+
+    xdg.configFile."nixpkgs".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles";
 
     home.extraBuilderCommands = "ln -sv ${./..} $out/dotfiles";
 
