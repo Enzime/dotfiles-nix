@@ -1,5 +1,5 @@
 {
-  imports = [ "firefox" "fonts" "mpv" "vscode" "ios" ];
+  imports = [ "firefox" "fonts" "mpv" "ios" ];
 
   nixosModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
@@ -10,5 +10,9 @@
 
     services.xserver.enable = true;
     services.xserver.displayManager.gdm.enable = true;
+  };
+
+  hmModule = { pkgs, ... }: {
+    programs.vscode.package = pkgs.vscode;
   };
 }

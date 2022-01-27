@@ -1,3 +1,4 @@
+- Moved `vscode` to be a `base` module and only install `VSCode` on `graphical` systems
 - Fixed `termite.terminfo` on macOS
 - Enabled `fprintd` for fingerprint reader support
 - Fixed `firefox-wayland` causing conflicts between `firefox` and `gnome` modules

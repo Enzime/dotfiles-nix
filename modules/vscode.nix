@@ -1,11 +1,17 @@
 {
-  hmModule = { pkgs, ... }: {
+  hmModule = { config, pkgs, lib, ... }: let
+    inherit (pkgs.stdenv) hostPlatform;
+  in {
+    home.file.".vscode-server/extensions".source = config.home.file.".vscode/extensions".source;
+
     programs.vscode.enable = true;
+    # Don't install `vscode` unless `graphical` module is specified
+    programs.vscode.package = lib.mkDefault (pkgs.emptyDirectory // { pname = "vscode"; });
     programs.vscode.immutableExtensionsDir = true;
     programs.vscode.extensions = [
       pkgs.vscode-extensions.asvetliakov.vscode-neovim
       pkgs.vscode-extensions.eamodio.gitlens
-      pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+      (pkgs.vscode-extensions.ms-vscode-remote.remote-ssh.override { useLocalExtensions = true; })
 
       pkgs.vscode-extensions.editorconfig.editorconfig
       pkgs.vscode-extensions.kamikillerto.vscode-colorize
@@ -14,7 +20,7 @@
       # Language support
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
       pkgs.vscode-extensions.jnoortheen.nix-ide
-      pkgs.vscode-extensions.ms-python.python
+      (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-python.python)
       pkgs.vscode-extensions.ms-python.vscode-pylance
       pkgs.vscode-extensions.xadillax.viml
     ];
