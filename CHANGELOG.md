@@ -1,3 +1,4 @@
+- Fixed `termite.terminfo` on macOS
 - Enabled `fprintd` for fingerprint reader support
 - Fixed `firefox-wayland` causing conflicts between `firefox` and `gnome` modules
 - Changed installer ISO to use Cachix binary cache and enable flakes by default

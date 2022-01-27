@@ -4,7 +4,12 @@
   };
 
   hmModule = { pkgs, config, ... }: {
-    home.packages = [ pkgs.termite.terminfo ];
+    # WORKAROUND: termite.terminfo doesn't build on macOS
+    #             as vte depends on systemd now
+    home.packages = [ (pkgs.runCommand "termite.terminfo" {} ''
+      mkdir -p $out/share/terminfo
+      ${pkgs.ncurses}/bin/tic -o $out/share/terminfo -x ${pkgs.termite.src}/termite.terminfo
+    '') ];
 
     programs.termite.enable = config.xsession.windowManager.i3.enable;
 
