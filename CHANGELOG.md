@@ -1,3 +1,9 @@
+- Removed `vscode-extensions` overlay as all extensions are in `nixpkgs` now
+- Use `diff3` merge conflict style until Git 2.35.0
+- Use `nix.settings.*` for Cachix
+- Fixed `spotify-tray` not building with Automake 1.16.5
+- Removed `comma` overlay now that `comma` is in `nixpkgs`
+- Replaced `multimc` with `polymc`
 - Fixed GitHub workflow not fetching `firefox-addons-overlay`
 - Added `work` Firefox extensions
 - Moved `signal-desktop` to `personal` module

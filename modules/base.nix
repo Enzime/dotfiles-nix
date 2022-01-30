@@ -124,17 +124,20 @@
           ''}";
           hooksPath = "~/.config/git/hooks";
         };
-        init = {
-          defaultBranch = "main";
-        };
         fetch = {
           prune = true;
         };
-        rebase = {
-          autoSquash = true;
+        init = {
+          defaultBranch = "main";
+        };
+        merge = {
+          conflictStyle = (assert (builtins.compareVersions pkgs.git.version "2.35.0" == -1); "diff3");
         };
         pull = {
           ff = "only";
+        };
+        rebase = {
+          autoSquash = true;
         };
         url = {
           "https://github.com/" = { insteadOf = [ "gh:" "ghro:" ]; };

@@ -13,7 +13,7 @@
 
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) multimc lutris;
+      inherit (pkgs) polymc lutris;
     };
   };
 }

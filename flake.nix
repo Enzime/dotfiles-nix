@@ -19,10 +19,10 @@
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.agenix.url = "github:ryantm/agenix";
+  inputs.agenix.url = github:ryantm/agenix;
   inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixos-generators.url = "github:nix-community/nixos-generators";
+  inputs.nixos-generators.url = github:nix-community/nixos-generators;
   inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.firefox-addons-overlay.url = path:overlays/firefox-addons;
