@@ -25,6 +25,10 @@
   inputs.nixos-generators.url = "github:nix-community/nixos-generators";
   inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.firefox-addons-overlay.url = path:overlays/firefox-addons;
+  inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
+
   outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
 
   let
@@ -130,7 +134,7 @@
       host = "chi";
       user = "enzime";
       system = "aarch64-darwin";
-      modules = [ ];
+      modules = builtins.attrNames { };
     }
     {
       host = "phi";
@@ -147,7 +151,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) gnome i3 laptop;
+        inherit (modules) gnome i3 laptop personal;
       };
     }
     {

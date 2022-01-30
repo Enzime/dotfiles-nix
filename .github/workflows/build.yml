@@ -41,5 +41,5 @@ jobs:
         with:
           name: enzime
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-      - run: nix flake lock --update-input nix-overlay --update-input paperwm-overlay
+      - run: nix flake lock $(find overlays -mindepth 1 -type d -printf "--update-input %f-overlay\n" | paste -sd ' ')
       - run: nix build --print-build-logs .#${{ matrix.output }}

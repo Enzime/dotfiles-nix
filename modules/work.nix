@@ -20,6 +20,11 @@
       export AWS_VAULT_PROMPT="zenity"
     '';
 
+    programs.firefox.extensions = [
+      pkgs.firefox-addons.react-devtools
+      pkgs.firefox-addons.reduxdevtools
+    ];
+
     programs.vscode.extensions = [
       pkgs.vscode-extensions.ethansk.restore-terminals
       pkgs.vscode-extensions.rioj7.commandOnAllFiles

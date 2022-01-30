@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical" ];
+  imports = [ "graphical" "personal" ];
 
   nixosModule = { ... }: {
     services.xserver.inputClassSections = [ ''
@@ -13,7 +13,7 @@
 
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) multimc lutris discord;
+      inherit (pkgs) multimc lutris;
     };
   };
 }

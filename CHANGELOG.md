@@ -1,3 +1,9 @@
+- Fixed GitHub workflow not fetching `firefox-addons-overlay`
+- Added `work` Firefox extensions
+- Moved `signal-desktop` to `personal` module
+- Created `personal` module for personal programs and Firefox extensions
+- Created `firefox-addons` overlay to allow building unfree extensions and add missing extensions
+- Imported `firefox` settings
 - Moved `vscode` to be a `base` module and only install `VSCode` on `graphical` systems
 - Fixed `termite.terminfo` on macOS
 - Enabled `fprintd` for fingerprint reader support
