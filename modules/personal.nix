@@ -20,6 +20,7 @@
       pkgs.firefox-addons.translate-web-pages
       pkgs.firefox-addons.tree-style-tab
       pkgs.firefox-addons.tst-wheel-and-double
+      pkgs.firefox-addons.web-archives
     ];
 
     # Disable tab bar when using vertical tabs

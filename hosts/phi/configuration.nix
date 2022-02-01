@@ -9,8 +9,10 @@
 
   hardware.cpu.amd.updateMicrocode = true;
 
-  # Run latest kernel for Ryzen and Navi10
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Navi10 is broken on 5.16.3, test again on newer kernels
+  boot.kernelPackages = assert (
+    pkgs.linuxPackages_latest.kernel.version == "5.16.3"
+  ); pkgs.linuxPackages_5_15;
 
   networking.interfaces.enp34s0.useDHCP = true;
 

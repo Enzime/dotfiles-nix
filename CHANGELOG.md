@@ -1,3 +1,5 @@
+- Added `web-archives`
+- Use Linux 5.15 on `phi` as `amdgpu` is broken on 5.16
 - Removed `vscode-extensions` overlay as all extensions are in `nixpkgs` now
 - Use `diff3` merge conflict style until Git 2.35.0
 - Use `nix.settings.*` for Cachix
