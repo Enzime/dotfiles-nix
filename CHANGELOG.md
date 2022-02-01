@@ -1,3 +1,6 @@
+- Fixed `i3lock` not working by patching its `pam`
+- Use Linux 5.15.10 specifically on `phi` as 5.15.17 is broken too...
+- Use `home-manager`'s `osConfig` to access `config` from NixOS for `vm` check
 - Added `web-archives`
 - Use Linux 5.15 on `phi` as `amdgpu` is broken on 5.16
 - Removed `vscode-extensions` overlay as all extensions are in `nixpkgs` now

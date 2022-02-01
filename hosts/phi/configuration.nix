@@ -9,10 +9,22 @@
 
   hardware.cpu.amd.updateMicrocode = true;
 
-  # Navi10 is broken on 5.16.3, test again on newer kernels
+  # Navi10 is broken on 5.10.17+, 5.10.18+ needs testing
   boot.kernelPackages = assert (
     pkgs.linuxPackages_latest.kernel.version == "5.16.3"
-  ); pkgs.linuxPackages_5_15;
+  ); pkgs.linuxPackagesFor (pkgs.linux_5_15.override {
+    argsOverride = let
+      version = "5.15.10";
+    in {
+      inherit version;
+      modDirVersion = version;
+
+      src = pkgs.fetchurl {
+        url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
+        sha256 = "sha256-SE/PXfjQDdxXCvRD7zM4KhELM4I5sfRwSJdLqiJFW0s=";
+      };
+    };
+  });
 
   networking.interfaces.enp34s0.useDHCP = true;
 
