@@ -14,7 +14,7 @@
     i18n.defaultLocale = "en_AU.UTF-8";
 
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) wget ranger zip unzip sshfs;
+      inherit (pkgs) killall wget ranger zip unzip sshfs;
     };
 
     environment.etc."nixos".source = "/home/${user}/dotfiles";

@@ -1,3 +1,4 @@
+- Added `killall`
 - Removed `dotfiles` symlink in NixOS generation as `nix.linkInputs` adds a symlink at `etc/nix/inputs/self`
 - Use `inputs.self` instead of relative path for `dotfiles` symlink in `home-manager` generation
 - Removed pinned `linux-firmware` version as it has no effect on the GPU instability
