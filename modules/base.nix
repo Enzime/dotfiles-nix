@@ -10,8 +10,6 @@
     # Add flake revision to `nixos-version --json`
     system.configurationRevision = configRevision.full;
 
-    system.extraSystemBuilderCmds = "ln -sv ${./..} $out/dotfiles";
-
     time.timeZone = "Australia/Melbourne";
     i18n.defaultLocale = "en_AU.UTF-8";
 
@@ -65,7 +63,7 @@
     networking.firewall.allowedUDPPortRanges = [ { from = 6001; to = 6011; } ];
   };
 
-  hmModule = { config, pkgs, lib, ... }: let
+  hmModule = { config, inputs, pkgs, lib, ... }: let
     inherit (lib) hasPrefix hasSuffix mkIf readFile;
     inherit (pkgs.stdenv) hostPlatform;
   in {
@@ -85,7 +83,10 @@
 
     xdg.configFile."nixpkgs".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles";
 
-    home.extraBuilderCommands = "ln -sv ${./..} $out/dotfiles";
+    # Remove this once we have autoGenFromInputs for home-manager
+    home.extraBuilderCommands = assert (
+      (config.nix or { }) ? linkInputs == false
+    ); "ln -sv ${inputs.self} $out/dotfiles";
 
     home.sessionVariables = {
       EDITOR = "vim";

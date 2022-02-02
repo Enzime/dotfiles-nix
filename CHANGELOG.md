@@ -1,3 +1,7 @@
+- Removed `dotfiles` symlink in NixOS generation as `nix.linkInputs` adds a symlink at `etc/nix/inputs/self`
+- Use `inputs.self` instead of relative path for `dotfiles` symlink in `home-manager` generation
+- Removed pinned `linux-firmware` version as it has no effect on the GPU instability
+- Use Linux 5.15.12 on `phi` as it is the last working version
 - Fixed `i3lock` not working by patching its `pam`
 - Use Linux 5.15.10 specifically on `phi` as 5.15.17 is broken too...
 - Use `home-manager`'s `osConfig` to access `config` from NixOS for `vm` check

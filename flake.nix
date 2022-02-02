@@ -80,7 +80,7 @@
 
       keys = import ./keys.nix;
 
-      extraHomeManagerArgs = { inherit nixos configRevision; };
+      extraHomeManagerArgs = { inherit inputs nixos configRevision; };
     in {
       # nix build ~/.config/nixpkgs#nixosConfigurations.phi-nixos.config.system.build.toplevel
       # OR
