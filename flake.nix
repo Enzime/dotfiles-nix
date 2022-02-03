@@ -1,21 +1,18 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
 
-  inputs.home-manager.url = github:Enzime/home-manager/immutable-extensions-dir;
+  inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.flake-utils.url = github:numtide/flake-utils;
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.nix.inputs.nixpkgs.follows = "nixpkgs";
-
   inputs.paperwm-overlay.url = path:overlays/paperwm;
   inputs.paperwm-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.paperwm-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.nix-overlay.url = path:overlays/nix;
-  inputs.nix-overlay.inputs.inheritedNix.follows = "nix";
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -29,7 +26,7 @@
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
 
-  outputs = inputs@{ self, nix, nixpkgs, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -74,8 +71,8 @@
       home = [ ./hosts/${host}/home.nix ] ++ hmModules;
 
       configRevision = {
-        full = if (self ? rev) then self.rev else if (self ? dirtyRev) then self.dirtyRev else "dirty-inputs";
-        short = if (self ? rev) then self.shortRev else if (self ? dirtyRev) then self.dirtyShortRev else "dirty-inputs";
+        full = self.rev or self.dirtyRev or "dirty-inputs";
+        short = self.shortRev or self.dirtyShortRev or "dirty-inputs";
       };
 
       keys = import ./keys.nix;

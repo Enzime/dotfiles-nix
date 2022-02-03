@@ -1,3 +1,8 @@
+- Use `nix/master` which should fix `flake.lock` having multiple copies of the same input
+- Fixed `nix` not using the `nix` package from the `nix` flake
+- Removed `inheritedNix` logic from `nix` overlay
+- Use `or` to simplify getting the config revision
+- Changed `.lock` files to be treated as JSON
 - Added `killall`
 - Removed `dotfiles` symlink in NixOS generation as `nix.linkInputs` adds a symlink at `etc/nix/inputs/self`
 - Use `inputs.self` instead of relative path for `dotfiles` symlink in `home-manager` generation

@@ -3,7 +3,7 @@
 
   nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
     # Ensure exact version of Nix has been manually verified
-    nix.extraOptions = (assert (lib.hasPrefix "2.5.1-" pkgs.nix.version); ''
+    nix.extraOptions = (assert (lib.hasPrefix "2.7.0" pkgs.nix.version); ''
       experimental-features = nix-command flakes
     '');
 
@@ -74,7 +74,7 @@
     };
 
     # Ensure exact version of Nix has been manually verified
-    xdg.configFile."nix/nix.conf".text = (assert (hasPrefix "2.5.1-" pkgs.nix.version); ''
+    xdg.configFile."nix/nix.conf".text = (assert (hasPrefix "2.7.0" pkgs.nix.version); ''
       experimental-features = nix-command flakes
     '');
 

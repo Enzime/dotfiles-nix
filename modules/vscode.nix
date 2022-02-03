@@ -82,6 +82,10 @@
       "colorize.hide_current_line_decorations" = false;
 
       "terminal.external.linuxExec" = "termite";
+
+      "files.associations" = {
+        "*.lock" = "json";
+      };
     };
 
     programs.git.extraConfig.core.editor = "${pkgs.writeShellScript "use-vscode-sometimes" ''
