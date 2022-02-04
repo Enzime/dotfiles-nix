@@ -1,3 +1,4 @@
+- Added `nix-darwin` and `darwinConfigurations` to `flake.nix`
 - Use `nix/master` which should fix `flake.lock` having multiple copies of the same input
 - Fixed `nix` not using the `nix` package from the `nix` flake
 - Removed `inheritedNix` logic from `nix` overlay

@@ -161,6 +161,27 @@
         "type": "github"
       }
     },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1643970760,
+        "narHash": "sha256-DPZsFwiyDz7+5z687pfs6W8wQhTg35fU7/bU2KNqH0A=",
+        "owner": "Enzime",
+        "repo": "nix-darwin",
+        "rev": "5528b366981dab354f7ec7299c26b8c9303cdf06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Enzime",
+        "ref": "support-pkgs",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nix-overlay": {
       "inputs": {
         "flake-utils": [
@@ -292,6 +313,7 @@
         "flake-utils": "flake-utils",
         "flake-utils-plus": "flake-utils-plus",
         "home-manager": "home-manager",
+        "nix-darwin": "nix-darwin",
         "nix-overlay": "nix-overlay",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",

@@ -1,6 +1,9 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
 
+  inputs.nix-darwin.url = github:Enzime/nix-darwin/support-pkgs;
+  inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -26,7 +29,7 @@
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -68,6 +71,7 @@
       hostname = "${host}${hostSuffix}";
       nixosModules = map (getAttr "nixosModule") (filter (hasAttr "nixosModule") modulesToImport);
       hmModules = map (getAttr "hmModule") (filter (hasAttr "hmModule") modulesToImport);
+      darwinModules = map (getAttr "darwinModule") (filter (hasAttr "darwinModule") modulesToImport);
       home = [ ./hosts/${host}/home.nix ] ++ hmModules;
 
       configRevision = {
@@ -110,8 +114,27 @@
             home-manager.extraSpecialArgs = extraHomeManagerArgs;
           }
         ];
-        # Required for `flake-utils-plus` to generate stuff
         specialArgs = { inherit inputs configRevision user host keys; };
+      }; } else { };
+
+      darwinConfigurations = if (hasSuffix "darwin" system) then { ${hostname} = nix-darwin.lib.darwinSystem {
+        inherit system pkgs inputs;
+        modules = [
+          flake-utils-plus.nixosModules.autoGenFromInputs
+          ({ pkgs, ... }: {
+            nix.linkInputs = true;
+            nix.generateNixPathFromInputs = true;
+            nix.generateRegistryFromInputs = true;
+          })
+        ] ++ darwinModules ++ [
+          home-manager.darwinModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.${user}.imports = home;
+            home-manager.extraSpecialArgs = extraHomeManagerArgs;
+          }
+        ];
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
