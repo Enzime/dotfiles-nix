@@ -1,3 +1,4 @@
+- Use patched `prezto` for `-` alias
 - Changed NixOS VMs to grab the cursor on hover
 - Added `-` alias for `cd -`
 - Added `nix-darwin` and `darwinConfigurations` to `flake.nix`
