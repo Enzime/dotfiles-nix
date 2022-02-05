@@ -1,3 +1,4 @@
+- Fixed `VSCode` terminal hiding when using ``<C-`>``
 - Use `nixpkgs.lib.mapAttrs` to replace manual assert guards for each vim plugin
 - Added automatic `rplugin.vim` generation so `UpdateRemotePlugins` doesn't need to be run manually
 - Replaced `vim-plug` with native Vim package manager

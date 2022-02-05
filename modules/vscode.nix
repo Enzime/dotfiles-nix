@@ -42,6 +42,11 @@
       # Use `C-r` solely for redoing in `neovim`
       { key = "ctrl+r"; command = "-workbench.action.openRecent"; }
       { key = "ctrl+, ctrl+r"; command = "workbench.action.openRecent"; }
+
+      # Don't hide terminal when using "C-`" to switch back to editor
+      { key = "ctrl+`"; command = "-workbench.action.terminal.toggleTerminal"; when = "terminal.active"; }
+      { key = "ctrl+`"; command = "terminal.focus"; when = "!terminalFocus"; }
+      { key = "ctrl+`"; command = "workbench.action.focusActiveEditorGroup"; when = "terminalFocus"; }
     ];
     programs.vscode.userSettings = {
       "update.mode" = "manual";
