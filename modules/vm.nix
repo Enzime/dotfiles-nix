@@ -2,18 +2,24 @@
   nixosModule = { config, lib, user, ... }: let
     inherit (lib) mkIf mkVMOverride;
   # The `virtualisation.diskImage` option only exists when using `nixos-rebuild build-vm`
-  in mkIf (builtins.hasAttr "diskImage" config.virtualisation) {
+  in mkIf (config.virtualisation ? diskImage) {
     networking.interfaces = mkVMOverride { };
 
     users.users.root.password = "apple";
     users.users.${user}.password = "apple";
+
+    # WORKAROUND: Attempting to set `virtualisation.qemu` fails even inside of a `mkIf`
+    #             as the option needs to exist unconditionally.
+    virtualisation = if (config.virtualisation ? diskImage) then {
+      qemu.options = [ "-display gtk,grab-on-hover=true" ];
+    } else { };
   };
 
   # WORKAROUND: { osConfig ? { }, ... }: fails when using `home-manager build`
   hmModule = { lib, ... }@args: let
     inherit (lib) hasAttrByPath mkIf mkVMOverride;
   in mkIf (hasAttrByPath [ "osConfig" "virtualisation" "diskImage" ] args) {
-    home.file.".zshrc.secrets".text = builtins.trace "hi" "";
+    home.file.".zshrc.secrets".text = "";
 
     services.polybar.config."bar/centre".monitor = mkVMOverride "Virtual-1";
 

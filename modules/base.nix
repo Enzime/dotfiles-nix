@@ -203,6 +203,9 @@
         _ = "\\sudo ";
         sudo = "printf \"zsh: command not found: sudo\\n\"";
 
+        # Set `-` to `cd -`
+        "-- -" = "cd -";
+
         ls = "ls -F --color=auto";
 
         l = "ls -lah";
