@@ -246,10 +246,48 @@
 
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
-    # Adding `vim-plug` to `plugins` does not load it, just source it directly instead
-    programs.neovim.extraConfig = ''
-      source ${pkgs.vimPlugins.vim-plug.rtp}/plug.vim
-    '' + readFile ../files/init.vim;
+    programs.neovim.plugins = [
+      # Plugins that are always loaded
+      pkgs.vimPlugins.vim-surround
+      pkgs.vimPlugins.vim-repeat
+      pkgs.vimPlugins.clever-f-vim
+      pkgs.vimPlugins.vim-better-whitespace
+      pkgs.vimPlugins.vim-sleuth
+      pkgs.vimPlugins.vim-operator-user
+      pkgs.vimPlugins.vim-operator-flashy
+      pkgs.vimPlugins.incsearch-vim
+      pkgs.vimPlugins.vim-illuminate
+      pkgs.vimPlugins.vim-argwrap
+    ] ++ map (plugin: { inherit plugin; optional = true; }) [
+      # Plugins for standalone Neovim
+      pkgs.vimPlugins.hybrid-krompus-vim
+      pkgs.vimPlugins.neovim-ranger
+
+      pkgs.vimPlugins.denite-nvim
+      pkgs.vimPlugins.lightline-vim
+      pkgs.vimPlugins.vim-commentary
+      pkgs.vimPlugins.vim-css-color
+      pkgs.vimPlugins.vim-fugitive
+      pkgs.vimPlugins.vim-signature
+      pkgs.vimPlugins.undotree
+
+      pkgs.vimPlugins.ale
+      pkgs.vimPlugins.vim-beancount
+      pkgs.vimPlugins.vim-cpp-enhanced-highlight
+      pkgs.vimPlugins.vim-javascript
+      pkgs.vimPlugins.vim-jsx-pretty
+      pkgs.vimPlugins.vim-nix
+    ];
+    programs.neovim.extraConfig = readFile ../files/init.vim;
+
+    xdg.dataFile."nvim/rplugin.vim".source = pkgs.runCommand "update-remote-plugins" {} ''
+      NVIM_RPLUGIN_MANIFEST=$out timeout 2s ${config.programs.neovim.finalPackage}/bin/nvim \
+        -i NONE \
+        -n \
+        -u ${pkgs.writeText "init.vim" config.xdg.configFile."nvim/init.vim".text} \
+        -c UpdateRemotePlugins \
+        -c quit
+    '';
 
     xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
     xdg.configFile."ranger/commands.py".source = ../files/commands.py;

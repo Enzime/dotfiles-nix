@@ -1,71 +1,9 @@
-function! Cond(cond, ...)
-    let opts = get(a:000, 0, {})
-    return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
-endfunction
-
-function! DoRemote(arg)
-    UpdateRemotePlugins
-endfunction
-
-function! PlugIf(cond, repo, ...)
-    let opts = get(a:000, 0, {})
-    let opts = a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
-    Plug a:repo, opts
-endfunction
-
-command! -nargs=+ -bar PlugIf call PlugIf(<args>)
-
-call plug#begin(stdpath('data') . '/plugged')
-
-Plug 'airodactyl/hybrid-krompus.vim'
-Plug 'airodactyl/neovim-ranger'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'rhysd/clever-f.vim'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'junegunn/vim-easy-align'
-
-" Automatic indent settings
-Plug 'tpope/vim-sleuth'
-
-" Show yank visually
-Plug 'kana/vim-operator-user'
-Plug 'haya14busa/vim-operator-flashy'
-
-" Add better search highlighting
-Plug 'haya14busa/incsearch.vim'
-
-" Highlight current word under cursor
-Plug 'RRethy/vim-illuminate'
-
-" Show marks on the sidebar
-Plug 'kshenoy/vim-signature'
-
-" Bracket wrapping
-Plug 'FooSoft/vim-argwrap'
-
-PlugIf !exists('g:vscode'), 'itchyny/lightline.vim'
-PlugIf !exists('g:vscode'), 'Shougo/denite.nvim', { 'do': function('DoRemote') }
-PlugIf !exists('g:vscode'), 'tpope/vim-fugitive'
-PlugIf !exists('g:vscode'), 'tpope/vim-commentary'
-PlugIf !exists('g:vscode'), 'mbbill/undotree'
-PlugIf !exists('g:vscode'), 'ap/vim-css-color'
-
-PlugIf !exists('g:vscode'), 'octol/vim-cpp-enhanced-highlight'
-PlugIf !exists('g:vscode'), 'pangloss/vim-javascript'
-PlugIf !exists('g:vscode'), 'mxw/vim-jsx'
-PlugIf !exists('g:vscode'), 'LnL7/vim-nix'
-PlugIf !exists('g:vscode'), 'nathangrigg/vim-beancount'
-PlugIf !exists('g:vscode'), 'tomlion/vim-solidity'
-
-" Adds linting
-PlugIf !exists('g:vscode'), 'w0rp/ale'
-
-call plug#end()
-
 let mapleader = ","
 
 if !exists('g:vscode')
+    " Load optional vim plugins
+    packadd! \*
+
     set modeline
     set number
     set relativenumber

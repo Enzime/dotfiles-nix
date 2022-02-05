@@ -1,3 +1,7 @@
+- Use `nixpkgs.lib.mapAttrs` to replace manual assert guards for each vim plugin
+- Added automatic `rplugin.vim` generation so `UpdateRemotePlugins` doesn't need to be run manually
+- Replaced `vim-plug` with native Vim package manager
+- Added `vim-plugins` overlay
 - Use patched `prezto` for `-` alias
 - Changed NixOS VMs to grab the cursor on hover
 - Added `-` alias for `cd -`
