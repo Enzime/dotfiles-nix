@@ -11,8 +11,18 @@
     # WORKAROUND: Attempting to set `virtualisation.qemu` fails even inside of a `mkIf`
     #             as the option needs to exist unconditionally.
     virtualisation = if (config.virtualisation ? diskImage) then {
-      qemu.options = [ "-display gtk,grab-on-hover=true" ];
+      qemu.options = [
+        "-display gtk,grab-on-hover=true,gl=on"
+        # Use a better fake GPU
+        "-vga none -device virtio-vga-gl"
+      ];
     } else { };
+
+    programs.sway.extraSessionCommands = ''
+      export WLR_NO_HARDWARE_CURSORS=1
+    '';
+
+    services.xserver.displayManager.defaultSession = mkVMOverride "sway";
   };
 
   # WORKAROUND: { osConfig ? { }, ... }: fails when using `home-manager build`
@@ -29,6 +39,10 @@
 
     xsession.windowManager.i3.config.workspaceOutputAssign = mkVMOverride [
       { workspace = "101"; output = "Virtual-1"; }
+    ];
+
+    wayland.windowManager.sway.config.workspaceOutputAssign = mkVMOverride [
+      { workspace = "1"; output = "Virtual-1"; }
     ];
   };
 }

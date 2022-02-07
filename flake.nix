@@ -162,7 +162,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) cosmic duckdns gaming i3 samba;
+        inherit (modules) cosmic duckdns gaming i3 samba sway;
       };
     }
     {
@@ -180,7 +180,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) cosmic i3 work laptop;
+        inherit (modules) cosmic i3 laptop work;
       };
     }
     {

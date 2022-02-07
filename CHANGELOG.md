@@ -1,3 +1,5 @@
+- Fixed `sway` in NixOS VMs
+- Added `sway` and `i3-sway` modules
 - Fixed `VSCode` terminal hiding when using ``<C-`>``
 - Use `nixpkgs.lib.mapAttrs` to replace manual assert guards for each vim plugin
 - Added automatic `rplugin.vim` generation so `UpdateRemotePlugins` doesn't need to be run manually
