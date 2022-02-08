@@ -1,3 +1,6 @@
+- Fixed power off button press immediately turning off laptop
+- Enabled colouring bracket pairs and their guidelines
+- Fixed NixOS VMs that don't have `sway`
 - Fixed `sway` in NixOS VMs
 - Added `sway` and `i3-sway` modules
 - Fixed `VSCode` terminal hiding when using ``<C-`>``

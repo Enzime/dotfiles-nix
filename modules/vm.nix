@@ -22,7 +22,7 @@
       export WLR_NO_HARDWARE_CURSORS=1
     '';
 
-    services.xserver.displayManager.defaultSession = mkVMOverride "sway";
+    services.xserver.displayManager.defaultSession = mkIf config.programs.sway.enable (mkVMOverride "sway");
   };
 
   # WORKAROUND: { osConfig ? { }, ... }: fails when using `home-manager build`

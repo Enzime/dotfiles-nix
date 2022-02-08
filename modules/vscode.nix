@@ -82,6 +82,8 @@
         "git-rebase-todo" = "default";
       };
 
+      "editor.bracketPairColorization.enabled" = true;
+      "editor.guides.bracketPairs" = true;
       "colorize.include" = [ "*" ];
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
       "colorize.hide_current_line_decorations" = false;
