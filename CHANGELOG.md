@@ -1,3 +1,8 @@
+- Changed assert guard on `phi` to only check every new minor kernel version
+- Removed patched `pam` for `i3lock`
+- Added `improve-youtube`
+- Refactored `firefox-addons` to use `mapAttrs` instead of hardcoding the assert guard on each attribute
+- Added `zramSwap` to `vm`
 - Fixed power off button press immediately turning off laptop
 - Enabled colouring bracket pairs and their guidelines
 - Fixed NixOS VMs that don't have `sway`

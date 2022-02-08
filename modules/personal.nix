@@ -12,6 +12,7 @@
       pkgs.firefox-addons.copy-selected-links
       pkgs.firefox-addons.ff2mpv
       pkgs.firefox-addons.hover-zoom-plus
+      pkgs.firefox-addons.improve-youtube
       pkgs.firefox-addons.multi-account-containers
       pkgs.firefox-addons.old-reddit-redirect
       pkgs.firefox-addons.reddit-enhancement-suite

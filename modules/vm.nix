@@ -18,6 +18,9 @@
       ];
     } else { };
 
+    zramSwap.enable = true;
+    zramSwap.memoryPercent = 250;
+
     programs.sway.extraSessionCommands = ''
       export WLR_NO_HARDWARE_CURSORS=1
     '';

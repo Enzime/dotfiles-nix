@@ -11,7 +11,8 @@
 
   # Navi10 is broken on 5.10.13+
   boot.kernelPackages = assert (
-    pkgs.linuxPackages_latest.kernel.version == "5.16.3"
+    # Check kernel again when 5.17 is out
+    builtins.compareVersions pkgs.linuxPackages_latest.kernel.version "5.17" == -1
   ); pkgs.linuxPackagesFor (pkgs.linux_5_15.override {
     argsOverride = let
       version = "5.15.12";
