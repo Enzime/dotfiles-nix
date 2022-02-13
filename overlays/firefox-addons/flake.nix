@@ -58,6 +58,15 @@
           meta = {};
         };
 
+        tetrio-plus = buildFirefoxXpiAddon {
+          pname = "tetrio-plus";
+          version = "0.23.7";
+          addonId = "tetrio-plus@example.com";
+          url = "https://addons.mozilla.org/firefox/downloads/file/3885942/tetrio_plus-0.23.7-an+fx.xpi";
+          sha256 = "sha256-ZwrdT76yaeWyh9LFMgwtcworln4CWWx4Kp8jHtzb3dY=";
+          meta = {};
+        };
+
         tst-wheel-and-double = buildFirefoxXpiAddon {
           pname = "tst-wheel-and-double";
           version = "1.5";

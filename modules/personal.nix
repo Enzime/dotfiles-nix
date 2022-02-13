@@ -18,6 +18,7 @@
       pkgs.firefox-addons.reddit-enhancement-suite
       pkgs.firefox-addons.redirector
       pkgs.firefox-addons.sponsorblock
+      pkgs.firefox-addons.tetrio-plus
       pkgs.firefox-addons.translate-web-pages
       pkgs.firefox-addons.tree-style-tab
       pkgs.firefox-addons.tst-wheel-and-double
