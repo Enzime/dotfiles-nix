@@ -1,3 +1,5 @@
+- Fixed GitHub Actions not using the locked Nix
+- Updated `discord`
 - Added `tetrio-plus`
 - Changed assert guard on `phi` to only check every new minor kernel version
 - Removed patched `pam` for `i3lock`
