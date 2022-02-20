@@ -1,3 +1,4 @@
+- Fixed CS:GO not launching
 - Fixed GitHub Actions not using the locked Nix
 - Updated `discord`
 - Added `tetrio-plus`

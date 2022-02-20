@@ -132,7 +132,7 @@
           defaultBranch = "main";
         };
         merge = {
-          conflictStyle = (assert (builtins.compareVersions pkgs.git.version "2.35.0" == -1); "diff3");
+          conflictStyle = "zdiff3";
         };
         pull = {
           ff = "only";
