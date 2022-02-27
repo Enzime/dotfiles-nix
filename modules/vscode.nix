@@ -47,6 +47,10 @@
       { key = "ctrl+`"; command = "-workbench.action.terminal.toggleTerminal"; when = "terminal.active"; }
       { key = "ctrl+`"; command = "terminal.focus"; when = "!terminalFocus"; }
       { key = "ctrl+`"; command = "workbench.action.focusActiveEditorGroup"; when = "terminalFocus"; }
+
+      # Disable closing tabs with `C-w`
+      { key = "ctrl+w"; command = "-workbench.action.closeActiveEditor"; }
+      { key = "ctrl+w"; command = "-workbench.action.terminal.killEditor"; when = "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'"; }
     ];
     programs.vscode.userSettings = {
       "update.mode" = "manual";

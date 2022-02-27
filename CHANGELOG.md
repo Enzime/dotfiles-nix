@@ -1,3 +1,4 @@
+- Disabled `C-w` in `VSCode`
 - Fixed CS:GO not launching
 - Fixed GitHub Actions not using the locked Nix
 - Updated `discord`
