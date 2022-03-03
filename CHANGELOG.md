@@ -1,3 +1,4 @@
+- Added `bcachefs` overlay to pin the version of `bcachefs`
 - Fixed delay when ending `neovim` macro recording in `VSCode`
 - Merged `non-nixos` module into `flakes`
 - Added `flakes` module to use only one version check for `experimental-options`
