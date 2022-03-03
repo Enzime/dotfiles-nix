@@ -121,7 +121,7 @@ map ZQ :q<CR>
 map Q <Nop>
 
 if exists('g:vscode')
-    noremap q: <Nop>
+    autocmd CmdwinEnter * quit
 endif
 
 nnoremap <silent> <Leader>a :ArgWrap<CR>
