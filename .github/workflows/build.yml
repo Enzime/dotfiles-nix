@@ -43,4 +43,5 @@ jobs:
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
       - run: nix flake lock $(find overlays -mindepth 1 -type d -printf "--update-input %f-overlay\n" | paste -sd ' ')
       - run: git reset --hard
+      - run: nix flake check
       - run: nix build --print-build-logs .#${{ matrix.output }}

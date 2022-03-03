@@ -1,12 +1,7 @@
 {
-  imports = [ "cachix" "nix-index" "non-nixos" "termite" "vm" "vscode" "xdg" ];
+  imports = [ "cachix" "flakes" "nix-index" "termite" "vm" "vscode" "xdg" ];
 
   nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
-    # Ensure exact version of Nix has been manually verified
-    nix.extraOptions = (assert (lib.hasPrefix "2.7.0" pkgs.nix.version); ''
-      experimental-features = nix-command flakes
-    '');
-
     # Add flake revision to `nixos-version --json`
     system.configurationRevision = configRevision.full;
 
@@ -72,11 +67,6 @@
     home.packages = builtins.attrValues {
       inherit (pkgs) peco ripgrep jq htop ranger tmux tree;
     };
-
-    # Ensure exact version of Nix has been manually verified
-    xdg.configFile."nix/nix.conf".text = (assert (hasPrefix "2.7.0" pkgs.nix.version); ''
-      experimental-features = nix-command flakes
-    '');
 
     # Allow fonts to be specified in `home.packages`
     fonts.fontconfig.enable = true;

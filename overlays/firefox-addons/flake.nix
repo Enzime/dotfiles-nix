@@ -4,8 +4,8 @@
   inputs.firefox-addons.inputs.flake-utils.follows = "flake-utils";
 
   outputs = { firefox-addons, nixpkgs, flake-utils, ... }: {
-    overlay = self: super: let
-      pkgs = import nixpkgs { inherit (super) system; };
+    overlay = final: prev: let
+      pkgs = import nixpkgs { inherit (prev) system; };
 
       addons = import "${firefox-addons}/pkgs/firefox-addons" {
         inherit (pkgs) fetchurl lib;
@@ -14,7 +14,7 @@
     in {
       firefox-addons = addons // (let
         inherit (builtins) hasAttr;
-        inherit (super.lib) mapAttrs;
+        inherit (prev.lib) mapAttrs;
         inherit (addons) buildFirefoxXpiAddon;
       in mapAttrs (name: addon:
         if addons ? ${name} then

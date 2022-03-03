@@ -1,7 +1,7 @@
 {
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) discord signal-desktop;
+      inherit (pkgs) discord joplin-desktop signal-desktop;
     };
 
     xsession.windowManager.i3.config.startup = [

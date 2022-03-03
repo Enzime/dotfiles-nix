@@ -1,3 +1,8 @@
+- Merged `non-nixos` module into `flakes`
+- Added `flakes` module to use only one version check for `experimental-options`
+- Added `nix flake check` to GitHub Actions
+- Use `final` and `prev` for overlays in flakes
+- Added `joplin-desktop`
 - Disabled `C-w` in `VSCode`
 - Fixed CS:GO not launching
 - Fixed GitHub Actions not using the locked Nix

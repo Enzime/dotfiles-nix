@@ -219,11 +219,8 @@
           ({ modulesPath, pkgs, ... }: {
             imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix" ];
             boot.supportedFilesystems = [ "bcachefs" ];
-
-            nix.extraOptions = (assert (builtins.compareVersions "2.5.1" pkgs.nix.version == 0); ''
-              experimental-features = nix-command flakes
-            '');
           })
+          ((import ./modules/flakes.nix).nixosModule)
           ((import ./modules/cachix.nix).nixosModule)
         ];
       };
