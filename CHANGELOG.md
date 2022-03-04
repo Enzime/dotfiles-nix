@@ -1,3 +1,4 @@
+- Fixed `sigma` failing to boot by using an old version of `bcachefs`
 - Added `bcachefs` overlay to pin the version of `bcachefs`
 - Fixed delay when ending `neovim` macro recording in `VSCode`
 - Merged `non-nixos` module into `flakes`
