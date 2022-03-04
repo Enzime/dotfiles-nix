@@ -51,6 +51,16 @@
       # Disable closing tabs with `C-w`
       { key = "ctrl+w"; command = "-workbench.action.closeActiveEditor"; }
       { key = "ctrl+w"; command = "-workbench.action.terminal.killEditor"; when = "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'"; }
+
+      # Disable `C-k` passthrough as VS Code uses `C-k` as the starting chord extensively
+      { key = "ctrl+k"; command = "-vscode-neovim.send"; when = "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'"; }
+
+      # Use `C-S-k` for clearing the terminal
+      { key = "ctrl+shift+k"; command = "-editor.action.deleteLines"; when = "textInputFocus && !editorReadonly"; }
+      { key = "ctrl+shift+k"; command = "workbench.action.terminal.clear"; }
+
+      # Disable `C-S-n` to reinforce `C-, C-r C-Enter` workflow
+      { key = "ctrl+shift+n"; command = "-workbench.action.newWindow"; }
     ];
     programs.vscode.userSettings = {
       "update.mode" = "manual";
