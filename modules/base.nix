@@ -1,5 +1,5 @@
 {
-  imports = [ "cachix" "flakes" "nix-index" "termite" "vm" "vscode" "xdg" ];
+  imports = [ "cachix" "flakes" "impermanence" "nix-index" "termite" "vm" "vscode" "xdg" ];
 
   nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
     # Add flake revision to `nixos-version --json`

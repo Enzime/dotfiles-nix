@@ -1,3 +1,4 @@
+- Added `impermanence` module
 - Disabled `C-S-n` in `VSCode`
 - Use `C-S-k` to clear terminals in `VSCode`
 - Disabled `C-k` passthrough to `neovim` in `VSCode`

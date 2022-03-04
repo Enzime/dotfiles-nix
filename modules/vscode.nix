@@ -7,7 +7,6 @@
     programs.vscode.enable = true;
     # Don't install `vscode` unless `graphical` module is specified
     programs.vscode.package = lib.mkDefault (pkgs.emptyDirectory // { pname = "vscode"; });
-    programs.vscode.mutableExtensionsDir = false;
     programs.vscode.extensions = [
       pkgs.vscode-extensions.asvetliakov.vscode-neovim
       pkgs.vscode-extensions.eamodio.gitlens
