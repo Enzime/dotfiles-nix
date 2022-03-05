@@ -23,6 +23,12 @@
       };
     };
 
+    wayland.windowManager.sway.config.input = {
+      "type:touchpad" = {
+        tap = "enabled";
+      };
+    };
+
     services.polybar.config = {
       "bar/base" = {
         modules-right = lib.mkForce "dotfiles battery wireless ethernet fs memory date";

@@ -171,7 +171,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) gnome i3 laptop personal;
+        inherit (modules) gnome i3 laptop personal sway;
       };
     }
     {

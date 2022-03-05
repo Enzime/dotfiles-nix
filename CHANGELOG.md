@@ -1,3 +1,7 @@
+- Changed `sway` to be default on `signam`
+- Enabled tap to click in `sway`
+- Use fractional scaling in `sway` on `sigma`
+- Use `sway` on `sigma`
 - Use `light` GitHub theme in `VSCode` Markdown preview
 - Refactored `vscode-extensions` overlay to require less typing per extension
 - Readded `vscode-extensions` overlay

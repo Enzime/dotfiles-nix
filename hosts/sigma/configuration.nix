@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -11,6 +11,8 @@
   networking.interfaces.wlp170s0.useDHCP = true;
 
   services.fprintd.enable = true;
+
+  services.xserver.displayManager.defaultSession = lib.mkForce "sway";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
