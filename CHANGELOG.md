@@ -1,3 +1,6 @@
+- Use `light` GitHub theme in `VSCode` Markdown preview
+- Refactored `vscode-extensions` overlay to require less typing per extension
+- Readded `vscode-extensions` overlay
 - Added `impermanence` module
 - Disabled `C-S-n` in `VSCode`
 - Use `C-S-k` to clear terminals in `VSCode`

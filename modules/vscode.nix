@@ -12,6 +12,10 @@
       pkgs.vscode-extensions.eamodio.gitlens
       (pkgs.vscode-extensions.ms-vscode-remote.remote-ssh.override { useLocalExtensions = true; })
 
+      pkgs.vscode-extensions.bierner.emojisense
+      pkgs.vscode-extensions.bierner.markdown-checkbox
+      pkgs.vscode-extensions.bierner.markdown-emoji
+      pkgs.vscode-extensions.bierner.markdown-preview-github-styles
       pkgs.vscode-extensions.editorconfig.editorconfig
       pkgs.vscode-extensions.kamikillerto.vscode-colorize
       pkgs.vscode-extensions.shardulm94.trailing-spaces
@@ -73,6 +77,7 @@
       "vscode-neovim.neovimExecutablePaths.linux" = "${pkgs.neovim}/bin/nvim";
 
       "workbench.colorTheme" = "Monokai";
+      "markdown-preview-github-styles.colorTheme" = "light";
 
       "editor.codeActionsOnSave" = {
         "source.fixAll" = true;
