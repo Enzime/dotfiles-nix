@@ -1,3 +1,4 @@
+- Added `Caps Lock` -> `Esc` mapping for Ducky keyboard
 - Changed `sway` to be default on `signam`
 - Enabled tap to click in `sway`
 - Use fractional scaling in `sway` on `sigma`

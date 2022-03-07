@@ -13,6 +13,9 @@
   services.udev.extraHwdb = ''
     evdev:name:Microsoft Surface * Keyboard:dmi:*
       KEYBOARD_KEY_70039=esc
+
+    evdev:name:USB-HID Keyboard:dmi:*
+      KEYBOARD_KEY_70039=esc
   '';
 
   # Check that this can be bumped before changing it
