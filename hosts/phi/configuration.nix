@@ -9,7 +9,7 @@
 
   hardware.cpu.amd.updateMicrocode = true;
 
-  # Navi10 is broken on 5.10.13+
+  # Navi10 is broken on 5.15.13+
   boot.kernelPackages = assert (
     # Check kernel again when 5.17 is out
     builtins.compareVersions pkgs.linuxPackages_latest.kernel.version "5.17" == -1
@@ -36,13 +36,6 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   services.xserver.displayManager.gdm.autoSuspend = false;
-
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  services.pipewire.enable = true;
-  services.pipewire.alsa.enable = true;
-  services.pipewire.alsa.support32Bit = true;
-  services.pipewire.pulse.enable = true;
 
   # Enable FreeSync
   services.xserver.deviceSection = ''

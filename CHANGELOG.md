@@ -1,3 +1,5 @@
+- Fix volume keys
+- Use `pipewire` by default
 - Added `Caps Lock` -> `Esc` mapping for Ducky keyboard
 - Changed `sway` to be default on `signam`
 - Enabled tap to click in `sway`

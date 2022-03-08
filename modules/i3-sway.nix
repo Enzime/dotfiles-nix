@@ -17,6 +17,10 @@
       keybindings = let
         mod = "Mod1";
       in {
+        "XF86AudioMute" = "exec ${pkgs.pamixer}/bin/pamixer -t";
+        "XF86AudioLowerVolume" = "exec ${pkgs.pamixer}/bin/pamixer -d 5";
+        "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
+
         "${mod}+Return" = "exec ${pkgs.termite}/bin/termite";
         "${mod}+Shift+Return" = "exec ${pkgs.termite}/bin/termite --name floating";
 
