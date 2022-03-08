@@ -64,6 +64,10 @@
 
       # Disable `C-S-n` to reinforce `C-, C-r C-Enter` workflow
       { key = "ctrl+shift+n"; command = "-workbench.action.newWindow"; }
+
+      # `C-i` is for IntelliSense suggestions
+      { key = "ctrl+i"; command = "-emojisense.quickEmoji"; when = "editorTextFocus"; }
+      { key = "ctrl+shift+i"; command = "-emojisense.quickEmojitext"; when = "editorTextFocus"; }
     ];
     programs.vscode.userSettings = {
       "update.mode" = "manual";
