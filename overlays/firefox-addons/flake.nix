@@ -5,11 +5,8 @@
 
   outputs = { firefox-addons, nixpkgs, flake-utils, ... }: {
     overlay = final: prev: let
-      pkgs = import nixpkgs { inherit (prev) system; };
-
       addons = import "${firefox-addons}/pkgs/firefox-addons" {
-        inherit (pkgs) fetchurl lib;
-        stdenv = pkgs.stdenv.override { config.allowUnfree = true; };
+        inherit (prev) fetchurl lib stdenv;
       };
     in {
       firefox-addons = addons // (let

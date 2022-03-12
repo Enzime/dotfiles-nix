@@ -1,3 +1,4 @@
+- Refactored `firefox-addons` to not import `nixpkgs` inside an overlay
 - Fix volume keys
 - Use `pipewire` by default
 - Added `Caps Lock` -> `Esc` mapping for Ducky keyboard
