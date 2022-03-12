@@ -1,3 +1,5 @@
+- Updated `store-new-generation` to generate scripts to use the generation
+- Fixed `store-new-generation` storing non-matching inputs
 - Refactored `firefox-addons` to not import `nixpkgs` inside an overlay
 - Fix volume keys
 - Use `pipewire` by default

@@ -7,6 +7,7 @@ shopt -s inherit_errexit
 
 profile=$1; shift 1
 pathToConfig=$1; shift 1
+configName=$1; shift 1
 
 systemNumber=$(
   nix-env -p "$profile" --list-generations |
@@ -24,21 +25,48 @@ if [[ -d "$systemCfg" ]]; then
   rm -rf $systemCfg
 fi
 
-mkdir -p "$systemCfg"
-ln -s "$(realpath "$pathToConfig/dotfiles")" "$systemCfg/dotfiles"
+mkdir -p "$systemCfg/bin"
+
+dotfiles=$(realpath "$pathToConfig/etc/nix/inputs/self")
+ln -s "$dotfiles" "$systemCfg/dotfiles"
+
+flags=("--flake" "$dotfiles#$configName")
 
 while [ "$#" -gt 0 ]; do
-    i="$1"; shift 1
-    case "$i" in
-      --override-input)
-        input="$1"; shift 1
-        replacement="$1"; shift 1
+  i="$1"; shift 1
 
-        pathInStore=$(nix flake metadata --json "$replacement")
-        target="$systemCfg/inputs/$input"
+  if [[ $i == "--override-input" ]]; then
+    input="$1"; shift 1
+    replacement="$1"; shift 1
 
-        mkdir -p "$(dirname $target)"
-        ln -s "$pathInStore" "$target"
-        ;;
-    esac
+    # FIXME: handle $input = "home-manager/nixpkgs"
+    # Ensure that we're looking at an input that is actually used
+    if [[ $(nix flake metadata --json "$dotfiles" --override-input "$input" "$replacement" | jq -r ".locks.nodes.${input}") != "null" ]]; then
+      flags+=("--override-input" $input $replacement)
+
+      pathInStore=$(nix flake metadata --json "$replacement" | jq -r ".path")
+      target="$systemCfg/inputs/$input"
+
+      mkdir -p "$(dirname $target)"
+      ln -s "$pathInStore" "$target"
+    fi
+  fi
 done
+
+cat > $systemCfg/bin/build <<EOF
+#!/bin/sh
+nixos-rebuild build ${flags[@]}
+EOF
+chmod a+x $systemCfg/bin/build
+
+cat > $systemCfg/bin/build-vm <<EOF
+#!/bin/sh
+nixos-rebuild build-vm ${flags[@]}
+EOF
+chmod a+x $systemCfg/bin/build-vm
+
+cat > $systemCfg/bin/switch <<EOF
+#!/bin/sh
+nixos-rebuild switch ${flags[@]}
+EOF
+chmod a+x $systemCfg/bin/switch
