@@ -1,8 +1,8 @@
 let
   # Ensure the exact version of Nix has been manually verified
   flakesStillExperimental = lib: version:
-  #       version == "2.7.0"      ||                 version < 2.7.0
-    lib.hasPrefix "2.7.0" version || builtins.compareVersions "2.7.0" version == 1;
+  #       version == "2.8.0"      ||                 version < 2.8.0
+    lib.hasPrefix "2.8.0" version || builtins.compareVersions "2.8.0" version == 1;
 in {
   nixosModule = { pkgs, lib, ... }: {
     nix.extraOptions = (assert (flakesStillExperimental lib pkgs.nix.version); ''
@@ -16,7 +16,7 @@ in {
     '');
 
     home.packages = lib.mkIf (!nixos) (builtins.attrValues {
-      # Necessary for non-NixOS systems which won't have the flakiest version of Nix
+      # Necessary for non-NixOS systems which won't have the dirtiest version of Nix
       inherit (pkgs) nix;
     });
   };

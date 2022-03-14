@@ -12,6 +12,7 @@
       pkgs.vscode-extensions.eamodio.gitlens
       (pkgs.vscode-extensions.ms-vscode-remote.remote-ssh.override { useLocalExtensions = true; })
 
+      pkgs.vscode-extensions.bierner.comment-tagged-templates
       pkgs.vscode-extensions.bierner.emojisense
       pkgs.vscode-extensions.bierner.markdown-checkbox
       pkgs.vscode-extensions.bierner.markdown-emoji

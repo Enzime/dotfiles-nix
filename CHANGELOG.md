@@ -1,3 +1,11 @@
+- Fixed `dirtyRev` never existing
+- Changed `git` to render lines were only moved around differently
+- Removed `grias` alias
+- Use `rebase.autoStash` by default
+- Added `comment-tagged-templates`
+- Removed `discord` overlay
+- Removed `vscode-extensions` now in Nixpkgs
+- Updated `gS` to also include file changed stats
 - Updated `store-new-generation` to generate scripts to use the generation
 - Fixed `store-new-generation` storing non-matching inputs
 - Refactored `firefox-addons` to not import `nixpkgs` inside an overlay

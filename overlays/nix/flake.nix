@@ -13,7 +13,7 @@
           (prev.fetchpatch {
             name = "add-dirtyRev-and-dirtyShortRev-to-fetchGit.patch";
             url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/5385.patch";
-            sha256 = "sha256-KVXTpSRIsgvyisJeWMan1fUWgyGpx17mUGZjE+QVPbI=";
+            sha256 = "sha256-8PpWo31IN6T1GCRXF0BmtHRNpF6gyQKmz4kp2QdNa2c=";
           })
         ];
       });

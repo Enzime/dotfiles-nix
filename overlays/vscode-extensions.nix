@@ -32,22 +32,10 @@ let
 in {
   vscode-extensions = recursiveUpdate super.vscode-extensions (fromMarketplaceRefs [
     {
-      name = "emojisense";
-      publisher = "bierner";
-      version = "0.9.0";
-      sha256 = "sha256-UqwKVcF0Nh6SWLSgfKDshqxmp6967Jm19RTTUyC/7D4=";
-    }
-    {
-      name = "markdown-checkbox";
+      name = "comment-tagged-templates";
       publisher = "bierner";
       version = "0.3.1";
-      sha256 = "sha256-HP7Y/QXwlzj07YTaFG3bwPdNwBRpsPCQiB3rabJtp3Q=";
-    }
-    {
-      name = "markdown-emoji";
-      publisher = "bierner";
-      version = "0.2.1";
-      sha256 = "sha256-m8g9xA7KBQrBv7EdJtJEJYcoKNRvZcc4ILR5mcYSj9E=";
+      sha256 = "sha256-dJyc7txc3fSlNWNGx2G8yF0hObYaiE2c44vzMrvzdkE=";
     }
     {
       name = "markdown-preview-github-styles";

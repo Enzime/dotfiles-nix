@@ -115,6 +115,9 @@
           ''}";
           hooksPath = "~/.config/git/hooks";
         };
+        diff = {
+          colorMoved = "default";
+        };
         fetch = {
           prune = true;
         };
@@ -128,6 +131,7 @@
           ff = "only";
         };
         rebase = {
+          autoStash = true;
           autoSquash = true;
         };
         url = {
@@ -218,7 +222,6 @@
         gF = "git fetch";
         gln = "gl -n";
         gpx = "gp --delete";
-        grias = "gri --autostash";
         gRh = "git reset --hard";
         gRs = "git reset --soft";
         gRv = "gR -v";
@@ -226,7 +229,7 @@
         gsc = "gfc --depth=1";
         gss = "git stash save -p";
         gsS = "git stash save --include-untracked";
-        gS = "git show";
+        gS = "git show --stat --patch";
         gtx = "git tag --delete";
       };
     };
