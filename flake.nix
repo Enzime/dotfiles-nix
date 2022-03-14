@@ -211,9 +211,11 @@
       };
     }
   ]) // (
-    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: {
+    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: let
+      pkgs = import nixpkgs { inherit system; };
+    in {
       packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {
-        pkgs = import nixpkgs { inherit system; };
+        inherit pkgs;
         format = "install-iso";
         modules = [
           ({ modulesPath, pkgs, ... }: {
@@ -223,6 +225,14 @@
           ((import ./modules/flakes.nix).nixosModule)
           ((import ./modules/cachix.nix).nixosModule)
         ];
+      };
+
+      devShells.default = pkgs.mkShell {
+        buildInputs = builtins.attrValues {
+          inherit (pkgs) rnix-lsp;
+          inherit (home-manager.packages.${system}) home-manager;
+          inherit (agenix.packages.${system}) agenix;
+        };
       };
     })
   );

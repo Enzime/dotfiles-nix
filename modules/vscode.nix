@@ -19,6 +19,7 @@
       pkgs.vscode-extensions.bierner.markdown-preview-github-styles
       pkgs.vscode-extensions.editorconfig.editorconfig
       pkgs.vscode-extensions.kamikillerto.vscode-colorize
+      pkgs.vscode-extensions.mkhl.direnv
       pkgs.vscode-extensions.shardulm94.trailing-spaces
 
       # Language support
@@ -26,6 +27,7 @@
       pkgs.vscode-extensions.jnoortheen.nix-ide
       (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-python.python)
       pkgs.vscode-extensions.ms-python.vscode-pylance
+      pkgs.vscode-extensions.ms-vscode.cpptools
       pkgs.vscode-extensions.xadillax.viml
     ];
     programs.vscode.keybindings = [
@@ -80,6 +82,7 @@
       "workbench.settings.enableNaturalLanguageSearch" = false;
 
       "vscode-neovim.neovimExecutablePaths.linux" = "${pkgs.neovim}/bin/nvim";
+      "nix.enableLanguageServer" = true;
 
       "workbench.colorTheme" = "Monokai";
       "markdown-preview-github-styles.colorTheme" = "light";

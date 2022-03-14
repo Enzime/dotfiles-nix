@@ -1,3 +1,7 @@
+- Use `rnix-lsp` in `VSCode`
+- Added `default` `devShell` with tooling for developing this repo
+- Fixed `cpptools` not being able to find compilers and headers with `direnv` extension for `VSCode`
+- Added `cpptools`
 - Fixed `dirtyRev` never existing
 - Changed `git` to render lines were only moved around differently
 - Removed `grias` alias
