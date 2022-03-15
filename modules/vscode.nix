@@ -117,7 +117,8 @@
       "terminal.external.linuxExec" = "termite";
 
       "files.associations" = {
-        "*.lock" = "json";
+        "flake.lock" = "json";
+        "yarn.lock" = "yaml";
       };
     };
 

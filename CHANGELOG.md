@@ -1,3 +1,4 @@
+- Fix `yarn.lock` being highlighted as `JSON`
 - Use `rnix-lsp` in `VSCode`
 - Added `default` `devShell` with tooling for developing this repo
 - Fixed `cpptools` not being able to find compilers and headers with `direnv` extension for `VSCode`
