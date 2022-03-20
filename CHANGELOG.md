@@ -1,4 +1,5 @@
-- Fix `yarn.lock` being highlighted as `JSON`
+- Reinstalled `tau` with `ext4` instead of `bcachefs`
+- Fixed `yarn.lock` being highlighted as `JSON`
 - Use `rnix-lsp` in `VSCode`
 - Added `default` `devShell` with tooling for developing this repo
 - Fixed `cpptools` not being able to find compilers and headers with `direnv` extension for `VSCode`
@@ -14,7 +15,7 @@
 - Updated `store-new-generation` to generate scripts to use the generation
 - Fixed `store-new-generation` storing non-matching inputs
 - Refactored `firefox-addons` to not import `nixpkgs` inside an overlay
-- Fix volume keys
+- Fixed volume keys
 - Use `pipewire` by default
 - Added `Caps Lock` -> `Esc` mapping for Ducky keyboard
 - Changed `sway` to be default on `signam`

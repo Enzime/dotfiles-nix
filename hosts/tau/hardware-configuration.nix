@@ -4,9 +4,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ ];
 
   boot.initrd.availableKernelModules = [
     "xhci_pci" "nvme" "usb_storage" "sd_mod"
@@ -14,15 +12,17 @@
     "surface_aggregator" "surface_aggregator_registry" "surface_hid_core" "surface_hid"
     "intel_lpss" "intel_lpss_pci"
     "8250_dw"
+    "aesni_intel" "cryptd"
   ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.supportedFilesystems = [ "bcachefs" ];
+
+  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/d2c5faa3-4cbf-4d77-8761-0d21f0a63ce3";
 
   fileSystems."/" =
-    { device = "/dev/disk/by-partuuid/52afb160-e0c2-4c40-9b9b-f1feb299288e";
-      fsType = "bcachefs";
+    { device = "/dev/pool/root";
+      fsType = "ext4";
     };
 
   fileSystems."/boot" =
@@ -30,7 +30,11 @@
       fsType = "vfat";
     };
 
-  swapDevices = [ ];
+  swapDevices =
+    [ { device = "/dev/pool/swap"; }
+    ];
+
+  networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

@@ -6,9 +6,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.cpu.intel.updateMicrocode = true;
-
-  networking.interfaces.wlp0s20f3.useDHCP = true;
+  hardware.enableRedistributableFirmware = true;
 
   services.udev.extraHwdb = ''
     evdev:name:Microsoft Surface * Keyboard:dmi:*
