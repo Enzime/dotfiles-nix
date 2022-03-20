@@ -212,7 +212,10 @@
     }
   ]) // (
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: let
-      pkgs = import nixpkgs { inherit system; };
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ (import ./overlays/bcachefs.nix) ];
+      };
     in {
       packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {
         inherit pkgs;

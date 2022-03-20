@@ -1,3 +1,7 @@
+- Added `/worktrees` to global `gitignore`
+- Use repo level config to ignore `.direnv` and `.envrc`
+- Fixed `nixosImages/bcachefs` not using the `bcachefs` overlay
+- Use `git am --3way` by default
 - Reinstalled `tau` with `ext4` instead of `bcachefs`
 - Fixed `yarn.lock` being highlighted as `JSON`
 - Use `rnix-lsp` in `VSCode`

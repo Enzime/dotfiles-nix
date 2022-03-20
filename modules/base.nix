@@ -106,11 +106,13 @@
         advice = {
           addIgnoredFile = false;
         };
+        am = {
+          threeWay = true;
+        };
         core = {
           excludesFile = "${pkgs.writeText "global_ignore" ''
+            /worktrees
             /start.sh
-            .direnv
-            .envrc
             result
           ''}";
           hooksPath = "~/.config/git/hooks";
