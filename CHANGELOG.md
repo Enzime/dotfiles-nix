@@ -1,3 +1,4 @@
+- Fixed `prezto` setting the default `EDITOR` to `nano`
 - Added `editorconfig` plugin for standalone `neovim`
 - Added `/worktrees` to global `gitignore`
 - Use repo level config to ignore `.direnv` and `.envrc`
