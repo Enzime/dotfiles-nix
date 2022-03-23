@@ -1,3 +1,4 @@
+- Fixed `1password` Browser Integration not working
 - Fixed `prezto` setting the default `EDITOR` to `nano`
 - Added `editorconfig` plugin for standalone `neovim`
 - Added `/worktrees` to global `gitignore`
