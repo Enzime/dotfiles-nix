@@ -259,6 +259,7 @@
       pkgs.vimPlugins.neovim-ranger
 
       pkgs.vimPlugins.denite-nvim
+      pkgs.vimPlugins.editorconfig-nvim
       pkgs.vimPlugins.lightline-vim
       pkgs.vimPlugins.vim-commentary
       pkgs.vimPlugins.vim-css-color
