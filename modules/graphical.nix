@@ -1,7 +1,7 @@
 {
   imports = [ "firefox" "fonts" "mpv" "ios" ];
 
-  nixosModule = { pkgs, ... }: {
+  nixosModule = { user, pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) firefox qalculate-gtk pavucontrol tigervnc;
 
@@ -20,6 +20,10 @@
 
     programs._1password-gui.enable = true;
     programs._1password-gui.groupId = 5000;
+    programs._1password-gui.polkitPolicyOwners = [ user ];
+
+    programs._1password.enable = true;
+    programs._1password.groupId = 5001;
   };
 
   hmModule = { pkgs, ... }: {

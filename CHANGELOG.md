@@ -1,3 +1,5 @@
+- Replaced remaining hardcoded usernames with `user` from `flake.nix`
+- Added `1password-cli` with GUI integration
 - Fixed `1password` Browser Integration not working
 - Fixed `prezto` setting the default `EDITOR` to `nano`
 - Added `editorconfig` plugin for standalone `neovim`

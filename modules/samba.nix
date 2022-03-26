@@ -1,5 +1,5 @@
 {
-  nixosModule = { ... }: {
+  nixosModule = { user, ... }: {
     services.samba.enable = true;
     services.samba.openFirewall = true;
     services.samba.shares.phi = {
@@ -8,7 +8,7 @@
       "guest ok" = "no";
       "create mask" = "0644";
       "directory mask" = "0755";
-      "force user" = "enzime";
+      "force user" = user;
       "force group" = "users";
     };
   };
