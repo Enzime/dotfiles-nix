@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -15,6 +15,8 @@
     evdev:name:USB-HID Keyboard:dmi:*
       KEYBOARD_KEY_70039=esc
   '';
+
+  services.xserver.displayManager.defaultSession = lib.mkForce "sway";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";

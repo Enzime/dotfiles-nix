@@ -1,3 +1,6 @@
+- Use `sway` by default on `tau`
+- Refactored out `hidpi` module from `tau`
+- Added `sway` to `tau`
 - Replaced remaining hardcoded usernames with `user` from `flake.nix`
 - Added `1password-cli` with GUI integration
 - Fixed `1password` Browser Integration not working

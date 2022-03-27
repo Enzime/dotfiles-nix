@@ -180,7 +180,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) cosmic i3 laptop work;
+        inherit (modules) cosmic hidpi i3 laptop work sway;
       };
     }
     {

@@ -1,13 +1,6 @@
 { pkgs, lib, ... }:
 
 {
-  home.sessionVariables = {
-    GDK_SCALE                    = 2;
-    GDK_DPI_SCALE                = 0.5;
-    QT_AUTO_SCREEN_SCALE_FACTOR  = 1;
-    QT_FONT_DPI                  = 96;
-  };
-
   xresources.properties = {
     "*dpi" = 192;
     "Xcursor.size" = 48;
@@ -23,25 +16,24 @@
     { workspace = "101"; output = "eDP-1"; }
   ];
 
-  services.polybar = {
-    config = {
-      "bar/centre" = {
-        monitor = "eDP-1";
+  wayland.windowManager.sway.config.output = {
+    eDP-1 = {
+      scale = "1.5";
+    };
+  };
 
-        # scale everything by 2 for HiDPI
-        height = 54;
+  wayland.windowManager.sway.config.workspaceOutputAssign = [
+    { workspace = "1"; output = "eDP-1"; }
+  ];
 
-        font-0 = "Fira Mono:pixelsize=20;1";
-        font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=20;1";
+  services.polybar.config = {
+    "bar/centre" = {
+      monitor = "eDP-1";
+    };
 
-        tray-scale = "1.0";
-        tray-maxsize = 54;
-      };
-
-      "module/battery" = {
-        battery = "BAT1";
-        adapter = "ADP1";
-      };
+    "module/battery" = {
+      battery = "BAT1";
+      adapter = "ADP1";
     };
   };
 }
