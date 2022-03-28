@@ -5,7 +5,7 @@
     programs.sway.enable = true;
   };
 
-  hmModule = { ... }: {
+  hmModule = { pkgs, ... }: {
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
 
@@ -34,7 +34,28 @@
         "${mod}+Shift+8" = "move container to workspace number 8";
         "${mod}+Shift+9" = "move container to workspace number 9";
         "${mod}+Shift+0" = "move container to workspace number 10";
+
+        "Mod4+l" = "exec loginctl lock-session";
       };
+    };
+
+    systemd.user.services.swayidle = {
+      Unit = {
+        Description = "Idle Manager for Wayland";
+        Documentation = [ "man:swayidle(1)" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+
+      Service.ExecStart = ''
+        ${pkgs.swayidle}/bin/swayidle -w -d \
+          timeout 1 'exit 0' \
+              resume 'swaymsg "output * dpms on"' \
+          timeout 60 'loginctl lock-session' \
+              resume 'swaymsg "output * dpms on"' \
+          lock 'swaylock -f -c 000000 && swaymsg "output * dpms off"'
+      '';
+
+      Install.WantedBy = [ "sway-session.target" ];
     };
   };
 }

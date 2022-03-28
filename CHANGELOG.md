@@ -1,3 +1,5 @@
+- Fixed screen locking on `sway`
+- Fixed environment variables only set on first login
 - Use `sway` by default on `tau`
 - Refactored out `hidpi` module from `tau`
 - Added `sway` to `tau`

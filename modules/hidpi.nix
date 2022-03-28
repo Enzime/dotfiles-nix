@@ -1,6 +1,6 @@
 {
   hmModule = { ... }: {
-    programs.zsh.profileExtra = ''
+    home.sessionVariablesExtra = ''
       if [[ $XDG_SESSION_TYPE = "x11" ]]; then
         export GDK_SCALE=2
         export GDK_DPI_SCALE=0.5
