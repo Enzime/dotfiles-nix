@@ -1,12 +1,12 @@
 {
   hmModule = { pkgs, ... }: let
     sharedConfig = {
+      bars = [ ];
+
       window = {
         titlebar = false;
         border = 1;
       };
-
-      floating.criteria = [ { "instance" = "^floating$"; } ];
 
       colors = {
         focused         = { border = "#4c7899"; background = "#e61f00"; text = "#ffffff"; indicator = "#00ccff"; childBorder = "#e61f00"; };
@@ -73,10 +73,6 @@
         "${mod}+space" = "focus mode_toggle";
 
         "${mod}+a" = "focus parent";
-
-
-        "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+r" = "restart";
 
         "${mod}+o" = "mode osu";
         "${mod}+r" = "mode resize";

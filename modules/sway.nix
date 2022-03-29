@@ -8,8 +8,16 @@
   hmModule = { pkgs, ... }: {
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
+    programs.waybar.enable = true;
 
     wayland.windowManager.sway.config = {
+      startup = [
+        { command = "systemctl --user restart waybar"; always = true; }
+        { command = "1password"; }
+      ];
+
+      floating.criteria = [ { "app_id" = "^floating$"; } ];
+
       keybindings = let
         mod = "Mod1";
       in {
@@ -36,6 +44,8 @@
         "${mod}+Shift+0" = "move container to workspace number 10";
 
         "Mod4+l" = "exec loginctl lock-session";
+
+        "${mod}+Shift+r" = "reload";
       };
     };
 
@@ -57,5 +67,26 @@
 
       Install.WantedBy = [ "sway-session.target" ];
     };
+
+    programs.waybar.settings = [{
+      layer = "top";
+      modules-left = [ "sway/workspaces" "sway/mode" ];
+      modules-center = [ "sway/window" ];
+      modules-right = [ "battery" "clock" "tray" ];
+      "sway/window" = {
+        max-length = 50;
+      };
+      battery = {
+        format = "{capacity}% {icon}";
+        format-icons = [ "" "" "" "" "" ];
+      };
+      clock = {
+        format = "{:%a %b %d %I:%M:%S %p}";
+        interval = 1;
+      };
+    }];
+
+    programs.waybar.systemd.enable = true;
+    programs.waybar.systemd.target = "sway-session.target";
   };
 }

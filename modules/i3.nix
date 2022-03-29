@@ -28,11 +28,13 @@
     services.udiskie.enable = true;
 
     xsession.windowManager.i3.config = {
-      bars = [ ];
       startup = [
         { command = "systemctl --user restart polybar"; always = true; notification = false; }
         { command = "1password"; notification = false; }
       ];
+
+      floating.criteria = [ { "instance" = "^floating$"; } ];
+
       keybindings = let
         mod = "Mod1";
         screenshotFilename = "/data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
@@ -96,6 +98,9 @@
         "Control+${mod}+Shift+8" = "exec ${i3-ws} --shift 8";
         "Control+${mod}+Shift+9" = "exec ${i3-ws} --shift 9";
         "Control+${mod}+Shift+0" = "exec ${i3-ws} --shift 10";
+
+        "${mod}+Shift+c" = "reload";
+        "${mod}+Shift+r" = "restart";
       };
     };
 

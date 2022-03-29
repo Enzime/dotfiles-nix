@@ -1,3 +1,6 @@
+- Fixed `A-S-r` not doing anything in `sway`
+- Use `waybar` instead of `swaybar` for `tray`
+- Fixed `termite` not floating in `sway`
 - Fixed screen locking on `sway`
 - Fixed environment variables only set on first login
 - Use `sway` by default on `tau`
