@@ -11,6 +11,10 @@
     };
   };
 
+  wayland.windowManager.sway.config.workspaceOutputAssign = [
+    { workspace = "1"; output = "eDP-1"; }
+  ];
+
   services.polybar.config = {
     "module/battery" = {
       battery = "BAT1";

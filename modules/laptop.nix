@@ -1,7 +1,7 @@
 {
   imports = [ "wireless" ];
 
-  nixosModule = { pkgs, ... }: {
+  nixosModule = { user, pkgs, ... }: {
     services.xserver.libinput.enable = true;
 
     services.udev.extraHwdb = ''
@@ -13,9 +13,17 @@
     services.logind.extraConfig = assert (builtins.compareVersions pkgs.systemd.version "250" == -1); ''
       HandlePowerKey=ignore
     '';
+
+    programs.light.enable = true;
+    users.users.${user}.extraGroups = [ "video" ];
   };
 
-  hmModule = { lib, ... }: {
+  hmModule = { pkgs, lib, ... }: let
+    keybindings = {
+      "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
+      "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
+    };
+  in {
     dconf.settings = {
       "org/gnome/desktop/peripherals/touchpad" = {
         natural-scroll = false;
@@ -28,6 +36,9 @@
         tap = "enabled";
       };
     };
+
+    xsession.windowManager.i3.config.keybindings = keybindings;
+    wayland.windowManager.sway.config.keybindings = keybindings;
 
     services.polybar.config = {
       "bar/base" = {

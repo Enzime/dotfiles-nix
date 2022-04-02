@@ -1,3 +1,4 @@
+- Use `light` to control brightness on laptops
 - Fixed `A-S-r` not doing anything in `sway`
 - Use `waybar` instead of `swaybar` for `tray`
 - Fixed `termite` not floating in `sway`
