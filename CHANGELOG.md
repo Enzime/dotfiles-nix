@@ -1,3 +1,10 @@
+- Removed assert guard for `HandlePowerKeyLongPress`
+- Use different DisplayPort ports on `phi`
+- Removed `prezto` patch that is no longer needed
+- Use new `1password` option names
+- Removed `cosmic` module from all configurations
+- Use latest kernel on `phi`
+- Removed `bcachefs` overlay
 - Use `light` to control brightness on laptops
 - Fixed `A-S-r` not doing anything in `sway`
 - Use `waybar` instead of `swaybar` for `tray`

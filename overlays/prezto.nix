@@ -6,7 +6,6 @@ self: super: {
         url = "https://patch-diff.githubusercontent.com/raw/sorin-ionescu/prezto/pull/1982.patch";
         sha256 = "sha256-d9pjrDzp3zsrdnJdHFnTsicemJAkUYqznWdQBddoy10=";
       })
-      ../files/prezto-profile.patch
     ];
   });
 }

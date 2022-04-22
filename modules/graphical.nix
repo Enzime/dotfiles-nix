@@ -19,11 +19,11 @@
     services.pipewire.pulse.enable = true;
 
     programs._1password-gui.enable = true;
-    programs._1password-gui.groupId = 5000;
+    programs._1password-gui.gid = 5000;
     programs._1password-gui.polkitPolicyOwners = [ user ];
 
     programs._1password.enable = true;
-    programs._1password.groupId = 5001;
+    programs._1password.gid = 5001;
   };
 
   hmModule = { pkgs, ... }: {

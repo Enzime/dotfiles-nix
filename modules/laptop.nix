@@ -9,8 +9,7 @@
         KEYBOARD_KEY_3a=esc
     '';
 
-    # Add HandlePowerKeyLongPress when we're using systemd 250
-    services.logind.extraConfig = assert (builtins.compareVersions pkgs.systemd.version "250" == -1); ''
+    services.logind.extraConfig = ''
       HandlePowerKey=ignore
     '';
 

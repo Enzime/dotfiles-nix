@@ -9,19 +9,19 @@ in {
   ];
 
   xsession.windowManager.i3.config.workspaceOutputAssign = [
-    { workspace = "101"; output = "DisplayPort-1"; }
-    { workspace = "201"; output = "DisplayPort-0"; }
+    { workspace = "101"; output = "DisplayPort-2"; }
+    { workspace = "201"; output = "DisplayPort-1"; }
   ];
 
   services.polybar = {
     config = {
       "bar/centre" = {
-        monitor = "DisplayPort-1";
+        monitor = "DisplayPort-2";
       };
 
       "bar/right" = {
         "inherit" = "bar/base";
-        monitor = "DisplayPort-0";
+        monitor = "DisplayPort-1";
       };
     };
     script = mkForce ''

@@ -162,7 +162,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) cosmic duckdns gaming i3 samba sway;
+        inherit (modules) duckdns gaming i3 samba sway;
       };
     }
     {
@@ -180,7 +180,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) cosmic hidpi i3 laptop work sway;
+        inherit (modules) hidpi i3 laptop work sway;
       };
     }
     {
@@ -214,7 +214,6 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ (import ./overlays/bcachefs.nix) ];
       };
     in {
       packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {
