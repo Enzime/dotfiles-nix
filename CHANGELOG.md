@@ -1,3 +1,4 @@
+- Fixed `gnome-keyring` not available when only `i3` is available
 - Removed assert guard for `HandlePowerKeyLongPress`
 - Use different DisplayPort ports on `phi`
 - Removed `prezto` patch that is no longer needed

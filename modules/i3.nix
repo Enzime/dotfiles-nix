@@ -10,6 +10,9 @@
     # Used as an abstraction over udisk2 by file managers
     services.gvfs.enable = true;
 
+    services.gnome.gnome-keyring.enable = true;
+    programs.seahorse.enable = true;
+
     # Some D-Bus errors were occuring on `switch` without this line
     programs.dconf.enable = true;
   };
