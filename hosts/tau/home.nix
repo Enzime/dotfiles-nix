@@ -16,6 +16,10 @@
     { workspace = "101"; output = "eDP-1"; }
   ];
 
+  wayland.windowManager.sway.config.startup = [
+    { command = "slack"; }
+  ];
+
   wayland.windowManager.sway.config.output = {
     eDP-1 = {
       scale = "1.5";
