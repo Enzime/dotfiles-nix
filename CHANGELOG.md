@@ -1,3 +1,4 @@
+- Fixed screen sharing in `sway`
 - Fixed Slay the Spire not launching
 - Added `slack` to startup in `sway` on `tau`
 - Fixed `gnome-keyring` not available when only `i3` is available

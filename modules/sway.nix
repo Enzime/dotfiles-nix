@@ -3,6 +3,8 @@
 
   nixosModule = { ... }: {
     programs.sway.enable = true;
+
+    xdg.portal.wlr.enable = true;
   };
 
   hmModule = { pkgs, ... }: {
