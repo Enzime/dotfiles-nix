@@ -17,6 +17,9 @@
     nix.registry.d.to = { type = "git"; url = "file:///home/${user}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
 
+    home-manager.users.root.programs.git.enable = true;
+    home-manager.users.root.programs.git.extraConfig.safe.directory = "/home/${user}/dotfiles";
+
     programs.zsh.enable = true;
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;

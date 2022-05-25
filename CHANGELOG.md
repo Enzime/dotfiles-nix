@@ -1,3 +1,5 @@
+- Use CloudFlare DNS exclusively on `phi`
+- Fixed `nixos-rebuild switch` not working with `sudo`
 - Fixed screen sharing in `sway`
 - Fixed Slay the Spire not launching
 - Added `slack` to startup in `sway` on `tau`

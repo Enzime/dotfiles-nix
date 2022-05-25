@@ -1,8 +1,8 @@
 let
   # Ensure the exact version of Nix has been manually verified
   flakesStillExperimental = lib: version:
-  #       version == "2.8.0"      ||                 version < 2.8.0
-    lib.hasPrefix "2.8.0" version || builtins.compareVersions "2.8.0" version == 1;
+  #       version == "2.8.1"      ||                 version < 2.8.1
+    lib.hasPrefix "2.8.1" version || builtins.compareVersions "2.8.1" version == 1;
 in {
   nixosModule = { pkgs, lib, ... }: {
     nix.extraOptions = (assert (flakesStillExperimental lib pkgs.nix.version); ''

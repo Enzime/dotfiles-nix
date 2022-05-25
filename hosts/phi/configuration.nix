@@ -14,6 +14,11 @@
 
   networking.interfaces.enp34s0.useDHCP = true;
 
+  networking.nameservers = [ "1.1.1.1" ];
+  networking.dhcpcd.extraConfig = ''
+    nohook resolv.conf
+  '';
+
   nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/nix/nixpkgs"; };
 
   # Install firmware-linux-nonfree (includes Navi10 drivers)
