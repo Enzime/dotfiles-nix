@@ -8,16 +8,24 @@
 
     virtualisation.podman.enable = true;
     virtualisation.podman.dockerCompat = true;
+
+    services.tailscale.enable = true;
   };
 
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) awscli2 aws-vault mongodb-compass postman slack;
+      inherit (pkgs) android-studio awscli2 aws-vault mongodb-compass postman remmina slack;
       inherit (pkgs.gnome) zenity;
     };
 
     programs.zsh.initExtra = ''
       export AWS_VAULT_PROMPT="zenity"
+    '';
+
+    home.sessionVariablesExtra = ''
+      if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
+        export _JAVA_AWT_WM_NONREPARENTING=1
+      fi
     '';
 
     programs.firefox.extensions = [

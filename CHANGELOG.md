@@ -1,3 +1,6 @@
+- Added `tailscale`
+- Fixed `android-studio` not rendering any text under Wayland
+- Added `android-studio`
 - Use CloudFlare DNS exclusively on `phi`
 - Fixed `nixos-rebuild switch` not working with `sudo`
 - Fixed screen sharing in `sway`
