@@ -1,3 +1,5 @@
+- Use `config.age.secrets.*.path` instead of hardcoding `/run/agenix`
+- Fixed Noto CJK not working in `discord`
 - Added `tailscale`
 - Fixed `android-studio` not rendering any text under Wayland
 - Added `android-studio`
