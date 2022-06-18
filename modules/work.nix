@@ -1,13 +1,12 @@
 {
+  imports = [ "docker" ];
+
   nixosModule = { user, ... }: {
     age.secrets.aws_config = {
       file = ../secrets/aws_config.age;
       path = "/home/${user}/.aws/config";
       owner = user;
     };
-
-    virtualisation.podman.enable = true;
-    virtualisation.podman.dockerCompat = true;
 
     services.tailscale.enable = true;
   };

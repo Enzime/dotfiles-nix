@@ -3,7 +3,7 @@
 
   nixosModule = { user, pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) firefox qalculate-gtk pavucontrol tigervnc;
+      inherit (pkgs) firefox pavucontrol qalculate-gtk remmina;
 
       inherit (pkgs) spotify spotify-tray;
     };

@@ -1,3 +1,5 @@
+- Replaced `tigervnc` with `remmina`
+- Added `docker` module
 - Use `config.age.secrets.*.path` instead of hardcoding `/run/agenix`
 - Fixed Noto CJK not working in `discord`
 - Added `tailscale`
