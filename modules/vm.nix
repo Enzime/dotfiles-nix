@@ -3,7 +3,9 @@
     inherit (lib) mkIf mkVMOverride;
   # The `virtualisation.diskImage` option only exists when using `nixos-rebuild build-vm`
   in mkIf (config.virtualisation ? diskImage) {
-    networking.interfaces = mkVMOverride { };
+    networking.interfaces = mkVMOverride {
+      eth0.useDHCP = true;
+    };
 
     users.users.root.password = "apple";
     users.users.${user}.password = "apple";

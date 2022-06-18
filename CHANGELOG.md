@@ -1,3 +1,5 @@
+- Added `systemd` service to manage `etebase-arion` container
+- Fixed internet access in NixOS VM
 - Replaced `tigervnc` with `remmina`
 - Added `docker` module
 - Use `config.age.secrets.*.path` instead of hardcoding `/run/agenix`

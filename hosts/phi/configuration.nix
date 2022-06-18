@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ user, pkgs, utils, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -49,6 +49,23 @@
       Option "RightOf" "DisplayPort-2"
     '';
   } ];
+
+  # WORKAROUND: `escapeSystemdPath` removes the root slash, but we need an escaped root slash
+  systemd.services."arion@${utils.escapeSystemdPath "//home/${user}/nix/etebase-arion"}" = {
+    description = "Run arion config at %I";
+    after = [ "network-online.target" "nix-daemon.service" "podman.service" ];
+    wants = [ "network-online.target" ];
+    requires = [ "nix-daemon.service" "podman.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      WorkingDirectory = "%I";
+      ExecStart = "${pkgs.arion}/bin/arion up";
+      ExecStop = "${pkgs.arion}/bin/arion stop";
+      User = "${user}";
+    };
+    path = [ pkgs.nix pkgs.docker-client ];
+  };
 
   # Check that this can be bumped before changing it
   system.stateVersion = "21.05";
