@@ -1,3 +1,5 @@
+- Fixed rootless container ports not accessible through firewall
+- Use `podman-compose` instead of `docker-compose` for rootless containers
 - Added `contacts` module
 - Use `user` instead of hardcoded username
 - Use `xdg.userDirs.pictures` instead of hardcoding `/data/Pictures`
