@@ -17,7 +17,7 @@
     programs.dconf.enable = true;
   };
 
-  hmModule = { pkgs, lib, configRevision, options, ... }: {
+  hmModule = { config, pkgs, lib, configRevision, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) xclip fira-mono font-awesome;
       inherit (pkgs.xfce) thunar;
@@ -40,7 +40,7 @@
 
       keybindings = let
         mod = "Mod1";
-        screenshotFilename = "/data/Pictures/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
+        screenshotFilename = "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
         i3-ws = "${pkgs.i3-ws}/bin/i3-ws";
         maim = "${pkgs.maim}/bin/maim";
         xdotool = "${pkgs.xdotool}/bin/xdotool";

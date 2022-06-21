@@ -7,7 +7,7 @@
     xdg.portal.wlr.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { config, pkgs, ... }: {
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
     programs.waybar.enable = true;
@@ -22,7 +22,22 @@
 
       keybindings = let
         mod = "Mod1";
+        screenshotFilename = "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
+        grim = "${pkgs.grim}/bin/grim";
+        swaymsg = "${pkgs.sway}/bin/swaymsg";
+        jq = "${pkgs.jq}/bin/jq";
+        slurp = "${pkgs.slurp}/bin/slurp";
       in {
+        "Control+Shift+2" = "exec ${pkgs.writeShellScript "grim-current-window" ''
+          REGION=$(${swaymsg} -t get_tree | ${jq} -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')
+          ${grim} -g "$REGION" ${screenshotFilename}
+        ''}";
+        "Control+Shift+3" = "exec bash -c '${grim} ${screenshotFilename}'";
+        "Control+Shift+4" = "exec ${pkgs.writeShellScript "grim-slurp" ''
+          REGION=$(${swaymsg} -t get_tree | ${jq} -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | ${slurp})
+          ${grim} -g "$REGION" ${screenshotFilename}
+        ''}";
+
         "${mod}+1" = "workspace number 1";
         "${mod}+2" = "workspace number 2";
         "${mod}+3" = "workspace number 3";

@@ -1,3 +1,5 @@
+- Use `xdg.userDirs.pictures` instead of hardcoding `/data/Pictures`
+- Added keybinds to screenshot in `sway`
 - Added `systemd` service to manage `etebase-arion` container
 - Fixed internet access in NixOS VM
 - Replaced `tigervnc` with `remmina`
