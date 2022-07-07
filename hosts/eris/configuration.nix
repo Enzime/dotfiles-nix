@@ -1,4 +1,4 @@
-{ keys, pkgs, ... }:
+{ user, keys, ... }:
 
 {
   imports =
@@ -14,7 +14,7 @@
 
   networking.interfaces.enp0s4.useDHCP = true;
 
-  users.users.human = {
+  users.users.${user} = {
     openssh.authorizedKeys.keys = builtins.attrValues {
       inherit (keys.users) enzime_phi nathan;
     };

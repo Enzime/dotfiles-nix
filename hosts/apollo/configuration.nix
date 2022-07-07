@@ -1,4 +1,4 @@
-{ keys, ... }:
+{ user, keys, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -17,7 +17,7 @@
   boot.cleanTmpDir = true;
   zramSwap.enable = true;
   zramSwap.memoryPercent = 90;
-  users.users.human = {
+  users.users.${user} = {
     openssh.authorizedKeys.keys = builtins.attrValues {
       inherit (keys.users) enzime_phi;
     };
