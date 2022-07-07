@@ -1,4 +1,6 @@
 {
+  imports = [ "contacts" ];
+
   hmModule = { pkgs, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) discord joplin-desktop signal-desktop;

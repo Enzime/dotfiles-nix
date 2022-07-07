@@ -11,6 +11,11 @@ in {
     inherit (hosts) phi;
   };
 
+  "etesync-dav.age".publicKeys = builtins.attrValues {
+    inherit (users) enzime_phi;
+    inherit (hosts) phi;
+  };
+
   "network_apollo.age".publicKeys = builtins.attrValues {
     inherit (hosts) apollo;
   };

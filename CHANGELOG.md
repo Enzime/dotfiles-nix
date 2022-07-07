@@ -1,3 +1,4 @@
+- Added `contacts` module
 - Use `user` instead of hardcoded username
 - Use `xdg.userDirs.pictures` instead of hardcoding `/data/Pictures`
 - Added keybinds to screenshot in `sway`
