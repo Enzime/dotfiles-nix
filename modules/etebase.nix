@@ -1,4 +1,6 @@
 {
+  imports = [ "docker" ];
+
   nixosModule = { user, pkgs, utils, ... }: {
     system.activationScripts.enableLingering = ''
       rm -r /var/lib/systemd/linger

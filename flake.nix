@@ -162,7 +162,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) docker duckdns etebase gaming i3 samba sway;
+        inherit (modules) duckdns etebase gaming i3 samba sway virt-manager;
       };
     }
     {
