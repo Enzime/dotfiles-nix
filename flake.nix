@@ -141,11 +141,13 @@
       # OR
       # home-manager build --flake ~/.config/nixpkgs#enzime@phi-nixos
       homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
-        inherit system pkgs;
-        configuration = { };
-        homeDirectory = if (hasSuffix "linux" system) then "/home/${user}" else "/Users/${user}";
-        username = user;
-        extraModules = home;
+        inherit pkgs;
+        modules = [
+          ({ ... }: {
+            home.username = user;
+            home.homeDirectory = if (hasSuffix "linux" system) then "/home/${user}" else "/Users/${user}";
+          })
+        ] ++ home;
         extraSpecialArgs = extraHomeManagerArgs;
       };
     };
@@ -214,6 +216,7 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: let
       pkgs = import nixpkgs {
         inherit system;
+        overlays = [ inputs.nix-overlay.overlay ];
       };
     in {
       packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {

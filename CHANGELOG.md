@@ -1,3 +1,6 @@
+- Fixed `nixosImages/bcachefs` not using `nix` overlay
+- Use latest `home-manager` for `21.11`
+- Use `ff2mpv` from `nixpkgs`
 - Added `virt-manager` module
 - Added `vncserver` module
 - Fixed rootless container ports not accessible through firewall
