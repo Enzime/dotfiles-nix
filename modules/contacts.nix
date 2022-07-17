@@ -10,11 +10,14 @@
     age.secrets.etesync-dav.owner = user;
   };
 
-  hmModule = { osConfig, lib, ... }@args: let
-    inherit (lib) hasAttrByPath mkIf mkVMOverride;
-  in mkIf (hasAttrByPath [ "osConfig" "age" ] args) {
+  hmModule = { lib, ... }@args: let
+    inherit (lib) hasAttrByPath mkForce mkIf;
+  in {
     services.etesync-dav.enable = true;
-    systemd.user.services.etesync-dav.Service.Environment = lib.mkForce [ ];
-    systemd.user.services.etesync-dav.Service.EnvironmentFile = args.osConfig.age.secrets.etesync-dav.path;
+
+    systemd.user.services.etesync-dav.Service = mkIf (hasAttrByPath [ "osConfig" "age" ] args) {
+     Environment = mkForce [ ];
+      EnvironmentFile = args.osConfig.age.secrets.etesync-dav.path;
+    };
   };
 }
