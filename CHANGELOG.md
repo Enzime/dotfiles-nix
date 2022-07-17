@@ -1,3 +1,4 @@
+- Fixed `home-manager build` breaking due to accidental `osConfig` reference
 - Fixed `nixosImages/bcachefs` not using `nix` overlay
 - Use latest `home-manager` for `21.11`
 - Use `ff2mpv` from `nixpkgs`
