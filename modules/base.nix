@@ -17,6 +17,7 @@
     nix.registry.d.to = { type = "git"; url = "file:///home/${user}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
 
+    home-manager.users.root.home.stateVersion = "22.11";
     home-manager.users.root.programs.git.enable = true;
     home-manager.users.root.programs.git.extraConfig.safe.directory = "/home/${user}/dotfiles";
 
@@ -65,6 +66,8 @@
     inherit (lib) hasPrefix hasSuffix mkIf readFile;
     inherit (pkgs.stdenv) hostPlatform;
   in {
+    home.stateVersion = "22.11";
+
     # Replace `with pkgs;` with `inherit (pkgs)`
     # https://nix.dev/anti-patterns/language#with-attrset-expression
     home.packages = builtins.attrValues {
