@@ -1,6 +1,13 @@
 {
-  hmModule = { pkgs, ... }: {
+  hmModule = { pkgs, lib, ... }: let
+    inherit (pkgs.stdenv) hostPlatform;
+  in {
     programs.firefox.enable = true;
+    programs.firefox.package = if (hostPlatform.isDarwin && hostPlatform.isAarch64) then
+      # Alert me when Firefox is now supported on M1 Macs
+      assert (pkgs.firefox.meta.unsupported && pkgs.firefox-bin.meta.unsupported); pkgs.emptyDirectory
+    else
+      pkgs.firefox;
     programs.firefox.extensions = [
       pkgs.firefox-addons.onepassword-password-manager
       pkgs.firefox-addons.clearurls

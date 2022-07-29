@@ -8,7 +8,7 @@
     services.usbmuxd.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { pkgs, lib, ... }: lib.mkIf (pkgs.stdenv.hostPlatform.isLinux) {
     systemd.user.services.shairport-sync = {
       Unit = {
         Description = "shairport-sync";

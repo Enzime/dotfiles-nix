@@ -7,6 +7,10 @@
   outputs = { self, nixpkgs, nix, flake-utils }: {
     overlay = final: prev: {
       nix = nix.defaultPackage.${prev.system}.overrideAttrs (old: {
+        # WORKAROUND: When overriding Nix on Darwin, Nix throws a disallowed reference to boost error
+        #             https://github.com/NixOS/nix/pull/5915
+        disallowedReferences = if prev.stdenv.hostPlatform.isDarwin then [ ] else old.disallowedReferences;
+
         version = "${old.version}-dirtier";
 
         patches = (old.patches or [ ]) ++ [

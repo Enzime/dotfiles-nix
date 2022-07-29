@@ -135,6 +135,7 @@
             home-manager.extraSpecialArgs = extraHomeManagerArgs;
           }
         ];
+        specialArgs = { inherit user; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
@@ -165,6 +166,14 @@
       nixos = true;
       modules = builtins.attrNames {
         inherit (modules) duckdns etebase gaming i3 samba sway virt-manager;
+      };
+    }
+    {
+      host = "psi";
+      user = "enzime";
+      system = "aarch64-darwin";
+      modules = builtins.attrNames {
+        inherit (modules) graphical work;
       };
     }
     {

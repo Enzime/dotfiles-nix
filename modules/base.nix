@@ -1,27 +1,33 @@
-{
-  imports = [ "cachix" "flakes" "impermanence" "nix-index" "termite" "vm" "vscode" "xdg" ];
-
-  nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
-    # Add flake revision to `nixos-version --json`
-    system.configurationRevision = configRevision.full;
-
+let
+  shared = { config, user, pkgs, ... }: {
     time.timeZone = "Australia/Melbourne";
-    i18n.defaultLocale = "en_AU.UTF-8";
 
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) killall wget ranger zip unzip sshfs;
     };
 
-    environment.etc."nixos".source = "/home/${user}/dotfiles";
-
-    nix.registry.d.to = { type = "git"; url = "file:///home/${user}/dotfiles"; };
+    nix.registry.d.to = { type = "git"; url = "file://${config.users.users.${user}.home}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
+
+    programs.zsh.enable = true;
+  };
+in {
+  imports = [ "cachix" "flakes" "impermanence" "nix-index" "termite" "vm" "vscode" "xdg" ];
+
+  nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
+    imports = [ shared ];
+
+    # Add flake revision to `nixos-version --json`
+    system.configurationRevision = configRevision.full;
+
+    i18n.defaultLocale = "en_AU.UTF-8";
+
+    environment.etc."nixos".source = "${config.users.users.${user}.home}/dotfiles";
 
     home-manager.users.root.home.stateVersion = "22.11";
     home-manager.users.root.programs.git.enable = true;
-    home-manager.users.root.programs.git.extraConfig.safe.directory = "/home/${user}/dotfiles";
+    home-manager.users.root.programs.git.extraConfig.safe.directory = "${config.users.users.${user}.home}/dotfiles";
 
-    programs.zsh.enable = true;
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
     programs.neovim.defaultEditor = true;
@@ -60,6 +66,14 @@
 
     networking.firewall.allowedTCPPorts = [ 5000 ];
     networking.firewall.allowedUDPPortRanges = [ { from = 6001; to = 6011; } ];
+  };
+
+  darwinModule = { user, config, ... }: {
+    imports = [ shared ];
+
+    users.users.${user}.home = "/Users/${user}";
+
+    services.nix-daemon.enable = true;
   };
 
   hmModule = { config, inputs, pkgs, lib, ... }: let

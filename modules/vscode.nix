@@ -27,7 +27,7 @@
       pkgs.vscode-extensions.jnoortheen.nix-ide
       (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-python.python)
       pkgs.vscode-extensions.ms-python.vscode-pylance
-      pkgs.vscode-extensions.ms-vscode.cpptools
+      (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-vscode.cpptools)
       pkgs.vscode-extensions.xadillax.viml
     ];
     programs.vscode.keybindings = [
@@ -72,7 +72,9 @@
       { key = "ctrl+i"; command = "-emojisense.quickEmoji"; when = "editorTextFocus"; }
       { key = "ctrl+shift+i"; command = "-emojisense.quickEmojitext"; when = "editorTextFocus"; }
     ];
-    programs.vscode.userSettings = {
+    programs.vscode.userSettings = let
+      nvimSystem = if hostPlatform.isDarwin then "darwin" else "linux";
+    in {
       "update.mode" = "manual";
       "extensions.autoUpdate" = false;
       "extensions.autoCheckUpdates" = false;
@@ -81,7 +83,7 @@
       "workbench.enableExperiments" = false;
       "workbench.settings.enableNaturalLanguageSearch" = false;
 
-      "vscode-neovim.neovimExecutablePaths.linux" = "${pkgs.neovim}/bin/nvim";
+      "vscode-neovim.neovimExecutablePaths.${nvimSystem}" = "${pkgs.neovim}/bin/nvim";
       "nix.enableLanguageServer" = true;
 
       "workbench.colorTheme" = "Monokai";

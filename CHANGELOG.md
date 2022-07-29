@@ -1,3 +1,9 @@
+- Changed `ios` module to be Linux only
+- Refactored `work` for macOS
+- Added assert guard for if Firefox becomes available on M1 Macs
+- Use `config.users.users.${user}.home` for a portable home directory path
+- Refactored `base` to support shared settings between NixOS and `nix-darwin`
+- Added `psi`
 - Fixed `home-manager build` breaking due to accidental `osConfig` reference
 - Fixed `nixosImages/bcachefs` not using `nix` overlay
 - Use latest `home-manager` for `21.11`

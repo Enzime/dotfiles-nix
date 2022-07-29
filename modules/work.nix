@@ -11,17 +11,19 @@
     services.tailscale.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) android-studio awscli2 aws-vault mongodb-compass postman remmina slack;
+      inherit (pkgs) awscli2 aws-vault postman slack;
+    } ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux (builtins.attrValues {
+      inherit (pkgs) android-studio mongodb-compass remmina;
       inherit (pkgs.gnome) zenity;
-    };
+    });
 
-    programs.zsh.initExtra = ''
+    programs.zsh.initExtra = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
       export AWS_VAULT_PROMPT="zenity"
     '';
 
-    home.sessionVariablesExtra = ''
+    home.sessionVariablesExtra = lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
       if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
         export _JAVA_AWT_WM_NONREPARENTING=1
       fi
@@ -34,7 +36,7 @@
 
     programs.vscode.extensions = [
       pkgs.vscode-extensions.ethansk.restore-terminals
-      pkgs.vscode-extensions.ms-vsliveshare.vsliveshare
+      (lib.mkIf (!pkgs.stdenv.hostPlatform.isDarwin) pkgs.vscode-extensions.ms-vsliveshare.vsliveshare)
       pkgs.vscode-extensions.octref.vetur
       pkgs.vscode-extensions.rioj7.commandOnAllFiles
     ];
