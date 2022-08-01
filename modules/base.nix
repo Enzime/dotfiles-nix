@@ -1,10 +1,20 @@
 let
-  shared = { config, user, pkgs, ... }: {
+  shared = { config, inputs, user, hostname, pkgs, ... }: {
+    networking.hostName = hostname;
+
     time.timeZone = "Australia/Melbourne";
 
-    environment.systemPackages = builtins.attrValues {
+    environment.systemPackages = (builtins.attrValues {
       inherit (pkgs) killall wget ranger zip unzip sshfs;
-    };
+    }) ++ [
+      inputs.home-manager.defaultPackage.${pkgs.system}
+      inputs.agenix.defaultPackage.${pkgs.system}
+    ];
+
+    # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
+    nix.linkInputs = true;
+    nix.generateNixPathFromInputs = true;
+    nix.generateRegistryFromInputs = true;
 
     nix.registry.d.to = { type = "git"; url = "file://${config.users.users.${user}.home}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };

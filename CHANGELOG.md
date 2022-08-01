@@ -1,3 +1,5 @@
+- Refactored NixOS and `nix-darwin` modules in `flake.nix` into `base` module
+- Fixed hostname not being set on macOS
 - Changed `ios` module to be Linux only
 - Refactored `work` for macOS
 - Added assert guard for if Firefox becomes available on M1 Macs

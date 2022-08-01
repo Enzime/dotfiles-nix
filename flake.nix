@@ -89,16 +89,6 @@
       nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
         modules = [
-          ({ ... }: {
-            environment.systemPackages = [ home-manager.defaultPackage.${system} agenix.defaultPackage.${system} ];
-
-            networking.hostName = hostname;
-
-            # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
-            nix.linkInputs = true;
-            nix.generateNixPathFromInputs = true;
-            nix.generateRegistryFromInputs = true;
-          })
           flake-utils-plus.nixosModules.autoGenFromInputs
           agenix.nixosModules.age
           ./hosts/${host}/configuration.nix
@@ -114,18 +104,13 @@
             home-manager.extraSpecialArgs = extraHomeManagerArgs;
           }
         ];
-        specialArgs = { inherit inputs configRevision user host keys; };
+        specialArgs = { inherit inputs configRevision user host hostname keys; };
       }; } else { };
 
       darwinConfigurations = if (hasSuffix "darwin" system) then { ${hostname} = nix-darwin.lib.darwinSystem {
         inherit system pkgs inputs;
         modules = [
           flake-utils-plus.nixosModules.autoGenFromInputs
-          ({ pkgs, ... }: {
-            nix.linkInputs = true;
-            nix.generateNixPathFromInputs = true;
-            nix.generateRegistryFromInputs = true;
-          })
         ] ++ darwinModules ++ [
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
@@ -135,7 +120,7 @@
             home-manager.extraSpecialArgs = extraHomeManagerArgs;
           }
         ];
-        specialArgs = { inherit user; };
+        specialArgs = { inherit user hostname; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
