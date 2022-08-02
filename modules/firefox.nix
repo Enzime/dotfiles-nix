@@ -1,4 +1,10 @@
 {
+  darwinModule = { pkgs, ... }: {
+    system.activationScripts.extraUserActivation.text = ''
+      ${pkgs.defaultbrowser}/bin/defaultbrowser firefox
+    '';
+  };
+
   hmModule = { pkgs, lib, ... }: let
     inherit (pkgs.stdenv) hostPlatform;
   in {

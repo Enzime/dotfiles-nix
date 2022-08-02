@@ -84,6 +84,8 @@ in {
     users.users.${user}.home = "/Users/${user}";
 
     services.nix-daemon.enable = true;
+
+    system.defaults.trackpad.Clicking = true;
   };
 
   hmModule = { config, inputs, pkgs, lib, ... }: let
