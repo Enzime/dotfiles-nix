@@ -22,12 +22,9 @@ if !exists('g:vscode')
         \   'left': [ [ 'mode', 'paste'],
         \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
         \ },
-        \ 'component': {
-        \   'fugitive': '%{fugitive#head()}'
+        \ 'component_function': {
+        \   'fugitive': 'FugitiveHead'
         \ },
-        \ 'component_visible_condition': {
-        \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-        \ }
     \ }
 
     call denite#custom#var('file/rec', 'command',

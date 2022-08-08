@@ -1,3 +1,4 @@
+- Fixed `Unknown function: fugitive#head` in `nvim`
 - Fixed `Tap to Click` checkbox in `System Preferences` not being checked
 - Moved enabling `Tap to Click` on macOS to `laptop` module
 - Fixed `Terminal.app` not closing the window after exiting the shell cleanly
