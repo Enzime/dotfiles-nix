@@ -158,7 +158,7 @@
       user = "enzime";
       system = "aarch64-darwin";
       modules = builtins.attrNames {
-        inherit (modules) graphical work;
+        inherit (modules) graphical laptop work;
       };
     }
     {
@@ -225,7 +225,13 @@
           ((import ./modules/cachix.nix).nixosModule)
         ];
       };
-
+    })
+  ) // (
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+    in {
       devShells.default = pkgs.mkShell {
         buildInputs = builtins.attrValues {
           inherit (pkgs) rnix-lsp;

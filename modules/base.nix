@@ -85,7 +85,13 @@ in {
 
     services.nix-daemon.enable = true;
 
-    system.defaults.trackpad.Clicking = true;
+    # WORKAROUND: `systemsetup -f -setremotelogin on` requires `Full Disk Access`
+    # permission for the Application calling it
+    system.activationScripts.extraActivation.text = ''
+      if [[ "$(systemsetup -getremotelogin | sed 's/Remote Login: //')" == "Off" ]]; then
+        launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+      fi
+    '';
   };
 
   hmModule = { config, inputs, pkgs, lib, ... }: let

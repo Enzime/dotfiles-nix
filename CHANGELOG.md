@@ -1,3 +1,9 @@
+- Fixed `Tap to Click` checkbox in `System Preferences` not being checked
+- Moved enabling `Tap to Click` on macOS to `laptop` module
+- Fixed `Terminal.app` not closing the window after exiting the shell cleanly
+- Fixed Firefox not reopening previous session
+- Use Apple's built-in `sshd` on macOS
+- Fixed `devShell.default` on macOS
 - Use `defaultbrowser` to set Firefox as the default on macOS
 - Added `defaultbrowser` overlay
 - Refactored NixOS and `nix-darwin` modules in `flake.nix` into `base` module

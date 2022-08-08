@@ -17,12 +17,25 @@
     users.users.${user}.extraGroups = [ "video" ];
   };
 
+  darwinModule = { ... }: {
+    system.defaults.trackpad.Clicking = true;
+
+    # WORKAROUND: Setting this via `system.defaults` won't check the checkbox
+    #             in System Preferences > Trackpad
+    system.activationScripts.extraUserActivation.text = ''
+      defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
+    '';
+  };
+
   hmModule = { pkgs, lib, ... }: let
+    inherit (lib) mkIf;
+    inherit (pkgs.stdenv) hostPlatform;
+
     keybindings = {
       "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
       "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
     };
-  in {
+  in mkIf (hostPlatform.isLinux) {
     dconf.settings = {
       "org/gnome/desktop/peripherals/touchpad" = {
         natural-scroll = false;

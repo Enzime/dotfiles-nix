@@ -31,6 +31,9 @@
 
         "browser.aboutConfig.showWarning" = false;
 
+        # Open previous windows and tabs
+        "browser.startup.page" = 3;
+
         "browser.tabs.closeWindowWithLastTab" = false;
         # Warn when attempting to close a window with multiple tabs
         "browser.tabs.warnOnClose" = true;

@@ -1,6 +1,13 @@
 {
   imports = [ "firefox" "fonts" "mpv" "ios" ];
 
+  darwinModule = { ... }: {
+    # Close Terminal if shell exited cleanly
+    system.activationScripts.extraUserActivation.text = ''
+      plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
+    '';
+  };
+
   nixosModule = { user, pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) firefox pavucontrol qalculate-gtk remmina;
