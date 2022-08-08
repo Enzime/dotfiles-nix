@@ -73,13 +73,17 @@
         PartOf = [ "graphical-session.target" ];
       };
 
-      Service.ExecStart = ''
-        ${pkgs.swayidle}/bin/swayidle -w -d \
+      Service.ExecStart = let
+        swayidle = "${pkgs.swayidle}/bin/swayidle";
+        swaymsg = "${pkgs.sway}/bin/swaymsg";
+        swaylock = "${pkgs.swaylock}/bin/swaylock";
+      in ''
+        ${swayidle} -w -d \
           timeout 1 'exit 0' \
-              resume 'swaymsg "output * dpms on"' \
-          timeout 60 'loginctl lock-session' \
-              resume 'swaymsg "output * dpms on"' \
-          lock 'swaylock -f -c 000000 && swaymsg "output * dpms off"'
+              resume '${swaymsg} "output * dpms on"' \
+          timeout 300 'loginctl lock-session' \
+              resume '${swaymsg} "output * dpms on"' \
+          lock '${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
       '';
 
       Install.WantedBy = [ "sway-session.target" ];
