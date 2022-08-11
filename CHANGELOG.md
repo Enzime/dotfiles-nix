@@ -1,3 +1,4 @@
+- Updated `discord`
 - Fixed screen not locking when pressing `W-l` in `sway`
 - Changed screen timeout from 1 minute to 5 minutes in `sway`
 - Fixed `Unknown function: fugitive#head` in `nvim`
