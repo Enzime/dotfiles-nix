@@ -1,4 +1,10 @@
 {
+  darwinModule = { ... }: {
+    system.activationScripts.extraUserActivation.text = ''
+      defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+    '';
+  };
+
   hmModule = { config, pkgs, lib, ... }: let
     inherit (pkgs.stdenv) hostPlatform;
   in {
