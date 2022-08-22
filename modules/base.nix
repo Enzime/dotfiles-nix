@@ -288,7 +288,6 @@ in {
       pkgs.vimPlugins.vim-sleuth
       pkgs.vimPlugins.vim-operator-user
       pkgs.vimPlugins.vim-operator-flashy
-      pkgs.vimPlugins.incsearch-vim
       pkgs.vimPlugins.vim-illuminate
       pkgs.vimPlugins.vim-argwrap
     ] ++ map (plugin: { inherit plugin; optional = true; }) [

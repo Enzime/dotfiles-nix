@@ -1,3 +1,7 @@
+- Fixed searching not working in `VSCode` by removing deprecated `incsearch.vim`
+- Disabled `VSCode`'s 3 way merge editor
+- Fixed integrated terminal no longer opening in `VSCode`
+- Fixed missing icons on `polybar`
 - Fixed key repeat not working when using `neovim` inside `VSCode` on macOS
 - Updated `discord`
 - Fixed screen not locking when pressing `W-l` in `sway`

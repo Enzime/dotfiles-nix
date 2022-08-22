@@ -104,10 +104,6 @@ nnoremap <Leader>R :source $MYVIMRC<CR>
 map y <Plug>(operator-flashy)
 map Y "+<Plug>(operator-flashy)
 
-map / <Plug>(incsearch-forward)
-map ? <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
 " Beautify JSON
 map <Leader>j :%!python -m json.tool<CR>
 

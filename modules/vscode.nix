@@ -111,6 +111,9 @@
         "**/.direnv" = true;
       };
 
+      # Don't use VS Code's 3 way merge editor
+      "git.mergeEditor" = false;
+
       # Don't use GitLens to edit git rebase commands
       "workbench.editorAssociations" = {
         "git-rebase-todo" = "default";
@@ -122,6 +125,9 @@
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
       "colorize.hide_current_line_decorations" = false;
 
+      # WORKAROUND: Disable VS Code's zsh shell integration until the fix is released.
+      # https://github.com/microsoft/vscode/commit/342649329315974bc36d084310ae180f55106505
+      "terminal.integrated.shellIntegration.enabled" = assert (pkgs.vscode.version == "1.70.2"); false;
       "terminal.external.linuxExec" = "termite";
 
       "files.associations" = {
