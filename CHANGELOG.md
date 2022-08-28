@@ -1,3 +1,4 @@
+- Added `karabiner-elements`
 - Fixed searching not working in `VSCode` by removing deprecated `incsearch.vim`
 - Disabled `VSCode`'s 3 way merge editor
 - Fixed integrated terminal no longer opening in `VSCode`

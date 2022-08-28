@@ -6,6 +6,8 @@
     system.activationScripts.extraUserActivation.text = ''
       plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
     '';
+
+    services.karabiner-elements.enable = true;
   };
 
   nixosModule = { user, pkgs, ... }: {
