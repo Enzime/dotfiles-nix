@@ -51,9 +51,6 @@ if !exists('g:vscode')
     map <Leader>gb :Gblame<CR>
     map <Leader>g<SPACE> :Git<SPACE>
 
-    nnoremap <Leader>pi :PlugInstall<CR>
-    nnoremap <Leader>pu :PlugUpdate<CR>
-
     nnoremap <Leader>G :UndotreeToggle<CR>
 endif
 

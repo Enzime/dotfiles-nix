@@ -1,3 +1,5 @@
+- Removed `vim-plug` binds
+- Removed `zeta`
 - Added `karabiner-elements`
 - Fixed searching not working in `VSCode` by removing deprecated `incsearch.vim`
 - Disabled `VSCode`'s 3 way merge editor
@@ -7,7 +9,7 @@
 - Updated `discord`
 - Fixed screen not locking when pressing `W-l` in `sway`
 - Changed screen timeout from 1 minute to 5 minutes in `sway`
-- Fixed `Unknown function: fugitive#head` in `nvim`
+- Fixed `Unknown function: fugitive#head` in `neovim`
 - Fixed `Tap to Click` checkbox in `System Preferences` not being checked
 - Moved enabling `Tap to Click` on macOS to `laptop` module
 - Fixed `Terminal.app` not closing the window after exiting the shell cleanly

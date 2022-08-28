@@ -180,15 +180,6 @@
       };
     }
     {
-      host = "zeta";
-      user = "enzime";
-      system = "x86_64-linux";
-      nixos = true;
-      modules = builtins.attrNames {
-        inherit (modules) gnome work;
-      };
-    }
-    {
       host = "apollo";
       hostSuffix = "";
       user = "human";
