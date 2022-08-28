@@ -25,6 +25,8 @@
     system.activationScripts.extraUserActivation.text = ''
       defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
     '';
+
+    security.pam.enableSudoTouchIdAuth = true;
   };
 
   hmModule = { pkgs, lib, ... }: let

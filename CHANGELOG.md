@@ -1,3 +1,4 @@
+- Use TouchID for `sudo`
 - Removed `vim-plug` binds
 - Removed `zeta`
 - Added `karabiner-elements`

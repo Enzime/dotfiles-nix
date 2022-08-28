@@ -169,16 +169,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1661680888,
-        "narHash": "sha256-5Hs61ReLQ0ISqpokN7wdXvB9ALebKlKc66Gi36+UQsg=",
+        "lastModified": 1661681936,
+        "narHash": "sha256-YPjlnTBzPS4rTYPzpZxo7sQOB+xFLVttXuDav59Aw1g=",
         "owner": "Enzime",
         "repo": "nix-darwin",
-        "rev": "afcce995bd14cd7b3f15214c9f2a431e24e6e432",
+        "rev": "ea2d905d6fa98a9f7f1fab69c63b64ec29c90908",
         "type": "github"
       },
       "original": {
         "owner": "Enzime",
-        "ref": "karabiner-elements",
+        "ref": "localhost",
         "repo": "nix-darwin",
         "type": "github"
       }
