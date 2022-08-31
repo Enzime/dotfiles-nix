@@ -159,14 +159,10 @@ bindkey -r '^[OB'
 # Allow using `#`, `~` and `^` without escape
 unsetopt EXTENDED_GLOB
 
-if [ -z "$__ZSHRC_SOURCED" ]; then
-  unalias gcfS
-  unalias gcF
-  unalias gcFS
-  unalias gfc
-  unalias gr
-fi
-
-export __ZSHRC_SOURCED=1
+unalias gcfS || true
+unalias gcF || true
+unalias gcFS || true
+unalias gfc || true
+unalias gr || true
 
 source ~/.zshrc.secrets
