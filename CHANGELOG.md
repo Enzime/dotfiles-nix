@@ -1,3 +1,4 @@
+- Fixed `karabiner-elements` not working
 - Fixed aliases not getting removed when using `code .`
 - Use TouchID for `sudo`
 - Removed `vim-plug` binds
