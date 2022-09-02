@@ -215,6 +215,7 @@
           ((import ./modules/flakes.nix).nixosModule)
           ((import ./modules/cachix.nix).nixosModule)
         ];
+        specialArgs = { inherit inputs; };
       };
     })
   ) // (
@@ -231,5 +232,12 @@
         };
       };
     })
-  );
+  ) // ({
+    nixConfig = {
+      extra-substituters = [ "https://enzime.cachix.org" ];
+      extra-trusted-public-keys = [
+        "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
+      ];
+    };
+  });
 }

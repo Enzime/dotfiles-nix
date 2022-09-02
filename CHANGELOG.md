@@ -1,3 +1,5 @@
+- Added `inputs` as a `specialArg` for `nixosImages/bcachefs`
+- Use `outputs.nixConfig` to set Cachix as a substituter
 - Fixed `neovim` plugins not being loaded in `vscode-neovim`
 - Fixed errors from `unalias` when `source ~/.zshrc`
 - Added `magic-wormhole-rs`
