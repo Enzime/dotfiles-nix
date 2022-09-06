@@ -103,7 +103,7 @@ in {
     # Replace `with pkgs;` with `inherit (pkgs)`
     # https://nix.dev/anti-patterns/language#with-attrset-expression
     home.packages = builtins.attrValues {
-      inherit (pkgs) peco ripgrep jq htop ranger tmux tree;
+      inherit (pkgs) peco ripgrep jq htop ranger tmux tree magic-wormhole-rs;
     };
 
     # Allow fonts to be specified in `home.packages`
