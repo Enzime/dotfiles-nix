@@ -1,3 +1,4 @@
+- Fixed errors from `unalias` when `source ~/.zshrc`
 - Added `magic-wormhole-rs`
 - Fixed `karabiner-elements` not working
 - Fixed aliases not getting removed when using `code .`

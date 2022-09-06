@@ -159,10 +159,10 @@ bindkey -r '^[OB'
 # Allow using `#`, `~` and `^` without escape
 unsetopt EXTENDED_GLOB
 
-unalias gcfS || true
-unalias gcF || true
-unalias gcFS || true
-unalias gfc || true
-unalias gr || true
+unalias gcfS 2>/dev/null || true
+unalias gcF 2>/dev/null || true
+unalias gcFS 2>/dev/null || true
+unalias gfc 2>/dev/null || true
+unalias gr 2>/dev/null || true
 
 source ~/.zshrc.secrets
