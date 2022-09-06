@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   inherit (lib) mkForce;

@@ -1,5 +1,5 @@
 self: super: {
-  i3-ws = (assert (!builtins.hasAttr "i3-ws" super); super.stdenv.mkDerivation (
+  i3-ws = assert (!builtins.hasAttr "i3-ws" super); super.stdenv.mkDerivation (
     let
       pname = "i3-ws";
       version = "git-2017-07-30";
@@ -22,5 +22,5 @@ self: super: {
         inherit (super) cmake pkgconfig;
       };
     }
-  ));
+  );
 }

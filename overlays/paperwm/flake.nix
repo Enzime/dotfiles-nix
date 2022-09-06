@@ -23,7 +23,7 @@
     flake-utils.lib.eachDefaultSystem (system: {
       packages."gnomeExtensions/paperwm" = (import nixpkgs { inherit system; overlays = [ self.overlay ]; }).gnomeExtensions.paperwm;
 
-      defaultPackage = self.packages.${system}."gnomeExtensions/paperwm";
+      packages.default = self.packages.${system}."gnomeExtensions/paperwm";
     })
   );
 }

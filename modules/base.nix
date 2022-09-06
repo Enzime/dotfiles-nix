@@ -7,8 +7,8 @@ let
     environment.systemPackages = (builtins.attrValues {
       inherit (pkgs) killall wget ranger zip unzip sshfs;
     }) ++ [
-      inputs.home-manager.defaultPackage.${pkgs.system}
-      inputs.agenix.defaultPackage.${pkgs.system}
+      inputs.home-manager.packages.${pkgs.system}.default
+      (assert (!inputs.agenix.packages.${pkgs.system} ? default); inputs.agenix.defaultPackage.${pkgs.system})
     ];
 
     # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP

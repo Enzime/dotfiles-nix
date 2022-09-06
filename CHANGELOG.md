@@ -1,3 +1,5 @@
+- Use `packages.*.default` instead of `defaultPackages`
+- Updated `nix`
 - Added `inputs` as a `specialArg` for `nixosImages/bcachefs`
 - Use `outputs.nixConfig` to set Cachix as a substituter
 - Fixed `neovim` plugins not being loaded in `vscode-neovim`
