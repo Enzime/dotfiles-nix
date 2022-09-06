@@ -1,3 +1,4 @@
+- Fixed `neovim` plugins not being loaded in `vscode-neovim`
 - Fixed errors from `unalias` when `source ~/.zshrc`
 - Added `magic-wormhole-rs`
 - Fixed `karabiner-elements` not working

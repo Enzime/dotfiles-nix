@@ -89,7 +89,7 @@
       "workbench.enableExperiments" = false;
       "workbench.settings.enableNaturalLanguageSearch" = false;
 
-      "vscode-neovim.neovimExecutablePaths.${nvimSystem}" = "${pkgs.neovim}/bin/nvim";
+      "vscode-neovim.neovimExecutablePaths.${nvimSystem}" = "${config.programs.neovim.finalPackage}/bin/nvim";
       "nix.enableLanguageServer" = true;
 
       "workbench.colorTheme" = "Monokai";
