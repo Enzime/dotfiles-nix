@@ -1,3 +1,4 @@
+- Removed unnecessary `disallowedReferences` override for macOS
 - Use `packages.*.default` instead of `defaultPackages`
 - Updated `nix`
 - Added `inputs` as a `specialArg` for `nixosImages/bcachefs`
