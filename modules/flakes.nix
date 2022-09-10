@@ -1,19 +1,24 @@
 let
-  # Ensure the exact version of Nix has been manually verified
-  flakesStillExperimental = lib: version:
-    #       version == 2.12.0      ||                 version < 2.12.0
-    lib.hasPrefix "2.12.0" version || builtins.compareVersions "2.12.0" version == 1;
+  shared = { pkgs, lib, ... }: let
+    # Ensure the exact version of Nix has been manually verified
+    flakesStillExperimental = version:
+      #       version == 2.12.0      ||                 version < 2.12.0
+      lib.hasPrefix "2.12.0" version || builtins.compareVersions "2.12.0" version == 1;
+  in {
+    nix.package = pkgs.nix;
+    nix.settings.experimental-features = assert (flakesStillExperimental pkgs.nix.version); "nix-command flakes";
+  };
 in {
+  darwinModule = { ... }: {
+    imports = [ shared ];
+  };
+
   nixosModule = { pkgs, lib, ... }: {
-    nix.extraOptions = assert (flakesStillExperimental lib pkgs.nix.version); ''
-      experimental-features = nix-command flakes
-    '';
+    imports = [ shared ];
   };
 
   hmModule = { nixos, pkgs, lib, ... }: {
-    xdg.configFile."nix/nix.conf".text = assert (flakesStillExperimental lib pkgs.nix.version); ''
-      experimental-features = nix-command flakes
-    '';
+    imports = [ shared ];
 
     home.packages = lib.mkIf (!nixos) (builtins.attrValues {
       # Necessary for non-NixOS systems which won't have the dirtiest version of Nix
