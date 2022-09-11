@@ -13,7 +13,7 @@ in {
 
   "etesync-dav.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
-    inherit (hosts) phi;
+    inherit (hosts) phi sigma;
   };
 
   "zshrc_phi.age".publicKeys = builtins.attrValues {

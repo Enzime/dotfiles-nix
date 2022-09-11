@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ user, keys, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -51,6 +51,12 @@
       Option "RightOf" "DisplayPort-2"
     '';
   } ];
+
+  users.users.${user} = {
+    openssh.authorizedKeys.keys = builtins.attrValues {
+      inherit (keys.users) enzime_sigma;
+    };
+  };
 
   # Check that this can be bumped before changing it
   system.stateVersion = "21.05";

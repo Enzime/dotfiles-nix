@@ -1,6 +1,11 @@
 { ... }:
 
 {
+  home.file.".ssh/config".text = ''
+    Host *
+        IdentityAgent ~/.1password/agent.sock
+  '';
+
   xsession.windowManager.i3.config.workspaceOutputAssign = [
     { workspace = "101"; output = "eDP-1"; }
   ];

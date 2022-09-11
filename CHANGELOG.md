@@ -1,3 +1,4 @@
+- Use 1Password SSH agent on `sigma`
 - Removed `apollo`
 - Use `tailscale` on personal machines
 - Use `nix.settings` for `NixOS`, `nix-darwin` and `home-manager`
