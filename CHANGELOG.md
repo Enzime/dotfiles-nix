@@ -1,3 +1,4 @@
+- Use `tailscale` on personal machines
 - Use `nix.settings` for `NixOS`, `nix-darwin` and `home-manager`
 - Removed unnecessary `disallowedReferences` override for macOS
 - Use `packages.*.default` instead of `defaultPackages`
