@@ -16,10 +16,6 @@ in {
     inherit (hosts) phi;
   };
 
-  "network_apollo.age".publicKeys = builtins.attrValues {
-    inherit (hosts) apollo;
-  };
-
   "zshrc_phi.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;

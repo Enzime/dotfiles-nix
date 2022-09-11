@@ -18,9 +18,6 @@ jobs:
           - name: tau-nixos
             output: nixosConfigurations.tau-nixos.config.system.build.toplevel
             os: ubuntu-latest
-          - name: apollo
-            output: nixosConfigurations.apollo.config.system.build.toplevel
-            os: ubuntu-latest
           - name: eris
             output: nixosConfigurations.eris.config.system.build.toplevel
             os: ubuntu-latest
