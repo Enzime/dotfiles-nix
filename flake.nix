@@ -156,7 +156,7 @@
     {
       host = "psi";
       user = "enzime";
-      system = "aarch64-darwin";
+      system = "x86_64-darwin";
       modules = builtins.attrNames {
         inherit (modules) graphical laptop work;
       };

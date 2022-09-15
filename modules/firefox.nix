@@ -9,8 +9,8 @@
     inherit (pkgs.stdenv) hostPlatform;
   in {
     programs.firefox.enable = true;
-    programs.firefox.package = if (hostPlatform.isDarwin && hostPlatform.isAarch64) then
-      # Alert me when Firefox is now supported on M1 Macs
+    programs.firefox.package = if (hostPlatform.isDarwin) then
+      # Alert me when Firefox through Nix is supported on macOS
       assert (pkgs.firefox.meta.unsupported && pkgs.firefox-bin.meta.unsupported); pkgs.emptyDirectory
     else
       pkgs.firefox;
