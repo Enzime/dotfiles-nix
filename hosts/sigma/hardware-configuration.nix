@@ -23,6 +23,26 @@
       fsType = "vfat";
     };
 
+  fileSystems."/mnt/phi" =
+    { device = "enzime@phi:/";
+      fsType = "fuse.sshfs";
+      noCheck = true;
+      options = [
+        "noauto"
+        "x-systemd.automount"
+        "_netdev"
+        "IdentityFile=/etc/ssh/ssh_host_ed25519_key"
+        "allow_other"
+        "uid=1000"
+        "gid=100"
+        "x-systemd.requires=tailscaled.service"
+        "x-systemd.after=tailscaled.service"
+        "x-systemd.mount-timeout=1s"
+        "ServerAliveInterval=1"
+        "ServerAliveCountMax=5"
+      ];
+    };
+
   swapDevices = [ ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
