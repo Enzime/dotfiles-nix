@@ -1,3 +1,4 @@
+- Updated `discord`
 - Added `/mnt/phi` automount on `sigma`
 - Fixed `slack` on `x86_64-darwin`
 - Use `x86_64-darwin` on `psi`
