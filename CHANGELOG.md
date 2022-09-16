@@ -1,3 +1,5 @@
+- Changed `swayidle` to lock on sleep
+- Fixed fingerprint for `sudo` not working
 - Added `x11vnc` module
 - Updated `discord`
 - Added `/mnt/phi` automount on `sigma`

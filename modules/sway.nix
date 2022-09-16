@@ -79,6 +79,7 @@
         swaylock = "${pkgs.swaylock}/bin/swaylock";
       in ''
         ${swayidle} -w -d \
+          before-sleep 'loginctl lock-session' \
           timeout 1 'exit 0' \
               resume '${swaymsg} "output * dpms on"' \
           timeout 300 'loginctl lock-session' \
