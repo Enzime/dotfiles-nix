@@ -1,3 +1,4 @@
+- Added `x11vnc` module
 - Updated `discord`
 - Added `/mnt/phi` automount on `sigma`
 - Fixed `slack` on `x86_64-darwin`

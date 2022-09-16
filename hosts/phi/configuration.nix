@@ -1,4 +1,4 @@
-{ user, keys, pkgs, ... }:
+{ config, user, keys, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -19,6 +19,7 @@
     nohook resolv.conf
   '';
 
+  networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/nix/nixpkgs"; };

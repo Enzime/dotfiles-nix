@@ -16,7 +16,7 @@
     services.etesync-dav.enable = true;
 
     systemd.user.services.etesync-dav.Service = mkIf (hasAttrByPath [ "osConfig" "age" ] args) {
-     Environment = mkForce [ ];
+      Environment = mkForce [ ];
       EnvironmentFile = args.osConfig.age.secrets.etesync-dav.path;
     };
   };
