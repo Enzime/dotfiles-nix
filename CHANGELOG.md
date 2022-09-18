@@ -1,3 +1,4 @@
+- Use `tailscale` on every NixOS machine
 - Changed `swayidle` to lock on sleep
 - Fixed fingerprint for `sudo` not working
 - Added `x11vnc` module

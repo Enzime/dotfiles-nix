@@ -7,8 +7,6 @@
       path = "/home/${user}/.aws/config";
       owner = user;
     };
-
-    services.tailscale.enable = true;
   };
 
   hmModule = { pkgs, lib, ... }: {

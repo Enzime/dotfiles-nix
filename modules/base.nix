@@ -50,6 +50,8 @@ in {
       Defaults rootpw
     '';
 
+    services.tailscale.enable = true;
+
     services.openssh.enable = true;
     services.openssh.permitRootLogin = "prohibit-password";
 

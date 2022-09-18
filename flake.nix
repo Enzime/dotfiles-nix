@@ -107,6 +107,9 @@
         specialArgs = { inherit inputs configRevision user host hostname keys; };
       }; } else { };
 
+      # nix build ~/.config/nixpkgs#darwinConfigurations.chi.system
+      # OR
+      # darwin-rebuild build --flake ~/.config/nixpkgs#chi
       darwinConfigurations = if (hasSuffix "darwin" system) then { ${hostname} = nix-darwin.lib.darwinSystem {
         inherit system pkgs inputs;
         modules = [
