@@ -11,6 +11,9 @@
 
   networking.interfaces.enp0s4.useDHCP = true;
 
+  zramSwap.enable = true;
+  zramSwap.memoryPercent = 250;
+
   users.users.${user} = {
     openssh.authorizedKeys.keys = builtins.attrValues {
       inherit (keys.users) enzime_phi nathan;
