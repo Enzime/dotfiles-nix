@@ -1,3 +1,4 @@
+- Fixed `Remote SSH` failing to connect to macOS hosts
 - Fixed MagicDNS on macOS causing minutes of internet connecting delays
 - Updated `tailscale`
 - Use `tailscale` on every machine
