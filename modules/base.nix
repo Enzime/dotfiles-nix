@@ -19,6 +19,8 @@ let
     nix.registry.d.to = { type = "git"; url = "file://${config.users.users.${user}.home}/dotfiles"; };
     nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
 
+    services.tailscale.enable = true;
+
     programs.zsh.enable = true;
   };
 in {
@@ -50,7 +52,6 @@ in {
       Defaults rootpw
     '';
 
-    services.tailscale.enable = true;
     networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
 
     services.openssh.enable = true;
@@ -87,6 +88,12 @@ in {
     users.users.${user}.home = "/Users/${user}";
 
     services.nix-daemon.enable = true;
+
+    # WORKAROUND: Using MagicDNS (through nix-darwin) without setting a fallback
+    # DNS server leads to taking a lot longer to connect to the internet.
+    networking.dns = [ "1.1.1.1" ];
+
+    services.tailscale.magicDNS.enable = true;
 
     # WORKAROUND: `systemsetup -f -setremotelogin on` requires `Full Disk Access`
     # permission for the Application calling it

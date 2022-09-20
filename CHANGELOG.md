@@ -1,3 +1,6 @@
+- Fixed MagicDNS on macOS causing minutes of internet connecting delays
+- Updated `tailscale`
+- Use `tailscale` on every machine
 - Disabled SSH outside of Tailscale on `eris`
 - Use Tailscale SSH on `eris`
 - Use VNC over Tailscale on `eris`
