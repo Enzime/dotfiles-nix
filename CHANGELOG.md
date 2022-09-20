@@ -1,3 +1,5 @@
+- Fixed USB redirection in `virt-manager`
+- Changed `tailscale` traffic to bypass firewall on every NixOS machine
 - Added `zramSwap` to `eris`
 - Use `tailscale` on every NixOS machine
 - Changed `swayidle` to lock on sleep
