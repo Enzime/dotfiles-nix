@@ -1,15 +1,15 @@
 {
+  # OS modules are required for running `ranger` as `root`
   nixosModule = { pkgs, ... }: {
     environment.systemPackages = [ pkgs.termite.terminfo ];
   };
 
+  darwinModule = { pkgs, ... }: {
+    environment.systemPackages = [ pkgs.termite.terminfo ];
+  };
+
   hmModule = { pkgs, config, ... }: {
-    # WORKAROUND: termite.terminfo doesn't build on macOS
-    #             as vte depends on systemd now
-    home.packages = [ (pkgs.runCommand "termite.terminfo" {} ''
-      mkdir -p $out/share/terminfo
-      ${pkgs.ncurses}/bin/tic -o $out/share/terminfo -x ${pkgs.termite.src}/termite.terminfo
-    '') ];
+    home.packages = [ pkgs.termite.terminfo ];
 
     programs.termite.enable = config.xsession.windowManager.i3.enable;
 
