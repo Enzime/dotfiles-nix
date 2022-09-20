@@ -1,4 +1,4 @@
-{ user, keys, ... }:
+{ user, keys, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -11,14 +11,10 @@
 
   networking.interfaces.enp0s4.useDHCP = true;
 
+  services.openssh.enable = lib.mkForce false;
+
   zramSwap.enable = true;
   zramSwap.memoryPercent = 250;
-
-  users.users.${user} = {
-    openssh.authorizedKeys.keys = builtins.attrValues {
-      inherit (keys.users) enzime_phi nathan;
-    };
-  };
 
   # Check that this can be bumped before changing it
   system.stateVersion = "21.05";

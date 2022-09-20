@@ -10,7 +10,7 @@
       wants = [ "manual-xinit.service" ];
       serviceConfig = {
         Type = "exec";
-        ExecStart = "${pkgs.tigervnc}/bin/Xvnc -localhost -geometry 1024x768 -depth 24 -SecurityTypes=None";
+        ExecStart = "${pkgs.tigervnc}/bin/Xvnc -geometry 1366x768 -depth 24 -SecurityTypes=None";
         User = user;
       };
     };
