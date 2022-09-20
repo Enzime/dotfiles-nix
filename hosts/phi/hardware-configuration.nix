@@ -30,7 +30,7 @@
       options = [ "rw" ];
     };
 
-  fileSystems."/mnt/alpha/data" =
+  fileSystems."/data" =
     { device = "/dev/disk/by-uuid/a0346b3d-e7b2-4b77-bd3e-f06859580c82";
       fsType = "ext4";
     };

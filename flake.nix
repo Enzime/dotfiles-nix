@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
 
-  inputs.nix-darwin.url = github:Enzime/nix-darwin/localhost;
+  inputs.nix-darwin.url = github:LnL7/nix-darwin;
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = github:nix-community/home-manager;
