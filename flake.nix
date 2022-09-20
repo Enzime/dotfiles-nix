@@ -114,6 +114,7 @@
         inherit system pkgs inputs;
         modules = [
           flake-utils-plus.nixosModules.autoGenFromInputs
+          ./hosts/${host}/darwin-configuration.nix
         ] ++ darwinModules ++ [
           home-manager.darwinModules.home-manager {
             home-manager.useGlobalPkgs = true;
@@ -145,7 +146,9 @@
       host = "chi";
       user = "enzime";
       system = "aarch64-darwin";
-      modules = builtins.attrNames { };
+      modules = builtins.attrNames {
+        inherit (modules) graphical;
+      };
     }
     {
       host = "phi";
