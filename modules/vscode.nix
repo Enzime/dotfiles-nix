@@ -134,6 +134,37 @@
         "flake.lock" = "json";
         "yarn.lock" = "yaml";
       };
+
+      "workbench.colorCustomizations" = {
+        "terminal.background"         = "#0d0c0c";
+        "terminal.foreground"         = "#fff5ed";
+        "terminalCursor.background"   = "#F8F8F2";
+        "terminalCursor.foreground"   = "#00ccff";
+
+        "terminal.ansiBlack"          = "#0a0a0a";
+        "terminal.ansiBrightBlack"    = "#73645d";
+
+        "terminal.ansiRed"            = "#e61f00";
+        "terminal.ansiBrightRed"      = "#ff3f3d";
+
+        "terminal.ansiGreen"          = "#6dd200";
+        "terminal.ansiBrightGreen"    = "#c1ff05";
+
+        "terminal.ansiYellow"         = "#fa6800";
+        "terminal.ansiBrightYellow"   = "#ffa726";
+
+        "terminal.ansiBlue"           = "#255ae4";
+        "terminal.ansiBrightBlue"     = "#00ccff";
+
+        "terminal.ansiMagenta"        = "#ff0084";
+        "terminal.ansiBrightMagenta"  = "#ff65a0";
+
+        "terminal.ansiCyan"           = "#36fcd3";
+        "terminal.ansiBrightCyan"     = "#96ffe3";
+
+        "terminal.ansiWhite"          = "#b6afab";
+        "terminal.ansiBrightWhite"    = "#fff5ed";
+      };
     };
 
     programs.git.extraConfig.core.editor = "${pkgs.writeShellScript "use-vscode-sometimes" ''
