@@ -1,3 +1,7 @@
+- Fixed `1password-gui` crashing when attempting to select a file
+- Removed `psi` and `tau`
+- Added `work` Firefox profile on `personal` machines
+- Use FIDO2 for `sudo` on `phi`
 - Removed `cosmic` module
 - Merged `/mnt/alpha/data` and `/data` on `phi`
 - Fixed `termite.terminfo` on macOS

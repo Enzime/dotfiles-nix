@@ -48,10 +48,6 @@ in {
     # manually set `useDHCP` for individual interfaces
     networking.useDHCP = false;
 
-    security.sudo.extraConfig = lib.mkIf (!config.services.fprintd.enable) ''
-      Defaults rootpw
-    '';
-
     networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
 
     services.openssh.enable = true;

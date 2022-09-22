@@ -1,7 +1,7 @@
 {
   imports = [ "contacts" ];
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { config, pkgs, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) discord joplin-desktop signal-desktop;
     };
@@ -9,6 +9,11 @@
     xsession.windowManager.i3.config.startup = [
       { command = "signal-desktop"; always = true; }
     ];
+
+    programs.firefox.profiles.work = {
+      id = 1;
+      inherit (config.programs.firefox.profiles.default) settings;
+    };
 
     programs.firefox.extensions = [
       pkgs.firefox-addons.copy-selected-links

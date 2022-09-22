@@ -52,6 +52,12 @@
     '';
   } ];
 
+  security.pam.u2f.enable = true;
+  security.pam.u2f.cue = true;
+  security.pam.u2f.authFile = pkgs.writeText "u2f-mappings" ''
+    enzime:aZod0R2utyFHotPvicvh1Kj1hcrGjT+5cHAFdnB7X8lJoDpiPDGqEvYXOCEaFsudXD3YFFjEvBiinXsj90jcXg==,mQCyOcbnehUfXRb2Jp/y40ixSeE69rhLnD66Q8bA209moCJmGMwShxT2SIwHJZPGutNTfyqaht2XRK9x27CpLg==,es256,+presence%
+  '';
+
   users.users.${user} = {
     openssh.authorizedKeys.keys = builtins.attrValues {
       inherit (keys.users) enzime_sigma;

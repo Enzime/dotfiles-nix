@@ -160,29 +160,12 @@
       };
     }
     {
-      host = "psi";
-      user = "enzime";
-      system = "x86_64-darwin";
-      modules = builtins.attrNames {
-        inherit (modules) graphical laptop work;
-      };
-    }
-    {
       host = "sigma";
       user = "enzime";
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
         inherit (modules) gnome i3 laptop personal sway;
-      };
-    }
-    {
-      host = "tau";
-      user = "enzime";
-      system = "x86_64-linux";
-      nixos = true;
-      modules = builtins.attrNames {
-        inherit (modules) hidpi i3 laptop work sway;
       };
     }
     {
