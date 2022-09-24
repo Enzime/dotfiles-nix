@@ -1,3 +1,4 @@
+- Fixed `Remote SSH` failing to reconnect to an existing server
 - Use `hybrid-krompus` for integrated terminal in `VSCode`
 - Fixed `1password-gui` crashing when attempting to select a file
 - Removed `psi` and `tau`
