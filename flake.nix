@@ -29,7 +29,11 @@
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, ... }:
+  inputs.deploy-rs.url = github:serokell/deploy-rs;
+  inputs.deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.deploy-rs.inputs.utils.follows = "flake-utils";
+
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, deploy-rs, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -140,6 +144,18 @@
         ] ++ home;
         extraSpecialArgs = extraHomeManagerArgs;
       };
+
+      deploy.nodes = if nixos then { ${hostname} = {
+        hostname = host;
+        sshUser = "root";
+
+        profiles.system = {
+          user = "root";
+          path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.${hostname};
+        };
+      }; } else { };
+
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     };
   in (mkConfigurations [
     {
@@ -210,6 +226,7 @@
           inherit (pkgs) rnix-lsp;
           inherit (home-manager.packages.${system}) home-manager;
           inherit (agenix.packages.${system}) agenix;
+          inherit (deploy-rs.packages.${system}) deploy-rs;
         };
       };
     })

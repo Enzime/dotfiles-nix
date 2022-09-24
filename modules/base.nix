@@ -9,6 +9,7 @@ let
     }) ++ [
       inputs.home-manager.packages.${pkgs.system}.default
       (assert (!inputs.agenix.packages.${pkgs.system} ? default); inputs.agenix.defaultPackage.${pkgs.system})
+      inputs.deploy-rs.packages.${pkgs.system}.default
     ];
 
     # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
