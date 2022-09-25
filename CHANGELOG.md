@@ -1,3 +1,4 @@
+- Fixed `arion`
 - Use `deploy-rs` to deploy to `eris`
 - Fixed `Remote SSH` failing to reconnect to an existing server
 - Use `hybrid-krompus` for integrated terminal in `VSCode`

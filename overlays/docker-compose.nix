@@ -1,5 +1,5 @@
 self: super: {
-  docker-compose = super.runCommand "podman-compose-compat-${super.podman-compose.version}" {
+  docker-compose_1 = super.runCommand "podman-compose-compat-${super.podman-compose.version}" {
     inherit (super.podman-compose) meta;
   } ''
     mkdir -p $out/bin
