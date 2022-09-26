@@ -1,0 +1,3 @@
+{ ... }: {
+  networking.knownNetworkServices = [ "Wi-Fi" ];
+}

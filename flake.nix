@@ -185,6 +185,14 @@
       };
     }
     {
+      host = "upsilon";
+      user = "michael.hoang";
+      system = "aarch64-darwin";
+      modules = builtins.attrNames {
+        inherit (modules) graphical laptop work;
+      };
+    }
+    {
       host = "eris";
       hostSuffix = "";
       user = "human";

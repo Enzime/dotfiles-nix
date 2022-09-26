@@ -1,3 +1,5 @@
+- Fixed `slack` not being installed on macOS
+- Added `upsilon`
 - Fixed `arion`
 - Use `deploy-rs` to deploy to `eris`
 - Fixed `Remote SSH` failing to reconnect to an existing server
