@@ -19,8 +19,6 @@
     nohook resolv.conf
   '';
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-
   nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/nix/nixpkgs"; };
 
   # Install firmware-linux-nonfree (includes Navi10 drivers)
@@ -65,6 +63,8 @@
     };
   };
 
+  services.nextcloud.home = "/data/Nextcloud";
+
   # Check that this can be bumped before changing it
-  system.stateVersion = "21.05";
+  system.stateVersion = "22.05";
 }

@@ -1,3 +1,7 @@
+- Changed `etebase` to only listen over Tailscale
+- Use DNS challenge for Let's Encrypt
+- Added `nextcloud` module
+- Use NixOS `22.05` on `phi` and `eris`
 - Fixed `slack` not being installed on macOS
 - Added `upsilon`
 - Fixed `arion`

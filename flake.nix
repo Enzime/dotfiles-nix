@@ -172,7 +172,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) duckdns etebase gaming i3 samba sway virt-manager x11vnc;
+        inherit (modules) duckdns etebase gaming i3 nextcloud samba sway virt-manager x11vnc;
       };
     }
     {

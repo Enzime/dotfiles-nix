@@ -17,5 +17,5 @@
   zramSwap.memoryPercent = 250;
 
   # Check that this can be bumped before changing it
-  system.stateVersion = "21.05";
+  system.stateVersion = "22.05";
 }
