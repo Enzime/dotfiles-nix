@@ -11,9 +11,11 @@
     '';
   };
 
-  hmModule = { pkgs, ... }: {
+  hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) slack;
     };
+
+    programs.git.userEmail = lib.mkForce null;
   };
 }
