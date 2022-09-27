@@ -1,3 +1,4 @@
+- Disabled Slack's auto updater on macOS
 - Changed `etebase` to only listen over Tailscale
 - Use DNS challenge for Let's Encrypt
 - Added `nextcloud` module
