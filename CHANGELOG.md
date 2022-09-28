@@ -1,3 +1,4 @@
+- Added `synergy-server` module
 - Use 1Password SSH agent for signing Git commits on `upsilon`
 - Disabled Slack's auto updater on macOS
 - Changed `etebase` to only listen over Tailscale
