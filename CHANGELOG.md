@@ -1,3 +1,5 @@
+- Fixed verifying Git signatures on `upsilon`
+- Use `synergy` on `upsilon`
 - Added `synergy-server` module
 - Use 1Password SSH agent for signing Git commits on `upsilon`
 - Disabled Slack's auto updater on macOS

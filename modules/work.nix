@@ -16,6 +16,8 @@
       inherit (pkgs) slack;
     };
 
-    programs.git.userEmail = lib.mkForce null;
+    programs.git.includes = [
+      { condition = "gitdir:~/Work/"; path = "~/.config/git/config.work"; }
+    ];
   };
 }
