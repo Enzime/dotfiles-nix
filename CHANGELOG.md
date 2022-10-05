@@ -1,3 +1,7 @@
+- Fixed `.local` domains not resolving on NixOS
+- Added `avahi` module
+- Moved `shairport-sync` specific configuration to `ios` module
+- Use `phi` as a Tailscale exit node
 - Fixed verifying Git signatures on `upsilon`
 - Use `synergy` on `upsilon`
 - Added `synergy-server` module

@@ -19,6 +19,10 @@
     nohook resolv.conf
   '';
 
+  # Allow `phi` to be used as an Tailscale exit node
+  boot.kernel.sysctl."net.ipv4.ip_forward" = true;
+  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = true;
+
   nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/nix/nixpkgs"; };
 
   # Install firmware-linux-nonfree (includes Navi10 drivers)

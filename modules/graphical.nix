@@ -1,5 +1,5 @@
 {
-  imports = [ "firefox" "fonts" "mpv" "ios" ];
+  imports = [ "firefox" "fonts" "mpv" ];
 
   darwinModule = { ... }: {
     # Close Terminal if shell exited cleanly

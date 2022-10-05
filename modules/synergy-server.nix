@@ -1,4 +1,6 @@
 {
+  imports = [ "avahi" ];
+
   nixosModule = { ... }: {
     services.synergy.server.enable = true;
     services.synergy.server.tls.enable = true;

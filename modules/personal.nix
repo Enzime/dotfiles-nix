@@ -1,5 +1,5 @@
 {
-  imports = [ "contacts" ];
+  imports = [ "contacts" "ios" ];
 
   hmModule = { config, pkgs, ... }: {
     home.packages = builtins.attrValues {
