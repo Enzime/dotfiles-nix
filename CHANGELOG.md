@@ -1,3 +1,4 @@
+- Added `rectangle`
 - Fixed `.local` domains not resolving on NixOS
 - Added `avahi` module
 - Moved `shairport-sync` specific configuration to `ios` module

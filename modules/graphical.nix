@@ -1,7 +1,11 @@
 {
   imports = [ "firefox" "fonts" "mpv" ];
 
-  darwinModule = { ... }: {
+  darwinModule = { pkgs, ... }: {
+    environment.systemPackages = builtins.attrValues {
+      inherit (pkgs) rectangle;
+    };
+
     # Close Terminal if shell exited cleanly
     system.activationScripts.extraUserActivation.text = ''
       plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
