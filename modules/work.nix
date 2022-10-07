@@ -13,7 +13,7 @@
 
   hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) slack;
+      inherit (pkgs) awscli2 aws-vault slack;
     };
 
     programs.git.includes = [
