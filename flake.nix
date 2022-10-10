@@ -199,7 +199,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) i3 vncserver;
+        inherit (modules) i3 reflector vncserver;
       };
     }
   ]) // (

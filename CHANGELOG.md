@@ -1,3 +1,4 @@
+- Added `reflector` module
 - Added `spotify` on macOS
 - Use `firefox-bin-unwrapped` on macOS
 - Added `rectangle`

@@ -7,6 +7,7 @@
     services.nextcloud.enable = true;
     services.nextcloud.package = pkgs.nextcloud24;
     services.nextcloud.hostName = hostname;
+    services.nextcloud.config.extraTrustedDomains = [ "reflector.enzim.ee" ];
     services.nextcloud.https = true;
 
     age.secrets.nextcloud.file = ../secrets/nextcloud.age;
