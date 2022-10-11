@@ -3,7 +3,7 @@
 
   darwinModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) rectangle;
+      inherit (pkgs) rectangle spotify;
     };
 
     # Close Terminal if shell exited cleanly
@@ -18,7 +18,7 @@
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) firefox pavucontrol qalculate-gtk remmina;
 
-      inherit (pkgs) spotify spotify-tray;
+      inherit (pkgs) spotify-tray;
     };
 
     services.xserver.enable = true;

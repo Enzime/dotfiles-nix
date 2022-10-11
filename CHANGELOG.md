@@ -1,3 +1,5 @@
+- Added `spotify` on macOS
+- Use `firefox-bin-unwrapped` on macOS
 - Added `rectangle`
 - Fixed `.local` domains not resolving on NixOS
 - Added `avahi` module
