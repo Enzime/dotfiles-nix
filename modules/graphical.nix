@@ -6,6 +6,10 @@
       inherit (pkgs) rectangle spotify;
     };
 
+    system.activationScripts.extraActivation.text = ''
+      cp ${pkgs._1password}/bin/op /usr/local/bin/op
+    '';
+
     # Close Terminal if shell exited cleanly
     system.activationScripts.extraUserActivation.text = ''
       plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist

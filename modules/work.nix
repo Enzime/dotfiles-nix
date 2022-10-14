@@ -19,5 +19,9 @@
     programs.git.includes = [
       { condition = "gitdir:~/Work/"; path = "~/.config/git/config.work"; }
     ];
+
+    programs.vscode.extensions = [
+      pkgs.vscode-extensions.graphql.vscode-graphql
+    ];
   };
 }

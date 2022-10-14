@@ -1,3 +1,5 @@
+- Fixed `op` not working with biometric unlock on macOS
+- Added 1Password CLI on macOS
 - Added `reflector` module
 - Added `spotify` on macOS
 - Use `firefox-bin-unwrapped` on macOS
