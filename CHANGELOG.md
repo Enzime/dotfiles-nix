@@ -1,3 +1,5 @@
+- Added `shortcat`
+- Removed `start.sh` from global `gitignore`
 - Fixed `op` not working with biometric unlock on macOS
 - Added 1Password CLI on macOS
 - Added `reflector` module

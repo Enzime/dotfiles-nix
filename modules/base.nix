@@ -148,7 +148,6 @@ in {
         core = {
           excludesFile = "${pkgs.writeText "global_ignore" ''
             /worktrees
-            /start.sh
             result
           ''}";
           hooksPath = "~/.config/git/hooks";
