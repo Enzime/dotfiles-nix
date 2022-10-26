@@ -125,9 +125,6 @@
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
       "colorize.hide_current_line_decorations" = false;
 
-      # WORKAROUND: Disable VS Code's zsh shell integration until the fix is released.
-      # https://github.com/microsoft/vscode/commit/342649329315974bc36d084310ae180f55106505
-      "terminal.integrated.shellIntegration.enabled" = assert (pkgs.vscode.version == "1.70.2"); false;
       "terminal.external.linuxExec" = "termite";
 
       "files.associations" = {

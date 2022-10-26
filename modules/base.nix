@@ -314,7 +314,7 @@ in {
       NVIM_RPLUGIN_MANIFEST=$out timeout 2s ${config.programs.neovim.finalPackage}/bin/nvim \
         -i NONE \
         -n \
-        -u ${pkgs.writeText "init.vim" config.xdg.configFile."nvim/init.vim".text} \
+        -u ${pkgs.writeText "init.lua" config.xdg.configFile."nvim/init.lua".text} \
         -c UpdateRemotePlugins \
         -c quit
     '';

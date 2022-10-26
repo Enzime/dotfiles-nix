@@ -6,8 +6,10 @@
 
   outputs = { self, nixpkgs, nix, flake-utils }: {
     overlay = final: prev: {
-      nix = nix.packages.${prev.system}.default.overrideAttrs (old: {
+      nix = nixpkgs.legacyPackages.${prev.system}.nix.overrideAttrs (old: {
         version = "${old.version}-dirtier";
+
+        src = nix;
 
         patches = (old.patches or [ ]) ++ [
           (prev.fetchpatch {

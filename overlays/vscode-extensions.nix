@@ -43,11 +43,5 @@ in {
       version = "1.0.1";
       sha256 = "sha256-UhWbygrGh0whVxfGcEa+hunrTG/gfHpXYii0E7YhXa4=";
     }
-    {
-      name = "direnv";
-      publisher = "mkhl";
-      version = "0.6.0";
-      sha256 = "sha256-dLMGhGskvg23YhO+BEuRBTJZfM2ntmuAr/IJMKRqo/k=";
-    }
   ]);
 }

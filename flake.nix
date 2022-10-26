@@ -117,7 +117,7 @@
       darwinConfigurations = if (hasSuffix "darwin" system) then { ${hostname} = nix-darwin.lib.darwinSystem {
         inherit system pkgs inputs;
         modules = [
-          flake-utils-plus.nixosModules.autoGenFromInputs
+          flake-utils-plus.darwinModules.autoGenFromInputs
           ./hosts/${host}/darwin-configuration.nix
         ] ++ darwinModules ++ [
           home-manager.darwinModules.home-manager {

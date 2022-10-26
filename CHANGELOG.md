@@ -1,3 +1,11 @@
+- Fixed `i3` titlebars showing on Chromium based applications
+- Use `flake-utils-plus.darwinModules` on macOS
+- Removed `etesync-dav`
+- Fixed `nix` not building on `nixos-unstable` branch
+- Updated transformation matrix for CTL-472 for new monitors
+- Use `init.lua` instead of `init.vim`
+- Replaced `polymc` with `prismlauncher`
+- Enabled built-in terminal shell integration in `VSCode`
 - Added `shortcat`
 - Removed `start.sh` from global `gitignore`
 - Fixed `op` not working with biometric unlock on macOS
