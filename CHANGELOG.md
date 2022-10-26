@@ -1,3 +1,5 @@
+- Use `~/.ssh/config.local` for out of band SSH config
+- Use Tailscale exit nodes from `sigma`
 - Removed `paperwm`
 - Removed `etebase`
 - Added `gnome-calendar`

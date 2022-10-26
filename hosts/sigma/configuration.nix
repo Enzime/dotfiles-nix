@@ -10,6 +10,8 @@
 
   networking.interfaces.wlp170s0.useDHCP = true;
 
+  networking.firewall.checkReversePath = "loose";
+
   services.fprintd.enable = true;
 
   services.xserver.displayManager.defaultSession = lib.mkForce "sway";

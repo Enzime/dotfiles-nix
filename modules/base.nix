@@ -119,6 +119,10 @@ in {
       VISUAL = "vim";
     };
 
+    home.file.".ssh/config".text = ''
+      Include config.local
+    '';
+
     home.file.".wgetrc".text = ''
       content_disposition=on
       continue=on

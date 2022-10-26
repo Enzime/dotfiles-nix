@@ -3,7 +3,7 @@
 {
   home.file.".ssh/config".text = ''
     Host *
-        IdentityAgent ~/.1password/agent.sock
+      IdentityAgent ~/.1password/agent.sock
   '';
 
   xsession.windowManager.i3.config.workspaceOutputAssign = [
