@@ -313,44 +313,6 @@
         "type": "github"
       }
     },
-    "paperwm": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1617616509,
-        "narHash": "sha256-gZbS2Xy+CuQfzzZ5IwMahr3VLtyTiLxJTJVawml9sXE=",
-        "owner": "paperwm",
-        "repo": "paperwm",
-        "rev": "e9f714846b9eac8bdd5b33c3d33f1a9d2fbdecd4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "paperwm",
-        "ref": "next-release",
-        "repo": "paperwm",
-        "type": "github"
-      }
-    },
-    "paperwm-overlay": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "paperwm": "paperwm"
-      },
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-M8lm9QyGfeff781I44/Qkd0ZiJIkubceKVMH9JXPDjo=",
-        "path": "overlays/paperwm",
-        "type": "path"
-      },
-      "original": {
-        "path": "overlays/paperwm",
-        "type": "path"
-      }
-    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -362,8 +324,7 @@
         "nix-darwin": "nix-darwin",
         "nix-overlay": "nix-overlay",
         "nixos-generators": "nixos-generators",
-        "nixpkgs": "nixpkgs",
-        "paperwm-overlay": "paperwm-overlay"
+        "nixpkgs": "nixpkgs"
       }
     },
     "utils": {

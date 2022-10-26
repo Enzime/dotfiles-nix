@@ -11,10 +11,6 @@
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.paperwm-overlay.url = path:overlays/paperwm;
-  inputs.paperwm-overlay.inputs.flake-utils.follows = "flake-utils";
-  inputs.paperwm-overlay.inputs.nixpkgs.follows = "nixpkgs";
-
   inputs.nix-overlay.url = path:overlays/nix;
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -172,7 +168,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) duckdns etebase gaming i3 nextcloud samba synergy-server sway virt-manager x11vnc;
+        inherit (modules) duckdns gaming i3 nextcloud samba synergy-server sway virt-manager x11vnc;
       };
     }
     {

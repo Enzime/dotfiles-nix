@@ -1,3 +1,5 @@
+- Removed `paperwm`
+- Removed `etebase`
 - Added `gnome-calendar`
 - Renamed `contacts` to `pim`
 - Fixed `i3` titlebars showing on Chromium based applications
