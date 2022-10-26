@@ -1,3 +1,5 @@
+- Added `gnome-calendar`
+- Renamed `contacts` to `pim`
 - Fixed `i3` titlebars showing on Chromium based applications
 - Use `flake-utils-plus.darwinModules` on macOS
 - Removed `etesync-dav`
