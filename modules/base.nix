@@ -77,12 +77,6 @@ in {
 
     services.nix-daemon.enable = true;
 
-    # WORKAROUND: Using MagicDNS (through nix-darwin) without setting a fallback
-    # DNS server leads to taking a lot longer to connect to the internet.
-    networking.dns = [ "1.1.1.1" ];
-
-    services.tailscale.magicDNS.enable = true;
-
     # WORKAROUND: `systemsetup -f -setremotelogin on` requires `Full Disk Access`
     # permission for the Application calling it
     system.activationScripts.extraActivation.text = ''
@@ -240,6 +234,7 @@ in {
 
         ls = "ls -F --color=auto";
 
+        arg = "alias | rg --";
         l = "ls -lah";
         nb = "nix build";
         sr = "_ ranger";

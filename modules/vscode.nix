@@ -36,7 +36,9 @@
       (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-vscode.cpptools)
       pkgs.vscode-extensions.xadillax.viml
     ];
-    programs.vscode.keybindings = [
+    programs.vscode.keybindings = let
+      mod = if hostPlatform.isDarwin then "cmd" else "ctrl";
+    in [
       # Fix `C-e` not working in terminal
       { key = "ctrl+e"; command = "-workbench.action.quickOpen"; }
       # Disable opening external terminal with `C-S-c`
@@ -75,8 +77,8 @@
       { key = "ctrl+shift+n"; command = "-workbench.action.newWindow"; }
 
       # `C-i` is for IntelliSense suggestions
-      { key = "ctrl+i"; command = "-emojisense.quickEmoji"; when = "editorTextFocus"; }
-      { key = "ctrl+shift+i"; command = "-emojisense.quickEmojitext"; when = "editorTextFocus"; }
+      { key = "${mod}+i"; command = "-emojisense.quickEmoji"; when = "editorTextFocus"; }
+      { key = "${mod}+shift+i"; command = "-emojisense.quickEmojitext"; when = "editorTextFocus"; }
     ];
     programs.vscode.userSettings = let
       nvimSystem = if hostPlatform.isDarwin then "darwin" else "linux";
@@ -130,6 +132,7 @@
       "files.associations" = {
         "flake.lock" = "json";
         "yarn.lock" = "yaml";
+        ".env.*" = "properties";
       };
 
       "workbench.colorCustomizations" = {

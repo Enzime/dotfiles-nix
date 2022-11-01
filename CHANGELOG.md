@@ -1,3 +1,7 @@
+- Moved Tailscale MagicDNS to `chi`
+- Added `arg` alias
+- Fixed `cmd+i` in `VSCode` not showing editor suggestions
+- Fixed `.env.*` files missing syntax highlighting
 - Use `~/.ssh/config.local` for out of band SSH config
 - Use Tailscale exit nodes from `sigma`
 - Removed `paperwm`
