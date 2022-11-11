@@ -1,3 +1,7 @@
+- Fixed `zfs` preventing `nixosImages/bcachefs` from building
+- Imported `.ssh/config` for `phi`
+- Added `mullvad-vpn`
+- Fixed `save-state` deprecation warning in GitHub Actions
 - Moved Tailscale MagicDNS to `chi`
 - Added `arg` alias
 - Fixed `cmd+i` in `VSCode` not showing editor suggestions

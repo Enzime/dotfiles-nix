@@ -3,6 +3,12 @@
 let
   inherit (lib) mkForce;
 in {
+  home.file.".ssh/config".text = ''
+    Host *
+      IdentityAgent ~/.1password/agent.sock
+      ServerAliveInterval 120
+  '';
+
   xsession.windowManager.i3.config.startup = [
     { command = "i3 workspace 101"; notification = false; }
     { command = "i3 workspace 201"; notification = false; }

@@ -202,7 +202,16 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ inputs.nix-overlay.overlay ];
+        overlays = [
+          inputs.nix-overlay.overlay
+
+          # WORKAROUND: ZFS is marked as broken with bcachefs kernel
+          (final: prev: {
+            zfs = prev.zfs.overrideAttrs (old: {
+              meta = old.meta // { platforms = [ ]; };
+            });
+          })
+        ];
       };
     in {
       packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {

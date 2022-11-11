@@ -69,6 +69,9 @@
 
   services.nextcloud.home = "/data/Nextcloud";
 
+  services.mullvad-vpn.enable = true;
+  services.mullvad-vpn.package = pkgs.mullvad-vpn;
+
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
 }

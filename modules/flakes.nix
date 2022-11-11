@@ -13,7 +13,7 @@ in {
     imports = [ shared ];
   };
 
-  nixosModule = { pkgs, lib, ... }: {
+  nixosModule = { ... }: {
     imports = [ shared ];
   };
 
