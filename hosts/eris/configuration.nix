@@ -13,6 +13,8 @@
 
   services.openssh.enable = lib.mkForce false;
 
+  services.tailscale.useRoutingFeatures = "server";
+
   zramSwap.enable = true;
   zramSwap.memoryPercent = 250;
 

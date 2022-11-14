@@ -19,10 +19,6 @@
     nohook resolv.conf
   '';
 
-  # Allow `phi` to be used as an Tailscale exit node
-  boot.kernel.sysctl."net.ipv4.ip_forward" = true;
-  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = true;
-
   nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/nix/nixpkgs"; };
 
   # Install firmware-linux-nonfree (includes Navi10 drivers)
@@ -71,6 +67,8 @@
 
   services.mullvad-vpn.enable = true;
   services.mullvad-vpn.package = pkgs.mullvad-vpn;
+
+  services.tailscale.useRoutingFeatures = "server";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";

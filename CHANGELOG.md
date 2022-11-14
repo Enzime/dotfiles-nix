@@ -1,3 +1,5 @@
+- Use `eris` as a Tailscale exit node
+- Use `services.tailscale.useRoutingFeatures`
 - Fixed `zfs` preventing `nixosImages/bcachefs` from building
 - Imported `.ssh/config` for `phi`
 - Added `mullvad-vpn`

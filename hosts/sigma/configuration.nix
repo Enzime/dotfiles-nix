@@ -10,7 +10,7 @@
 
   networking.interfaces.wlp170s0.useDHCP = true;
 
-  networking.firewall.checkReversePath = "loose";
+  services.tailscale.useRoutingFeatures = "client";
 
   services.fprintd.enable = true;
 
