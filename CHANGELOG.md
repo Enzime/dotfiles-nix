@@ -1,3 +1,4 @@
+- Changed `x11vnc` to always use port `5900`
 - Fixed `bcachefs` failing to find encryption key
 - Moved `mullvad-vpn` to `personal`
 - Use Graph View plugin with `gramps`

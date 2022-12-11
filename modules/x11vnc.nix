@@ -17,7 +17,7 @@
 
       Service = {
         # Only allow Tailscale traffic
-        ExecStart = "${pkgs.x11vnc}/bin/x11vnc -allow 100. -passwdfile ${config.home.homeDirectory}/.vnc/passwd -shared -forever -nap -display :0";
+        ExecStart = "${pkgs.x11vnc}/bin/x11vnc -rfbport 5900 -allow 100. -passwdfile ${config.home.homeDirectory}/.vnc/passwd -shared -forever -nap -display :0";
         ExecStop = "${pkgs.x11vnc}/bin/x11vnc -R stop";
       };
 
