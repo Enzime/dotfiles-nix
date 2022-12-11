@@ -1,9 +1,9 @@
 {
-  imports = [ "ios" "pim" ];
+  imports = [ "i18n" "ios" "pim" ];
 
   hmModule = { config, pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) discord joplin-desktop signal-desktop;
+      inherit (pkgs) discord gramps joplin-desktop signal-desktop;
     };
 
     xsession.windowManager.i3.config.startup = [

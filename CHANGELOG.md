@@ -1,3 +1,7 @@
+- Use Graph View plugin with `gramps`
+- Added Vietnamese IME
+- Added `gramps`
+- Changed `vscode-neovim` to run in a separate extension host process
 - Update `tailscale`
 - Use `eris` as a Tailscale exit node
 - Use `services.tailscale.useRoutingFeatures`

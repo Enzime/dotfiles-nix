@@ -93,6 +93,9 @@
 
       "vscode-neovim.neovimExecutablePaths.${nvimSystem}" = "${config.programs.neovim.finalPackage}/bin/nvim";
       "nix.enableLanguageServer" = true;
+      "extensions.experimental.affinity" = {
+        "asvetliakov.vscode-neovim" = 1;
+      };
 
       "workbench.colorTheme" = "Monokai";
       "markdown-preview-github-styles.colorTheme" = "light";
