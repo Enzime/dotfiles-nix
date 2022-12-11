@@ -1,3 +1,5 @@
+- Fixed `bcachefs` failing to find encryption key
+- Moved `mullvad-vpn` to `personal`
 - Use Graph View plugin with `gramps`
 - Added Vietnamese IME
 - Added `gramps`

@@ -65,9 +65,6 @@
 
   services.nextcloud.home = "/data/Nextcloud";
 
-  services.mullvad-vpn.enable = true;
-  services.mullvad-vpn.package = pkgs.mullvad-vpn;
-
   services.tailscale.useRoutingFeatures = "server";
 
   # Check that this can be bumped before changing it

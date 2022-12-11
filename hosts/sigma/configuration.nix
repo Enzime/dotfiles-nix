@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ user, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -9,6 +9,8 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   networking.interfaces.wlp170s0.useDHCP = true;
+
+  nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/Code/nixpkgs"; };
 
   services.tailscale.useRoutingFeatures = "client";
 
