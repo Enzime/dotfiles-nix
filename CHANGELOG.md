@@ -1,3 +1,5 @@
+- Removed `nixosImages/bcachefs`
+- Use LVM-on-LUKS instead of `bcachefs` on `sigma`
 - Changed `x11vnc` to always use port `5900`
 - Fixed `bcachefs` failing to find encryption key
 - Moved `mullvad-vpn` to `personal`

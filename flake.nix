@@ -18,9 +18,6 @@
   inputs.agenix.url = github:ryantm/agenix;
   inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixos-generators.url = github:nix-community/nixos-generators;
-  inputs.nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
-
   inputs.firefox-addons-overlay.url = path:overlays/firefox-addons;
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
@@ -29,7 +26,10 @@
   inputs.deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   inputs.deploy-rs.inputs.utils.follows = "flake-utils";
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, nixos-generators, deploy-rs, ... }:
+  inputs.disko.url = github:nix-community/disko;
+  inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
+
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, deploy-rs, disko, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -199,36 +199,6 @@
       };
     }
   ]) // (
-    flake-utils.lib.eachSystem [ "x86_64-linux" ] (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          inputs.nix-overlay.overlay
-
-          # WORKAROUND: ZFS is marked as broken with bcachefs kernel
-          (final: prev: {
-            zfs = prev.zfs.overrideAttrs (old: {
-              meta = old.meta // { platforms = [ ]; };
-            });
-          })
-        ];
-      };
-    in {
-      packages."nixosImages/bcachefs" = nixos-generators.nixosGenerate {
-        inherit pkgs;
-        format = "install-iso";
-        modules = [
-          ({ modulesPath, pkgs, ... }: {
-            imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix" ];
-            boot.supportedFilesystems = [ "bcachefs" ];
-          })
-          ((import ./modules/flakes.nix).nixosModule)
-          ((import ./modules/cachix.nix).nixosModule)
-        ];
-        specialArgs = { inherit inputs; };
-      };
-    })
-  ) // (
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
