@@ -21,6 +21,18 @@
     ];
     programs.firefox.profiles.default = {
       isDefault = true;
+      search = {
+        default = "DuckDuckGo";
+        engines = {
+          "Google".metaData.hidden = true;
+          "Wikipedia (en)".metaData.hidden = true;
+          "Bing".metaData.hidden = true;
+          "Amazon.com.au".metaData.hidden = true;
+          "eBay".metaData.hidden = true;
+          "Amazon.com".metaData.hidden = true;
+        };
+        force = true;
+      };
       settings = {
         "browser.privatebrowsing.vpnpromourl" = "";
         "datareporting.healthreport.uploadEnabled" = false;

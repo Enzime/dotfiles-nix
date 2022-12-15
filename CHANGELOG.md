@@ -1,3 +1,6 @@
+- Use power button on laptop to lock laptop
+- Use `home-manager` to manage Firefox's search engines
+- Added `fcitx5` configuration
 - Removed `nixosImages/bcachefs`
 - Use LVM-on-LUKS instead of `bcachefs` on `sigma`
 - Changed `x11vnc` to always use port `5900`

@@ -10,7 +10,7 @@
     '';
 
     services.logind.extraConfig = ''
-      HandlePowerKey=ignore
+      HandlePowerKey=lock
     '';
 
     programs.light.enable = true;

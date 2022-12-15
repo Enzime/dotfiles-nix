@@ -17,7 +17,7 @@
 
     programs.firefox.profiles.work = {
       id = 1;
-      inherit (config.programs.firefox.profiles.default) settings;
+      inherit (config.programs.firefox.profiles.default) search settings;
     };
 
     programs.firefox.extensions = [
