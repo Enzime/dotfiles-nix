@@ -11,11 +11,6 @@ in {
     inherit (hosts) phi;
   };
 
-  "etesync-dav.age".publicKeys = builtins.attrValues {
-    inherit (users) enzime_phi;
-    inherit (hosts) phi sigma;
-  };
-
   "nextcloud.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;

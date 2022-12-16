@@ -1,3 +1,5 @@
+- Updated SSH host key for `sigma`
+- Removed `etesync-dav.age` from `secrets.nix`
 - Use power button on laptop to lock laptop
 - Use `home-manager` to manage Firefox's search engines
 - Added `fcitx5` configuration
