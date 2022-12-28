@@ -1,3 +1,4 @@
+- Updated `nextcloud`
 - Updated SSH host key for `sigma`
 - Removed `etesync-dav.age` from `secrets.nix`
 - Use power button on laptop to lock laptop
@@ -12,7 +13,7 @@
 - Added Vietnamese IME
 - Added `gramps`
 - Changed `vscode-neovim` to run in a separate extension host process
-- Update `tailscale`
+- Updated `tailscale`
 - Use `eris` as a Tailscale exit node
 - Use `services.tailscale.useRoutingFeatures`
 - Fixed `zfs` preventing `nixosImages/bcachefs` from building
