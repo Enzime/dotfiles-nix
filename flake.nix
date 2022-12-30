@@ -168,7 +168,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) duckdns gaming i3 nextcloud samba synergy-server sway virt-manager x11vnc;
+        inherit (modules) bluetooth duckdns gaming i3 nextcloud samba synergy-server sway virt-manager x11vnc;
       };
     }
     {

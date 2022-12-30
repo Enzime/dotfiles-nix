@@ -1,3 +1,4 @@
+- Added `bluetooth` module
 - Updated `nextcloud`
 - Updated SSH host key for `sigma`
 - Removed `etesync-dav.age` from `secrets.nix`
