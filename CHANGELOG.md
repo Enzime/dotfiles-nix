@@ -1,3 +1,4 @@
+- Fixed `VSCode` only storing last 1000 lines of terminal scrollback
 - Added `bluetooth` module
 - Updated `nextcloud`
 - Updated SSH host key for `sigma`

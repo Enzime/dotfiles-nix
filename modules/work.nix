@@ -23,5 +23,9 @@
     programs.vscode.extensions = [
       pkgs.vscode-extensions.graphql.vscode-graphql
     ];
+
+    programs.vscode.userSettings = {
+      "typescript.preferences.importModuleSpecifier" = "relative";
+    };
   };
 }

@@ -130,6 +130,7 @@
       "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
       "colorize.hide_current_line_decorations" = false;
 
+      "terminal.integrated.scrollback" = 1000000;
       "terminal.external.linuxExec" = "termite";
 
       "files.associations" = {
