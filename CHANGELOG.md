@@ -1,3 +1,5 @@
+- Use `colima` to provide Docker runtime on macOS
+- Use Multi-Account Containers at work
 - Fixed `VSCode` only storing last 1000 lines of terminal scrollback
 - Added `bluetooth` module
 - Updated `nextcloud`

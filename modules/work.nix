@@ -1,4 +1,6 @@
 {
+  imports = [ "docker" ];
+
   darwinModule = { user, config, pkgs, ... }: {
     # WORKAROUND: Due to nix-darwin using ~/Applications exclusively
     # Slack can't be installed through home-manager currently.
@@ -18,6 +20,10 @@
 
     programs.git.includes = [
       { condition = "gitdir:~/Work/"; path = "~/.config/git/config.work"; }
+    ];
+
+    programs.firefox.extensions = [
+      pkgs.firefox-addons.multi-account-containers
     ];
 
     programs.vscode.extensions = [
