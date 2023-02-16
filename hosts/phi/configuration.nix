@@ -40,14 +40,6 @@
       ModeLine "2560x1441"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
       Option "PreferredMode" "2560x1441"
     '';
-  }
-  {
-    output = "DisplayPort-1";
-    monitorConfig = ''
-      ModeLine "2560x1441"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
-      Option "PreferredMode" "2560x1441"
-      Option "RightOf" "DisplayPort-2"
-    '';
   } ];
 
   security.pam.u2f.enable = true;
@@ -65,7 +57,7 @@
 
   services.nextcloud.home = "/data/Nextcloud";
 
-  services.tailscale.useRoutingFeatures = "server";
+  services.tailscale.useRoutingFeatures = "both";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";

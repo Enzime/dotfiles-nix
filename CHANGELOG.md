@@ -1,3 +1,5 @@
+- Only use 1 monitor on `phi`
+- Use `wireless` on `phi`
 - Use `colima` to provide Docker runtime on macOS
 - Use Multi-Account Containers at work
 - Fixed `VSCode` only storing last 1000 lines of terminal scrollback
