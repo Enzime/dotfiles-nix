@@ -1,3 +1,4 @@
+- Added `bb:`, `bbp:` and `bbro:` Git URL aliases
 - Only use 1 monitor on `phi`
 - Use `wireless` on `phi`
 - Use `colima` to provide Docker runtime on macOS
