@@ -11,6 +11,12 @@
     system.activationScripts.extraUserActivation.text = ''
       defaults write com.tinyspeck.slackmacgap SlackNoAutoUpdates -bool YES
     '';
+
+    age.secrets.aws_config = {
+      file = ../secrets/aws_config.age;
+      path = "/Users/${user}/.aws/config";
+      owner = user;
+    };
   };
 
   hmModule = { pkgs, lib, ... }: {
@@ -33,5 +39,7 @@
     programs.vscode.userSettings = {
       "typescript.preferences.importModuleSpecifier" = "relative";
     };
+
+    home.file.".aws/credentials".text = "";
   };
 }

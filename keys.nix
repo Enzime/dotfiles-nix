@@ -9,5 +9,6 @@
   hosts = {
     phi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxOi/S1TLBg8/ZRX5XfCTlM8A+I0q0pQksrxtfjdYFP";
     sigma = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxRoznXzz/T6s5UeHG1uoHCXGfXSpy27eTEzC0/EUW+";
+    upsilon = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg43qekSo5Cv4eEFJTLXTuXt8w2rsFtY1QLuB5Qlofp";
   };
 }

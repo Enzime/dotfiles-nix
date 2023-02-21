@@ -1,5 +1,5 @@
 let
-  shared = { config, inputs, user, hostname, pkgs, ... }: {
+  shared = { config, inputs, user, host, hostname, pkgs, lib, ... }: {
     networking.hostName = hostname;
 
     time.timeZone = "Australia/Melbourne";
@@ -8,7 +8,7 @@ let
       inherit (pkgs) killall wget ranger zip unzip sshfs;
     }) ++ [
       inputs.home-manager.packages.${pkgs.system}.default
-      (assert (!inputs.agenix.packages.${pkgs.system} ? default); inputs.agenix.defaultPackage.${pkgs.system})
+      inputs.agenix.packages.${pkgs.system}.default
       inputs.deploy-rs.packages.${pkgs.system}.default
     ];
 
@@ -23,11 +23,19 @@ let
     services.tailscale.enable = true;
 
     programs.zsh.enable = true;
+
+    age.secrets.zshrc = let
+      file = ../secrets/zshrc_${host}.age;
+    in lib.mkIf (builtins.pathExists file) {
+      inherit file;
+      path = "${config.users.users.${user}.home}/.zshrc.secrets";
+      owner = user;
+    };
   };
 in {
   imports = [ "cachix" "flakes" "impermanence" "nix-index" "termite" "vm" "vscode" "xdg" ];
 
-  nixosModule = { config, configRevision, user, host, pkgs, lib, ... }: {
+  nixosModule = { config, configRevision, user, pkgs, ... }: {
     imports = [ shared ];
 
     # Add flake revision to `nixos-version --json`
@@ -59,14 +67,6 @@ in {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
-    };
-
-    age.secrets.zshrc = let
-      file = ../secrets/zshrc_${host}.age;
-    in lib.mkIf (builtins.pathExists file) {
-      inherit file;
-      path = "/home/${user}/.zshrc.secrets";
-      owner = user;
     };
   };
 

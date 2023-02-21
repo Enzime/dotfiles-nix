@@ -17,6 +17,7 @@
 
   inputs.agenix.url = github:ryantm/agenix;
   inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.agenix.inputs.darwin.follows = "nix-darwin";
 
   inputs.firefox-addons-overlay.url = path:overlays/firefox-addons;
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -114,6 +115,7 @@
         inherit system pkgs inputs;
         modules = [
           flake-utils-plus.darwinModules.autoGenFromInputs
+          agenix.darwinModules.age
           ./hosts/${host}/darwin-configuration.nix
         ] ++ darwinModules ++ [
           home-manager.darwinModules.home-manager {
@@ -124,7 +126,7 @@
             home-manager.extraSpecialArgs = extraHomeManagerArgs;
           }
         ];
-        specialArgs = { inherit user hostname; };
+        specialArgs = { inherit user host hostname; };
       }; } else { };
 
       # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage

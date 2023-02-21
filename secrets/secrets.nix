@@ -6,6 +6,11 @@ in {
     inherit (hosts) phi;
   };
 
+  "aws_config.age".publicKeys = builtins.attrValues {
+    inherit (users) "michael.hoang_upsilon";
+    inherit (hosts) upsilon;
+  };
+
   "duckdns.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;
@@ -24,5 +29,10 @@ in {
   "zshrc_phi.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;
+  };
+
+  "zshrc_upsilon.age".publicKeys = builtins.attrValues {
+    inherit (users) "michael.hoang_upsilon";
+    inherit (hosts) upsilon;
   };
 }
