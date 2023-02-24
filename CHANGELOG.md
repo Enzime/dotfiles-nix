@@ -1,3 +1,4 @@
+- Move `agenix` `zsh` function to use SSH key from 1Password to `work` module
 - Added `~/.zshrc.secrets` for work
 - Added `~/.aws/{config,credentials}` for work
 - Use `agenix` for secrets management on macOS

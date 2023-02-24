@@ -24,6 +24,12 @@
       inherit (pkgs) awscli2 aws-vault slack;
     };
 
+    programs.zsh.initExtra = ''
+      function agenix {
+          $(which -p agenix) $@ -i =(op read $OP_SSH_KEY_URL)
+      }
+    '';
+
     programs.git.includes = [
       { condition = "gitdir:~/Work/"; path = "~/.config/git/config.work"; }
     ];
