@@ -325,7 +325,7 @@ in {
     xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
     xdg.configFile."ranger/commands.py".source = ../files/commands.py;
 
-    systemd.user.startServices = mkIf (hostPlatform.isLinux) "sd-switch";
+    systemd.user.startServices = mkIf hostPlatform.isLinux "sd-switch";
 
     programs.home-manager.enable = true;
   };

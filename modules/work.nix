@@ -2,12 +2,6 @@
   imports = [ "docker" ];
 
   darwinModule = { user, config, pkgs, ... }: {
-    # WORKAROUND: Due to nix-darwin using ~/Applications exclusively
-    # Slack can't be installed through home-manager currently.
-    environment.systemPackages = assert (!config.home-manager.users.${user}.home.file ? "Applications/Home Manager Apps"); builtins.attrValues {
-      inherit (pkgs) shortcat slack;
-    };
-
     system.activationScripts.extraUserActivation.text = ''
       defaults write com.tinyspeck.slackmacgap SlackNoAutoUpdates -bool YES
     '';
@@ -21,7 +15,11 @@
 
   hmModule = { pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) awscli2 aws-vault slack;
+      inherit (pkgs) awscli2 aws-vault postman slack;
+    };
+
+    home.sessionVariables = {
+      AWS_SDK_LOAD_CONFIG = 1;
     };
 
     programs.zsh.initExtra = ''

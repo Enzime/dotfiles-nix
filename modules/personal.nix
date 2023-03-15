@@ -15,11 +15,6 @@
       { command = "signal-desktop"; always = true; }
     ];
 
-    programs.firefox.profiles.work = {
-      id = 1;
-      inherit (config.programs.firefox.profiles.default) search settings;
-    };
-
     programs.firefox.extensions = [
       pkgs.firefox-addons.copy-selected-links
       pkgs.firefox-addons.ff2mpv
@@ -36,6 +31,11 @@
       pkgs.firefox-addons.tst-wheel-and-double
       pkgs.firefox-addons.web-archives
     ];
+
+    programs.firefox.profiles.work = {
+      id = 1;
+      inherit (config.programs.firefox.profiles.default) search settings;
+    };
 
     # Disable tab bar when using vertical tabs
     programs.firefox.profiles.default.userChrome = ''

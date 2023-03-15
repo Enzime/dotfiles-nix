@@ -37,7 +37,7 @@
       "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
       "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
     };
-  in mkIf (hostPlatform.isLinux) {
+  in mkIf hostPlatform.isLinux {
     dconf.settings = {
       "org/gnome/desktop/peripherals/touchpad" = {
         natural-scroll = false;

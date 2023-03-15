@@ -171,14 +171,16 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "utils": "utils"
+        "utils": [
+          "flake-utils"
+        ]
       },
       "locked": {
-        "lastModified": 1666649150,
-        "narHash": "sha256-kINnLxC0KFalUk4tVO/H5hUU7FVAOYYcUSWrsBpnl+I=",
+        "lastModified": 1667410913,
+        "narHash": "sha256-5+S65dpXaIyMDeoPy823BzNH5HYY1wvZ6G+rzTnO8kY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7dc4e4ebd71280842b4d30975439980baaac9db8",
+        "rev": "f520832a47dbc24d1e2c4e4b9a3dbe910777d1a2",
         "type": "github"
       },
       "original": {
@@ -233,11 +235,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1666786564,
-        "narHash": "sha256-hIJTJB7rvQZ92gWC7a20CLhX16pM5EGoxxjvaenTiSo=",
+        "lastModified": 1678850646,
+        "narHash": "sha256-tq9lxSE8lH9xBDL5ZeK8a1TL1yFPkieIhMmuT046SdA=",
         "owner": "Enzime",
         "repo": "nix-darwin",
-        "rev": "2394619a6753af806c1aa99f4c909cbb787602bc",
+        "rev": "a02cbaad4b41f03420cb3863d59ede44bbbef5f3",
         "type": "github"
       },
       "original": {
@@ -312,21 +314,6 @@
         "nix-darwin": "nix-darwin",
         "nix-overlay": "nix-overlay",
         "nixpkgs": "nixpkgs"
-      }
-    },
-    "utils": {
-      "locked": {
-        "lastModified": 1659877975,
-        "narHash": "sha256-zllb8aq3YO3h8B/U0/J1WBgAL8EX5yWf5pMj3G0NAmc=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "c0e246b9b83f637f4681389ecabcb2681b4f3af0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
       }
     }
   },

@@ -6,6 +6,7 @@
 
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.home-manager.inputs.utils.follows = "flake-utils";
 
   inputs.flake-utils.url = github:numtide/flake-utils;
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;

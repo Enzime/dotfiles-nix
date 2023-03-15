@@ -1,3 +1,6 @@
+- Fixed `home-manager` not being able to install macOS apps
+- Added `postman` for work
+- Removed `shortcat`
 - Move `agenix` `zsh` function to use SSH key from 1Password to `work` module
 - Added `~/.zshrc.secrets` for work
 - Added `~/.aws/{config,credentials}` for work
