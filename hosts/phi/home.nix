@@ -11,17 +11,16 @@ in {
 
   xsession.windowManager.i3.config.startup = [
     { command = "i3 workspace 101"; notification = false; }
-    { command = "i3 workspace 201"; notification = false; }
   ];
 
   xsession.windowManager.i3.config.workspaceOutputAssign = [
-    { workspace = "101"; output = "DisplayPort-2"; }
+    { workspace = "101"; output = "DisplayPort-0"; }
   ];
 
   services.polybar = {
     config = {
       "bar/centre" = {
-        monitor = "DisplayPort-2";
+        monitor = "DisplayPort-0";
       };
     };
     script = mkForce ''
@@ -35,4 +34,7 @@ in {
       sleep-inactive-ac-type = "nothing";
     };
   };
+
+  services.screen-locker.inactiveInterval = 1;
+  services.screen-locker.xautolock.enable = mkForce true;
 }

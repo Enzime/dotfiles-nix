@@ -1,3 +1,7 @@
+- Fixed `x11vnc` using the wrong `DISPLAY` sometimes
+- Enabled screen locker on `phi`
+- Enabled autologin on `phi`
+- Changed back to 34" ultrawide on `phi`
 - Fixed `home-manager` not being able to install macOS apps
 - Added `postman` for work
 - Removed `shortcat`

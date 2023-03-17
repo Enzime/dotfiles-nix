@@ -34,11 +34,11 @@
 
   # LWJGL 2 doesn't support modelines with text after WxH
   services.xserver.xrandrHeads = [ {
-    output = "DisplayPort-2";
+    output = "DisplayPort-0";
     primary = true;
     monitorConfig = ''
-      ModeLine "2560x1441"  645.00  2560 2568 2600 2640  1440 1446 1454 1480 +hsync -vsync
-      Option "PreferredMode" "2560x1441"
+      ModeLine "3440x1441"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
+      Option "PreferredMode" "3440x1441"
     '';
   } ];
 
@@ -58,6 +58,8 @@
   services.nextcloud.home = "/data/Nextcloud";
 
   services.tailscale.useRoutingFeatures = "both";
+
+  services.xserver.displayManager.autoLogin.user = user;
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
