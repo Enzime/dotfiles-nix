@@ -1,3 +1,4 @@
+- Use `fwupd` to upgrade BIOS on `sigma`
 - Fixed `x11vnc` using the wrong `DISPLAY` sometimes
 - Enabled screen locker on `phi`
 - Enabled autologin on `phi`

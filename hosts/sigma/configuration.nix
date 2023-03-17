@@ -1,7 +1,16 @@
-{ user, lib, ... }:
+{ user, pkgs, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
+
+  services.fwupd.enable = true;
+  services.fwupd.extraRemotes = [ "lvfs-testing" ];
+  environment.etc."fwupd/uefi_capsule.conf" = lib.mkForce {
+    source = pkgs.runCommand "fwupd-uefi-capsule-update-on-disk-disable.conf" { } ''
+      sed "s,^#DisableCapsuleUpdateOnDisk=true,DisableCapsuleUpdateOnDisk=true," \
+      "${pkgs.fwupd}/etc/fwupd/uefi_capsule.conf" > "$out"
+    '';
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
