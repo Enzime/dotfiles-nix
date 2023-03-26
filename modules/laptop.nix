@@ -1,7 +1,11 @@
 {
   imports = [ "wireless" ];
 
-  nixosModule = { user, pkgs, ... }: {
+  nixosModule = { user, pkgs, lib, ... }: {
+    time.timeZone = lib.mkForce null;
+    services.automatic-timezoned.enable = true;
+    services.geoclue2.enableDemoAgent = lib.mkForce true;
+
     services.xserver.libinput.enable = true;
 
     services.udev.extraHwdb = ''

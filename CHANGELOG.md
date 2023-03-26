@@ -1,3 +1,6 @@
+- Use `automatic-timezoned` to set the timezone based on the location
+- Fixed `spotify-tray` not showing an icon under X11
+- Fixed `spotify-tray` not launching under Wayland
 - Use `fwupd` to upgrade BIOS on `sigma`
 - Fixed `x11vnc` using the wrong `DISPLAY` sometimes
 - Enabled screen locker on `phi`

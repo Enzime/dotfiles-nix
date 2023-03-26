@@ -22,7 +22,8 @@
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) firefox pavucontrol qalculate-gtk remmina;
 
-      inherit (pkgs) spotify-tray;
+      # Install Spotify as well for icons
+      inherit (pkgs) spotify spotify-tray;
     };
 
     services.xserver.enable = true;
