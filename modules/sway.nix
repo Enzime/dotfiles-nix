@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical" "i3-sway" ];
+  imports = [ "graphical" "i3-sway" "wayvnc" ];
 
   nixosModule = { ... }: {
     programs.sway.enable = true;
@@ -7,7 +7,7 @@
     xdg.portal.wlr.enable = true;
   };
 
-  hmModule = { config, pkgs, ... }: {
+  hmModule = { config, pkgs, lib, ... }: {
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
     programs.waybar.enable = true;
@@ -110,5 +110,11 @@
 
     programs.waybar.systemd.enable = true;
     programs.waybar.systemd.target = "sway-session.target";
+
+    systemd.user.services.polybar = lib.mkIf config.services.polybar.enable {
+      Unit = {
+        Conflicts = [ "sway-session.target" ];
+      };
+    };
   };
 }

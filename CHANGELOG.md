@@ -1,3 +1,6 @@
+- Fixed `polybar` starting in `sway` sessions when `i3` module is enabled
+- Added `wayvnc`
+- Added `ln` and `lnd` flake aliases on `chi`
 - Added `~/.ssh/allowed_signers` for work
 - Use `programs.git.ignores` instead of `programs.git.extraConfig.core.excludesFile`
 - Added `~/.config/git/{config,ignore}.work`
