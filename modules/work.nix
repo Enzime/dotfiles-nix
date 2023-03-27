@@ -11,9 +11,27 @@
       path = "/Users/${user}/.aws/config";
       owner = user;
     };
+
+    age.secrets.git_config = {
+      file = ../secrets/git_config.age;
+      path = "/Users/${user}/.config/git/config.work";
+      owner = user;
+    };
+
+    age.secrets.npmrc = {
+      file = ../secrets/npmrc.age;
+      path = "/Users/${user}/.npmrc";
+      owner = user;
+    };
+
+    age.secrets.ssh_allowed_signers = {
+      file = ../secrets/ssh_allowed_signers.age;
+      path = "/Users/${user}/.ssh/allowed_signers";
+      owner = user;
+    };
   };
 
-  hmModule = { pkgs, lib, ... }: {
+  hmModule = { config, pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) awscli2 aws-vault postman slack;
     };
@@ -31,6 +49,12 @@
     programs.git.includes = [
       { condition = "gitdir:~/Work/"; path = "~/.config/git/config.work"; }
     ];
+
+    xdg.configFile."git/ignore.work".text = builtins.concatStringsSep "\n" (config.programs.git.ignores ++ [
+      ".direnv/"
+      ".envrc"
+      "shell.nix"
+    ]) + "\n";
 
     programs.firefox.extensions = [
       pkgs.firefox-addons.multi-account-containers

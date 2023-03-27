@@ -1,3 +1,7 @@
+- Added `~/.ssh/allowed_signers` for work
+- Use `programs.git.ignores` instead of `programs.git.extraConfig.core.excludesFile`
+- Added `~/.config/git/{config,ignore}.work`
+- Added `~/.npmrc` for work
 - Use `automatic-timezoned` to set the timezone based on the location
 - Fixed `spotify-tray` not showing an icon under X11
 - Fixed `spotify-tray` not launching under Wayland

@@ -134,6 +134,11 @@ in {
       userName = "Michael Hoang";
       userEmail = "enzime@users.noreply.github.com";
 
+      ignores = [
+        "/worktrees"
+        "result"
+      ];
+
       delta.enable = true;
 
       extraConfig = {
@@ -144,10 +149,6 @@ in {
           threeWay = true;
         };
         core = {
-          excludesFile = "${pkgs.writeText "global_ignore" ''
-            /worktrees
-            result
-          ''}";
           hooksPath = "~/.config/git/hooks";
         };
         diff = {

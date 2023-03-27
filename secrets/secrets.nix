@@ -16,9 +16,24 @@ in {
     inherit (hosts) phi;
   };
 
+  "git_config.age".publicKeys = builtins.attrValues {
+    inherit (users) "michael.hoang_upsilon";
+    inherit (hosts) upsilon;
+  };
+
   "nextcloud.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;
+  };
+
+  "npmrc.age".publicKeys = builtins.attrValues {
+    inherit (users) "michael.hoang_upsilon";
+    inherit (hosts) upsilon;
+  };
+
+  "ssh_allowed_signers.age".publicKeys = builtins.attrValues {
+    inherit (users) "michael.hoang_upsilon";
+    inherit (hosts) upsilon;
   };
 
   "x11vnc_phi.age".publicKeys = builtins.attrValues {
