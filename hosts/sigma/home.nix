@@ -26,4 +26,7 @@
       adapter = "ACAD";
     };
   };
+
+  xdg.userDirs.download = "\$HOME/Downloads";
+  xdg.userDirs.pictures = "\$HOME/Pictures";
 }

@@ -50,6 +50,9 @@
         "browser.tabs.warnOnClose" = true;
         "signon.rememberSignons" = false;
         "dom.security.https_only_mode" = true;
+
+        # Use userChrome.css
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
       };
     };
 

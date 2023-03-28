@@ -1,3 +1,8 @@
+- Fixed `wayvnc` causing fans to spin when screen is off
+- Changed `/mnt/phi` automount to keep trying forever
+- Fixed `/mnt/phi` not working on `sigma`
+- Fixed screenshots not saving on `sigma`
+- Use Tree Style Tabs on `sigma`
 - Fixed `polybar` starting in `sway` sessions when `i3` module is enabled
 - Added `wayvnc`
 - Added `ln` and `lnd` flake aliases on `chi`
