@@ -1,3 +1,5 @@
+- Changed lid close on laptops to trigger `suspend-then-hibernate`
+- Added `swap` to `sigma`
 - Fixed `wayvnc` causing fans to spin when screen is off
 - Changed `/mnt/phi` automount to keep trying forever
 - Fixed `/mnt/phi` not working on `sigma`

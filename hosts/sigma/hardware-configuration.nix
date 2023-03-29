@@ -51,6 +51,15 @@
     lvm_vg.pool = {
       type = "lvm_vg";
       lvs = {
+        # Needs to be created before root and currently disko implicitly uses alphabetical ordering
+        aswap = {
+          type = "lvm_lv";
+          size = "16G";
+          content = {
+            type = "swap";
+          };
+        };
+
         root = {
           type = "lvm_lv";
           size = "100%FREE";
@@ -90,8 +99,6 @@
     '';
     overrideStrategy = "asDropin";
   };
-
-  swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";

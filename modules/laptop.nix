@@ -15,6 +15,12 @@
 
     services.logind.extraConfig = ''
       HandlePowerKey=lock
+      HandleLidSwitch=suspend-then-hibernate
+      HandleLidSwitchExternalPower=lock
+    '';
+
+    systemd.sleep.extraConfig = ''
+      HibernateDelaySec=5m
     '';
 
     programs.light.enable = true;

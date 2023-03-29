@@ -82,7 +82,7 @@
           before-sleep 'loginctl lock-session' \
           timeout 1 'exit 0' \
               resume '${swaymsg} "output * dpms on"' \
-          timeout 300 'loginctl lock-session' \
+          timeout 60 'loginctl lock-session' \
               resume '${swaymsg} "output * dpms on"' \
           lock '${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
       '';
