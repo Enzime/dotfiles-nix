@@ -27,7 +27,9 @@
     users.users.${user}.extraGroups = [ "video" ];
   };
 
-  darwinModule = { ... }: {
+  darwinModule = { lib, ... }: {
+    time.timeZone = lib.mkForce null;
+
     system.defaults.trackpad.Clicking = true;
 
     # WORKAROUND: Setting this via `system.defaults` won't check the checkbox

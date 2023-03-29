@@ -1,3 +1,7 @@
+- Fixed `karabiner-elements` not working after `darwin-rebuild switch`
+- Updated `karabiner-elements`
+- Use global `rnix-lsp` in `VSCode`
+- Fixed location based timezone getting overridden on `upsilon`
 - Changed lid close on laptops to trigger `suspend-then-hibernate`
 - Added `swap` to `sigma`
 - Fixed `wayvnc` causing fans to spin when screen is off

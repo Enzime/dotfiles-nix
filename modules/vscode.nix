@@ -93,6 +93,7 @@
 
       "vscode-neovim.neovimExecutablePaths.${nvimSystem}" = "${config.programs.neovim.finalPackage}/bin/nvim";
       "nix.enableLanguageServer" = true;
+      "nix.serverPath" = "${pkgs.rnix-lsp}/bin/rnix-lsp";
       "extensions.experimental.affinity" = {
         "asvetliakov.vscode-neovim" = 1;
       };
