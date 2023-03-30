@@ -8,6 +8,10 @@
   };
 
   hmModule = { config, pkgs, lib, ... }: {
+    home.packages = builtins.attrValues {
+      inherit (pkgs) wl-clipboard;
+    };
+
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
     programs.waybar.enable = true;
@@ -63,6 +67,9 @@
         "Mod4+l" = "exec loginctl lock-session";
 
         "${mod}+Shift+r" = "reload";
+
+        "Ctrl+Shift+l" = "exec 1password --lock";
+        "Ctrl+Shift+space" = "exec 1password --quick-access";
       };
     };
 
@@ -73,10 +80,12 @@
         PartOf = [ "graphical-session.target" ];
       };
 
+      # WORKAROUND: 1Password doesn't lock automatically when the screen lock is invoked under Wayland
       Service.ExecStart = let
         swayidle = "${pkgs.swayidle}/bin/swayidle";
         swaymsg = "${pkgs.sway}/bin/swaymsg";
         swaylock = "${pkgs.swaylock}/bin/swaylock";
+        _1password = "${pkgs._1password-gui}/bin/1password";
       in ''
         ${swayidle} -w -d \
           before-sleep 'loginctl lock-session' \
@@ -84,7 +93,7 @@
               resume '${swaymsg} "output * dpms on"' \
           timeout 60 'loginctl lock-session' \
               resume '${swaymsg} "output * dpms on"' \
-          lock '${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
+          lock '${_1password} --lock && ${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
       '';
 
       Install.WantedBy = [ "sway-session.target" ];

@@ -1,3 +1,6 @@
+- Fixed `neovim` not being able to access clipboard under Wayland
+- Fixed 1Password not locking when session locked under Wayland
+- Fixed `C-S-space` not opening 1Password under Wayland
 - Fixed `karabiner-elements` not working after `darwin-rebuild switch`
 - Updated `karabiner-elements`
 - Use global `rnix-lsp` in `VSCode`
