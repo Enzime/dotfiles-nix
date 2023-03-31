@@ -27,7 +27,7 @@
         "Mod4+e" = "exec ${pkgs.shutdown-menu} -p rofi -c";
 
         "${mod}+Shift+q" = "kill";
-        "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
+        "${mod}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run -l 30";
 
         "Control+${mod}+Left" = "focus output left";
         "Control+${mod}+Right" = "focus output right";

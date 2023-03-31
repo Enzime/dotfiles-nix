@@ -12,6 +12,10 @@
       inherit (pkgs) wl-clipboard;
     };
 
+    home.sessionVariables = {
+      NIXOS_OZONE_WL = 1;
+    };
+
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
     programs.waybar.enable = true;
@@ -100,7 +104,6 @@
     };
 
     programs.waybar.settings = [{
-      layer = "top";
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
       modules-right = [ "battery" "clock" "tray" ];
@@ -125,5 +128,10 @@
         Conflicts = [ "sway-session.target" ];
       };
     };
+
+    programs.mako.enable = true;
+    programs.mako.backgroundColor = "#0d0c0c";
+    programs.mako.borderColor = "#e61f00";
+    programs.mako.padding = "10,5,10,10";
   };
 }

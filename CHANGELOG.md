@@ -1,3 +1,8 @@
+- Use `bemenu` instead of `dmenu`
+- Fixed application launcher rendering underneath `waybar`
+- Added `mako` for notifications under `sway`
+- Fixed 1Password not rendering natively under Wayland with `NIXOS_OZONE_WL=1`
+- Added `hibernate` to `shutdown-menu`
 - Fixed `neovim` not being able to access clipboard under Wayland
 - Fixed 1Password not locking when session locked under Wayland
 - Fixed `C-S-space` not opening 1Password under Wayland
