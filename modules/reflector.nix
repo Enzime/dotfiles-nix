@@ -21,5 +21,6 @@
         "/".proxyPass = "https://nextcloud.enzim.ee";
       };
     };
+    services.nginx.clientMaxBodySize = config.services.nextcloud.maxUploadSize;
   };
 }

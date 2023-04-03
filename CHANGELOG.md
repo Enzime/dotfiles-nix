@@ -1,3 +1,5 @@
+- Use Resilio Sync on `phi`
+- Fixed uploading to Nextcloud not working
 - Use `bemenu` instead of `dmenu`
 - Fixed application launcher rendering underneath `waybar`
 - Added `mako` for notifications under `sway`
