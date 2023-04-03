@@ -1,3 +1,4 @@
+- Fixed session variables not being loaded by `sway`
 - Use Resilio Sync on `phi`
 - Fixed uploading to Nextcloud not working
 - Use `bemenu` instead of `dmenu`

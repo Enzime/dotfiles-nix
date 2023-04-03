@@ -3,6 +3,12 @@
 
   nixosModule = { ... }: {
     programs.sway.enable = true;
+    programs.sway.extraSessionCommands = ''
+      source /etc/profile
+      if [[ -e /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh ]]; then
+        source /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
+      fi
+    '';
 
     xdg.portal.wlr.enable = true;
   };
