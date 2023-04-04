@@ -3,7 +3,16 @@ self: super: {
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ super.makeWrapper ];
 
     postInstall = ''
-      ln -s $out/bin/spotify-tray $out/bin/spotify
+      cp ${super.writeShellScript "spotify-wrapper" ''
+        if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
+          exec ${super.spotify}/bin/spotify "$@"
+        else
+          exec $out/bin/spotify-tray "$@"
+        fi
+      ''} $out/bin/spotify
+
+      substituteInPlace $out/bin/spotify --replace \$out $out
+
       wrapProgram $out/bin/spotify-tray \
         --set-default GDK_BACKEND x11 \
         --add-flags "-c ${super.spotify}/bin/spotify"

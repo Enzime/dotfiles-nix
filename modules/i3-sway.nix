@@ -24,7 +24,7 @@
         "${mod}+Return" = "exec ${pkgs.termite}/bin/termite";
         "${mod}+Shift+Return" = "exec ${pkgs.termite}/bin/termite --name floating";
 
-        "Mod4+e" = "exec ${pkgs.shutdown-menu} -p rofi -c";
+        "Mod4+e" = "exec ${pkgs.shutdown-menu}";
 
         "${mod}+Shift+q" = "kill";
         "${mod}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run -l 30";

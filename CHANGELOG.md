@@ -1,3 +1,8 @@
+- Use Discord with `openasar`
+- Use `discord-canary` for native Wayland support
+- Changed `spotify-tray` to directly launch `spotify` under Wayland
+- Updated `spotify` to run natively under Wayland
+- Added `bemenu` support to `shutdown-menu`
 - Fixed session variables not being loaded by `sway`
 - Use Resilio Sync on `phi`
 - Fixed uploading to Nextcloud not working

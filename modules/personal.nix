@@ -8,7 +8,7 @@
 
   hmModule = { config, pkgs, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) discord gramps joplin-desktop signal-desktop;
+      inherit (pkgs) discord-canary gramps joplin-desktop signal-desktop;
     };
 
     xsession.windowManager.i3.config.startup = [

@@ -1,10 +1,10 @@
 self: super: {
   shutdown-menu = super.writeScript "shutdown-menu" ''
-    # Due to this script using `command -v` to check the `PATH` for `rofi`
+    # Due to this script using `command -v` to check the `PATH` for `bemenu`
     # the easiest way to make it work on NixOS to manually patch the `PATH`
-    export PATH=${super.rofi}/bin:$PATH
+    export PATH=${super.bemenu}/bin:$PATH
 
-    # Use rofi/zenity to change system runstate thanks to systemd.
+    # Use bemenu/rofi/zenity to change system runstate thanks to systemd.
     #
     # Note: this currently relies on associative array support in the shell.
     #
@@ -49,23 +49,25 @@ self: super: {
     ZENITY_TITLE="Power Menu"
     ZENITY_TEXT="Action:"
     ZENITY_OPTIONS=(--column= --hide-header)
+    # bemenu options
+    BEMENU_TEXT="Action"
 
     #######################################################################
     #                             END CONFIG                              #
     #######################################################################
 
     # Whether to ask for user's confirmation
-    enable_confirmation=false
+    enable_confirmation=true
 
     # Preferred launcher if both are available
-    preferred_launcher="rofi"
+    preferred_launcher="bemenu"
 
     usage="$(basename "$0") [-h] [-c] [-p name] -- display a menu for shutdown, reboot, lock etc.
 
     where:
         -h  show this help text
         -c  ask for user confirmation
-        -p  preferred launcher (rofi or zenity)
+        -p  preferred launcher (bemenu, rofi or zenity)
 
     This script depends on:
       - systemd,
@@ -73,7 +75,7 @@ self: super: {
       - rofi or zenity."
 
     # Check whether the user-defined launcher is valid
-    launcher_list=(rofi zenity)
+    launcher_list=(bemenu rofi zenity)
     function check_launcher() {
       if [[ ! "''${launcher_list[@]}" =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
         echo "Supported launchers: ''${launcher_list[*]}"
@@ -148,6 +150,9 @@ self: super: {
         launcher_exe="zenity"
         launcher_options=(--list --title="''${ZENITY_TITLE}" --text="''${ZENITY_TEXT}" \
             "''${ZENITY_OPTIONS[@]}")
+      elif [[ "$1" == "bemenu" ]]; then
+        launcher_exe="bemenu"
+        launcher_options=(--list 30 -p "''${BEMENU_TEXT}" --ignorecase)
       fi
     }
 
