@@ -11,8 +11,6 @@
   hmModule = { pkgs, config, ... }: {
     home.packages = [ pkgs.termite.terminfo ];
 
-    programs.termite.enable = config.xsession.windowManager.i3.enable;
-
     programs.termite = {
       font = "DejaVu Sans Mono 10";
       scrollbackLines = -1;

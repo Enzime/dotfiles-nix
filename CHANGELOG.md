@@ -1,3 +1,8 @@
+- Disabled `C-m` in `VSCode`
+- Added `user` to `nextcloud` group
+- Replaced `termite` with `alacritty`
+- Moved shared logic from `i3` to `i3-sway`
+- Moved `resilio-sync` to `personal`
 - Use Discord with `openasar`
 - Use `discord-canary` for native Wayland support
 - Changed `spotify-tray` to directly launch `spotify` under Wayland

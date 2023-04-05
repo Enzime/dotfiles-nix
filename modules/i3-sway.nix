@@ -21,8 +21,7 @@
         "XF86AudioLowerVolume" = "exec ${pkgs.pamixer}/bin/pamixer -d 5";
         "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
 
-        "${mod}+Return" = "exec ${pkgs.termite}/bin/termite";
-        "${mod}+Shift+Return" = "exec ${pkgs.termite}/bin/termite --name floating";
+        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
 
         "Mod4+e" = "exec ${pkgs.shutdown-menu}";
 
@@ -108,5 +107,36 @@
   in {
     xsession.windowManager.i3.config = sharedConfig;
     wayland.windowManager.sway.config = sharedConfig;
+
+    programs.alacritty.enable = true;
+    programs.feh.enable = true;
+    services.udiskie.enable = true;
+
+    programs.feh = {
+      buttons = {
+        zoom_in = 4;
+        zoom_out = 5;
+      };
+
+      keybindings = {
+        save_image = null;
+        delete = null;
+      };
+    };
+
+    systemd.user.services.pantheon-polkit-agent = {
+      Unit = {
+        Description = "Pantheon Polkit Agent";
+        After = [ "graphical-session-pre.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+
+      Install = { WantedBy = [ "graphical-session.target" ]; };
+
+      Service = {
+        ExecStart =
+          "${pkgs.pantheon.pantheon-agent-polkit}/libexec/policykit-1-pantheon/io.elementary.desktop.agent-polkit";
+      };
+    };
   };
 }

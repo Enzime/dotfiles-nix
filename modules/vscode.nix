@@ -79,6 +79,9 @@
       # `C-i` is for IntelliSense suggestions
       { key = "${mod}+i"; command = "-emojisense.quickEmoji"; when = "editorTextFocus"; }
       { key = "${mod}+shift+i"; command = "-emojisense.quickEmojitext"; when = "editorTextFocus"; }
+
+      # Disable Tab Moves Focus mode
+      { key = "ctrl+m"; command = "-editor.action.toggleTabFocusMode"; }
     ];
     programs.vscode.userSettings = let
       nvimSystem = if hostPlatform.isDarwin then "darwin" else "linux";
@@ -132,7 +135,6 @@
       "colorize.hide_current_line_decorations" = false;
 
       "terminal.integrated.scrollback" = 1000000;
-      "terminal.external.linuxExec" = "termite";
 
       "files.associations" = {
         "flake.lock" = "json";

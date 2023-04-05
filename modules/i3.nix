@@ -24,11 +24,9 @@
     };
 
     xsession.windowManager.i3.enable = true;
-    programs.feh.enable = true;
     services.redshift.enable = true;
     services.polybar.enable = true;
     services.screen-locker.enable = true;
-    services.udiskie.enable = true;
 
     xsession.windowManager.i3.config = {
       startup = [
@@ -55,6 +53,8 @@
 
         # When pressing the keybinding too fast, `i3lock` will turn the screen back on
         "Mod4+l" = "--release exec ${pkgs.xorg.xset}/bin/xset dpms force off";
+
+        "${mod}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty -o window.class.instance=floating";
 
         # switch between workspaces on the current monitor
         "${mod}+1" = "exec ${i3-ws} --ws 1";
@@ -227,18 +227,6 @@
       };
     };
 
-    programs.feh = {
-      buttons = {
-        zoom_in = 4;
-        zoom_out = 5;
-      };
-
-      keybindings = {
-        save_image = null;
-        delete = null;
-      };
-    };
-
     services.redshift = {
       temperature = {
         day = 5700;
@@ -250,20 +238,5 @@
 
     services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
     services.screen-locker.xautolock.enable = false;
-
-    systemd.user.services.pantheon-polkit-agent = {
-      Unit = {
-        Description = "Pantheon Polkit Agent";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-
-      Install = { WantedBy = [ "graphical-session.target" ]; };
-
-      Service = {
-        ExecStart =
-          "${pkgs.pantheon.pantheon-agent-polkit}/libexec/policykit-1-pantheon/io.elementary.desktop.agent-polkit";
-      };
-    };
   };
 }

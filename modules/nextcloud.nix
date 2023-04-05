@@ -1,7 +1,7 @@
 {
   imports = [ "acme" ];
 
-  nixosModule = { config, pkgs, ... }: let
+  nixosModule = { user, config, pkgs, ... }: let
     hostname = "nextcloud.enzim.ee";
   in {
     services.nextcloud.enable = true;
@@ -29,5 +29,7 @@
       forceSSL = true;
       useACMEHost = hostname;
     };
+
+    users.users.${user}.extraGroups = [ "nextcloud" ];
   };
 }

@@ -53,8 +53,6 @@
       inherit (keys.users) enzime_sigma;
       inherit (keys.hosts) sigma;
     };
-
-    extraGroups = [ "rslsync" ];
   };
 
   services.nextcloud.home = "/data/Nextcloud";
@@ -62,11 +60,6 @@
   services.tailscale.useRoutingFeatures = "both";
 
   services.xserver.displayManager.autoLogin.user = user;
-
-  services.resilio.enable = true;
-  services.resilio.listeningPort = 44444;
-  services.resilio.enableWebUI = true;
-  services.resilio.httpListenAddr = "0.0.0.0";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
