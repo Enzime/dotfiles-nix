@@ -1,0 +1,245 @@
+From 7866946a2004ea9dbc5a5c15fbb10bb3f059008e Mon Sep 17 00:00:00 2001
+From: Caesar Kabalan <caesar.kabalan@gmail.com>
+Date: Thu, 29 Jul 2021 15:19:05 -0700
+Subject: [PATCH] Implement bold_is_bright Code From KittyPatch
+
+---
+ kitty/cell_vertex.glsl         | 23 +++++++++++++++++++++--
+ kitty/fast_data_types.pyi      |  1 +
+ kitty/options/definition.py    |  5 +++++
+ kitty/options/parse.py         |  3 +++
+ kitty/options/to-c-generated.h | 15 +++++++++++++++
+ kitty/options/types.py         |  2 ++
+ kitty/shaders.c                |  2 ++
+ kitty/state.c                  |  1 +
+ kitty/state.h                  |  1 +
+ kitty/window.py                |  3 ++-
+ 10 files changed, 53 insertions(+), 3 deletions(-)
+
+diff --git a/kitty/cell_vertex.glsl b/kitty/cell_vertex.glsl
+index 799e1edcd..dc4751187 100644
+--- a/kitty/cell_vertex.glsl
++++ b/kitty/cell_vertex.glsl
+@@ -1,6 +1,7 @@
+ #version GLSL_VERSION
+ #define {WHICH_PROGRAM}
+ #define NOT_TRANSPARENT
++#define BOLD_SHIFT {BOLD_SHIFT}
+ #define DECORATION_SHIFT {DECORATION_SHIFT}
+ #define REVERSE_SHIFT {REVERSE_SHIFT}
+ #define STRIKE_SHIFT {STRIKE_SHIFT}
+@@ -15,6 +16,7 @@ layout(std140) uniform CellRenderData {
+     float xstart, ystart, dx, dy, sprite_dx, sprite_dy, background_opacity, use_cell_bg_for_selection_fg, use_cell_fg_for_selection_fg, use_cell_for_selection_bg;
+ 
+     uint default_fg, default_bg, highlight_fg, highlight_bg, cursor_fg, cursor_bg, url_color, url_style, inverted;
++    uint bold_is_bright;
+ 
+     uint xnum, ynum, cursor_fg_sprite_idx;
+     float cursor_x, cursor_y, cursor_w;
+@@ -90,6 +92,22 @@ vec3 color_to_vec(uint c) {
+     return vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
+ }
+ 
++uint byte_to_bool(uint n) {
++	uint n1 = (n >> 1) | n;
++	uint n2 = (n1 >> 2) | n1;
++	uint n3 = (n2 >> 4) | n2;
++	return n3 & 1u;
++}
++
++uint brighten_color(uint c, uint is_bold) {
++	uint table_idx = (c >> 8) & 0xFFu;
++	uint is_table_color = c & 1u;
++	uint is_rgb_color = byte_to_bool(c & 0xFEu);
++	uint is_8bit_color = byte_to_bool(table_idx & 0xF8u);
++	uint should_brighten = bold_is_bright * is_bold * (1u >> (is_rgb_color + is_8bit_color)) * is_table_color;
++	return c | (0x800u * should_brighten);
++}
++
+ uint resolve_color(uint c, uint defval) {
+     // Convert a cell color to an actual color based on the color table
+     int t = int(c & BYTE_MASK);
+@@ -158,6 +176,7 @@ void main() {
+     // set cell color indices {{{
+     uvec2 default_colors = uvec2(default_fg, default_bg);
+     uint text_attrs = sprite_coords[3];
++    uint is_bold = ((text_attrs >> BOLD_SHIFT) & ONE);
+     uint is_reversed = ((text_attrs >> REVERSE_SHIFT) & ONE);
+     uint is_inverted = is_reversed + inverted;
+     int fg_index = fg_index_map[is_inverted];
+@@ -167,10 +186,10 @@ void main() {
+     float cell_has_block_cursor = cell_has_cursor * is_block_cursor;
+     int mark = int(text_attrs >> MARK_SHIFT) & MARK_MASK;
+     uint has_mark = uint(step(1, float(mark)));
+-    uint bg_as_uint = resolve_color(colors[bg_index], default_colors[bg_index]);
++    uint bg_as_uint = resolve_color(brighten_color(colors[bg_index], is_bold), default_colors[bg_index]);
+     bg_as_uint = has_mark * color_table[NUM_COLORS + mark] + (ONE - has_mark) * bg_as_uint;
+     vec3 bg = color_to_vec(bg_as_uint);
+-    uint fg_as_uint = resolve_color(colors[fg_index], default_colors[fg_index]);
++    uint fg_as_uint = resolve_color(brighten_color(colors[fg_index], is_bold), default_colors[fg_index]);
+     // }}}
+ 
+     // Foreground {{{
+diff --git a/kitty/fast_data_types.pyi b/kitty/fast_data_types.pyi
+index d5098391e..da8a08a9a 100644
+--- a/kitty/fast_data_types.pyi
++++ b/kitty/fast_data_types.pyi
+@@ -254,6 +254,7 @@ CELL_FG_PROGRAM: int
+ CELL_PROGRAM: int
+ CELL_SPECIAL_PROGRAM: int
+ CSI: int
++BOLD: int
+ DCS: int
+ DECORATION: int
+ DIM: int
+diff --git a/kitty/options/definition.py b/kitty/options/definition.py
+index 4e7118c4b..7b6a50563 100644
+--- a/kitty/options/definition.py
++++ b/kitty/options/definition.py
+@@ -61,6 +61,11 @@
+     long_text='Font size (in pts)'
+     )
+ 
++opt('bold_is_bright', 'no',
++    option_type='to_bool', ctype='bool',
++    long_text='Display bold text with bright colors'
++    )
++
+ opt('force_ltr', 'no',
+     option_type='to_bool', ctype='bool',
+     long_text='''
+diff --git a/kitty/options/parse.py b/kitty/options/parse.py
+index 469fe9215..3d65265a9 100644
+--- a/kitty/options/parse.py
++++ b/kitty/options/parse.py
+@@ -96,6 +96,9 @@ def bell_path(self, val: str, ans: typing.Dict[str, typing.Any]) -> None:
+     def bold_font(self, val: str, ans: typing.Dict[str, typing.Any]) -> None:
+         ans['bold_font'] = str(val)
+ 
++    def bold_is_bright(self, val: str, ans: typing.Dict[str, typing.Any]) -> None:
++        ans['bold_is_bright'] = to_bool(val)
++
+     def bold_italic_font(self, val: str, ans: typing.Dict[str, typing.Any]) -> None:
+         ans['bold_italic_font'] = str(val)
+ 
+diff --git a/kitty/options/to-c-generated.h b/kitty/options/to-c-generated.h
+index 60a6d1d45..263219ab2 100644
+--- a/kitty/options/to-c-generated.h
++++ b/kitty/options/to-c-generated.h
+@@ -18,6 +18,19 @@ convert_from_opts_font_size(PyObject *py_opts, Options *opts) {
+     Py_DECREF(ret);
+ }
+ 
++static void
++convert_from_python_bold_is_bright(PyObject *val, Options *opts) {
++    opts->bold_is_bright = PyObject_IsTrue(val);
++}
++
++static void
++convert_from_opts_bold_is_bright(PyObject *py_opts, Options *opts) {
++    PyObject *ret = PyObject_GetAttrString(py_opts, "bold_is_bright");
++    if (ret == NULL) return;
++    convert_from_python_bold_is_bright(ret, opts);
++    Py_DECREF(ret);
++}
++
+ static void
+ convert_from_python_force_ltr(PyObject *val, Options *opts) {
+     opts->force_ltr = PyObject_IsTrue(val);
+@@ -1010,6 +1023,8 @@ static bool
+ convert_opts_from_python_opts(PyObject *py_opts, Options *opts) {
+     convert_from_opts_font_size(py_opts, opts);
+     if (PyErr_Occurred()) return false;
++    convert_from_opts_bold_is_bright(py_opts, opts);
++    if (PyErr_Occurred()) return false;
+     convert_from_opts_force_ltr(py_opts, opts);
+     if (PyErr_Occurred()) return false;
+     convert_from_opts_disable_ligatures(py_opts, opts);
+diff --git a/kitty/options/types.py b/kitty/options/types.py
+index 1c2f22c1a..9af0c9645 100644
+--- a/kitty/options/types.py
++++ b/kitty/options/types.py
+@@ -67,6 +67,7 @@
+  'bell_on_tab',
+  'bell_path',
+  'bold_font',
++ 'bold_is_bright',
+  'bold_italic_font',
+  'box_drawing_scale',
+  'clear_all_mouse_actions',
+@@ -480,6 +481,7 @@ class Options:
+     bell_on_tab: str = '🔔 '
+     bell_path: typing.Optional[str] = None
+     bold_font: str = 'auto'
++    bold_is_bright: bool = False
+     bold_italic_font: str = 'auto'
+     box_drawing_scale: typing.Tuple[float, float, float, float] = (0.001, 1.0, 1.5, 2.0)
+     clear_all_mouse_actions: bool = False
+diff --git a/kitty/shaders.c b/kitty/shaders.c
+index a4ae4e905..82bc08064 100644
+--- a/kitty/shaders.c
++++ b/kitty/shaders.c
+@@ -290,6 +290,7 @@ cell_update_uniform_block(ssize_t vao_idx, Screen *screen, int uniform_buffer, c
+         GLfloat xstart, ystart, dx, dy, sprite_dx, sprite_dy, background_opacity, use_cell_bg_for_selection_fg, use_cell_fg_for_selection_color, use_cell_for_selection_bg;
+ 
+         GLuint default_fg, default_bg, highlight_fg, highlight_bg, cursor_fg, cursor_bg, url_color, url_style, inverted;
++        GLuint bold_is_bright;
+ 
+         GLuint xnum, ynum, cursor_fg_sprite_idx;
+         GLfloat cursor_x, cursor_y, cursor_w;
+@@ -364,6 +365,7 @@ cell_update_uniform_block(ssize_t vao_idx, Screen *screen, int uniform_buffer, c
+     rd->sprite_dx = 1.0f / (float)x; rd->sprite_dy = 1.0f / (float)y;
+     rd->inverted = inverted ? 1 : 0;
+     rd->background_opacity = os_window->is_semi_transparent ? os_window->background_opacity : 1.0f;
++    rd->bold_is_bright = OPT(bold_is_bright) ? 1 : 0;
+ 
+ #undef COLOR
+     rd->url_color = OPT(url_color); rd->url_style = OPT(url_style);
+diff --git a/kitty/state.c b/kitty/state.c
+index c51327ce4..8bcb18d39 100644
+--- a/kitty/state.c
++++ b/kitty/state.c
+@@ -1076,6 +1076,7 @@ PYWRAP1(patch_global_colors) {
+         P(background); P(url_color);
+         P(mark1_background); P(mark1_foreground); P(mark2_background); P(mark2_foreground);
+         P(mark3_background); P(mark3_foreground);
++        P(bold_is_bright);
+     }
+     if (PyErr_Occurred()) return NULL;
+     Py_RETURN_NONE;
+diff --git a/kitty/state.h b/kitty/state.h
+index 7ece20636..3be566a06 100644
+--- a/kitty/state.h
++++ b/kitty/state.h
+@@ -38,6 +38,7 @@ typedef struct {
+     char_type *select_by_word_characters_forward;
+     color_type url_color, background, foreground, active_border_color, inactive_border_color, bell_border_color, tab_bar_background, tab_bar_margin_color;
+     color_type mark1_foreground, mark1_background, mark2_foreground, mark2_background, mark3_foreground, mark3_background;
++    bool bold_is_bright;
+     monotonic_t repaint_delay, input_delay;
+     bool focus_follows_mouse;
+     unsigned int hide_window_decorations;
+diff --git a/kitty/window.py b/kitty/window.py
+index db92dc9cf..b1c04da3c 100644
+--- a/kitty/window.py
++++ b/kitty/window.py
+@@ -25,7 +25,7 @@
+     appname, clear_handled_signals, config_dir, is_macos, wakeup_io_loop
+ )
+ from .fast_data_types import (
+-    BGIMAGE_PROGRAM, BLIT_PROGRAM, CELL_BG_PROGRAM, CELL_FG_PROGRAM,
++    BOLD, BGIMAGE_PROGRAM, BLIT_PROGRAM, CELL_BG_PROGRAM, CELL_FG_PROGRAM,
+     CELL_PROGRAM, CELL_SPECIAL_PROGRAM, CURSOR_BEAM, CURSOR_BLOCK,
+     CURSOR_UNDERLINE, DCS, DECORATION, DECORATION_MASK, DIM, GLFW_MOD_CONTROL,
+     GRAPHICS_ALPHA_MASK_PROGRAM, GRAPHICS_PREMULT_PROGRAM, GRAPHICS_PROGRAM,
+@@ -315,6 +315,7 @@ def __call__(self, semi_transparent: bool = False) -> None:
+                 STRIKE_SHIFT=STRIKETHROUGH,
+                 DIM_SHIFT=DIM,
+                 DECORATION_SHIFT=DECORATION,
++                BOLD_SHIFT=BOLD,
+                 MARK_SHIFT=MARK,
+                 MARK_MASK=MARK_MASK,
+                 DECORATION_MASK=DECORATION_MASK,
+-- 
+2.38.1
+

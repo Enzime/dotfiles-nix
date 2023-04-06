@@ -31,7 +31,7 @@
   };
 
   # WORKAROUND: { osConfig ? { }, ... }: fails when using `home-manager build`
-  hmModule = { lib, ... }@args: let
+  hmModule = { lib, pkgs, ... }@args: let
     inherit (lib) hasAttrByPath mkIf mkVMOverride;
   in mkIf (hasAttrByPath [ "osConfig" "virtualisation" "diskImage" ] args) {
     home.file.".zshrc.secrets".text = "";
@@ -49,5 +49,12 @@
     wayland.windowManager.sway.config.workspaceOutputAssign = mkVMOverride [
       { workspace = "1"; output = "Virtual-1"; }
     ];
+
+    systemd.user.services.swayidle = mkVMOverride { };
+
+    # WORKAROUND: virtio-vga-gl provides OpenGL 3.0 however OpenGL 3.3 is required for kitty
+    programs.kitty.package = pkgs.writeShellScriptBin "kitty" ''
+      LIBGL_ALWAYS_SOFTWARE=1 ${pkgs.kitty}/bin/kitty "$@"
+    '';
   };
 }

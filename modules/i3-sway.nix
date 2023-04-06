@@ -21,7 +21,8 @@
         "XF86AudioLowerVolume" = "exec ${pkgs.pamixer}/bin/pamixer -d 5";
         "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
 
-        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
+        "${mod}+Return" = "exec kitty";
+        "${mod}+Shift+Return" = "exec kitty --class floating";
 
         "Mod4+e" = "exec ${pkgs.shutdown-menu}";
 
@@ -109,6 +110,7 @@
     wayland.windowManager.sway.config = sharedConfig;
 
     programs.alacritty.enable = true;
+    programs.kitty.enable = true;
     programs.feh.enable = true;
     services.udiskie.enable = true;
 

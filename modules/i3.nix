@@ -54,8 +54,6 @@
         # When pressing the keybinding too fast, `i3lock` will turn the screen back on
         "Mod4+l" = "--release exec ${pkgs.xorg.xset}/bin/xset dpms force off";
 
-        "${mod}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty -o window.class.instance=floating";
-
         # switch between workspaces on the current monitor
         "${mod}+1" = "exec ${i3-ws} --ws 1";
         "${mod}+2" = "exec ${i3-ws} --ws 2";

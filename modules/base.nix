@@ -33,7 +33,7 @@ let
     };
   };
 in {
-  imports = [ "alacritty" "cachix" "flakes" "impermanence" "nix-index" "termite" "vm" "vscode" "xdg" ];
+  imports = [ "alacritty" "cachix" "flakes" "impermanence" "kitty" "nix-index" "termite" "vm" "vscode" "xdg" ];
 
   nixosModule = { config, configRevision, user, pkgs, ... }: {
     imports = [ shared ];

@@ -1,3 +1,7 @@
+- Fixed `kitty` not launching in `vm`
+- Disabled `swayidle` in `vm`
+- Added `bold_is_bright` option to `kitty`
+- Replaced `alacritty` with `kitty`
 - Disabled `C-m` in `VSCode`
 - Added `user` to `nextcloud` group
 - Replaced `termite` with `alacritty`
