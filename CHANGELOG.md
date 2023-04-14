@@ -1,3 +1,6 @@
+- Use pinned Nix version in GitHub Actions to prevent 2.14+ incompatibilities
+- Added `NIXOS_OZONE_WL` support to `joplin-desktop`
+- Use latest `discord` for native Wayland support
 - Fixed `kitty` not launching in `vm`
 - Disabled `swayidle` in `vm`
 - Added `bold_is_bright` option to `kitty`
