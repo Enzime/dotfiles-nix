@@ -56,7 +56,7 @@
       "shell.nix"
     ]) + "\n";
 
-    programs.firefox.extensions = [
+    programs.firefox.profiles.default.extensions = [
       pkgs.firefox-addons.multi-account-containers
     ];
 

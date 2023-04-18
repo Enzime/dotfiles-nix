@@ -1,12 +1,11 @@
 {
   inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
 
-  inputs.nix-darwin.url = github:Enzime/nix-darwin/localhost;
+  inputs.nix-darwin.url = github:Enzime/nix-darwin/synergy-tls;
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = github:nix-community/home-manager;
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.home-manager.inputs.utils.follows = "flake-utils";
 
   inputs.flake-utils.url = github:numtide/flake-utils;
   inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;

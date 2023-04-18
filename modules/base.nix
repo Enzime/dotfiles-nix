@@ -60,7 +60,7 @@ in {
     networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
 
     services.openssh.enable = true;
-    services.openssh.permitRootLogin = "prohibit-password";
+    services.openssh.settings.PermitRootLogin = "prohibit-password";
 
     # On first setup, run `nixos-enter` then `passwd <user>`.
     users.users.${user} = {

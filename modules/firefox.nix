@@ -13,14 +13,14 @@
       pkgs.firefox-bin-unwrapped
     else
       pkgs.firefox;
-    programs.firefox.extensions = [
-      pkgs.firefox-addons.onepassword-password-manager
-      pkgs.firefox-addons.clearurls
-      pkgs.firefox-addons.ublock-origin
-      pkgs.firefox-addons.youtube-nonstop
-    ];
     programs.firefox.profiles.default = {
       isDefault = true;
+      extensions = [
+        pkgs.firefox-addons.onepassword-password-manager
+        pkgs.firefox-addons.clearurls
+        pkgs.firefox-addons.ublock-origin
+        pkgs.firefox-addons.youtube-nonstop
+      ];
       search = {
         default = "DuckDuckGo";
         engines = {

@@ -31,7 +31,7 @@
   };
 
   # WORKAROUND: { osConfig ? { }, ... }: fails when using `home-manager build`
-  hmModule = { lib, pkgs, ... }@args: let
+  hmModule = { inputs, lib, pkgs, ... }@args: let
     inherit (lib) hasAttrByPath mkIf mkVMOverride;
   in mkIf (hasAttrByPath [ "osConfig" "virtualisation" "diskImage" ] args) {
     home.file.".zshrc.secrets".text = "";
@@ -56,5 +56,11 @@
     programs.kitty.package = pkgs.writeShellScriptBin "kitty" ''
       LIBGL_ALWAYS_SOFTWARE=1 ${pkgs.kitty}/bin/kitty "$@"
     '';
+
+    wayland.windowManager.sway.config.output = {
+      Virtual-1 = {
+        scale = "2";
+      };
+    };
   };
 }

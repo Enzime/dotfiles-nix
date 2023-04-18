@@ -135,9 +135,9 @@
       };
     };
 
-    programs.mako.enable = true;
-    programs.mako.backgroundColor = "#0d0c0c";
-    programs.mako.borderColor = "#e61f00";
-    programs.mako.padding = "10,5,10,10";
+    services.mako.enable = true;
+    services.mako.backgroundColor = "#0d0c0c";
+    services.mako.borderColor = "#e61f00";
+    services.mako.padding = "10,5,10,10";
   };
 }

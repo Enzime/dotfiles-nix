@@ -6,5 +6,5 @@
 
   services.synergy.client.enable = true;
   services.synergy.client.serverAddress = "phi-nixos.local";
-  services.synergy.client.tls = true;
+  services.synergy.client.tls.enable = true;
 }

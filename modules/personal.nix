@@ -22,7 +22,7 @@
       { command = "signal-desktop"; always = true; }
     ];
 
-    programs.firefox.extensions = [
+    programs.firefox.profiles.default.extensions = [
       pkgs.firefox-addons.copy-selected-links
       pkgs.firefox-addons.ff2mpv
       pkgs.firefox-addons.hover-zoom-plus
