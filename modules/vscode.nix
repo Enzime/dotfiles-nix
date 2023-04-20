@@ -109,7 +109,7 @@
       };
 
       "editor.lineNumbers" = "relative";
-      "editor.renderFinalNewline" = false;
+      "editor.renderFinalNewline" = "off";
       "files.insertFinalNewline" = true;
       "diffEditor.ignoreTrimWhitespace" = false;
       "trailing-spaces.trimOnSave" = true;

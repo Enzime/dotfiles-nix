@@ -1,3 +1,6 @@
+- Fixed `VSCode` trying to migrate `settings.json`
+- Fixed `swaylock` failing to lock when 1Password is not running
+- Fixed `resilio-sync` not launching
 - Use pinned Nix version in GitHub Actions to prevent 2.14+ incompatibilities
 - Added `NIXOS_OZONE_WL` support to `joplin-desktop`
 - Use latest `discord` for native Wayland support

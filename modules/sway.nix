@@ -95,7 +95,11 @@
         swayidle = "${pkgs.swayidle}/bin/swayidle";
         swaymsg = "${pkgs.sway}/bin/swaymsg";
         swaylock = "${pkgs.swaylock}/bin/swaylock";
-        _1password = "${pkgs._1password-gui}/bin/1password";
+        lock1Password = pkgs.writeShellScript "lock-1p" ''
+          if ${pkgs.procps}/bin/pidof 1password; then
+            ${pkgs._1password-gui}/bin/1password --lock &
+          fi
+        '';
       in ''
         ${swayidle} -w -d \
           before-sleep 'loginctl lock-session' \
@@ -103,7 +107,7 @@
               resume '${swaymsg} "output * dpms on"' \
           timeout 60 'loginctl lock-session' \
               resume '${swaymsg} "output * dpms on"' \
-          lock '${_1password} --lock && ${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
+          lock '${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
       '';
 
       Install.WantedBy = [ "sway-session.target" ];
