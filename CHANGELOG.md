@@ -1,3 +1,5 @@
+- Fixed `ranger` not displaying images in `kitty`
+- Fixed `chi` not building
 - Fixed `VSCode` trying to migrate `settings.json`
 - Fixed `swaylock` failing to lock when 1Password is not running
 - Fixed `resilio-sync` not launching
