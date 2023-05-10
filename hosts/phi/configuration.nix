@@ -42,6 +42,11 @@
     '';
   } ];
 
+  services.udev.extraHwdb = ''
+    evdev:name:USB-HID Keyboard:dmi:*
+      KEYBOARD_KEY_70039=esc
+  '';
+
   security.pam.u2f.enable = true;
   security.pam.u2f.cue = true;
   security.pam.u2f.authFile = pkgs.writeText "u2f-mappings" ''

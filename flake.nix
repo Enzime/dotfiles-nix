@@ -208,7 +208,6 @@
     in {
       devShells.default = pkgs.mkShell {
         buildInputs = builtins.attrValues {
-          inherit (pkgs) rnix-lsp;
           inherit (home-manager.packages.${system}) home-manager;
           inherit (agenix.packages.${system}) agenix;
           inherit (deploy-rs.packages.${system}) deploy-rs;

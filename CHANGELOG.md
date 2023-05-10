@@ -1,3 +1,7 @@
+- Updated `nextcloud`
+- Use `nil` instead of `rnix-lsp`
+- Disabled `direnv` for the default `devShell`
+- Added `Caps Lock` -> `Esc` mapping for Ducky keyboard
 - Fixed `ranger` not displaying images in `kitty`
 - Fixed `chi` not building
 - Fixed `VSCode` trying to migrate `settings.json`
