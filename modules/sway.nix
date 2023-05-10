@@ -1,7 +1,10 @@
 {
   imports = [ "graphical" "i3-sway" "wayvnc" ];
 
-  nixosModule = { ... }: {
+  nixosModule = { lib, ... }: {
+    # Still overridable with mkForce
+    services.xserver.displayManager.defaultSession = lib.mkOverride 75 "sway";
+
     programs.sway.enable = true;
     programs.sway.extraSessionCommands = ''
       source /etc/profile
@@ -140,6 +143,7 @@
     };
 
     services.mako.enable = true;
+    services.mako.defaultTimeout = 5000;
     services.mako.backgroundColor = "#0d0c0c";
     services.mako.borderColor = "#e61f00";
     services.mako.padding = "10,5,10,10";

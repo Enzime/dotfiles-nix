@@ -23,5 +23,10 @@
         WantedBy = [ "graphical-session.target" ];
       };
     };
+
+    # As we don't open the firewall, it should only be accessible over Tailscale
+    xdg.configFile."wayvnc/config".text = ''
+      address=0.0.0.0
+    '';
   };
 }

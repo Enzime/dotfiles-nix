@@ -84,9 +84,9 @@
 
       extraHomeManagerArgs = { inherit inputs nixos configRevision keys; };
     in {
-      # nix build ~/.config/nixpkgs#nixosConfigurations.phi-nixos.config.system.build.toplevel
+      # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
       # OR
-      # nixos-rebuild build --flake ~/.config/nixpkgs#phi-nixos
+      # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
       nixosConfigurations = if nixos then { ${hostname} = nixpkgs.lib.nixosSystem {
         inherit system pkgs;
         modules = [
@@ -108,9 +108,9 @@
         specialArgs = { inherit inputs configRevision user host hostname keys; };
       }; } else { };
 
-      # nix build ~/.config/nixpkgs#darwinConfigurations.chi.system
+      # nix build ~/.config/home-manager#darwinConfigurations.chi.system
       # OR
-      # darwin-rebuild build --flake ~/.config/nixpkgs#chi
+      # darwin-rebuild build --flake ~/.config/home-manager#chi
       darwinConfigurations = if (hasSuffix "darwin" system) then { ${hostname} = nix-darwin.lib.darwinSystem {
         inherit system pkgs inputs;
         modules = [
@@ -129,9 +129,9 @@
         specialArgs = { inherit user host hostname; };
       }; } else { };
 
-      # nix build ~/.config/nixpkgs#homeConfigurations.enzime@phi-nixos.activationPackage
+      # nix build ~/.config/home-manager#homeConfigurations.enzime@phi-nixos.activationPackage
       # OR
-      # home-manager build --flake ~/.config/nixpkgs#enzime@phi-nixos
+      # home-manager build --flake ~/.config/home-manager#enzime@phi-nixos
       homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [

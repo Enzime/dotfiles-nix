@@ -210,7 +210,7 @@
             exit
           fi
 
-          export GIT_DIR=~/.config/nixpkgs/.git
+          export GIT_DIR=~/.config/home-manager/.git
           if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST ''${RUNNING%-dirty} 2>/dev/null; then
             UPDATE_FOUND=true
           fi

@@ -9,6 +9,13 @@ in {
       ServerAliveInterval 120
   '';
 
+  wayland.windowManager.sway.config.output = {
+    DP-1 = {
+      mode = "3440x1440@144Hz";
+      adaptive_sync = "on";
+    };
+  };
+
   xsession.windowManager.i3.config.startup = [
     { command = "i3 workspace 101"; notification = false; }
   ];

@@ -1,3 +1,8 @@
+- Use `~/.config/home-manager` instead of the deprecated `~/.config/nixpkgs`
+- Fixed `wayvnc` not being accessible remotely on `phi`
+- Fixed `mako` notifications never timing out
+- Use `sway` as the default
+- Fixed 34" ultrawide using the wrong refresh rate on `phi`
 - Added missing dependency `vscode-graphql-syntax`
 - Fixed `sigma` sometimes shutting down super slowly
 - Updated `nextcloud`

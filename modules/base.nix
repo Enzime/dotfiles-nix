@@ -87,7 +87,7 @@ in {
   };
 
   hmModule = { config, inputs, pkgs, lib, ... }: let
-    inherit (lib) hasPrefix hasSuffix mkIf readFile;
+    inherit (lib) mkIf readFile;
     inherit (pkgs.stdenv) hostPlatform;
   in {
     home.stateVersion = "22.11";
@@ -101,7 +101,7 @@ in {
     # Allow fonts to be specified in `home.packages`
     fonts.fontconfig.enable = true;
 
-    xdg.configFile."nixpkgs".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles";
+    xdg.configFile."home-manager".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles";
 
     # Remove this once we have autoGenFromInputs for home-manager
     home.extraBuilderCommands = assert (
