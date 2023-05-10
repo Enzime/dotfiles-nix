@@ -15,11 +15,11 @@
     networking.firewall.allowedUDPPortRanges = [ { from = 6001; to = 6011; } ];
   };
 
-  hmModule = { pkgs, lib, ... }: lib.mkIf (pkgs.stdenv.hostPlatform.isLinux) {
+  hmModule = { pkgs, lib, ... }: lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     systemd.user.services.shairport-sync = {
       Unit = {
         Description = "shairport-sync";
-        After = [ "network.target" "avahi-daemon.service" ];
+        After = [ "network.target" "avahi-daemon.service" "pipewire-pulse.service" ];
       };
       Service = {
         # Arguments are taken directly from:

@@ -43,5 +43,11 @@ in {
       version = "1.0.1";
       sha256 = "sha256-UhWbygrGh0whVxfGcEa+hunrTG/gfHpXYii0E7YhXa4=";
     }
+    {
+      name = "vscode-graphql-syntax";
+      publisher = "graphql";
+      version = "1.1.0";
+      sha256 = "sha256-qazU0UyZ9de6Huj2AYZqqBo4jVW/ZQmFJhV7XXAblxo=";
+    }
   ]);
 }

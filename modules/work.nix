@@ -62,6 +62,7 @@
 
     programs.vscode.extensions = [
       pkgs.vscode-extensions.graphql.vscode-graphql
+      pkgs.vscode-extensions.graphql.vscode-graphql-syntax
     ];
 
     programs.vscode.userSettings = {

@@ -1,3 +1,5 @@
+- Added missing dependency `vscode-graphql-syntax`
+- Fixed `sigma` sometimes shutting down super slowly
 - Updated `nextcloud`
 - Use `nil` instead of `rnix-lsp`
 - Disabled `direnv` for the default `devShell`
