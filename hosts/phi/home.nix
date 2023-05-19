@@ -16,6 +16,10 @@ in {
     };
   };
 
+  wayland.windowManager.sway.config.workspaceOutputAssign = [
+    { workspace = "1"; output = "DP-1"; }
+  ];
+
   xsession.windowManager.i3.config.startup = [
     { command = "i3 workspace 101"; notification = false; }
   ];

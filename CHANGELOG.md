@@ -1,3 +1,5 @@
+- Fixed `phi` automatically logging into `i3` instead of `sway`
+- Fixed `phi` starting at the wrong workspace number under `sway`
 - Use `~/.config/home-manager` instead of the deprecated `~/.config/nixpkgs`
 - Fixed `wayvnc` not being accessible remotely on `phi`
 - Fixed `mako` notifications never timing out
