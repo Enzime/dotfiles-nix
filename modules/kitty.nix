@@ -13,13 +13,17 @@
 
     programs.kitty.font.name = "DejaVu Sans Mono";
     programs.kitty.font.size = 10;
+    programs.kitty.keybindings = {
+      "shift+page_up"   = "scroll_page_up";
+      "shift+page_down" = "scroll_page_down";
+    };
     programs.kitty.settings = {
       bold_font = "DejaVu Sans Mono Bold";
       bold_is_bright = true;
 
       foreground = "#fff5ed";
       background = "#0d0c0c";
-      cursor = "#00ccff";
+      cursor     = "#00ccff";
 
       # black
       color0  = "#0a0a0a";

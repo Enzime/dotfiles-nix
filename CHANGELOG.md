@@ -1,3 +1,6 @@
+- Changed keybinds for scrolling in `kitty` to `S-{PgUp,PgDown}`
+- Use `kitti3` for Quake-style floating terminal
+- Added `reptyr`
 - Fixed `peco` not working inside `tmux` with `kitty`
 - Fixed `phi` automatically logging into `i3` instead of `sway`
 - Fixed `phi` starting at the wrong workspace number under `sway`

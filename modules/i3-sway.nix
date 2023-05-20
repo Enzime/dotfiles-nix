@@ -14,6 +14,10 @@
         unfocused       = { border = "#333333"; background = "#0d0c0c"; text = "#888888"; indicator = "#292d2e"; childBorder = "#0d0c0c"; };
       };
 
+      startup = [
+        { command = "${pkgs.kitti3}/bin/kitti3"; always = true; }
+      ];
+
       keybindings = let
         mod = "Mod1";
       in {
@@ -22,7 +26,7 @@
         "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
 
         "${mod}+Return" = "exec kitty";
-        "${mod}+Shift+Return" = "exec kitty --class floating";
+        "${mod}+Shift+Return" = "nop kitti3";
 
         "Mod4+e" = "exec ${pkgs.shutdown-menu}";
 
