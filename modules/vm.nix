@@ -36,10 +36,6 @@
 
     services.polybar.config."bar/centre".monitor = mkVMOverride "Virtual-1";
 
-    xsession.windowManager.i3.config.startup = mkVMOverride [
-      { command = "systemctl --user restart polybar"; always = true; notification = false; }
-    ];
-
     xsession.windowManager.i3.config.workspaceOutputAssign = mkVMOverride [
       { workspace = "101"; output = "Virtual-1"; }
     ];

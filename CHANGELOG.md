@@ -1,3 +1,5 @@
+- Fixed `polybar` starting on `nixos-rebuild switch` sometimes under `sway`
+- Fixed `phi` randomly locking when using `sway`
 - Changed keybinds for scrolling in `kitty` to `S-{PgUp,PgDown}`
 - Use `kitti3` for Quake-style floating terminal
 - Added `reptyr`

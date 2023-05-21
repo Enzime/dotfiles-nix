@@ -32,6 +32,7 @@
       startup = [
         { command = "systemctl --user restart polybar"; always = true; notification = false; }
         { command = "1password"; notification = false; }
+        { command = "systemctl --user start i3-session.target"; notification = false; }
       ];
 
       floating.criteria = [ { "instance" = "^floating$"; } ];
@@ -236,5 +237,21 @@
 
     services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
     services.screen-locker.xautolock.enable = false;
+
+    systemd.user.targets.i3-session = {
+      Unit = {
+        Description = "i3 window manager session";
+        Wants = [ "graphical-session-pre.target" ];
+        After = [ "graphical-session-pre.target" ];
+        BindsTo = [ "graphical-session.target" ];
+      };
+    };
+
+    systemd.user.services.xss-lock.Unit.PartOf = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xss-lock.Install.WantedBy = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xautolock-session.Unit.PartOf = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xautolock-session.Install.WantedBy = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.polybar.Unit.PartOf = assert !config.services.polybar ? systemdTarget; lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.polybar.Install.WantedBy = assert !config.services.polybar ? systemdTarget; lib.mkForce [ "i3-session.target" ];
   };
 }
