@@ -1,3 +1,4 @@
+- Fixed Bitbucket no longer working with Git
 - Added `work` CA certificate
 - Fixed `polybar` starting on `nixos-rebuild switch` sometimes under `sway`
 - Fixed `phi` randomly locking when using `sway`

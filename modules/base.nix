@@ -174,10 +174,10 @@ in {
         };
         url = {
           "https://github.com/" = { insteadOf = [ "gh:" "ghro:" ]; };
-          "https://bitbucket.com/" = { insteadOf = [ "bb:" "bbro:" ]; };
+          "https://bitbucket.org/" = { insteadOf = [ "bb:" "bbro:" ]; };
 
           "ssh://git@github.com/" = { insteadOf = "ghp:"; pushInsteadOf = "gh:"; };
-          "ssh://git@bitbucket.com/" = { insteadOf = "bbp:"; pushInsteadOf = "bb:"; };
+          "ssh://git@bitbucket.org/" = { insteadOf = "bbp:"; pushInsteadOf = "bb:"; };
 
           "___PUSH_DISABLED___" = { pushInsteadOf = [ "ghro:" "bbro:" ]; };
         };
