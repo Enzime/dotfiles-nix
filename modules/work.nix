@@ -2,6 +2,28 @@
   imports = [ "docker" ];
 
   darwinModule = { user, config, pkgs, ... }: {
+    age.secrets.cacert = {
+      file = ../secrets/cacert.age;
+    };
+
+    environment.etc."ssl/certs/ca-certificates.crt".enable = false;
+
+    system.activationScripts.extraActivation.text = let
+      name = "ssl/certs/ca-certificates.crt";
+      cacert = config.age.secrets.cacert.path;
+    in ''
+      # This is necessary to prevent bash following the symlink and overwriting data in the Nix Store
+      if [[ -e /etc/${name} ]]; then
+        rm /etc/${name}
+      fi
+
+      cat ${config.environment.etc.${name}.source} >| /etc/${name}
+
+      if [[ -f ${cacert} ]]; then
+        cat ${cacert} >> /etc/${name}
+      fi
+    '';
+
     system.activationScripts.extraUserActivation.text = ''
       defaults write com.tinyspeck.slackmacgap SlackNoAutoUpdates -bool YES
     '';

@@ -11,6 +11,11 @@ in {
     inherit (hosts) upsilon;
   };
 
+  "cacert.age".publicKeys = builtins.attrValues {
+    inherit (users) "michael.hoang_upsilon";
+    inherit (hosts) upsilon;
+  };
+
   "duckdns.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;
