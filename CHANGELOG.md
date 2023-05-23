@@ -1,3 +1,6 @@
+- Fixed `VSCode` Dock item not launching the correct version
+- Added `open-url-in-container` Firefox extension for `work`
+- Enabled Tailscale MagicDNS on `upsilon`
 - Fixed Bitbucket no longer working with Git
 - Added `work` CA certificate
 - Fixed `polybar` starting on `nixos-rebuild switch` sometimes under `sway`

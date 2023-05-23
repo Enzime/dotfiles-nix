@@ -80,6 +80,7 @@
 
     programs.firefox.profiles.default.extensions = [
       pkgs.firefox-addons.multi-account-containers
+      pkgs.firefox-addons.open-url-in-container
     ];
 
     programs.vscode.extensions = [

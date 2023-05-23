@@ -46,6 +46,15 @@
           meta = {};
         };
 
+        open-url-in-container = buildFirefoxXpiAddon {
+          pname = "open-url-in-container";
+          version = "1.0.3";
+          addonId = "{f069aec0-43c5-4bbf-b6b4-df95c4326b98}";
+          url = "https://addons.mozilla.org/firefox/downloads/file/3566167/open_url_in_container-1.0.3.xpi";
+          sha256 = "sha256-aHIRpf5u4IwrMGApKFhHSyf5E4Mpa8G2ugORwAq8Jpc=";
+          meta = {};
+        };
+
         tetrio-plus = buildFirefoxXpiAddon {
           pname = "tetrio-plus";
           version = "0.23.7";
