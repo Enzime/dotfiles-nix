@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical" ];
+  imports = [ "i3" ];
 
   nixosModule = { user, pkgs, lib, ... }: {
     systemd.services.vnc = {

@@ -1,3 +1,7 @@
+- Removed deprecated usage of URL literals in flake inputs
+- Added `graphical-minimal` module to reduce the closure size of `eris`
+- Added `bing-chat-for-all-browsers`
+- Fixed `discord` with OpenASAR launching multiple instances
 - Fixed `VSCode` Dock item not launching the correct version
 - Added `open-url-in-container` Firefox extension for `work`
 - Enabled Tailscale MagicDNS on `upsilon`

@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical" "i3-sway" "wayvnc" ];
+  imports = [ "i3-sway" "wayvnc" ];
 
   nixosModule = { lib, ... }: {
     # Still overridable with mkForce

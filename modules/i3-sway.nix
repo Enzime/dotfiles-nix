@@ -1,4 +1,6 @@
 {
+  imports = [ "graphical-minimal" ];
+
   hmModule = { pkgs, ... }: let
     sharedConfig = {
       bars = [ ];

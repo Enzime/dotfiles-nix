@@ -1,40 +1,40 @@
 {
-  inputs.nixpkgs.url = github:Enzime/nixpkgs/localhost;
+  inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
 
-  inputs.nix-darwin.url = github:Enzime/nix-darwin/synergy-tls;
+  inputs.nix-darwin.url = "github:Enzime/nix-darwin/synergy-tls";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.home-manager.url = github:nix-community/home-manager;
+  inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.flake-utils.url = github:numtide/flake-utils;
-  inputs.flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
+  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.nix-overlay.url = path:overlays/nix;
+  inputs.nix-overlay.url = "path:overlays/nix";
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.agenix.url = github:ryantm/agenix;
+  inputs.agenix.url = "github:ryantm/agenix";
   inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
   inputs.agenix.inputs.darwin.follows = "nix-darwin";
 
-  inputs.firefox-addons-overlay.url = path:overlays/firefox-addons;
+  inputs.firefox-addons-overlay.url = "path:overlays/firefox-addons";
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.deploy-rs.url = github:serokell/deploy-rs;
+  inputs.deploy-rs.url = "github:serokell/deploy-rs";
   inputs.deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   inputs.deploy-rs.inputs.utils.follows = "flake-utils";
 
-  inputs.disko.url = github:nix-community/disko;
+  inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, deploy-rs, disko, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, deploy-rs, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
-    inherit (nixpkgs.lib) concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs' mapAttrsToList mkIf nameValuePair optional recursiveUpdate removeSuffix unique;
+    inherit (nixpkgs.lib) concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs' mapAttrsToList nameValuePair recursiveUpdate removeSuffix unique;
 
     importFrom = path: filename: import (path + ("/" + filename));
 
@@ -161,7 +161,7 @@
       user = "enzime";
       system = "aarch64-darwin";
       modules = builtins.attrNames {
-        inherit (modules) graphical;
+        inherit (modules) personal;
       };
     }
     {
@@ -187,7 +187,7 @@
       user = "michael.hoang";
       system = "aarch64-darwin";
       modules = builtins.attrNames {
-        inherit (modules) graphical laptop work;
+        inherit (modules) laptop work;
       };
     }
     {
@@ -197,7 +197,7 @@
       system = "x86_64-linux";
       nixos = true;
       modules = builtins.attrNames {
-        inherit (modules) i3 reflector vncserver;
+        inherit (modules) reflector vncserver;
       };
     }
   ]) // (

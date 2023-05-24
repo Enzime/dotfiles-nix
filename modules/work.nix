@@ -1,5 +1,5 @@
 {
-  imports = [ "docker" ];
+  imports = [ "docker" "graphical" ];
 
   darwinModule = { user, config, pkgs, ... }: {
     age.secrets.cacert = {

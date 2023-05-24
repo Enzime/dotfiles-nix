@@ -10,7 +10,6 @@
       };
     in {
       firefox-addons = addons // (let
-        inherit (builtins) hasAttr;
         inherit (prev.lib) mapAttrs;
         inherit (addons) buildFirefoxXpiAddon;
       in mapAttrs (name: addon:
@@ -19,6 +18,15 @@
         else
           addon
         ) {
+        bing-chat-for-all-browsers = buildFirefoxXpiAddon {
+          pname = "bing-chat-for-all-browsers";
+          version = "1.0.7";
+          addonId = "{a9cb10b9-75e9-45c3-8194-d3b2c25bb6a2}";
+          url = "https://addons.mozilla.org/firefox/downloads/file/4099909/bing_chat_for_all_browsers-1.0.7.xpi";
+          sha256 = "sha256-IIvZLtSnUzm4wqDNdnpHtIWTNy1SwQDAkv8N1RgCVFs=";
+          meta = {};
+        };
+
         copy-selected-links = buildFirefoxXpiAddon {
           pname = "copy-selected-links";
           version = "2.4.1";

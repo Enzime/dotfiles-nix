@@ -1,8 +1,8 @@
 {
-  inputs.nix.url = github:NixOS/nix;
+  inputs.nix.url = "github:NixOS/nix";
   inputs.nix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.flake-utils.url = github:numtide/flake-utils;
+  inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, nix, flake-utils }: {
     overlay = final: prev: {

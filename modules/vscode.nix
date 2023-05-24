@@ -20,7 +20,7 @@
 
     programs.vscode.enable = true;
     # Don't install `vscode` unless `graphical` module is specified
-    programs.vscode.package = lib.mkDefault (pkgs.emptyDirectory // { pname = "vscode"; });
+    programs.vscode.package = lib.mkDefault (pkgs.emptyDirectory // { pname = "vscode"; version = ""; });
     programs.vscode.extensions = [
       pkgs.vscode-extensions.asvetliakov.vscode-neovim
       pkgs.vscode-extensions.eamodio.gitlens
@@ -39,9 +39,6 @@
       # Language support
       pkgs.vscode-extensions.dbaeumer.vscode-eslint
       pkgs.vscode-extensions.jnoortheen.nix-ide
-      (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-python.python)
-      pkgs.vscode-extensions.ms-python.vscode-pylance
-      (lib.mkIf (!hostPlatform.isDarwin) pkgs.vscode-extensions.ms-vscode.cpptools)
       pkgs.vscode-extensions.xadillax.viml
     ];
     programs.vscode.keybindings = let

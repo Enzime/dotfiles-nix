@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical" "personal" ];
+  imports = [ "personal" ];
 
   nixosModule = { ... }: {
     services.xserver.inputClassSections = [ ''

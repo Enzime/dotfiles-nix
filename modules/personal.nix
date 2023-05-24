@@ -1,5 +1,5 @@
 {
-  imports = [ "i18n" "ios" "pim" ];
+  imports = [ "graphical" "i18n" "ios" "pim" ];
 
   nixosModule = { user, pkgs, ...}: {
     services.mullvad-vpn.enable = true;
@@ -23,6 +23,7 @@
     ];
 
     programs.firefox.profiles.default.extensions = [
+      pkgs.firefox-addons.bing-chat-for-all-browsers
       pkgs.firefox-addons.copy-selected-links
       pkgs.firefox-addons.ff2mpv
       pkgs.firefox-addons.hover-zoom-plus

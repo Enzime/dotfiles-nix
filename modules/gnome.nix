@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical" ];
+  imports = [ "graphical-minimal" ];
 
   nixosModule = { ... }: {
     # GNOME runs Wayland by default
