@@ -2,31 +2,42 @@
   imports = [ "i3" ];
 
   nixosModule = { user, pkgs, lib, ... }: {
-    systemd.services.vnc = {
-      description = "Start a VNC and X server";
-      after = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
-      before = [ "manual-xinit.service" ];
-      wants = [ "manual-xinit.service" ];
-      serviceConfig = {
+    environment.systemPackages = builtins.attrValues {
+      inherit (pkgs.xorg) xinit;
+    };
+
+    # Let VNC use :0
+    services.xserver.displayManager.lightdm.extraConfig = ''
+      minimum-display-number=1
+    '';
+
+    system.activationScripts.enableLingering = ''
+      rm -r /var/lib/systemd/linger
+      mkdir -p /var/lib/systemd/linger
+      touch /var/lib/systemd/linger/${user}
+    '';
+  };
+
+  hmModule = { pkgs, lib, ... }@args: {
+    services.redshift.enable = lib.mkForce false;
+    services.screen-locker.enable = lib.mkForce false;
+
+    systemd.user.services.vnc = lib.mkIf (args ? osConfig) {
+      Unit = {
+        Description = "Start a VNC and X server";
+      };
+      Service = {
+        Environment = "PATH=/run/current-system/sw/bin";
         Type = "exec";
-        ExecStart = "${pkgs.tigervnc}/bin/Xvnc -geometry 1366x768 -depth 24 -SecurityTypes=None";
-        User = user;
+        ExecStart = "${pkgs.writeShellScript "vnc-start" ''
+          WRAPPER=${args.osConfig.services.xserver.displayManager.sessionData.wrapper}
+          WRAPPER_ARGS=$(${lib.getExe pkgs.ripgrep} '(?<=^Exec=).*' --pcre2 --only-matching --no-line-number --color=never ${builtins.elemAt args.osConfig.services.xserver.displayManager.sessionPackages 0}/share/xsessions/none+i3.desktop)
+          startx $WRAPPER $WRAPPER_ARGS -- ${pkgs.tigervnc}/bin/Xvnc -geometry 1366x768 -depth 24 -SecurityTypes=None
+        ''}";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
       };
     };
-
-    systemd.services.manual-xinit = {
-      description = "Start X utilities";
-      after = [ "vnc.service" ];
-      requires = [ "vnc.service" ];
-      serviceConfig = {
-        ExecStart = "${pkgs.i3}/bin/i3";
-        User = user;
-      };
-      environment = {
-        DISPLAY = ":0";
-      };
-    };
-
   };
 }

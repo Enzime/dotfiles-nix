@@ -1,3 +1,6 @@
+- Use `startx` to launch `Xvnc` and session
+- Use NixOS generated session instead of launching `i3` directly in `vncserver`
+- Moved `vncserver` systemd units to the user daemon
 - Removed deprecated usage of URL literals in flake inputs
 - Added `graphical-minimal` module to reduce the closure size of `eris`
 - Added `bing-chat-for-all-browsers`
