@@ -105,8 +105,7 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-Qta8+R6dvbjIIlrHu8wYoFwiD7G83n03RO+oIIhgRbw=",
+        "narHash": "sha256-4+GRHfEfZyIF/aHD4RUd9fg7DKZEKxRY73qGdgK9H9s=",
         "path": "overlays/firefox-addons",
         "type": "path"
       },

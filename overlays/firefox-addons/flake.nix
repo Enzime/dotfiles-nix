@@ -38,10 +38,10 @@
 
         hover-zoom-plus = buildFirefoxXpiAddon {
           pname = "hover-zoom-plus";
-          version = "1.0.187";
+          version = "1.0.205";
           addonId = "{92e6fe1c-6e1d-44e1-8bc6-d309e59406af}";
-          url = "https://addons.mozilla.org/firefox/downloads/file/3890352/hover_zoom_official-1.0.187-fx.xpi";
-          sha256 = "sha256-L45hG0ReTLJfUw4mTpTiQPOUpg+jIEP/msdrtGFHemU=";
+          url = "https://addons.mozilla.org/firefox/downloads/file/4098518/hover_zoom_plus-1.0.205.xpi";
+          sha256 = "sha256-DoyE51Yry+F4T4pWnluargjDypxp44ZlFqyZhpbCfLs=";
           meta = {};
         };
 
@@ -83,10 +83,10 @@
 
         web-archives = buildFirefoxXpiAddon {
           pname = "web-archives";
-          version = "3.1.0";
+          version = "4.0.0";
           addonId = "{d07ccf11-c0cd-4938-a265-2a4d6ad01189}";
-          url = "https://addons.mozilla.org/firefox/downloads/file/3894402/web_archives-3.1.0-an+fx.xpi";
-          sha256 = "sha256-uCdkebx7KszyNLsbRVuUlprN8esgWdgAIKtD6/SJSdQ=";
+          url = "https://addons.mozilla.org/firefox/downloads/file/4065318/view_page_archive-4.0.0.xpi";
+          sha256 = "sha256-Pg4KfXVxNZdeCT4jOfdQzop2K+R8gCxZZ5oJlJMe00Y=";
           meta = {};
         };
 

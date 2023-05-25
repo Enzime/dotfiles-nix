@@ -13,10 +13,12 @@
     users.users.${user}.extraGroups = [ "rslsync" ];
   };
 
-  hmModule = { config, pkgs, ... }: {
-    home.packages = builtins.attrValues {
-      inherit (pkgs) discord gramps joplin-desktop signal-desktop;
-    };
+  hmModule = { config, pkgs, lib, ... }: {
+    home.packages = builtins.attrValues ({
+      inherit (pkgs) discord gramps;
+    } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+      inherit (pkgs) joplin-desktop signal-desktop;
+    });
 
     xsession.windowManager.i3.config.startup = [
       { command = "signal-desktop"; always = true; }

@@ -1,3 +1,4 @@
+- Fixed `chi` build
 - Use `startx` to launch `Xvnc` and session
 - Use NixOS generated session instead of launching `i3` directly in `vncserver`
 - Moved `vncserver` systemd units to the user daemon
