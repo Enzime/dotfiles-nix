@@ -3,7 +3,7 @@
 
   nixosModule = { user, pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) firefox pavucontrol;
+      inherit (pkgs) pavucontrol;
     };
 
     services.xserver.enable = true;

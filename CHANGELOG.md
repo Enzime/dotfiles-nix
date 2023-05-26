@@ -1,3 +1,9 @@
+- Disabled `nix flake check` on macOS runner
+- Fixed `-printf` flag for `find` not available on macOS
+- Fixed `cachix-action` requiring the runner to be added to `trusted-users`
+- Added `chi` and `upsilon` to GitHub workflow
+- Fixed `defaultbrowser` failing when Firefox hasn't been opened yet
+- Use `utm` on `chi` to run a GitHub Actions Runner
 - Fixed `chi` build
 - Use `startx` to launch `Xvnc` and session
 - Use NixOS generated session instead of launching `i3` directly in `vncserver`

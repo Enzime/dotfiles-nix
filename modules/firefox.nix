@@ -1,13 +1,14 @@
 {
-  darwinModule = { pkgs, ... }: {
-    system.activationScripts.extraUserActivation.text = ''
-      ${pkgs.defaultbrowser}/bin/defaultbrowser firefox
-    '';
-  };
-
   hmModule = { pkgs, lib, ... }: let
     inherit (pkgs.stdenv) hostPlatform;
   in {
+    home.activation.setDefaultBrowser = lib.mkIf hostPlatform.isDarwin (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
+        open ~/Applications/Home\ Manager\ Apps/Firefox.app
+        ${lib.getExe pkgs.defaultbrowser} firefox
+      fi
+    '');
+
     programs.firefox.enable = true;
     programs.firefox.package = if hostPlatform.isDarwin then
       pkgs.firefox-bin-unwrapped
