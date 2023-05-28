@@ -25,7 +25,11 @@
     },
     "deploy-rs": {
       "inputs": {
-        "flake-compat": "flake-compat",
+        "flake-compat": [
+          "nix-overlay",
+          "nix",
+          "flake-compat"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -105,7 +109,8 @@
         ]
       },
       "locked": {
-        "narHash": "sha256-4+GRHfEfZyIF/aHD4RUd9fg7DKZEKxRY73qGdgK9H9s=",
+        "lastModified": 1,
+        "narHash": "sha256-CRZXl95FO+2keF05/6bJoBuUsIjq3VP9/gPzl1ql3jE=",
         "path": "overlays/firefox-addons",
         "type": "path"
       },
@@ -117,11 +122,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1668681692,
-        "narHash": "sha256-Ht91NGdewz8IQLtWZ9LCeNXMSXHUss+9COoqu6JLmXU=",
+        "lastModified": 1673956053,
+        "narHash": "sha256-4gtG9iQuiKITOjNQQeQIpoIB6b16fm+504Ch3sNKLd8=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "009399224d5e398d03b22badca40a37ac85412a1",
+        "rev": "35bb57c0c8d8b62bbfd284272c928ceb64ddbde9",
         "type": "github"
       },
       "original": {
@@ -203,6 +208,7 @@
     },
     "nix": {
       "inputs": {
+        "flake-compat": "flake-compat",
         "lowdown-src": "lowdown-src",
         "nixpkgs": [
           "nix-overlay",
@@ -211,11 +217,11 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1666780979,
-        "narHash": "sha256-ougF4ib+58ZZa8E9d94dpXxCiEQwLRZcEckoMcEDT1U=",
+        "lastModified": 1684255530,
+        "narHash": "sha256-o7bxsNeq2LF6/dTl+lT2k50bSItkID80/uoZYVtlxro=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "74cc24f4cfa0e1700a5b5d2415a5c43fb8b2128e",
+        "rev": "9204ab4d5873c56ab47f96329e31f5430fc15069",
         "type": "github"
       },
       "original": {
@@ -257,7 +263,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-Q8ffYSeisOsnwMMyR5/tlFwYRPm1Zs9ZgOjJApcICmA=",
+        "narHash": "sha256-nxxlSYTXO+RF4DYS8cs/bwAMMU+XYvWA+VWqCrPy5Yw=",
         "path": "overlays/nix",
         "type": "path"
       },

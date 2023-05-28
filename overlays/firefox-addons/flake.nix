@@ -5,7 +5,10 @@
 
   outputs = { firefox-addons, nixpkgs, flake-utils, ... }: {
     overlay = final: prev: let
-      addons = import "${firefox-addons}/pkgs/firefox-addons" {
+      # We need to import default.nix to use buildFirefoxXpiAddon which doesn't get exported in flake.nix
+      # WORKAROUND: In Nix 2.14+, firefox-addons.outPath points to the subdirectory rather than the root
+      #             so we need to use sourceInfo.outPath to maintain backwards compatibility
+      addons = import "${firefox-addons.sourceInfo.outPath}/pkgs/firefox-addons" {
         inherit (prev) fetchurl lib stdenv;
       };
     in {

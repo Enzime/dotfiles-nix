@@ -26,6 +26,7 @@
   inputs.deploy-rs.url = "github:serokell/deploy-rs";
   inputs.deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
   inputs.deploy-rs.inputs.utils.follows = "flake-utils";
+  inputs.deploy-rs.inputs.flake-compat.follows = "nix-overlay/nix/flake-compat";
 
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";

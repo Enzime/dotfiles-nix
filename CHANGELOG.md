@@ -1,3 +1,7 @@
+- Fixed `firefox-addons-overlay` no longer building with older versions of Nix
+- Fixed `nix-overlay` using the wrong version number
+- Fixed `firefox-addons-overlay` not building with Nix 2.14+
+- Updated `nix` to 2.15.1
 - Disabled `nix flake check` on macOS runner
 - Fixed `-printf` flag for `find` not available on macOS
 - Fixed `cachix-action` requiring the runner to be added to `trusted-users`

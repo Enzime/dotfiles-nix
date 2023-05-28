@@ -2,8 +2,8 @@ let
   shared = { pkgs, lib, ... }: let
     # Ensure the exact version of Nix has been manually verified
     flakesStillExperimental = version:
-      #       version == 2.13.3      ||                 version < 2.13.3
-      lib.hasPrefix "2.13.3" version || builtins.compareVersions "2.13.3" version == 1;
+      #       version == 2.15.1      ||                 version < 2.15.1
+      lib.hasPrefix "2.15.1" version || builtins.compareVersions "2.15.1" version == 1;
   in {
     nix.package = lib.mkDefault pkgs.nix;
     nix.settings.experimental-features = assert (flakesStillExperimental pkgs.nix.version); "nix-command flakes";
