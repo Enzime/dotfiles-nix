@@ -20,6 +20,7 @@
     programs.kitty.settings = {
       bold_font = "DejaVu Sans Mono Bold";
       bold_is_bright = true;
+      text_composition_strategy = "legacy";
 
       foreground = "#fff5ed";
       background = "#0d0c0c";

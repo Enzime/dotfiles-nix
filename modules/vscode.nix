@@ -116,6 +116,7 @@
       "editor.lineNumbers" = "relative";
       "editor.renderFinalNewline" = "off";
       "files.insertFinalNewline" = true;
+      "diffEditor.diffAlgorithm" = "advanced";
       "diffEditor.ignoreTrimWhitespace" = false;
       "trailing-spaces.trimOnSave" = true;
       "trailing-spaces.highlightCurrentLine" = false;

@@ -1,3 +1,6 @@
+- Use experimental `advanced` `diffAlgorithm` in `VSCode`
+- Removed Firefox addons that have been upstreamed
+- Fixed `kitty` rendering text weirdly in 0.28.0+
 - Fixed `firefox-addons-overlay` no longer building with older versions of Nix
 - Fixed `nix-overlay` using the wrong version number
 - Fixed `firefox-addons-overlay` not building with Nix 2.14+
