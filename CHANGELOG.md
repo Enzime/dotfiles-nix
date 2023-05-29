@@ -1,3 +1,7 @@
+- Fixed `nix flake check`
+- Removed unused variables
+- Fixed `nil` hook only failing if the last file checked fails
+- Use `pre-commit-hooks.nix` to run `nil` on `pre-commit`
 - Use experimental `advanced` `diffAlgorithm` in `VSCode`
 - Removed Firefox addons that have been upstreamed
 - Fixed `kitty` rendering text weirdly in 0.28.0+

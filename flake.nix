@@ -31,7 +31,13 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, deploy-rs, ... }:
+  inputs.pre-commit-hooks.url = "github:Enzime/pre-commit-hooks.nix/fix/nil";
+  inputs.pre-commit-hooks.inputs.flake-compat.follows = "nix-overlay/nix/flake-compat";
+  inputs.pre-commit-hooks.inputs.flake-utils.follows = "flake-utils";
+  inputs.pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.pre-commit-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
+
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils, flake-utils-plus, agenix, deploy-rs, pre-commit-hooks, ... }:
 
   let
     inherit (builtins) attrNames hasAttr filter getAttr readDir;
@@ -207,7 +213,14 @@
         inherit system;
       };
     in {
+      checks.pre-commit = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks.nil.enable = true;
+      };
+
       devShells.default = pkgs.mkShell {
+        inherit (self.checks.${system}.pre-commit) shellHook;
+
         buildInputs = builtins.attrValues {
           inherit (home-manager.packages.${system}) home-manager;
           inherit (agenix.packages.${system}) agenix;
