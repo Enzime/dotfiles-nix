@@ -41,46 +41,46 @@
     security.pam.enableSudoTouchIdAuth = true;
   };
 
-  hmModule = { pkgs, lib, ... }: let
-    inherit (lib) mkIf;
-    inherit (pkgs.stdenv) hostPlatform;
+  hmModule = { pkgs, lib, ... }:
+    let
+      inherit (lib) mkIf;
+      inherit (pkgs.stdenv) hostPlatform;
 
-    keybindings = {
-      "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
-      "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
-    };
-  in mkIf hostPlatform.isLinux {
-    dconf.settings = {
-      "org/gnome/desktop/peripherals/touchpad" = {
-        natural-scroll = false;
-        tap-to-click = true;
+      keybindings = {
+        "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
+        "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
       };
-    };
-
-    wayland.windowManager.sway.config.input = {
-      "type:touchpad" = {
-        tap = "enabled";
-      };
-    };
-
-    xsession.windowManager.i3.config.keybindings = keybindings;
-    wayland.windowManager.sway.config.keybindings = keybindings;
-
-    services.polybar.config = {
-      "bar/base" = {
-        modules-right = lib.mkForce "dotfiles battery wireless ethernet fs memory date";
+    in mkIf hostPlatform.isLinux {
+      dconf.settings = {
+        "org/gnome/desktop/peripherals/touchpad" = {
+          natural-scroll = false;
+          tap-to-click = true;
+        };
       };
 
-      "module/battery" = {
-        type = "internal/battery";
-        full-at = 98;
+      wayland.windowManager.sway.config.input = {
+        "type:touchpad" = { tap = "enabled"; };
+      };
 
-        time-format = "%H:%M";
+      xsession.windowManager.i3.config.keybindings = keybindings;
+      wayland.windowManager.sway.config.keybindings = keybindings;
 
-        label-discharging = "DIS %percentage%% %time% remaining";
-        label-charging = "CHG %percentage%% %time% till full";
-        label-full = "BAT FULL 100%";
+      services.polybar.config = {
+        "bar/base" = {
+          modules-right =
+            lib.mkForce "dotfiles battery wireless ethernet fs memory date";
+        };
+
+        "module/battery" = {
+          type = "internal/battery";
+          full-at = 98;
+
+          time-format = "%H:%M";
+
+          label-discharging = "DIS %percentage%% %time% remaining";
+          label-charging = "CHG %percentage%% %time% till full";
+          label-full = "BAT FULL 100%";
+        };
       };
     };
-  };
 }

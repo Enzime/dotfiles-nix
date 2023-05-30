@@ -1,3 +1,5 @@
+- Removed usage of `inherit (x) "a.b"` as `nixfmt` doesn't support it
+- Run `nixfmt` on entire repo
 - Fixed `nix flake check`
 - Removed unused variables
 - Fixed `nil` hook only failing if the last file checked fails

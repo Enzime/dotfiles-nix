@@ -19,7 +19,10 @@
     nohook resolv.conf
   '';
 
-  nix.registry.ln.to = { type = "git"; url = "file:///home/${user}/nix/nixpkgs"; };
+  nix.registry.ln.to = {
+    type = "git";
+    url = "file:///home/${user}/nix/nixpkgs";
+  };
 
   # Install firmware-linux-nonfree (includes Navi10 drivers)
   hardware.enableRedistributableFirmware = true;
@@ -33,14 +36,14 @@
   '';
 
   # LWJGL 2 doesn't support modelines with text after WxH
-  services.xserver.xrandrHeads = [ {
+  services.xserver.xrandrHeads = [{
     output = "DisplayPort-0";
     primary = true;
     monitorConfig = ''
       ModeLine "3440x1441"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
       Option "PreferredMode" "3440x1441"
     '';
-  } ];
+  }];
 
   services.udev.extraHwdb = ''
     evdev:name:USB-HID Keyboard:dmi:*

@@ -1,7 +1,6 @@
 { lib, ... }:
 
-let
-  inherit (lib) mkForce;
+let inherit (lib) mkForce;
 in {
   home.file.".ssh/config".text = ''
     Host *
@@ -16,24 +15,23 @@ in {
     };
   };
 
-  wayland.windowManager.sway.config.workspaceOutputAssign = [
-    { workspace = "1"; output = "DP-1"; }
-  ];
+  wayland.windowManager.sway.config.workspaceOutputAssign = [{
+    workspace = "1";
+    output = "DP-1";
+  }];
 
-  xsession.windowManager.i3.config.startup = [
-    { command = "i3 workspace 101"; notification = false; }
-  ];
+  xsession.windowManager.i3.config.startup = [{
+    command = "i3 workspace 101";
+    notification = false;
+  }];
 
-  xsession.windowManager.i3.config.workspaceOutputAssign = [
-    { workspace = "101"; output = "DisplayPort-0"; }
-  ];
+  xsession.windowManager.i3.config.workspaceOutputAssign = [{
+    workspace = "101";
+    output = "DisplayPort-0";
+  }];
 
   services.polybar = {
-    config = {
-      "bar/centre" = {
-        monitor = "DisplayPort-0";
-      };
-    };
+    config = { "bar/centre" = { monitor = "DisplayPort-0"; }; };
     script = mkForce ''
       polybar centre &
     '';

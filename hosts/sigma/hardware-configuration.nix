@@ -1,12 +1,13 @@
 { config, inputs, lib, modulesPath, utils, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-      (inputs.disko.nixosModules.disko)
-    ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (inputs.disko.nixosModules.disko)
+  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -55,9 +56,7 @@
         aswap = {
           type = "lvm_lv";
           size = "16G";
-          content = {
-            type = "swap";
-          };
+          content = { type = "swap"; };
         };
 
         root = {
@@ -73,24 +72,24 @@
     };
   };
 
-  fileSystems."/mnt/phi" =
-    { device = "enzime@phi:/";
-      fsType = "fuse.sshfs";
-      noCheck = true;
-      options = [
-        "noauto"
-        "x-systemd.automount"
-        "_netdev"
-        "IdentityFile=/etc/ssh/ssh_host_ed25519_key"
-        "allow_other"
-        "uid=1000"
-        "gid=100"
-        "ConnectTimeout=1"
-        "x-systemd.mount-timeout=10s"
-        "ServerAliveInterval=1"
-        "ServerAliveCountMax=5"
-      ];
-    };
+  fileSystems."/mnt/phi" = {
+    device = "enzime@phi:/";
+    fsType = "fuse.sshfs";
+    noCheck = true;
+    options = [
+      "noauto"
+      "x-systemd.automount"
+      "_netdev"
+      "IdentityFile=/etc/ssh/ssh_host_ed25519_key"
+      "allow_other"
+      "uid=1000"
+      "gid=100"
+      "ConnectTimeout=1"
+      "x-systemd.mount-timeout=10s"
+      "ServerAliveInterval=1"
+      "ServerAliveCountMax=5"
+    ];
+  };
 
   systemd.units."${utils.escapeSystemdPath "/mnt/phi"}.mount" = {
     text = ''
@@ -102,5 +101,6 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

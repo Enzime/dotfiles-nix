@@ -1,11 +1,10 @@
 { modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/profiles/qemu-guest.nix")
-    ];
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-  boot.initrd.availableKernelModules = [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "virtio_pci" "virtio_scsi" "ahci" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.kernelParams = [ "console=ttyS0,19200n8" ];
@@ -16,13 +15,11 @@
   '';
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/sda";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/sda";
+    fsType = "ext4";
+  };
 
-  swapDevices =
-    [ { device = "/dev/sdb"; }
-    ];
+  swapDevices = [{ device = "/dev/sdb"; }];
 
 }

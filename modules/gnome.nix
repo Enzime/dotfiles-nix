@@ -32,17 +32,19 @@
         home = [ "<Shift><Super>e" ];
       };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-        binding = "<Super>t";
-        command = "gnome-terminal";
-        name = "Launch Terminal";
-      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
+        {
+          binding = "<Super>t";
+          command = "gnome-terminal";
+          name = "Launch Terminal";
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
-        binding = "<Super>e";
-        command = "gtk-launch ranger.desktop";
-        name = "Launch Ranger";
-      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" =
+        {
+          binding = "<Super>e";
+          command = "gtk-launch ranger.desktop";
+          name = "Launch Ranger";
+        };
 
       "org/gnome/shell" = {
         disabled-extensions = [ ];
@@ -57,13 +59,9 @@
 
       "org/gnome/shell/overrides" = { };
 
-      "org/gnome/terminal/legacy" = {
-        theme-variant = "dark";
-      };
+      "org/gnome/terminal/legacy" = { theme-variant = "dark"; };
 
-      "org/gtk/settings/file-chooser" = {
-        clock-format = "12h";
-      };
+      "org/gtk/settings/file-chooser" = { clock-format = "12h"; };
     };
   };
 }

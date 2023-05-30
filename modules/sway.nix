@@ -17,13 +17,9 @@
   };
 
   hmModule = { config, pkgs, lib, ... }: {
-    home.packages = builtins.attrValues {
-      inherit (pkgs) wl-clipboard;
-    };
+    home.packages = builtins.attrValues { inherit (pkgs) wl-clipboard; };
 
-    home.sessionVariables = {
-      NIXOS_OZONE_WL = 1;
-    };
+    home.sessionVariables = { NIXOS_OZONE_WL = 1; };
 
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
@@ -31,29 +27,37 @@
 
     wayland.windowManager.sway.config = {
       startup = [
-        { command = "systemctl --user restart waybar"; always = true; }
+        {
+          command = "systemctl --user restart waybar";
+          always = true;
+        }
         { command = "1password"; }
       ];
 
-      floating.criteria = [ { "app_id" = "^floating$"; } ];
+      floating.criteria = [{ "app_id" = "^floating$"; }];
 
       keybindings = let
         mod = "Mod1";
-        screenshotFilename = "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
+        screenshotFilename =
+          "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
         grim = "${pkgs.grim}/bin/grim";
         swaymsg = "${pkgs.sway}/bin/swaymsg";
         jq = "${pkgs.jq}/bin/jq";
         slurp = "${pkgs.slurp}/bin/slurp";
       in {
-        "Control+Shift+2" = "exec ${pkgs.writeShellScript "grim-current-window" ''
-          REGION=$(${swaymsg} -t get_tree | ${jq} -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')
-          ${grim} -g "$REGION" ${screenshotFilename}
-        ''}";
+        "Control+Shift+2" = "exec ${
+            pkgs.writeShellScript "grim-current-window" ''
+              REGION=$(${swaymsg} -t get_tree | ${jq} -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"')
+              ${grim} -g "$REGION" ${screenshotFilename}
+            ''
+          }";
         "Control+Shift+3" = "exec bash -c '${grim} ${screenshotFilename}'";
-        "Control+Shift+4" = "exec ${pkgs.writeShellScript "grim-slurp" ''
-          REGION=$(${swaymsg} -t get_tree | ${jq} -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | ${slurp})
-          ${grim} -g "$REGION" ${screenshotFilename}
-        ''}";
+        "Control+Shift+4" = "exec ${
+            pkgs.writeShellScript "grim-slurp" ''
+              REGION=$(${swaymsg} -t get_tree | ${jq} -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | ${slurp})
+              ${grim} -g "$REGION" ${screenshotFilename}
+            ''
+          }";
 
         "${mod}+1" = "workspace number 1";
         "${mod}+2" = "workspace number 2";
@@ -120,9 +124,7 @@
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
       modules-right = [ "battery" "clock" "tray" ];
-      "sway/window" = {
-        max-length = 50;
-      };
+      "sway/window" = { max-length = 50; };
       battery = {
         format = "{capacity}% {icon}";
         format-icons = [ "" "" "" "" "" ];
@@ -137,9 +139,7 @@
     programs.waybar.systemd.target = "sway-session.target";
 
     systemd.user.services.polybar = lib.mkIf config.services.polybar.enable {
-      Unit = {
-        Conflicts = [ "sway-session.target" ];
-      };
+      Unit = { Conflicts = [ "sway-session.target" ]; };
     };
 
     services.mako.enable = true;

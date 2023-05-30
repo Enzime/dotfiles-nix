@@ -17,15 +17,20 @@ let
     nix.generateNixPathFromInputs = true;
     nix.generateRegistryFromInputs = true;
 
-    nix.registry.d.to = { type = "git"; url = "file://${config.users.users.${user}.home}/dotfiles"; };
-    nix.registry.n.to = { id = "nixpkgs"; type = "indirect"; };
+    nix.registry.d.to = {
+      type = "git";
+      url = "file://${config.users.users.${user}.home}/dotfiles";
+    };
+    nix.registry.n.to = {
+      id = "nixpkgs";
+      type = "indirect";
+    };
 
     services.tailscale.enable = true;
 
     programs.zsh.enable = true;
 
-    age.secrets.zshrc = let
-      file = ../secrets/zshrc_${host}.age;
+    age.secrets.zshrc = let file = ../secrets/zshrc_${host}.age;
     in lib.mkIf (builtins.pathExists file) {
       inherit file;
       path = "${config.users.users.${user}.home}/.zshrc.secrets";
@@ -33,7 +38,18 @@ let
     };
   };
 in {
-  imports = [ "alacritty" "cachix" "flakes" "impermanence" "kitty" "nix-index" "termite" "vm" "vscode" "xdg" ];
+  imports = [
+    "alacritty"
+    "cachix"
+    "flakes"
+    "impermanence"
+    "kitty"
+    "nix-index"
+    "termite"
+    "vm"
+    "vscode"
+    "xdg"
+  ];
 
   nixosModule = { config, configRevision, user, pkgs, ... }: {
     imports = [ shared ];
@@ -43,11 +59,13 @@ in {
 
     i18n.defaultLocale = "en_AU.UTF-8";
 
-    environment.etc."nixos".source = "${config.users.users.${user}.home}/dotfiles";
+    environment.etc."nixos".source =
+      "${config.users.users.${user}.home}/dotfiles";
 
     home-manager.users.root.home.stateVersion = "22.11";
     home-manager.users.root.programs.git.enable = true;
-    home-manager.users.root.programs.git.extraConfig.safe.directory = "${config.users.users.${user}.home}/dotfiles";
+    home-manager.users.root.programs.git.extraConfig.safe.directory =
+      "${config.users.users.${user}.home}/dotfiles";
 
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
@@ -57,7 +75,8 @@ in {
     # manually set `useDHCP` for individual interfaces
     networking.useDHCP = false;
 
-    networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
+    networking.firewall.trustedInterfaces =
+      [ config.services.tailscale.interfaceName ];
 
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "prohibit-password";
@@ -92,250 +111,242 @@ in {
     '';
   };
 
-  hmModule = { config, inputs, pkgs, lib, ... }: let
-    inherit (lib) mkIf readFile;
-    inherit (pkgs.stdenv) hostPlatform;
-  in {
-    home.stateVersion = "22.11";
+  hmModule = { config, inputs, pkgs, lib, ... }:
+    let
+      inherit (lib) mkIf readFile;
+      inherit (pkgs.stdenv) hostPlatform;
+    in {
+      home.stateVersion = "22.11";
 
-    # Replace `with pkgs;` with `inherit (pkgs)`
-    # https://nix.dev/anti-patterns/language#with-attrset-expression
-    home.packages = builtins.attrValues {
-      inherit (pkgs) peco ripgrep jq htop ranger tmux tree magic-wormhole-rs;
+      # Replace `with pkgs;` with `inherit (pkgs)`
+      # https://nix.dev/anti-patterns/language#with-attrset-expression
+      home.packages = builtins.attrValues {
+        inherit (pkgs) peco ripgrep jq htop ranger tmux tree magic-wormhole-rs;
 
-      reptyr = mkIf hostPlatform.isLinux pkgs.reptyr;
-    };
-
-    # Allow fonts to be specified in `home.packages`
-    fonts.fontconfig.enable = true;
-
-    xdg.configFile."home-manager".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles";
-
-    # Remove this once we have autoGenFromInputs for home-manager
-    home.extraBuilderCommands = assert (
-      (config.nix or { }) ? linkInputs == false
-    ); "ln -sv ${inputs.self} $out/dotfiles";
-
-    home.sessionVariables = {
-      EDITOR = "vim";
-      VISUAL = "vim";
-    };
-
-    home.file.".ssh/config".text = ''
-      Include config.local
-    '';
-
-    home.file.".wgetrc".text = ''
-      content_disposition=on
-      continue=on
-      no_parent=on
-      robots=off
-    '';
-
-    programs.aria2.enable = true;
-    programs.aria2.settings = {
-      continue = true;
-    };
-
-    programs.git = {
-      enable = true;
-      userName = "Michael Hoang";
-      userEmail = "enzime@users.noreply.github.com";
-
-      ignores = [
-        "/worktrees"
-        "result"
-      ];
-
-      delta.enable = true;
-
-      extraConfig = {
-        advice = {
-          addIgnoredFile = false;
-        };
-        am = {
-          threeWay = true;
-        };
-        core = {
-          hooksPath = "~/.config/git/hooks";
-        };
-        diff = {
-          colorMoved = "default";
-        };
-        fetch = {
-          prune = true;
-        };
-        init = {
-          defaultBranch = "main";
-        };
-        merge = {
-          conflictStyle = "zdiff3";
-        };
-        pull = {
-          ff = "only";
-        };
-        rebase = {
-          autoStash = true;
-          autoSquash = true;
-        };
-        url = {
-          "https://github.com/" = { insteadOf = [ "gh:" "ghro:" ]; };
-          "https://bitbucket.org/" = { insteadOf = [ "bb:" "bbro:" ]; };
-
-          "ssh://git@github.com/" = { insteadOf = "ghp:"; pushInsteadOf = "gh:"; };
-          "ssh://git@bitbucket.org/" = { insteadOf = "bbp:"; pushInsteadOf = "bb:"; };
-
-          "___PUSH_DISABLED___" = { pushInsteadOf = [ "ghro:" "bbro:" ]; };
-        };
+        reptyr = mkIf hostPlatform.isLinux pkgs.reptyr;
       };
-    };
 
-    xdg.configFile."git/hooks/pre-commit".source = ../files/no-todo.sh;
+      # Allow fonts to be specified in `home.packages`
+      fonts.fontconfig.enable = true;
 
-    programs.zsh = {
-      enable = true;
-      # If this option is not disabled
-      # `home-manager` installs `nix-zsh-completions`
-      # which conflicts with `nix` in `home.packages`
-      enableCompletion = false;
+      xdg.configFile."home-manager".source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/dotfiles";
 
-      initExtraFirst = ''
-        path=(
-          ~/.nix-profile/bin
-          $path
-        )
+      # Remove this once we have autoGenFromInputs for home-manager
+      home.extraBuilderCommands =
+        assert ((config.nix or { }) ? linkInputs == false);
+        "ln -sv ${inputs.self} $out/dotfiles";
+
+      home.sessionVariables = {
+        EDITOR = "vim";
+        VISUAL = "vim";
+      };
+
+      home.file.".ssh/config".text = ''
+        Include config.local
       '';
 
-      prezto = {
+      home.file.".wgetrc".text = ''
+        content_disposition=on
+        continue=on
+        no_parent=on
+        robots=off
+      '';
+
+      programs.aria2.enable = true;
+      programs.aria2.settings = { continue = true; };
+
+      programs.git = {
         enable = true;
+        userName = "Michael Hoang";
+        userEmail = "enzime@users.noreply.github.com";
 
-        pmoduleDirs = [
-          "${pkgs.zsh-you-should-use}/share/zsh/plugins"
-        ];
+        ignores = [ "/worktrees" "result" ];
 
-        pmodules = [
-          "environment"
-          "terminal"
-          "you-should-use"
-          "editor"
-          "history"
-          "directory"
-          "spectrum"
-          # `git` just needs to be before `completion`
-          "git"
-          "completion"
-          "prompt"
-        ];
+        delta.enable = true;
+
+        extraConfig = {
+          advice = { addIgnoredFile = false; };
+          am = { threeWay = true; };
+          core = { hooksPath = "~/.config/git/hooks"; };
+          diff = { colorMoved = "default"; };
+          fetch = { prune = true; };
+          init = { defaultBranch = "main"; };
+          merge = { conflictStyle = "zdiff3"; };
+          pull = { ff = "only"; };
+          rebase = {
+            autoStash = true;
+            autoSquash = true;
+          };
+          url = {
+            "https://github.com/" = { insteadOf = [ "gh:" "ghro:" ]; };
+            "https://bitbucket.org/" = { insteadOf = [ "bb:" "bbro:" ]; };
+
+            "ssh://git@github.com/" = {
+              insteadOf = "ghp:";
+              pushInsteadOf = "gh:";
+            };
+            "ssh://git@bitbucket.org/" = {
+              insteadOf = "bbp:";
+              pushInsteadOf = "bb:";
+            };
+
+            "___PUSH_DISABLED___" = { pushInsteadOf = [ "ghro:" "bbro:" ]; };
+          };
+        };
       };
 
-      history = {
-        extended = true;
-        save = 1000000;
-        size = 1000000;
+      xdg.configFile."git/hooks/pre-commit".source = ../files/no-todo.sh;
 
-        ignoreSpace = true;
+      programs.zsh = {
+        enable = true;
+        # If this option is not disabled
+        # `home-manager` installs `nix-zsh-completions`
+        # which conflicts with `nix` in `home.packages`
+        enableCompletion = false;
 
-        ignoreDups = true;
-        expireDuplicatesFirst = true;
+        initExtraFirst = ''
+          path=(
+            ~/.nix-profile/bin
+            $path
+          )
+        '';
+
+        prezto = {
+          enable = true;
+
+          pmoduleDirs = [ "${pkgs.zsh-you-should-use}/share/zsh/plugins" ];
+
+          pmodules = [
+            "environment"
+            "terminal"
+            "you-should-use"
+            "editor"
+            "history"
+            "directory"
+            "spectrum"
+            # `git` just needs to be before `completion`
+            "git"
+            "completion"
+            "prompt"
+          ];
+        };
+
+        history = {
+          extended = true;
+          save = 1000000;
+          size = 1000000;
+
+          ignoreSpace = true;
+
+          ignoreDups = true;
+          expireDuplicatesFirst = true;
+        };
+
+        initExtra = readFile ../files/zshrc;
+
+        shellAliases = {
+          _ = "\\sudo ";
+          sudo = ''printf "zsh: command not found: sudo\n"'';
+
+          ls = "ls -F --color=auto";
+
+          arg = "alias | rg --";
+          l = "ls -lah";
+          nb = "nix build";
+          sr = "_ ranger";
+          w = "where -s";
+
+          gai = "git add --interactive";
+          gaf = "git add --force";
+          gbc = "gbfm -c";
+          gbC = "gbfm -C";
+          gbu = "git branch --set-upstream-to";
+          gbv = "git branch -vv";
+          gca = "git commit --amend";
+          gcf = "git commit --fixup";
+          gco = "git checkout --patch";
+          gcpa = "git cherry-pick --abort";
+          gcpc = "git cherry-pick --continue";
+          gC = "git checkout";
+          gD = "git diff";
+          gDs = "gD --cached";
+          gf = "gfa --prune";
+          gF = "git fetch";
+          gln = "gl -n";
+          gpx = "gp --delete";
+          gRh = "git reset --hard";
+          gRs = "git reset --soft";
+          gRv = "gR -v";
+          gs = "git status";
+          gsc = "gfc --depth=1";
+          gss = "git stash save -p";
+          gsS = "git stash save --include-untracked";
+          gS = "git show --stat --patch";
+          gtx = "git tag --delete";
+        };
       };
 
-      initExtra = readFile ../files/zshrc;
+      programs.direnv.enable = true;
+      programs.direnv.nix-direnv.enable = true;
 
-      shellAliases = {
-        _ = "\\sudo ";
-        sudo = "printf \"zsh: command not found: sudo\\n\"";
+      programs.neovim.enable = true;
+      programs.neovim.vimAlias = true;
+      programs.neovim.plugins = [
+        # Plugins that are always loaded
+        pkgs.vimPlugins.vim-surround
+        pkgs.vimPlugins.vim-repeat
+        pkgs.vimPlugins.clever-f-vim
+        pkgs.vimPlugins.vim-better-whitespace
+        pkgs.vimPlugins.vim-sleuth
+        pkgs.vimPlugins.vim-operator-user
+        pkgs.vimPlugins.vim-operator-flashy
+        pkgs.vimPlugins.vim-illuminate
+        pkgs.vimPlugins.vim-argwrap
+      ] ++ map (plugin: {
+        inherit plugin;
+        optional = true;
+      }) [
+        # Plugins for standalone Neovim
+        pkgs.vimPlugins.hybrid-krompus-vim
+        pkgs.vimPlugins.neovim-ranger
 
-        ls = "ls -F --color=auto";
+        pkgs.vimPlugins.denite-nvim
+        pkgs.vimPlugins.editorconfig-nvim
+        pkgs.vimPlugins.lightline-vim
+        pkgs.vimPlugins.vim-commentary
+        pkgs.vimPlugins.vim-css-color
+        pkgs.vimPlugins.vim-fugitive
+        pkgs.vimPlugins.vim-signature
+        pkgs.vimPlugins.undotree
 
-        arg = "alias | rg --";
-        l = "ls -lah";
-        nb = "nix build";
-        sr = "_ ranger";
-        w = "where -s";
+        pkgs.vimPlugins.ale
+        pkgs.vimPlugins.vim-beancount
+        pkgs.vimPlugins.vim-cpp-enhanced-highlight
+        pkgs.vimPlugins.vim-javascript
+        pkgs.vimPlugins.vim-jsx-pretty
+        pkgs.vimPlugins.vim-nix
+      ];
+      programs.neovim.extraConfig = readFile ../files/init.vim;
 
-        gai = "git add --interactive";
-        gaf = "git add --force";
-        gbc = "gbfm -c";
-        gbC = "gbfm -C";
-        gbu = "git branch --set-upstream-to";
-        gbv = "git branch -vv";
-        gca = "git commit --amend";
-        gcf = "git commit --fixup";
-        gco = "git checkout --patch";
-        gcpa = "git cherry-pick --abort";
-        gcpc = "git cherry-pick --continue";
-        gC = "git checkout";
-        gD = "git diff";
-        gDs = "gD --cached";
-        gf = "gfa --prune";
-        gF = "git fetch";
-        gln = "gl -n";
-        gpx = "gp --delete";
-        gRh = "git reset --hard";
-        gRs = "git reset --soft";
-        gRv = "gR -v";
-        gs = "git status";
-        gsc = "gfc --depth=1";
-        gss = "git stash save -p";
-        gsS = "git stash save --include-untracked";
-        gS = "git show --stat --patch";
-        gtx = "git tag --delete";
-      };
+      xdg.dataFile."nvim/rplugin.vim".source =
+        pkgs.runCommand "update-remote-plugins" { } ''
+          NVIM_RPLUGIN_MANIFEST=$out timeout 2s ${config.programs.neovim.finalPackage}/bin/nvim \
+            -i NONE \
+            -n \
+            -u ${
+              pkgs.writeText "init.lua"
+              config.xdg.configFile."nvim/init.lua".text
+            } \
+            -c UpdateRemotePlugins \
+            -c quit
+        '';
+
+      xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
+      xdg.configFile."ranger/commands.py".source = ../files/commands.py;
+
+      systemd.user.startServices = mkIf hostPlatform.isLinux "sd-switch";
+
+      programs.home-manager.enable = true;
     };
-
-    programs.direnv.enable = true;
-    programs.direnv.nix-direnv.enable = true;
-
-    programs.neovim.enable = true;
-    programs.neovim.vimAlias = true;
-    programs.neovim.plugins = [
-      # Plugins that are always loaded
-      pkgs.vimPlugins.vim-surround
-      pkgs.vimPlugins.vim-repeat
-      pkgs.vimPlugins.clever-f-vim
-      pkgs.vimPlugins.vim-better-whitespace
-      pkgs.vimPlugins.vim-sleuth
-      pkgs.vimPlugins.vim-operator-user
-      pkgs.vimPlugins.vim-operator-flashy
-      pkgs.vimPlugins.vim-illuminate
-      pkgs.vimPlugins.vim-argwrap
-    ] ++ map (plugin: { inherit plugin; optional = true; }) [
-      # Plugins for standalone Neovim
-      pkgs.vimPlugins.hybrid-krompus-vim
-      pkgs.vimPlugins.neovim-ranger
-
-      pkgs.vimPlugins.denite-nvim
-      pkgs.vimPlugins.editorconfig-nvim
-      pkgs.vimPlugins.lightline-vim
-      pkgs.vimPlugins.vim-commentary
-      pkgs.vimPlugins.vim-css-color
-      pkgs.vimPlugins.vim-fugitive
-      pkgs.vimPlugins.vim-signature
-      pkgs.vimPlugins.undotree
-
-      pkgs.vimPlugins.ale
-      pkgs.vimPlugins.vim-beancount
-      pkgs.vimPlugins.vim-cpp-enhanced-highlight
-      pkgs.vimPlugins.vim-javascript
-      pkgs.vimPlugins.vim-jsx-pretty
-      pkgs.vimPlugins.vim-nix
-    ];
-    programs.neovim.extraConfig = readFile ../files/init.vim;
-
-    xdg.dataFile."nvim/rplugin.vim".source = pkgs.runCommand "update-remote-plugins" {} ''
-      NVIM_RPLUGIN_MANIFEST=$out timeout 2s ${config.programs.neovim.finalPackage}/bin/nvim \
-        -i NONE \
-        -n \
-        -u ${pkgs.writeText "init.lua" config.xdg.configFile."nvim/init.lua".text} \
-        -c UpdateRemotePlugins \
-        -c quit
-    '';
-
-    xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
-    xdg.configFile."ranger/commands.py".source = ../files/commands.py;
-
-    systemd.user.startServices = mkIf hostPlatform.isLinux "sd-switch";
-
-    programs.home-manager.enable = true;
-  };
 }

@@ -19,9 +19,7 @@
         RestartSec = "1m";
       };
 
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
 
     # As we don't open the firewall, it should only be accessible over Tailscale

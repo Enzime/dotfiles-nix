@@ -1,7 +1,5 @@
 { pkgs, ... }:
 
 {
-  home.packages = builtins.attrValues {
-    inherit (pkgs) utm;
-  };
+  home.packages = builtins.attrValues { inherit (pkgs) utm; };
 }

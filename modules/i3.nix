@@ -30,21 +30,33 @@
 
     xsession.windowManager.i3.config = {
       startup = [
-        { command = "systemctl --user restart polybar"; always = true; notification = false; }
-        { command = "1password"; notification = false; }
-        { command = "systemctl --user start i3-session.target"; notification = false; }
+        {
+          command = "systemctl --user restart polybar";
+          always = true;
+          notification = false;
+        }
+        {
+          command = "1password";
+          notification = false;
+        }
+        {
+          command = "systemctl --user start i3-session.target";
+          notification = false;
+        }
       ];
 
-      floating.criteria = [ { "instance" = "^floating$"; } ];
+      floating.criteria = [{ "instance" = "^floating$"; }];
 
       keybindings = let
         mod = "Mod1";
-        screenshotFilename = "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
+        screenshotFilename =
+          "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
         i3-ws = "${pkgs.i3-ws}/bin/i3-ws";
         maim = "${pkgs.maim}/bin/maim";
         xdotool = "${pkgs.xdotool}/bin/xdotool";
       in {
-        "Control+Shift+2" = "exec bash -c '${maim} -i $(${xdotool} getactivewindow) ${screenshotFilename}'";
+        "Control+Shift+2" =
+          "exec bash -c '${maim} -i $(${xdotool} getactivewindow) ${screenshotFilename}'";
         "Control+Shift+3" = "exec bash -c '${maim} ${screenshotFilename}'";
         "Control+Shift+4" = "exec bash -c '${maim} -s ${screenshotFilename}'";
 
@@ -247,11 +259,23 @@
       };
     };
 
-    systemd.user.services.xss-lock.Unit.PartOf = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.xss-lock.Install.WantedBy = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.xautolock-session.Unit.PartOf = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.xautolock-session.Install.WantedBy = assert !config.services.screen-locker ? systemdTarget; lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.polybar.Unit.PartOf = assert !config.services.polybar ? systemdTarget; lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.polybar.Install.WantedBy = assert !config.services.polybar ? systemdTarget; lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xss-lock.Unit.PartOf =
+      assert !config.services.screen-locker ? systemdTarget;
+      lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xss-lock.Install.WantedBy =
+      assert !config.services.screen-locker ? systemdTarget;
+      lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xautolock-session.Unit.PartOf =
+      assert !config.services.screen-locker ? systemdTarget;
+      lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.xautolock-session.Install.WantedBy =
+      assert !config.services.screen-locker ? systemdTarget;
+      lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.polybar.Unit.PartOf =
+      assert !config.services.polybar ? systemdTarget;
+      lib.mkForce [ "i3-session.target" ];
+    systemd.user.services.polybar.Install.WantedBy =
+      assert !config.services.polybar ? systemdTarget;
+      lib.mkForce [ "i3-session.target" ];
   };
 }

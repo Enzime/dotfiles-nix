@@ -6,7 +6,8 @@
       description = "Update DuckDNS";
       serviceConfig = {
         EnvironmentFile = config.age.secrets.duckdns.path;
-        ExecStart = "${pkgs.curl}/bin/curl 'https://www.duckdns.org/update?domains=\${SUBDOMAIN}&token=\${TOKEN}&ip='";
+        ExecStart =
+          "${pkgs.curl}/bin/curl 'https://www.duckdns.org/update?domains=\${SUBDOMAIN}&token=\${TOKEN}&ip='";
       };
     };
 

@@ -2,9 +2,8 @@
   imports = [ "graphical-minimal" "mpv" ];
 
   darwinModule = { pkgs, ... }: {
-    environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) rectangle spotify;
-    };
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) rectangle spotify; };
 
     system.activationScripts.extraActivation.text = ''
       cp ${pkgs._1password}/bin/op /usr/local/bin/op
@@ -34,7 +33,5 @@
     programs._1password.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
-    programs.vscode.package = pkgs.vscode;
-  };
+  hmModule = { pkgs, ... }: { programs.vscode.package = pkgs.vscode; };
 }

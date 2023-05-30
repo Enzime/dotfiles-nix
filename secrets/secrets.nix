@@ -1,5 +1,4 @@
-let
-  inherit (import ../keys.nix) users hosts;
+let inherit (import ../keys.nix) users hosts;
 in {
   "acme_zoneee.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
@@ -7,12 +6,12 @@ in {
   };
 
   "aws_config.age".publicKeys = builtins.attrValues {
-    inherit (users) "michael.hoang_upsilon";
+    "michael.hoang_upsilon" = users."michael.hoang_upsilon";
     inherit (hosts) upsilon;
   };
 
   "cacert.age".publicKeys = builtins.attrValues {
-    inherit (users) "michael.hoang_upsilon";
+    "michael.hoang_upsilon" = users."michael.hoang_upsilon";
     inherit (hosts) upsilon;
   };
 
@@ -22,7 +21,7 @@ in {
   };
 
   "git_config.age".publicKeys = builtins.attrValues {
-    inherit (users) "michael.hoang_upsilon";
+    "michael.hoang_upsilon" = users."michael.hoang_upsilon";
     inherit (hosts) upsilon;
   };
 
@@ -32,12 +31,12 @@ in {
   };
 
   "npmrc.age".publicKeys = builtins.attrValues {
-    inherit (users) "michael.hoang_upsilon";
+    "michael.hoang_upsilon" = users."michael.hoang_upsilon";
     inherit (hosts) upsilon;
   };
 
   "ssh_allowed_signers.age".publicKeys = builtins.attrValues {
-    inherit (users) "michael.hoang_upsilon";
+    "michael.hoang_upsilon" = users."michael.hoang_upsilon";
     inherit (hosts) upsilon;
   };
 
@@ -52,7 +51,7 @@ in {
   };
 
   "zshrc_upsilon.age".publicKeys = builtins.attrValues {
-    inherit (users) "michael.hoang_upsilon";
+    "michael.hoang_upsilon" = users."michael.hoang_upsilon";
     inherit (hosts) upsilon;
   };
 }

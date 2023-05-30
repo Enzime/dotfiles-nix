@@ -2,9 +2,7 @@
   imports = [ "docker" "graphical" ];
 
   darwinModule = { user, config, pkgs, ... }: {
-    age.secrets.cacert = {
-      file = ../secrets/cacert.age;
-    };
+    age.secrets.cacert = { file = ../secrets/cacert.age; };
 
     environment.etc."ssl/certs/ca-certificates.crt".enable = false;
 
@@ -54,13 +52,10 @@
   };
 
   hmModule = { config, pkgs, lib, ... }: {
-    home.packages = builtins.attrValues {
-      inherit (pkgs) awscli2 aws-vault postman slack;
-    };
+    home.packages =
+      builtins.attrValues { inherit (pkgs) awscli2 aws-vault postman slack; };
 
-    home.sessionVariables = {
-      AWS_SDK_LOAD_CONFIG = 1;
-    };
+    home.sessionVariables = { AWS_SDK_LOAD_CONFIG = 1; };
 
     programs.zsh.initExtra = ''
       function agenix {
@@ -68,15 +63,14 @@
       }
     '';
 
-    programs.git.includes = [
-      { condition = "gitdir:~/Work/"; path = "~/.config/git/config.work"; }
-    ];
+    programs.git.includes = [{
+      condition = "gitdir:~/Work/";
+      path = "~/.config/git/config.work";
+    }];
 
-    xdg.configFile."git/ignore.work".text = builtins.concatStringsSep "\n" (config.programs.git.ignores ++ [
-      ".direnv/"
-      ".envrc"
-      "shell.nix"
-    ]) + "\n";
+    xdg.configFile."git/ignore.work".text = builtins.concatStringsSep "\n"
+      (config.programs.git.ignores ++ [ ".direnv/" ".envrc" "shell.nix" ])
+      + "\n";
 
     programs.firefox.profiles.default.extensions = [
       pkgs.firefox-addons.multi-account-containers

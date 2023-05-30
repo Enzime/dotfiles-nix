@@ -7,8 +7,6 @@
   };
 
   hmModule = { pkgs, ... }: {
-    home.packages = builtins.attrValues {
-      inherit (pkgs) virt-manager;
-    };
+    home.packages = builtins.attrValues { inherit (pkgs) virt-manager; };
   };
 }

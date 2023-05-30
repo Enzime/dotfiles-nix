@@ -3,13 +3,15 @@ self: super: {
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ super.makeWrapper ];
 
     postInstall = ''
-      cp ${super.writeShellScript "spotify-wrapper" ''
-        if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
-          exec ${super.spotify}/bin/spotify "$@"
-        else
-          exec $out/bin/spotify-tray "$@"
-        fi
-      ''} $out/bin/spotify
+      cp ${
+        super.writeShellScript "spotify-wrapper" ''
+          if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
+            exec ${super.spotify}/bin/spotify "$@"
+          else
+            exec $out/bin/spotify-tray "$@"
+          fi
+        ''
+      } $out/bin/spotify
 
       substituteInPlace $out/bin/spotify --replace \$out $out
 
@@ -18,8 +20,6 @@ self: super: {
         --add-flags "-c ${super.spotify}/bin/spotify"
     '';
 
-    meta = old.meta // {
-      priority = (super.spotify.meta.priority or 0) - 1;
-    };
+    meta = old.meta // { priority = (super.spotify.meta.priority or 0) - 1; };
   });
 }

@@ -14,7 +14,7 @@
     programs.kitty.font.name = "DejaVu Sans Mono";
     programs.kitty.font.size = 10;
     programs.kitty.keybindings = {
-      "shift+page_up"   = "scroll_page_up";
+      "shift+page_up" = "scroll_page_up";
       "shift+page_down" = "scroll_page_down";
     };
     programs.kitty.settings = {
@@ -24,38 +24,38 @@
 
       foreground = "#fff5ed";
       background = "#0d0c0c";
-      cursor     = "#00ccff";
+      cursor = "#00ccff";
 
       # black
-      color0  = "#0a0a0a";
-      color8  = "#73645d";
+      color0 = "#0a0a0a";
+      color8 = "#73645d";
 
       # red
-      color1  = "#e61f00";
-      color9  = "#ff3f3d";
+      color1 = "#e61f00";
+      color9 = "#ff3f3d";
 
       # green
-      color2  = "#6dd200";
+      color2 = "#6dd200";
       color10 = "#c1ff05";
 
       # yellow
-      color3  = "#fa6800";
+      color3 = "#fa6800";
       color11 = "#ffa726";
 
       # blue
-      color4  = "#255ae4";
+      color4 = "#255ae4";
       color12 = "#00ccff";
 
       # magenta
-      color5  = "#ff0084";
+      color5 = "#ff0084";
       color13 = "#ff65a0";
 
       # cyan
-      color6  = "#36fcd3";
+      color6 = "#36fcd3";
       color14 = "#96ffe3";
 
       # white
-      color7  = "#b6afab";
+      color7 = "#b6afab";
       color15 = "#fff5ed";
     };
   };

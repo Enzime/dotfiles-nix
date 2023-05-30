@@ -1,5 +1,1 @@
-{
-  nixosModule = { config, ... }: {
-    networking.networkmanager.enable = true;
-  };
-}
+{ nixosModule = { config, ... }: { networking.networkmanager.enable = true; }; }

@@ -2,9 +2,8 @@
   imports = [ "firefox" "fonts" ];
 
   nixosModule = { user, pkgs, ... }: {
-    environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) pavucontrol;
-    };
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) pavucontrol; };
 
     services.xserver.enable = true;
 

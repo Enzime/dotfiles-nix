@@ -1,7 +1,7 @@
 {
   imports = [ "graphical" "i18n" "ios" "pim" ];
 
-  nixosModule = { user, pkgs, ...}: {
+  nixosModule = { user, pkgs, ... }: {
     services.mullvad-vpn.enable = true;
     services.mullvad-vpn.package = pkgs.mullvad-vpn;
 
@@ -20,9 +20,10 @@
       inherit (pkgs) joplin-desktop signal-desktop;
     });
 
-    xsession.windowManager.i3.config.startup = [
-      { command = "signal-desktop"; always = true; }
-    ];
+    xsession.windowManager.i3.config.startup = [{
+      command = "signal-desktop";
+      always = true;
+    }];
 
     programs.firefox.profiles.default.extensions = [
       pkgs.firefox-addons.bing-chat-for-all-browsers
