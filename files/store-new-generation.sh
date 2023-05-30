@@ -1,5 +1,4 @@
-# shellcheck shell=bash
-
+#!/bin/bash
 set -e
 set -o pipefail
 shopt -s inherit_errexit
@@ -22,7 +21,7 @@ systemCfg="/nix/var/nix/gcroots/system-cfg/$systemNumber"
 # overwriting it and so we also want to overwrite
 # the corresponding system config folder.
 if [[ -d "$systemCfg" ]]; then
-  rm -rf $systemCfg
+  rm -rf "$systemCfg"
 fi
 
 mkdir -p "$systemCfg/bin"
@@ -42,31 +41,31 @@ while [ "$#" -gt 0 ]; do
     # FIXME: handle $input = "home-manager/nixpkgs"
     # Ensure that we're looking at an input that is actually used
     if [[ $(nix flake metadata --json "$dotfiles" --override-input "$input" "$replacement" | jq -r ".locks.nodes.${input}") != "null" ]]; then
-      flags+=("--override-input" $input $replacement)
+      flags+=("--override-input" "$input" "$replacement")
 
       pathInStore=$(nix flake metadata --json "$replacement" | jq -r ".path")
       target="$systemCfg/inputs/$input"
 
-      mkdir -p "$(dirname $target)"
+      mkdir -p "$(dirname "$target")"
       ln -s "$pathInStore" "$target"
     fi
   fi
 done
 
-cat > $systemCfg/bin/build <<EOF
+cat > "$systemCfg/bin/build" <<EOF
 #!/bin/sh
 nixos-rebuild build ${flags[@]}
 EOF
-chmod a+x $systemCfg/bin/build
+chmod a+x "$systemCfg/bin/build"
 
-cat > $systemCfg/bin/build-vm <<EOF
+cat > "$systemCfg/bin/build-vm" <<EOF
 #!/bin/sh
 nixos-rebuild build-vm ${flags[@]}
 EOF
-chmod a+x $systemCfg/bin/build-vm
+chmod a+x "$systemCfg/bin/build-vm"
 
-cat > $systemCfg/bin/switch <<EOF
+cat > "$systemCfg/bin/switch" <<EOF
 #!/bin/sh
 nixos-rebuild switch ${flags[@]}
 EOF
-chmod a+x $systemCfg/bin/switch
+chmod a+x "$systemCfg/bin/switch"

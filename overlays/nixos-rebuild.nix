@@ -1,6 +1,8 @@
 self: super: {
-  store-new-generation = super.writeShellScript "store-new-generation"
-    (builtins.readFile ../files/store-new-generation.sh);
+  store-new-generation = super.runCommand "patch-shebang" { } ''
+    cp ${../files/store-new-generation.sh} $out
+    patchShebangs $out
+  '';
 
   nixos-rebuild = super.nixos-rebuild.overrideAttrs (old: {
     postInstall = ''

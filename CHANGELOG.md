@@ -1,3 +1,8 @@
+- Added shebang to `store-new-generation.sh` for `shellcheck` `pre-commit` hook
+- Replaced `flake-utils` with `flake-parts`
+- Fixed `shellcheck` hook not running on shell scripts
+- Added `shellcheck` `pre-commit` hook
+- Added `no-todo` `pre-commit` hook
 - Fixed `systems` not being fetched in GitHub Actions
 - Added permanent `post-checkout` hook for setting `blame.ignoreRevsFile`
 - Added `.git-blame-ignore-revs`

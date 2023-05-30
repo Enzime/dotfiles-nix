@@ -42,10 +42,14 @@
   inputs.pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
   inputs.pre-commit-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils
-    , flake-utils-plus, agenix, deploy-rs, pre-commit-hooks, ... }:
+  inputs.flake-parts.url = "github:hercules-ci/flake-parts";
 
-    let
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
+    , agenix, deploy-rs, pre-commit-hooks, flake-parts, ... }:
+
+    nixpkgs.lib.recursiveUpdate
+
+    (let
       inherit (builtins) attrNames hasAttr filter getAttr readDir;
       inherit (nixpkgs.lib)
         concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs'
@@ -243,13 +247,30 @@
         nixos = true;
         modules = builtins.attrNames { inherit (modules) reflector vncserver; };
       }
-    ]) // (flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; };
-      in {
-        checks.pre-commit = pre-commit-hooks.lib.${system}.run {
+    ]))
+
+    (flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [ pre-commit-hooks.flakeModule ];
+      systems = import inputs.systems;
+      perSystem = { config, pkgs, system, ... }: {
+        _module.args.pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ (import ./overlays/identify.nix) ];
+        };
+
+        pre-commit.settings = {
           src = ./.;
           hooks.nixfmt.enable = true;
           hooks.nil.enable = true;
+          hooks.shellcheck.enable = true;
+
+          hooks.no-todo = {
+            enable = true;
+            name = "no TODOs";
+            entry = "${./files/no-todo.sh}";
+            language = "system";
+            pass_filenames = false;
+          };
         };
 
         devShells.default = pkgs.mkShell {
@@ -277,16 +298,18 @@
             fi
 
             git config --local core.hooksPath ""
-            ${self.checks.${system}.pre-commit.shellHook}
+            ${config.pre-commit.devShell.shellHook}
             git config --local core.hooksPath "$(git rev-parse --git-common-dir)/hooks"
           '';
         };
-      })) // ({
+      };
+      flake = {
         nixConfig = {
           extra-substituters = [ "https://enzime.cachix.org" ];
           extra-trusted-public-keys = [
             "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
           ];
         };
-      });
+      };
+    });
 }
