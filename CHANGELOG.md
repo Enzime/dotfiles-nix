@@ -1,3 +1,9 @@
+- Fixed `systems` not being fetched in GitHub Actions
+- Added permanent `post-checkout` hook for setting `blame.ignoreRevsFile`
+- Added `.git-blame-ignore-revs`
+- Fixed `pre-commit` refusing to install when `core.hooksPath` is set
+- Added `nixfmt` `pre-commit` hook
+- Changed `swayidle` to lock after 3 minutes
 - Removed usage of `inherit (x) "a.b"` as `nixfmt` doesn't support it
 - Run `nixfmt` on entire repo
 - Fixed `nix flake check`

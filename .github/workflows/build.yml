@@ -40,7 +40,7 @@ jobs:
           name: enzime
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ contains(matrix.runs-on, 'macOS') }}
-      - run: nix flake lock $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/--update-input &-overlay/' | paste -sd ' ' -)
+      - run: nix flake update
       - run: git reset --hard
       - run: nix flake check
         if: ${{ !contains(matrix.runs-on, 'macOS') }}

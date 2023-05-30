@@ -1,13 +1,17 @@
 {
   inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
 
-  inputs.nix-darwin.url = "github:Enzime/nix-darwin/synergy-tls";
+  inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.systems.url = "path:./flake.systems.nix";
+  inputs.systems.flake = false;
+
   inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs.flake-utils.inputs.systems.follows = "systems";
   inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
@@ -31,7 +35,7 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.pre-commit-hooks.url = "github:Enzime/pre-commit-hooks.nix/fix/nil";
+  inputs.pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   inputs.pre-commit-hooks.inputs.flake-compat.follows =
     "nix-overlay/nix/flake-compat";
   inputs.pre-commit-hooks.inputs.flake-utils.follows = "flake-utils";
@@ -244,17 +248,38 @@
       in {
         checks.pre-commit = pre-commit-hooks.lib.${system}.run {
           src = ./.;
+          hooks.nixfmt.enable = true;
           hooks.nil.enable = true;
         };
 
         devShells.default = pkgs.mkShell {
-          inherit (self.checks.${system}.pre-commit) shellHook;
-
           buildInputs = builtins.attrValues {
             inherit (home-manager.packages.${system}) home-manager;
             inherit (agenix.packages.${system}) agenix;
             inherit (deploy-rs.packages.${system}) deploy-rs;
           };
+
+          shellHook = ''
+            POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
+            TMPFILE=$(mktemp)
+            if curl -o $TMPFILE --fail https://raw.githubusercontent.com/Enzime/dotfiles-nix/HEAD/files/post-checkout; then
+              if [[ -e $POST_CHECKOUT_HOOK ]]; then
+                echo "Removing existing $POST_CHECKOUT_HOOK"
+                rm $POST_CHECKOUT_HOOK
+              fi
+              echo "Replacing $POST_CHECKOUT_HOOK with $TMPFILE"
+              cp $TMPFILE $POST_CHECKOUT_HOOK
+              chmod a+x $POST_CHECKOUT_HOOK
+            fi
+
+            if [[ -e $POST_CHECKOUT_HOOK ]]; then
+              $POST_CHECKOUT_HOOK
+            fi
+
+            git config --local core.hooksPath ""
+            ${self.checks.${system}.pre-commit.shellHook}
+            git config --local core.hooksPath "$(git rev-parse --git-common-dir)/hooks"
+          '';
         };
       })) // ({
         nixConfig = {

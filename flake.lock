@@ -84,11 +84,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1685253821,
-        "narHash": "sha256-vo8aKv/tmhKw2gekhQU3WNyigO9IismwRhwuRLVlubw=",
+        "lastModified": 1685256361,
+        "narHash": "sha256-DF26xdrN7qCqJEdKLN9GiKxBhcf0U56TmIkdzYNjcjM=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "4dd33ef800956c88a7ba0eb37eb3df7fba6a01fe",
+        "rev": "e62185746f8758e11a2fbca1e08e025f2b57e726",
         "type": "gitlab"
       },
       "original": {
@@ -110,7 +110,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-/8tz5Zyyge4OAHFKibzDW0vkJa9D4CTe0qDSuBIJCSM=",
+        "narHash": "sha256-v0X5HzAZK8oQ0zQdRPbTmw35YKS+Z1umxRhnLSWAZxU=",
         "path": "overlays/firefox-addons",
         "type": "path"
       },
@@ -137,7 +137,9 @@
     },
     "flake-utils": {
       "inputs": {
-        "systems": "systems"
+        "systems": [
+          "systems"
+        ]
       },
       "locked": {
         "lastModified": 1681202837,
@@ -261,16 +263,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1681795902,
-        "narHash": "sha256-TAJ58gQzDtsy+bbLom6Fx8RHMx5ulWFAocjg8cqT6TQ=",
-        "owner": "Enzime",
+        "lastModified": 1684774948,
+        "narHash": "sha256-hJTaw4dYzcB+lsasKejnafq0CxPsVetn9RLXrcL+4jE=",
+        "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "90b36a5efe003a388451af2e0f41774bcdc0d658",
+        "rev": "b8c286c82c6b47826a6c0377e7017052ad91353c",
         "type": "github"
       },
       "original": {
-        "owner": "Enzime",
-        "ref": "synergy-tls",
+        "owner": "LnL7",
         "repo": "nix-darwin",
         "type": "github"
       }
@@ -287,7 +288,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-nxxlSYTXO+RF4DYS8cs/bwAMMU+XYvWA+VWqCrPy5Yw=",
+        "narHash": "sha256-4i5lgz8fX76PKS9N7G/z8s9Lc77f1P/PP6E/5ako5eM=",
         "path": "overlays/nix",
         "type": "path"
       },
@@ -347,16 +348,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1685333180,
-        "narHash": "sha256-+JwspV8Bs5j/7dzssp7hHhPRLX2o99PN+WTvoOBI54s=",
-        "owner": "Enzime",
+        "lastModified": 1685361114,
+        "narHash": "sha256-4RjrlSb+OO+e1nzTExKW58o3WRwVGpXwj97iCta8aj4=",
+        "owner": "cachix",
         "repo": "pre-commit-hooks.nix",
-        "rev": "da695773e5d7a7da7c4c6c3ec3f14d00a7a36803",
+        "rev": "ca2fdbf3edda2a38140184da6381d49f8206eaf4",
         "type": "github"
       },
       "original": {
-        "owner": "Enzime",
-        "ref": "fix/nil",
+        "owner": "cachix",
         "repo": "pre-commit-hooks.nix",
         "type": "github"
       }
@@ -373,22 +373,21 @@
         "nix-darwin": "nix-darwin",
         "nix-overlay": "nix-overlay",
         "nixpkgs": "nixpkgs",
-        "pre-commit-hooks": "pre-commit-hooks"
+        "pre-commit-hooks": "pre-commit-hooks",
+        "systems": "systems"
       }
     },
     "systems": {
+      "flake": false,
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
+        "lastModified": 1,
+        "narHash": "sha256-vVzScsRbmnPaqV95d/EeafVX+KCHvDY7IPNSPvXJsEo=",
+        "path": "./flake.systems.nix",
+        "type": "path"
       },
       "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
+        "path": "./flake.systems.nix",
+        "type": "path"
       }
     }
   },
