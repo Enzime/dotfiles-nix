@@ -2,12 +2,6 @@
 
 let inherit (lib) mkForce;
 in {
-  home.file.".ssh/config".text = ''
-    Host *
-      IdentityAgent ~/.1password/agent.sock
-      ServerAliveInterval 120
-  '';
-
   wayland.windowManager.sway.config.output = {
     DP-1 = {
       mode = "3440x1440@144Hz";

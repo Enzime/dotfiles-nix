@@ -21,5 +21,4 @@
   };
 
   swapDevices = [{ device = "/dev/sdb"; }];
-
 }

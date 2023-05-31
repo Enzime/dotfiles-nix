@@ -1,3 +1,8 @@
+- Use 1Password SSH agents over SSH
+- Use `host` as `computerName` on macOS
+- Use 1Password SSH agent on `chi`
+- Fixed SSH public keys not working on `chi`
+- Added `S-{Home,End}` keybinds to `kitty`
 - Added shebang to `store-new-generation.sh` for `shellcheck` `pre-commit` hook
 - Replaced `flake-utils` with `flake-parts`
 - Fixed `shellcheck` hook not running on shell scripts

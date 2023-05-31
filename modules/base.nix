@@ -89,8 +89,10 @@ in {
     };
   };
 
-  darwinModule = { user, config, ... }: {
+  darwinModule = { user, host, config, ... }: {
     imports = [ shared ];
+
+    networking.computerName = host;
 
     users.users.${user}.home = "/Users/${user}";
 

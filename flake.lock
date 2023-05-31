@@ -281,15 +281,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1684774948,
-        "narHash": "sha256-hJTaw4dYzcB+lsasKejnafq0CxPsVetn9RLXrcL+4jE=",
-        "owner": "LnL7",
+        "lastModified": 1685535722,
+        "narHash": "sha256-tBfnwRy4TM6/9X3HtS5kE7YW7LVqw0+QuEiOTHa7qHY=",
+        "owner": "Enzime",
         "repo": "nix-darwin",
-        "rev": "b8c286c82c6b47826a6c0377e7017052ad91353c",
+        "rev": "f0c16a64617d0c7555a37032c3d1939d0585e2e6",
         "type": "github"
       },
       "original": {
-        "owner": "LnL7",
+        "owner": "Enzime",
+        "ref": "fix/ssh-pubkeys",
         "repo": "nix-darwin",
         "type": "github"
       }

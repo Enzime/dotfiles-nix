@@ -35,7 +35,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - uses: Enzime/cachix-action@HEAD
+      - uses: cachix/cachix-action@ea6f6e9b45e696e7d061ffdbec262b68272d07eb
         with:
           name: enzime
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'

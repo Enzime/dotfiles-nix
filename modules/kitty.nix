@@ -16,6 +16,8 @@
     programs.kitty.keybindings = {
       "shift+page_up" = "scroll_page_up";
       "shift+page_down" = "scroll_page_down";
+      "shift+home" = "scroll_home";
+      "shift+end" = "scroll_end";
     };
     programs.kitty.settings = {
       bold_font = "DejaVu Sans Mono Bold";
