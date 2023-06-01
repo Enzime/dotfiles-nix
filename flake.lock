@@ -318,11 +318,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1685248776,
-        "narHash": "sha256-trH7jhpSaeXxhgzc4YJQk1zYcT3KZk9qmfs6XGt/6MI=",
+        "lastModified": 1685629783,
+        "narHash": "sha256-wNc0g9Pg7GbOZH0kRYs0sx401MXzNf5aNapheaMfk1I=",
         "owner": "Enzime",
         "repo": "nixpkgs",
-        "rev": "e83c65ea0d847d664df14e4a0a7d48781c8a3728",
+        "rev": "f45327be27919067a74fe7c5b98ebbdcc70c787e",
         "type": "github"
       },
       "original": {

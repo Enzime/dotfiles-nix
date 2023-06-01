@@ -1,3 +1,5 @@
+- Fixed `.zshrc` failing if `.zshrc.secrets` doesn't exist
+- Added `hishtory`
 - Refactored Firefox profiles into `base`, `personal` and `work`
 - Use 1Password SSH agents over SSH
 - Use `host` as `computerName` on macOS

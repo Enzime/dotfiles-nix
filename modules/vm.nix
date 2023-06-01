@@ -32,8 +32,6 @@
   hmModule = { inputs, lib, pkgs, ... }@args:
     let inherit (lib) hasAttrByPath mkIf mkVMOverride;
     in mkIf (hasAttrByPath [ "osConfig" "virtualisation" "diskImage" ] args) {
-      home.file.".zshrc.secrets".text = "";
-
       services.polybar.config."bar/centre".monitor = mkVMOverride "Virtual-1";
 
       xsession.windowManager.i3.config.workspaceOutputAssign = mkVMOverride [{

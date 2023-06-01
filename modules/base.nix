@@ -123,7 +123,8 @@ in {
       # Replace `with pkgs;` with `inherit (pkgs)`
       # https://nix.dev/anti-patterns/language#with-attrset-expression
       home.packages = builtins.attrValues {
-        inherit (pkgs) peco ripgrep jq htop ranger tmux tree magic-wormhole-rs;
+        inherit (pkgs)
+          peco ripgrep jq htop ranger tmux tree magic-wormhole-rs hishtory;
 
         reptyr = mkIf hostPlatform.isLinux pkgs.reptyr;
       };
@@ -245,7 +246,9 @@ in {
           expireDuplicatesFirst = true;
         };
 
-        initExtra = readFile ../files/zshrc;
+        initExtra = readFile ../files/zshrc + ''
+          source ${pkgs.hishtory}/share/hishtory/config.zsh
+        '';
 
         shellAliases = {
           _ = "\\sudo ";
