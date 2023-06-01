@@ -72,10 +72,7 @@
       (config.programs.git.ignores ++ [ ".direnv/" ".envrc" "shell.nix" ])
       + "\n";
 
-    programs.firefox.profiles.default.extensions = [
-      pkgs.firefox-addons.multi-account-containers
-      pkgs.firefox-addons.open-url-in-container
-    ];
+    programs.firefox.profiles.work.isDefault = true;
 
     programs.vscode.extensions = [
       pkgs.vscode-extensions.graphql.vscode-graphql

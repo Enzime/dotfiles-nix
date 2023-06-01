@@ -1,5 +1,5 @@
 {
-  hmModule = { pkgs, lib, ... }:
+  hmModule = { config, pkgs, lib, ... }:
     let inherit (pkgs.stdenv) hostPlatform;
     in {
       home.activation.setDefaultBrowser = lib.mkIf hostPlatform.isDarwin
@@ -15,14 +15,16 @@
         pkgs.firefox-bin-unwrapped
       else
         pkgs.firefox;
-      programs.firefox.profiles.default = {
-        isDefault = true;
+      programs.firefox.profiles.base = {
+        id = 0;
+
         extensions = [
           pkgs.firefox-addons.onepassword-password-manager
           pkgs.firefox-addons.clearurls
           pkgs.firefox-addons.ublock-origin
           pkgs.firefox-addons.youtube-nonstop
         ];
+
         search = {
           default = "DuckDuckGo";
           engines = {
@@ -35,6 +37,7 @@
           };
           force = true;
         };
+
         settings = {
           "browser.privatebrowsing.vpnpromourl" = "";
           "datareporting.healthreport.uploadEnabled" = false;

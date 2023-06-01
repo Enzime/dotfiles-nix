@@ -1,3 +1,4 @@
+- Refactored Firefox profiles into `base`, `personal` and `work`
 - Use 1Password SSH agents over SSH
 - Use `host` as `computerName` on macOS
 - Use 1Password SSH agent on `chi`
