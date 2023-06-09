@@ -1,3 +1,8 @@
+- Fixed `chi` not getting built by GitHub Actions
+- Fixed `VSCode` extensions not working over SSH on `echo`
+- Fixed `VSCode` getting added to the Dock when using `graphical-minimal`
+- Added `echo`
+- Added `darwin.builder`
 - Fixed `.zshrc` failing if `.zshrc.secrets` doesn't exist
 - Added `hishtory`
 - Refactored Firefox profiles into `base`, `personal` and `work`

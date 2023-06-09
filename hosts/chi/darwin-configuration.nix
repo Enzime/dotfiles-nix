@@ -12,8 +12,6 @@
     url = "file:///Users/${user}/Projects/nix-darwin";
   };
 
-  # WORKAROUND: Screensaver starts on the login screen and cannot be closed from VNC
-  system.activationScripts.extraActivation.text = ''
-    defaults write /Library/Preferences/com.apple.screensaver loginWindowIdleTime 0
-  '';
+  nix.linux-builder.enable = true;
+  nix.settings.extra-trusted-users = [ user ];
 }

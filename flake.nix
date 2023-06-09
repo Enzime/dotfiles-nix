@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
 
-  inputs.nix-darwin.url = "github:Enzime/nix-darwin/fix/ssh-pubkeys";
+  inputs.nix-darwin.url = "github:Enzime/nix-darwin/localhost";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";
@@ -165,7 +165,7 @@
                   home-manager.extraSpecialArgs = extraHomeManagerArgs;
                 }
               ];
-              specialArgs = { inherit user host hostname; };
+              specialArgs = { inherit user host hostname keys; };
             };
           } else
             { };
@@ -238,6 +238,12 @@
         user = "michael.hoang";
         system = "aarch64-darwin";
         modules = builtins.attrNames { inherit (modules) laptop work; };
+      }
+      {
+        host = "echo";
+        user = "builder";
+        system = "aarch64-darwin";
+        modules = builtins.attrNames { inherit (modules) graphical-minimal; };
       }
       {
         host = "eris";

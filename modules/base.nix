@@ -1,5 +1,5 @@
 let
-  shared = { config, inputs, user, host, hostname, pkgs, lib, ... }: {
+  shared = { config, inputs, user, host, hostname, keys, pkgs, lib, ... }: {
     networking.hostName = hostname;
 
     time.timeZone = "Australia/Melbourne";
@@ -11,6 +11,11 @@ let
       inputs.agenix.packages.${pkgs.system}.default
       inputs.deploy-rs.packages.${pkgs.system}.default
     ];
+
+    users.users.${user} = {
+      openssh.authorizedKeys.keys =
+        builtins.attrValues { inherit (keys.users) enzime; };
+    };
 
     # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
     nix.linkInputs = true;

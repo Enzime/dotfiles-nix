@@ -281,16 +281,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1685535722,
-        "narHash": "sha256-tBfnwRy4TM6/9X3HtS5kE7YW7LVqw0+QuEiOTHa7qHY=",
+        "lastModified": 1686304774,
+        "narHash": "sha256-hCWb5SXaHW+UeV4ZHE8f95uSvirsH+Mnvy4g/JotWNI=",
         "owner": "Enzime",
         "repo": "nix-darwin",
-        "rev": "f0c16a64617d0c7555a37032c3d1939d0585e2e6",
+        "rev": "530ddcb7167015b4998ef768918d01dffa19fa49",
         "type": "github"
       },
       "original": {
         "owner": "Enzime",
-        "ref": "fix/ssh-pubkeys",
+        "ref": "localhost",
         "repo": "nix-darwin",
         "type": "github"
       }
@@ -318,11 +318,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1685629783,
-        "narHash": "sha256-wNc0g9Pg7GbOZH0kRYs0sx401MXzNf5aNapheaMfk1I=",
+        "lastModified": 1686106518,
+        "narHash": "sha256-7h+Sx/vSwZcAr/JYbhbBEY/B/3EkzMX9MYvt0xAlDgA=",
         "owner": "Enzime",
         "repo": "nixpkgs",
-        "rev": "f45327be27919067a74fe7c5b98ebbdcc70c787e",
+        "rev": "a71c2644cce249e67e901daf2db76476b7a15c56",
         "type": "github"
       },
       "original": {

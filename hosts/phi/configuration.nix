@@ -58,7 +58,7 @@
 
   users.users.${user} = {
     openssh.authorizedKeys.keys = builtins.attrValues {
-      inherit (keys.users) enzime_sigma;
+      inherit (keys.users) enzime;
       inherit (keys.hosts) sigma;
     };
   };

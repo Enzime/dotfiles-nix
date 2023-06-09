@@ -3,15 +3,10 @@
 
   darwinModule = { pkgs, ... }: {
     environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) rectangle spotify; };
+      builtins.attrValues { inherit (pkgs) spotify; };
 
     system.activationScripts.extraActivation.text = ''
       cp ${pkgs._1password}/bin/op /usr/local/bin/op
-    '';
-
-    # Close Terminal if shell exited cleanly
-    system.activationScripts.extraUserActivation.text = ''
-      plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
     '';
 
     services.karabiner-elements.enable = true;
@@ -33,8 +28,17 @@
     programs._1password.enable = true;
   };
 
-  hmModule = { config, pkgs, ... }: {
+  hmModule = { config, pkgs, lib, ... }: {
     programs.vscode.package = pkgs.vscode;
+
+    # WORKAROUND: home-manager uses `sudo -u` to run activation scripts as the correct user
+    #             however dockutil uses `SUDO_USER` to determine the user who ran the command
+    #             meaning that it attempts to edit root's Dock intead of the current user
+    home.activation.addVSCodeToDock = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+      (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        echo "adding Visual Studio Code.app to the dock"
+        SUDO_USER= ${pkgs.dockutil}/bin/dockutil --add "${config.programs.vscode.package}/Applications/Visual Studio Code.app" --replacing "Visual Studio Code"
+      '');
 
     home.file.".ssh/config".text = let
       _1password-agent = if pkgs.stdenv.hostPlatform.isDarwin then

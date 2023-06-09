@@ -63,6 +63,13 @@
       }
     '';
 
+    programs.git.extraConfig = {
+      gpg.format = "ssh";
+      gpg.ssh.program =
+        "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+    };
+
     programs.git.includes = [{
       condition = "gitdir:~/Work/";
       path = "~/.config/git/config.work";

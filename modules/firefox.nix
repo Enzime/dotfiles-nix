@@ -5,7 +5,7 @@
       home.activation.setDefaultBrowser = lib.mkIf hostPlatform.isDarwin
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
-            open ~/Applications/Home\ Manager\ Apps/Firefox.app
+            /usr/bin/open ~/Applications/Home\ Manager\ Apps/Firefox.app
             ${lib.getExe pkgs.defaultbrowser} firefox
           fi
         '');
