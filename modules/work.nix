@@ -61,6 +61,14 @@
       function agenix {
           $(which -p agenix) $@ -i =(op read $OP_SSH_KEY_URL)
       }
+
+      function aws-login {
+          for profile in $PROFILES_TO_OPEN; do
+              echo $profile
+              URL=$(aws-vault login $profile --region ap-southeast-2 --stdout | jq -Rr @uri)
+              open -a Firefox --new --args "ext+container:name=$profile&url=$URL"
+          done
+      }
     '';
 
     programs.git.extraConfig = {

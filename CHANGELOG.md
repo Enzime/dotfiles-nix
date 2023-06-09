@@ -1,3 +1,4 @@
+- Added `aws-login` function for `work`
 - Fixed `chi` not getting built by GitHub Actions
 - Fixed `VSCode` extensions not working over SSH on `echo`
 - Fixed `VSCode` getting added to the Dock when using `graphical-minimal`
