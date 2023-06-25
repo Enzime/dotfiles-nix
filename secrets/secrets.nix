@@ -40,6 +40,11 @@ in {
     inherit (hosts) upsilon;
   };
 
+  "x11vnc_achilles.age".publicKeys = builtins.attrValues {
+    inherit (users) enzime;
+    inherit (hosts) achilles;
+  };
+
   "x11vnc_phi.age".publicKeys = builtins.attrValues {
     inherit (users) enzime_phi;
     inherit (hosts) phi;

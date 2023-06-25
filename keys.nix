@@ -8,16 +8,25 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHwM0sVLdolDXb7LyKMT6Jfym0dP1NSgJClHcIOga+fa";
     "michael.hoang_upsilon" =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIItcLLX1d9G1+SdjaMkAAmlkQ34L8OUN7KwWQkGblK1";
-    nathan =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHZcON5uabdGPUp5Sf161wShGEwhNklD8w50f6EnkPgo";
   };
 
   hosts = {
+    achilles =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVe7IzmmpOy7zhqQoxPrSgFQHpeCEwFuIRO/vEEfEJn";
+    echo =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9lGmlJLo3tQoCfyplj2pWoIdB0lPZJm4cEdo/rKExR";
     phi =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxOi/S1TLBg8/ZRX5XfCTlM8A+I0q0pQksrxtfjdYFP";
     sigma =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxRoznXzz/T6s5UeHG1uoHCXGfXSpy27eTEzC0/EUW+";
     upsilon =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKg43qekSo5Cv4eEFJTLXTuXt8w2rsFtY1QLuB5Qlofp";
+  };
+
+  signing = {
+    "enzime.cachix.org" =
+      "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4=";
+    chi-linux-builder =
+      "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs=";
   };
 }

@@ -21,6 +21,9 @@ jobs:
           - name: upsilon
             output: darwinConfigurations.upsilon.system
             runs-on: [macOS, ARM64]
+          - name: achilles
+            output: nixosConfigurations.achilles.config.system.build.toplevel
+            runs-on: [macOS, ARM64]
           - name: echo
             output: darwinConfigurations.echo.system
             runs-on: [macOS, ARM64]
@@ -31,13 +34,20 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}
     steps:
-      - uses: actions/checkout@v3.1.0
-      - uses: cachix/install-nix-action@v20
+      - name: Free space on GitHub-hosted Runner
+        if: ${{ matrix.runs-on == 'ubuntu-latest' }}
+        run: |
+          # 13.5GiB
+          sudo rm -rf /usr/local/lib/android
+          # 8.6GiB
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          # 4.7GiB
+          sudo rm -rf /usr/local/.ghcup
+      - uses: actions/checkout@v3.5.3
+      - uses: cachix/install-nix-action@v22
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.15.1/install
+          install_url: https://releases.nixos.org/nix/nix-2.16.1/install
           nix_path: nixpkgs=channel:nixos-unstable
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - uses: cachix/cachix-action@ea6f6e9b45e696e7d061ffdbec262b68272d07eb
         with:
           name: enzime
@@ -46,5 +56,4 @@ jobs:
       - run: nix flake update
       - run: git reset --hard
       - run: nix flake check
-        if: ${{ !contains(matrix.runs-on, 'macOS') }}
       - run: nix build --print-build-logs .#${{ matrix.output }}

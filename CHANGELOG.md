@@ -1,3 +1,32 @@
+- Fixed Tailscale MagicDNS on macOS
+- Fixed Tailscale MagicDNS changing DNS servers on `upsilon`
+- Fixed `cachix push` failing on `echo` with paths built by `chi-linux-builder`
+- Updated `nix` to `2.17.0pre20230624_60f06a1`
+- Removed `deploy-rs`
+- Fixed `ubuntu-latest` GitHub-hosted Runners running out of space
+- Removed assert guard on Nix version
+- Updated `pre-commit-hooks.nix`
+- Fixed `nix flake check`
+- Use `chi-linux-builder` on `echo`
+- Enabled Tailscale in `chi-linux-builder`
+- Moved `linux-builder` to module
+- Fixed 1Password SSH agent forwarding not working inside `VSCode`
+- Fixed clipboard sharing between macOS host and `achilles`
+- Use `Option` and `Command` as `Super` and `Alt` on `achilles`
+- Added `mullvad` module
+- Use `remmina` on `achilles`
+- Fixed `LUKS` unlock not showing on `achilles`
+- Use `x11vnc` on `achilles`
+- Refactored `{i3,sway}.config.modifier` to be easier to override
+- Use `i3` on `achilles`
+- Fixed `vscode-neovim` not working remotely
+- Use `networking.useDHCP`
+- Added `achilles`
+- Fixed `Remote SSH` failing to connect to NixOS hosts
+- Updated `disko`
+- Removed `nixpkgs.hostPlatform` from `hardware-configuration.nix`
+- Use `hardware.enableRedistributableFirmware` instead of importing `installer/scan/not-detected.nix`
+- Removed `synergy` on `upsilon`
 - Added `aws-login` function for `work`
 - Fixed `chi` not getting built by GitHub Actions
 - Fixed `VSCode` extensions not working over SSH on `echo`

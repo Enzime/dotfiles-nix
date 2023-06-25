@@ -12,8 +12,6 @@
   # Living on the edge for Navi10
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.interfaces.enp34s0.useDHCP = true;
-
   networking.nameservers = [ "1.1.1.1" ];
   networking.dhcpcd.extraConfig = ''
     nohook resolv.conf

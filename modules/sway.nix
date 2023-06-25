@@ -37,7 +37,7 @@
       floating.criteria = [{ "app_id" = "^floating$"; }];
 
       keybindings = let
-        mod = "Mod1";
+        mod = config.wayland.windowManager.sway.config.modifier;
         screenshotFilename =
           "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
         grim = "${pkgs.grim}/bin/grim";

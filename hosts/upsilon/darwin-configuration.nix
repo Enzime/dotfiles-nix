@@ -1,5 +1,5 @@
 { user, ... }: {
-  networking.knownNetworkServices = [ "Wi-Fi" ];
+  services.tailscale.overrideLocalDns = false;
 
   nix.registry.ln.to = {
     type = "git";
@@ -9,8 +9,4 @@
     type = "git";
     url = "file:///Users/${user}/Code/nix-darwin";
   };
-
-  services.synergy.client.enable = true;
-  services.synergy.client.serverAddress = "phi-nixos.local";
-  services.synergy.client.tls.enable = true;
 }

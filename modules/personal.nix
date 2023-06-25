@@ -1,10 +1,7 @@
 {
-  imports = [ "graphical" "i18n" "ios" "pim" ];
+  imports = [ "graphical" "i18n" "ios" "mullvad" "pim" ];
 
   nixosModule = { user, pkgs, ... }: {
-    services.mullvad-vpn.enable = true;
-    services.mullvad-vpn.package = pkgs.mullvad-vpn;
-
     services.resilio.enable = true;
     services.resilio.listeningPort = 44444;
     services.resilio.enableWebUI = true;

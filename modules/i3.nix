@@ -48,7 +48,7 @@
       floating.criteria = [{ "instance" = "^floating$"; }];
 
       keybindings = let
-        mod = "Mod1";
+        mod = config.xsession.windowManager.i3.config.modifier;
         screenshotFilename =
           "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
         i3-ws = "${pkgs.i3-ws}/bin/i3-ws";

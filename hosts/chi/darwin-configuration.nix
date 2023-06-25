@@ -11,7 +11,4 @@
     type = "git";
     url = "file:///Users/${user}/Projects/nix-darwin";
   };
-
-  nix.linux-builder.enable = true;
-  nix.settings.extra-trusted-users = [ user ];
 }

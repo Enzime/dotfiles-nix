@@ -9,7 +9,6 @@ let
     }) ++ [
       inputs.home-manager.packages.${pkgs.system}.default
       inputs.agenix.packages.${pkgs.system}.default
-      inputs.deploy-rs.packages.${pkgs.system}.default
     ];
 
     users.users.${user} = {
@@ -67,6 +66,8 @@ in {
     environment.etc."nixos".source =
       "${config.users.users.${user}.home}/dotfiles";
 
+    hardware.enableRedistributableFirmware = true;
+
     home-manager.users.root.home.stateVersion = "22.11";
     home-manager.users.root.programs.git.enable = true;
     home-manager.users.root.programs.git.extraConfig.safe.directory =
@@ -76,9 +77,7 @@ in {
     programs.neovim.vimAlias = true;
     programs.neovim.defaultEditor = true;
 
-    # Setting `useDHCP` globally is deprecated
-    # manually set `useDHCP` for individual interfaces
-    networking.useDHCP = false;
+    networking.useDHCP = true;
 
     networking.firewall.trustedInterfaces =
       [ config.services.tailscale.interfaceName ];
@@ -94,7 +93,7 @@ in {
     };
   };
 
-  darwinModule = { user, host, config, ... }: {
+  darwinModule = { user, host, config, lib, ... }: {
     imports = [ shared ];
 
     networking.computerName = host;
@@ -103,11 +102,7 @@ in {
 
     services.nix-daemon.enable = true;
 
-    # WORKAROUND: Using MagicDNS (through nix-darwin) without setting a fallback
-    # DNS server leads to taking a lot longer to connect to the internet.
-    networking.dns = [ "1.1.1.1" ];
-
-    services.tailscale.magicDNS.enable = true;
+    services.tailscale.overrideLocalDns = lib.mkDefault true;
 
     # WORKAROUND: `systemsetup -f -setremotelogin on` requires `Full Disk Access`
     # permission for the Application calling it
@@ -252,7 +247,9 @@ in {
         };
 
         initExtra = readFile ../files/zshrc + ''
-          source ${pkgs.hishtory}/share/hishtory/config.zsh
+          if [[ -d ~/.hishtory ]]; then
+            source ${pkgs.hishtory}/share/hishtory/config.zsh
+          fi
         '';
 
         shellAliases = {

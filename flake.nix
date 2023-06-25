@@ -27,11 +27,6 @@
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.deploy-rs.url = "github:serokell/deploy-rs";
-  inputs.deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.deploy-rs.inputs.utils.follows = "flake-utils";
-  inputs.deploy-rs.inputs.flake-compat.follows = "nix-overlay/nix/flake-compat";
-
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -45,7 +40,7 @@
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
-    , agenix, deploy-rs, pre-commit-hooks, flake-parts, ... }:
+    , agenix, disko, pre-commit-hooks, flake-parts, ... }:
 
     nixpkgs.lib.recursiveUpdate
 
@@ -124,6 +119,7 @@
               modules = [
                 flake-utils-plus.nixosModules.autoGenFromInputs
                 agenix.nixosModules.age
+                disko.nixosModules.disko
                 ./hosts/${host}/configuration.nix
               ] ++ nixosModules ++ [
                 home-manager.nixosModules.home-manager
@@ -176,42 +172,23 @@
           homeConfigurations."${user}@${hostname}" =
             home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
-              modules = [
-                ({ ... }: {
-                  home.username = user;
-                  home.homeDirectory = if (hasSuffix "linux" system) then
-                    "/home/${user}"
-                  else
-                    "/Users/${user}";
-                })
-              ] ++ home;
+              modules = [({
+                home.username = user;
+                home.homeDirectory = if (hasSuffix "linux" system) then
+                  "/home/${user}"
+                else
+                  "/Users/${user}";
+              })] ++ home;
               extraSpecialArgs = extraHomeManagerArgs;
             };
-
-          deploy.nodes = if nixos then {
-            ${hostname} = {
-              hostname = host;
-              sshUser = "root";
-
-              profiles.system = {
-                user = "root";
-                path = deploy-rs.lib.${system}.activate.nixos
-                  self.nixosConfigurations.${hostname};
-              };
-            };
-          } else
-            { };
-
-          checks = builtins.mapAttrs
-            (system: deployLib: deployLib.deployChecks self.deploy)
-            deploy-rs.lib;
         };
     in (mkConfigurations [
       {
         host = "chi";
         user = "enzime";
         system = "aarch64-darwin";
-        modules = builtins.attrNames { inherit (modules) personal; };
+        modules =
+          builtins.attrNames { inherit (modules) linux-builder personal; };
       }
       {
         host = "phi";
@@ -238,6 +215,16 @@
         user = "michael.hoang";
         system = "aarch64-darwin";
         modules = builtins.attrNames { inherit (modules) laptop work; };
+      }
+      {
+        host = "achilles";
+        hostSuffix = "";
+        user = "enzime";
+        system = "aarch64-linux";
+        nixos = true;
+        modules = builtins.attrNames {
+          inherit (modules) i3 graphical-minimal mullvad sway x11vnc;
+        };
       }
       {
         host = "echo";
@@ -283,7 +270,6 @@
           buildInputs = builtins.attrValues {
             inherit (home-manager.packages.${system}) home-manager;
             inherit (agenix.packages.${system}) agenix;
-            inherit (deploy-rs.packages.${system}) deploy-rs;
           };
 
           shellHook = ''
@@ -303,18 +289,16 @@
               $POST_CHECKOUT_HOOK
             fi
 
-            git config --local core.hooksPath ""
             ${config.pre-commit.devShell.shellHook}
-            git config --local core.hooksPath "$(git rev-parse --git-common-dir)/hooks"
           '';
         };
       };
       flake = {
+        keys = import ./keys.nix;
+
         nixConfig = {
           extra-substituters = [ "https://enzime.cachix.org" ];
-          extra-trusted-public-keys = [
-            "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
-          ];
+          extra-trusted-public-keys = [ self.keys.signing."enzime.cachix.org" ];
         };
       };
     });

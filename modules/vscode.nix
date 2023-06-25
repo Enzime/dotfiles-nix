@@ -11,14 +11,6 @@
       home.file.".vscode-server/extensions".source =
         config.home.file.".vscode/extensions".source;
 
-      home.file.".vscode-server/data/Machine/settings.json".source =
-        config.home.file."${
-          if hostPlatform.isDarwin then
-            "Library/Application Support"
-          else
-            config.xdg.configHome
-        }/Code/User/settings.json".source;
-
       programs.vscode.enable = true;
       # Don't install `vscode` unless `graphical` module is specified
       programs.vscode.package = lib.mkDefault (pkgs.emptyDirectory // {
@@ -254,6 +246,12 @@
             "terminal.ansiBrightWhite" = "#fff5ed";
           };
         };
+
+      home.file.".vscode-server/data/Machine/settings.json".text = ''
+        {
+          "nix.serverPath": "${pkgs.nil}/bin/nil"
+        }
+      '';
 
       programs.git.extraConfig.core.editor =
         "${pkgs.writeShellScript "use-vscode-sometimes" ''

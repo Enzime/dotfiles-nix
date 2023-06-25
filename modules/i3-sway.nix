@@ -1,7 +1,7 @@
 {
   imports = [ "graphical-minimal" ];
 
-  hmModule = { pkgs, ... }:
+  hmModule = { config, pkgs, ... }:
     let
       sharedConfig = {
         bars = [ ];
@@ -40,7 +40,9 @@
           always = true;
         }];
 
-        keybindings = let mod = "Mod1";
+        modifier = "Mod1";
+
+        keybindings = let mod = sharedConfig.modifier;
         in {
           "XF86AudioMute" = "exec ${pkgs.pamixer}/bin/pamixer -t";
           "XF86AudioLowerVolume" = "exec ${pkgs.pamixer}/bin/pamixer -d 5";

@@ -8,8 +8,6 @@
   boot.loader.grub.device = "nodev";
   boot.loader.timeout = 10;
 
-  networking.interfaces.enp0s4.useDHCP = true;
-
   services.openssh.enable = lib.mkForce false;
 
   services.tailscale.useRoutingFeatures = "server";

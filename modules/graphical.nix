@@ -2,8 +2,7 @@
   imports = [ "graphical-minimal" "mpv" ];
 
   darwinModule = { pkgs, ... }: {
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) spotify; };
+    environment.systemPackages = builtins.attrValues { inherit (pkgs) utm; };
 
     system.activationScripts.extraActivation.text = ''
       cp ${pkgs._1password}/bin/op /usr/local/bin/op
@@ -14,10 +13,11 @@
 
   nixosModule = { user, pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) qalculate-gtk remmina;
+      inherit (pkgs) spotify-tray;
 
-      # Install Spotify as well for icons
-      inherit (pkgs) spotify spotify-tray;
+      remmina =
+        assert !builtins.elem "aarch64-darwin" pkgs.remmina.meta.platforms;
+        pkgs.remmina;
     };
 
     services.xserver.displayManager.gdm.enable = true;
@@ -29,6 +29,13 @@
   };
 
   hmModule = { config, pkgs, lib, ... }: {
+    home.packages = builtins.attrValues {
+      inherit (pkgs) qalculate-gtk;
+
+      # Spotify is only necessary for the icons on Linux
+      inherit (pkgs) spotify;
+    };
+
     programs.vscode.package = pkgs.vscode;
 
     # WORKAROUND: home-manager uses `sudo -u` to run activation scripts as the correct user
@@ -46,7 +53,7 @@
       else
         "~/.1password/agent.sock";
     in ''
-      Match host * exec "test -z $SSH_TTY"
+      Match host * exec "test -z $SSH_CONNECTION"
         IdentityAgent "${_1password-agent}"
         ForwardAgent yes
 
