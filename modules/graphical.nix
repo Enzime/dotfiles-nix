@@ -2,7 +2,14 @@
   imports = [ "graphical-minimal" "mpv" ];
 
   darwinModule = { pkgs, ... }: {
-    environment.systemPackages = builtins.attrValues { inherit (pkgs) utm; };
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) raycast utm; };
+
+    launchd.user.agents.raycast = {
+      serviceConfig.ProgramArguments =
+        [ "/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast" ];
+      serviceConfig.RunAtLoad = true;
+    };
 
     system.activationScripts.extraActivation.text = ''
       cp ${pkgs._1password}/bin/op /usr/local/bin/op
@@ -69,7 +76,6 @@
       inherit (config.programs.firefox.profiles.base) search settings;
 
       extensions = config.programs.firefox.profiles.base.extensions ++ [
-        pkgs.firefox-addons.bing-chat-for-all-browsers
         pkgs.firefox-addons.copy-selected-links
         pkgs.firefox-addons.ff2mpv
         pkgs.firefox-addons.hover-zoom-plus

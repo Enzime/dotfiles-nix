@@ -1,3 +1,8 @@
+- Removed `bing-chat-for-all-browsers`
+- Changed `echo` to start on login
+- Fixed `tmux-256color` terminfo not found
+- Fixed `raycast` not starting automatically on login
+- Added `raycast`
 - Fixed Tailscale MagicDNS on macOS
 - Fixed Tailscale MagicDNS changing DNS servers on `upsilon`
 - Fixed `cachix push` failing on `echo` with paths built by `chi-linux-builder`
