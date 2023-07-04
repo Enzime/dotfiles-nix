@@ -1,3 +1,5 @@
+- Removed unnecessary `networking.interfaces` override in `vm`
+- Updated `joplin-desktop` for AES-256 support
 - Removed `bing-chat-for-all-browsers`
 - Changed `echo` to start on login
 - Fixed `tmux-256color` terminfo not found
