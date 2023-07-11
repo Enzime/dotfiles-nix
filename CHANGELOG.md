@@ -1,3 +1,4 @@
+- Use garbage collection on `chi`
 - Removed unnecessary `networking.interfaces` override in `vm`
 - Updated `joplin-desktop` for AES-256 support
 - Removed `bing-chat-for-all-browsers`
