@@ -1,7 +1,7 @@
 {
   darwinModule = { user, host, keys, pkgs, ... }: {
     nix.linux-builder.enable = true;
-    nix.linux-builder.package = pkgs.darwin.builder.override {
+    nix.linux-builder.package = pkgs.darwin.linux-builder.override {
       modules = [
         ({ config, pkgs, ... }: {
           networking.hostName = "${host}-linux-builder";

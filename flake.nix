@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
 
-  inputs.nix-darwin.url = "github:Enzime/nix-darwin/localhost";
+  inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";
@@ -161,7 +161,7 @@
                   home-manager.extraSpecialArgs = extraHomeManagerArgs;
                 }
               ];
-              specialArgs = { inherit user host hostname keys; };
+              specialArgs = { inherit configRevision user host hostname keys; };
             };
           } else
             { };
@@ -248,7 +248,10 @@
       perSystem = { config, pkgs, system, ... }: {
         _module.args.pkgs = import nixpkgs {
           inherit system;
-          overlays = [ (import ./overlays/identify.nix) ];
+          overlays = [
+            (import ./overlays/identify.nix)
+            (inputs.nix-overlay.outputs.overlay)
+          ];
         };
 
         pre-commit.settings = {

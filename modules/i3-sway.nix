@@ -35,11 +35,6 @@
           };
         };
 
-        startup = [{
-          command = "${pkgs.kitti3}/bin/kitti3";
-          always = true;
-        }];
-
         modifier = "Mod1";
 
         keybindings = let mod = sharedConfig.modifier;
@@ -48,8 +43,7 @@
           "XF86AudioLowerVolume" = "exec ${pkgs.pamixer}/bin/pamixer -d 5";
           "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
 
-          "${mod}+Return" = "exec kitty";
-          "${mod}+Shift+Return" = "nop kitti3";
+          "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
 
           "Mod4+e" = "exec ${pkgs.shutdown-menu}";
 

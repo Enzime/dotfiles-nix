@@ -1,3 +1,16 @@
+- Changed timeout for generating `nvim/rplugin.vim`
+- Fixed `/etc/fwupd/uefi_capsule.conf` no longer existing
+- Removed `auto-optimise-store` on macOS as it leads to intermittent build failures
+- Fixed `nix flake check`
+- Use `system.configurationRevision` on macOS
+- Use `darwin.linux-builder` instead of `darwin.builder`
+- Fixed cursor colour in `alacritty`
+- Use `alacritty` instead of `kitty`
+- Removed `kitti3`
+- Removed `nixos-option` as it does not build with Nix 2.17
+- Fixed `nil` not building with Nix 2.17
+- Removed `kitty` patches
+- Use `nixpkgs.source` on macOS
 - Use garbage collection on `chi`
 - Removed unnecessary `networking.interfaces` override in `vm`
 - Updated `joplin-desktop` for AES-256 support

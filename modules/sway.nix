@@ -59,6 +59,9 @@
             ''
           }";
 
+        "${mod}+Shift+Return" =
+          "exec ${pkgs.alacritty}/bin/alacritty -o window.class.general=floating";
+
         "${mod}+1" = "workspace number 1";
         "${mod}+2" = "workspace number 2";
         "${mod}+3" = "workspace number 3";

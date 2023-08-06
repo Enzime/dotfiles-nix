@@ -21,7 +21,7 @@
         primary.background = "#0d0c0c";
         primary.foreground = "#fff5ed";
 
-        cursor.text = "#00ccff";
+        cursor.cursor = "#00ccff";
 
         normal.black = "#0a0a0a";
         normal.red = "#e61f00";

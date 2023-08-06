@@ -1,46 +1,50 @@
 let
-  shared = { config, inputs, user, host, hostname, keys, pkgs, lib, ... }: {
-    networking.hostName = hostname;
+  shared = { config, configRevision, inputs, user, host, hostname, keys, pkgs
+    , lib, ... }: {
+      # Add flake revision to `nixos-version --json`
+      system.configurationRevision = configRevision.full;
 
-    time.timeZone = "Australia/Melbourne";
+      networking.hostName = hostname;
 
-    environment.systemPackages = (builtins.attrValues {
-      inherit (pkgs) killall wget ranger zip unzip sshfs;
-    }) ++ [
-      inputs.home-manager.packages.${pkgs.system}.default
-      inputs.agenix.packages.${pkgs.system}.default
-    ];
+      time.timeZone = "Australia/Melbourne";
 
-    users.users.${user} = {
-      openssh.authorizedKeys.keys =
-        builtins.attrValues { inherit (keys.users) enzime; };
+      environment.systemPackages = (builtins.attrValues {
+        inherit (pkgs) killall wget ranger zip unzip sshfs;
+      }) ++ [
+        inputs.home-manager.packages.${pkgs.system}.default
+        inputs.agenix.packages.${pkgs.system}.default
+      ];
+
+      users.users.${user} = {
+        openssh.authorizedKeys.keys =
+          builtins.attrValues { inherit (keys.users) enzime; };
+      };
+
+      # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
+      nix.linkInputs = true;
+      nix.generateNixPathFromInputs = true;
+      nix.generateRegistryFromInputs = true;
+
+      nix.registry.d.to = {
+        type = "git";
+        url = "file://${config.users.users.${user}.home}/dotfiles";
+      };
+      nix.registry.n.to = {
+        id = "nixpkgs";
+        type = "indirect";
+      };
+
+      services.tailscale.enable = true;
+
+      programs.zsh.enable = true;
+
+      age.secrets.zshrc = let file = ../secrets/zshrc_${host}.age;
+      in lib.mkIf (builtins.pathExists file) {
+        inherit file;
+        path = "${config.users.users.${user}.home}/.zshrc.secrets";
+        owner = user;
+      };
     };
-
-    # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
-    nix.linkInputs = true;
-    nix.generateNixPathFromInputs = true;
-    nix.generateRegistryFromInputs = true;
-
-    nix.registry.d.to = {
-      type = "git";
-      url = "file://${config.users.users.${user}.home}/dotfiles";
-    };
-    nix.registry.n.to = {
-      id = "nixpkgs";
-      type = "indirect";
-    };
-
-    services.tailscale.enable = true;
-
-    programs.zsh.enable = true;
-
-    age.secrets.zshrc = let file = ../secrets/zshrc_${host}.age;
-    in lib.mkIf (builtins.pathExists file) {
-      inherit file;
-      path = "${config.users.users.${user}.home}/.zshrc.secrets";
-      owner = user;
-    };
-  };
 in {
   imports = [
     "alacritty"
@@ -55,11 +59,8 @@ in {
     "xdg"
   ];
 
-  nixosModule = { config, configRevision, user, pkgs, ... }: {
+  nixosModule = { config, user, pkgs, ... }: {
     imports = [ shared ];
-
-    # Add flake revision to `nixos-version --json`
-    system.configurationRevision = configRevision.full;
 
     i18n.defaultLocale = "en_AU.UTF-8";
 
@@ -93,8 +94,11 @@ in {
     };
   };
 
-  darwinModule = { user, host, config, lib, ... }: {
+  darwinModule = { user, host, inputs, config, lib, ... }: {
     imports = [ shared ];
+
+    # Used for `system.nixpkgsRevision`
+    nixpkgs.source = inputs.nixpkgs;
 
     networking.computerName = host;
 
@@ -338,7 +342,7 @@ in {
 
       xdg.dataFile."nvim/rplugin.vim".source =
         pkgs.runCommand "update-remote-plugins" { } ''
-          NVIM_RPLUGIN_MANIFEST=$out timeout 2s ${config.programs.neovim.finalPackage}/bin/nvim \
+          NVIM_RPLUGIN_MANIFEST=$out timeout 5s ${config.programs.neovim.finalPackage}/bin/nvim \
             -i NONE \
             -n \
             -u ${
