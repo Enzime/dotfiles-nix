@@ -197,8 +197,8 @@
         nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
-            bluetooth duckdns gaming i3 nextcloud samba synergy-server sway
-            wireless virt-manager x11vnc;
+            bluetooth duckdns gaming i3 nextcloud samba sway wireless
+            virt-manager x11vnc;
         };
       }
       {
@@ -209,12 +209,6 @@
         modules = builtins.attrNames {
           inherit (modules) gnome i3 laptop personal sway;
         };
-      }
-      {
-        host = "upsilon";
-        user = "michael.hoang";
-        system = "aarch64-darwin";
-        modules = builtins.attrNames { inherit (modules) laptop work; };
       }
       {
         host = "achilles";

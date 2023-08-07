@@ -1,9 +1,11 @@
 {
   darwinModule = { user, host, keys, pkgs, ... }: {
     nix.linux-builder.enable = true;
-    nix.linux-builder.package = pkgs.darwin.linux-builder.override {
-      modules = [
-        ({ config, pkgs, ... }: {
+    nix.linux-builder.package = pkgs.darwin.linux-builder;
+    nix.linux-builder.modules = [
+      ({ config, ... }:
+        let inherit (config._module.args) pkgs;
+        in {
           networking.hostName = "${host}-linux-builder";
 
           services.tailscale.enable = true;
@@ -29,8 +31,7 @@
           nix.settings.experimental-features = "nix-command flakes";
           nix.settings.secret-key-files = [ "/etc/nix/key" ];
         })
-      ];
-    };
+    ];
 
     nix.settings.extra-trusted-users = [ user ];
   };

@@ -1,3 +1,8 @@
+- Fixed `linux-builder` failing to find `nixos` partition on `chi`
+- Fixed `linux-builder` not getting built with configuration modules
+- Removed `synergy-server`
+- Removed `upsilon`
+- Use `remmina` on macOS
 - Changed timeout for generating `nvim/rplugin.vim`
 - Fixed `/etc/fwupd/uefi_capsule.conf` no longer existing
 - Removed `auto-optimise-store` on macOS as it leads to intermittent build failures

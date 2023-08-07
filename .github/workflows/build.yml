@@ -18,9 +18,6 @@ jobs:
           - name: sigma-nixos
             output: nixosConfigurations.sigma-nixos.config.system.build.toplevel
             runs-on: ubuntu-latest
-          - name: upsilon
-            output: darwinConfigurations.upsilon.system
-            runs-on: [macOS, ARM64]
           - name: achilles
             output: nixosConfigurations.achilles.config.system.build.toplevel
             runs-on: [macOS, ARM64]

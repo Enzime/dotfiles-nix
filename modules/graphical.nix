@@ -19,13 +19,8 @@
   };
 
   nixosModule = { user, pkgs, ... }: {
-    environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) spotify-tray;
-
-      remmina =
-        assert !builtins.elem "aarch64-darwin" pkgs.remmina.meta.platforms;
-        pkgs.remmina;
-    };
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) spotify-tray; };
 
     services.xserver.displayManager.gdm.enable = true;
 
@@ -37,7 +32,7 @@
 
   hmModule = { config, pkgs, lib, ... }: {
     home.packages = builtins.attrValues {
-      inherit (pkgs) qalculate-gtk;
+      inherit (pkgs) qalculate-gtk remmina;
 
       # Spotify is only necessary for the icons on Linux
       inherit (pkgs) spotify;
