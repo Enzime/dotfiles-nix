@@ -12,6 +12,7 @@
     };
 
     system.activationScripts.extraActivation.text = ''
+      mkdir -p /usr/local/bin
       cp ${pkgs._1password}/bin/op /usr/local/bin/op
     '';
 

@@ -1,3 +1,6 @@
+- Added `pre-commit` to `devShell`
+- Fixed `/usr/local/bin` not existing on macOS bootstrap
+- Added `hermes`
 - Fixed `linux-builder` failing to find `nixos` partition on `chi`
 - Fixed `linux-builder` not getting built with configuration modules
 - Removed `synergy-server`

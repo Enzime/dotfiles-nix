@@ -191,6 +191,12 @@
           builtins.attrNames { inherit (modules) linux-builder personal; };
       }
       {
+        host = "hermes";
+        user = "enzime";
+        system = "aarch64-darwin";
+        modules = builtins.attrNames { inherit (modules) laptop personal; };
+      }
+      {
         host = "phi";
         user = "enzime";
         system = "x86_64-linux";
@@ -267,6 +273,7 @@
           buildInputs = builtins.attrValues {
             inherit (home-manager.packages.${system}) home-manager;
             inherit (agenix.packages.${system}) agenix;
+            inherit (pkgs) pre-commit;
           };
 
           shellHook = ''
