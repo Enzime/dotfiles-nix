@@ -1,3 +1,7 @@
+- Added `apparency`
+- Changed `samba` to be only accessible over Tailscale
+- Use IINA on macOS
+- Added `ln` and `lnd` flake aliases on `hermes`
 - Added `pre-commit` to `devShell`
 - Fixed `/usr/local/bin` not existing on macOS bootstrap
 - Added `hermes`

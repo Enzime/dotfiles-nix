@@ -1,6 +1,11 @@
 {
   imports = [ "graphical" "i18n" "ios" "mullvad" "pim" ];
 
+  darwinModule = { pkgs, ... }: {
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) apparency; };
+  };
+
   nixosModule = { user, pkgs, ... }: {
     services.resilio.enable = true;
     services.resilio.listeningPort = 44444;

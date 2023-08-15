@@ -1,7 +1,6 @@
 {
   nixosModule = { user, ... }: {
     services.samba.enable = true;
-    services.samba.openFirewall = true;
     services.samba.shares.phi = {
       path = "/";
       "read only" = "no";

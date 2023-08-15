@@ -1,4 +1,8 @@
 {
+  darwinModule = { pkgs, ... }: {
+    environment.systemPackages = builtins.attrValues { inherit (pkgs) iina; };
+  };
+
   hmModule = { pkgs, ... }: {
     programs.mpv.enable = true;
     programs.mpv.bindings = {
