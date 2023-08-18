@@ -1,7 +1,17 @@
 {
   imports = [ "graphical-minimal" ];
 
-  hmModule = { config, pkgs, ... }:
+  nixosModule = { ... }: {
+    # Allows storage devices to be controlled over D-Bus
+    services.udisks2.enable = true;
+    # Used as an abstraction over udisks2 by file managers
+    services.gvfs.enable = true;
+
+    services.gnome.gnome-keyring.enable = true;
+    programs.seahorse.enable = true;
+  };
+
+  hmModule = { config, pkgs, lib, ... }:
     let
       sharedConfig = {
         bars = [ ];
@@ -45,7 +55,7 @@
 
           "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
 
-          "Mod4+e" = "exec ${pkgs.shutdown-menu}";
+          "Mod4+e" = "exec ${lib.getExe pkgs.powermenu}";
 
           "${mod}+Shift+q" = "kill";
           "${mod}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run -l 30";
@@ -134,6 +144,8 @@
       xsession.windowManager.i3.config = sharedConfig;
       wayland.windowManager.sway.config = sharedConfig;
 
+      home.packages = builtins.attrValues { inherit (pkgs) bemenu powermenu; };
+
       programs.alacritty.enable = true;
       programs.kitty.enable = true;
       programs.feh.enable = true;
@@ -163,6 +175,7 @@
         Service = {
           ExecStart =
             "${pkgs.pantheon.pantheon-agent-polkit}/libexec/policykit-1-pantheon/io.elementary.desktop.agent-polkit";
+          Restart = "on-failure";
         };
       };
     };

@@ -15,18 +15,26 @@
     users.users.${user}.extraGroups = [ "rslsync" ];
   };
 
-  hmModule = { config, pkgs, lib, ... }: {
-    home.packages = builtins.attrValues ({
-      inherit (pkgs) discord gramps;
-    } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
-      inherit (pkgs) joplin-desktop signal-desktop;
-    });
+  hmModule = { config, pkgs, lib, ... }:
+    let
+      inherit (pkgs.stdenv) hostPlatform;
+      inherit (lib) mkIf optionalAttrs;
+    in {
+      home.packages = builtins.attrValues ({
+        inherit (pkgs) gramps;
+      } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
+        # Runs on everything except `aarch64-linux`
+        inherit (pkgs) discord;
+      } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isx86_64) {
+        inherit (pkgs) joplin-desktop signal-desktop;
+      });
 
-    xsession.windowManager.i3.config.startup = [{
-      command = "signal-desktop";
-      always = true;
-    }];
+      xsession.windowManager.i3.config.startup =
+        mkIf (hostPlatform.isLinux && hostPlatform.isx86_64) [{
+          command = "signal-desktop";
+          always = true;
+        }];
 
-    programs.firefox.profiles.personal.isDefault = true;
-  };
+      programs.firefox.profiles.personal.isDefault = true;
+    };
 }

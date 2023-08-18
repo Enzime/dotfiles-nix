@@ -56,11 +56,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1688270548,
-        "narHash": "sha256-pWs3XBi5KmdM6gpWTS+usmuQ5MRu3Z2Ule9JdB686hQ=",
+        "lastModified": 1692100068,
+        "narHash": "sha256-vL0nBKbkSsOUDZ4TZ/VBF3p96DWdOXvB719L3dCkutM=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "f739b861b6536b5175a0a760d5ea07c40e1e1c66",
+        "rev": "60776793d2ba5db7234909cbf9edc190d36ea0d2",
         "type": "gitlab"
       },
       "original": {
@@ -287,6 +287,32 @@
         "type": "path"
       }
     },
+    "nixos-apple-silicon": {
+      "inputs": {
+        "flake-compat": [
+          "nix-overlay",
+          "nix",
+          "flake-compat"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1691550350,
+        "narHash": "sha256-y5Kc0yhUX6VqtvqR9kZAnjInJ4nFstnfbttyufDe+JE=",
+        "owner": "tpwrules",
+        "repo": "nixos-apple-silicon",
+        "rev": "a4717b649ca84a6f4556c04cc6235842263629ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tpwrules",
+        "repo": "nixos-apple-silicon",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1692085950,
@@ -380,9 +406,40 @@
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nix-overlay": "nix-overlay",
+        "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",
+        "secrets": "secrets",
         "systems": "systems"
+      }
+    },
+    "rust-overlay": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1686795910,
+        "narHash": "sha256-jDa40qRZ0GRQtP9EMZdf+uCbvzuLnJglTUI2JoHfWDc=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "5c2b97c0a9bc5217fc3dfb1555aae0fb756d99f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-X1rrJlYl0RM82FlY3M0T0/VoHri4yjPZYZWCLnuwqwk=",
+        "path": "./secrets/private",
+        "type": "path"
+      },
+      "original": {
+        "path": "./secrets/private",
+        "type": "path"
       }
     },
     "systems": {

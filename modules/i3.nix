@@ -5,14 +5,6 @@
     services.xserver.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3.enable = true;
 
-    # Allows storage devices to be controlled over D-Bus
-    services.udisks2.enable = true;
-    # Used as an abstraction over udisk2 by file managers
-    services.gvfs.enable = true;
-
-    services.gnome.gnome-keyring.enable = true;
-    programs.seahorse.enable = true;
-
     # Some D-Bus errors were occuring on `switch` without this line
     programs.dconf.enable = true;
   };

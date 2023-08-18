@@ -12,6 +12,12 @@ jobs:
           - name: chi
             output: darwinConfigurations.chi.system
             runs-on: [macOS, ARM64]
+          - name: hermes-macos
+            output: darwinConfigurations.hermes-macos.system
+            runs-on: [macOS, ARM64]
+          - name: hermes-nixos
+            output: nixosConfigurations.hermes-nixos.config.system.build.toplevel
+            runs-on: [macOS, ARM64]
           - name: phi-nixos
             output: nixosConfigurations.phi-nixos.config.system.build.toplevel
             runs-on: ubuntu-latest

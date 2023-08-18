@@ -1,3 +1,12 @@
+- Removed `max-free` Nix garbage collection setting on `echo`
+- Use `config.nixpkgs.*` instead of `pkgs` argument for `nixosSystem`
+- Use private flake to store eval time secrets
+- Fixed `powermenu` not working when only `sway` is installed
+- Changed `powermenu` to be standalone
+- Fixed `pantheon-polkit-agent` `cannot open display` race
+- Fixed 1Password being unable to save 2FA token on `hermes-nixos`
+- Renamed `hermes` to `hermes-macos`
+- Added `hermes-nixos`
 - Added `apparency`
 - Changed `samba` to be only accessible over Tailscale
 - Use IINA on macOS
