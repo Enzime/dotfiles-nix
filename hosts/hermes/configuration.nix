@@ -1,4 +1,4 @@
-{ user, lib, ... }:
+{ lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -11,6 +11,10 @@
     options hid_apple swap_opt_cmd=1
   '';
 
+  services.udev.extraRules = ''
+    KERNEL=="macsmc-battery", SUBSYSTEM=="power_supply", ATTR{charge_control_end_threshold}="80", ATTR{charge_control_start_threshold}="70"
+  '';
+
   # We don't use dmi:* as there's no DMI data
   # Alternatively evdev:input:b001Cv05ACp0281e0935-* from /sys/class/input/event3/device/modalias
   services.udev.extraHwdb = ''
@@ -18,22 +22,15 @@
       KEYBOARD_KEY_70039=esc
   '';
 
+  services.logind.extraConfig = lib.mkForce ''
+    HandlePowerKey=lock
+    HandleLidSwitch=lock
+    HandleLidSwitchExternalPower=lock
+  '';
+
   # GDM is currently broken
   services.xserver.displayManager.gdm.enable = lib.mkForce false;
   services.xserver.displayManager.lightdm.enable = true;
-
-  environment.etc."nixos".source =
-    lib.mkForce "/home/${user}/Code/private-dotfiles";
-
-  nix.registry.dotfiles.to = {
-    type = "git";
-    url = "file:///home/${user}/dotfiles";
-  };
-
-  nix.registry.d.to = lib.mkForce {
-    type = "git";
-    url = "file:///home/${user}/Code/private-dotfiles";
-  };
 
   networking.networkmanager.wifi.backend = "iwd";
 

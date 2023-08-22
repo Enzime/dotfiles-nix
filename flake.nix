@@ -39,13 +39,11 @@
 
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
 
-  inputs.nixos-apple-silicon.url = "github:tpwrules/nixos-apple-silicon";
+  inputs.nixos-apple-silicon.url =
+    "github:Enzime/nixos-apple-silicon/localhost";
   inputs.nixos-apple-silicon.inputs.flake-compat.follows =
     "nix-overlay/nix/flake-compat";
   inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
-
-  inputs.secrets.url = "path:./secrets/private";
-  inputs.secrets.flake = false;
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
     , agenix, disko, pre-commit-hooks, flake-parts, ... }:

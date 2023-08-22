@@ -300,15 +300,16 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1691550350,
-        "narHash": "sha256-y5Kc0yhUX6VqtvqR9kZAnjInJ4nFstnfbttyufDe+JE=",
-        "owner": "tpwrules",
+        "lastModified": 1692710521,
+        "narHash": "sha256-p3nk9nYtvIXfsYEkE7YBGYSoHf+DsKTtsEMc9Ke7z1I=",
+        "owner": "Enzime",
         "repo": "nixos-apple-silicon",
-        "rev": "a4717b649ca84a6f4556c04cc6235842263629ca",
+        "rev": "488feabb505ed0ad926518db905ac15a315226b9",
         "type": "github"
       },
       "original": {
-        "owner": "tpwrules",
+        "owner": "Enzime",
+        "ref": "localhost",
         "repo": "nixos-apple-silicon",
         "type": "github"
       }
@@ -409,7 +410,6 @@
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks",
-        "secrets": "secrets",
         "systems": "systems"
       }
     },
@@ -427,19 +427,6 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
-      }
-    },
-    "secrets": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-X1rrJlYl0RM82FlY3M0T0/VoHri4yjPZYZWCLnuwqwk=",
-        "path": "./secrets/private",
-        "type": "path"
-      },
-      "original": {
-        "path": "./secrets/private",
-        "type": "path"
       }
     },
     "systems": {

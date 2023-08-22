@@ -1,3 +1,6 @@
+- Removed private flake to store Asahi peripheral firmware
+- Changed charging thresholds on `hermes-nixos`
+- Changed `hermes-nixos` to lock on lid close
 - Updated `nextcloud`
 - Fixed `stray \ before +` warning from `grep`
 - Added `builder` user on `phi` for remote builds

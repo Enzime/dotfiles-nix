@@ -1,4 +1,4 @@
-{ inputs, config, lib, modulesPath, ... }:
+{ inputs, lib, modulesPath, ... }:
 
 {
   imports = [
@@ -25,13 +25,6 @@
 
   swapDevices = [{ device = "/dev/pool/swap"; }];
 
-  hardware.asahi.extractPeripheralFirmware =
-    builtins.pathExists "${inputs.secrets}/asahi-firmware";
-  hardware.asahi.peripheralFirmwareDirectory =
-    if config.hardware.asahi.extractPeripheralFirmware then
-      "${inputs.secrets}/asahi-firmware"
-    else
-      null;
   hardware.asahi.useExperimentalGPUDriver = true;
   hardware.asahi.experimentalGPUInstallMode = "driver";
 
