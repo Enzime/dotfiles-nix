@@ -61,6 +61,16 @@
     };
   };
 
+  users.groups.builder = { };
+
+  users.users.builder = {
+    isNormalUser = true;
+    group = "builder";
+
+    openssh.authorizedKeys.keys =
+      builtins.attrValues { inherit (keys.users) enzime; };
+  };
+
   services.nextcloud.home = "/data/Nextcloud";
 
   services.tailscale.useRoutingFeatures = "both";

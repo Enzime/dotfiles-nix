@@ -54,15 +54,15 @@ function gps {
 }
 
 function gt {
-  git --no-pager diff --binary --no-color | grep -i '^\+.*todo'
+  git --no-pager diff --binary --no-color | grep -i '^+.*todo'
 }
 
 function gts {
-  git --no-pager diff --binary --no-color --cached | grep -i '^\+.*todo'
+  git --no-pager diff --binary --no-color --cached | grep -i '^+.*todo'
 }
 
 function gtu {
-  git --no-pager diff --binary --no-color ${1:-origin/master}...${2:-HEAD} | grep -i '^\+.*todo'
+  git --no-pager diff --binary --no-color ${1:-origin/master}...${2:-HEAD} | grep -i '^+.*todo'
 }
 
 # https://github.com/nix-community/nix-direnv#shell-integration

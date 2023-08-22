@@ -203,7 +203,7 @@ in {
         };
       };
 
-      xdg.configFile."git/hooks/pre-commit".source = ../files/no-todo.sh;
+      xdg.configFile."git/hooks/pre-commit".source = ../files/no-todos;
 
       programs.zsh = {
         enable = true;

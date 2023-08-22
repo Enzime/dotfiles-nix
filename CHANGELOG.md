@@ -1,3 +1,6 @@
+- Updated `nextcloud`
+- Fixed `stray \ before +` warning from `grep`
+- Added `builder` user on `phi` for remote builds
 - Removed `max-free` Nix garbage collection setting on `echo`
 - Use `config.nixpkgs.*` instead of `pkgs` argument for `nixosSystem`
 - Use private flake to store eval time secrets

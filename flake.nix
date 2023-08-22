@@ -281,7 +281,7 @@
           hooks.no-todo = {
             enable = true;
             name = "no TODOs";
-            entry = "${./files/no-todo.sh}";
+            entry = "${./files/no-todos}";
             language = "system";
             pass_filenames = false;
           };

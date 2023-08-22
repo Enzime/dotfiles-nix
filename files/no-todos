@@ -1,5 +1,5 @@
 #!/bin/sh
-git --no-pager diff --binary --no-color --cached | grep -i '^\+.*todo'
+git --no-pager diff --binary --no-color --cached | grep -i '^+.*todo'
 
 no_todos_found=$?
 
