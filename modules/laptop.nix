@@ -27,8 +27,11 @@
     users.users.${user}.extraGroups = [ "video" ];
   };
 
-  darwinModule = { lib, ... }: {
+  darwinModule = { pkgs, lib, ... }: {
     time.timeZone = lib.mkForce null;
+
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) aldente; };
 
     system.defaults.trackpad.Clicking = true;
 

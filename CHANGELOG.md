@@ -1,3 +1,5 @@
+- Added AlDente Pro on `hermes-macos`
+- Disabled startup sound on `hermes`
 - Removed private flake to store Asahi peripheral firmware
 - Changed charging thresholds on `hermes-nixos`
 - Changed `hermes-nixos` to lock on lid close
