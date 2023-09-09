@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ user, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -32,9 +32,13 @@
   services.xserver.displayManager.gdm.enable = lib.mkForce false;
   services.xserver.displayManager.lightdm.enable = true;
 
+  nix.registry.lnas.to = {
+    type = "git";
+    url = "file:///home/${user}/Code/nixos-apple-silicon";
+  };
+
   networking.networkmanager.wifi.backend = "iwd";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "23.11";
 }
-

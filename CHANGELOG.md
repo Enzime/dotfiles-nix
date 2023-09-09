@@ -1,3 +1,6 @@
+- Fixed `sway` not starting on output 1 on `hermes-nixos`
+- Fixed brightness control on `hermes-nixos`
+- Added `lnas` flake alias on `hermes-nixos`
 - Added AlDente Pro on `hermes-macos`
 - Disabled startup sound on `hermes`
 - Removed private flake to store Asahi peripheral firmware
