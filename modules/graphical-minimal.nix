@@ -7,7 +7,9 @@
 
     # Close Terminal if shell exited cleanly
     system.activationScripts.extraUserActivation.text = ''
-      plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
+      if [[ -f ~/Library/Preferences/com.apple.Terminal.plist ]]; then
+        plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
+      fi
     '';
 
     # WORKAROUND: Screensaver starts on the login screen and cannot be closed from VNC

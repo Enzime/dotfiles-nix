@@ -42,6 +42,12 @@
     '';
 
     security.pam.enableSudoTouchIdAuth = true;
+
+    # WORKAROUND: Using Override Local DNS with tailscaled on macOS leads to
+    # DNS not working for a long time after reconnecting to the internet.
+    services.tailscale.overrideLocalDns = false;
+
+    networking.dns = [ "1.1.1.1" ];
   };
 
   hmModule = { pkgs, lib, ... }:

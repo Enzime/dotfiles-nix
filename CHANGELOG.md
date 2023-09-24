@@ -1,3 +1,6 @@
+- Added `nix-darwin` support to `vm` module
+- Fixed `darwin-rebuild` failing on machines that haven't launched `Terminal.app`
+- Use non-Tailscale DNS on macOS laptops to reduce connection time
 - Fixed `sway` not starting on output 1 on `hermes-nixos`
 - Fixed brightness control on `hermes-nixos`
 - Added `lnas` flake alias on `hermes-nixos`

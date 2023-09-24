@@ -1,4 +1,10 @@
 {
+  darwinModule = { options, hostname, lib, ... }:
+    let inherit (lib) mkIf mkVMOverride;
+    in mkIf (options ? virtualisation) {
+      networking.hostName = mkVMOverride "${hostname}-vm";
+    };
+
   nixosModule = { config, lib, user, ... }:
     let
       inherit (lib) mkIf;
