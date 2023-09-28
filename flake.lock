@@ -300,11 +300,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1694264562,
-        "narHash": "sha256-+XvCJyOaLvFxPGHNZOAVUTpBoAOmelQMAZ2r1+57Cr8=",
+        "lastModified": 1695872712,
+        "narHash": "sha256-JiOdiylmRytdsvQcta4zJ2YN+fJfaOFE5x2qDdGpTnM=",
         "owner": "Enzime",
         "repo": "nixos-apple-silicon",
-        "rev": "8939ae85bf21acff2d9287b831fb8d159f8e13f6",
+        "rev": "6752625445873aba62c268c763838544cf9b91b9",
         "type": "github"
       },
       "original": {

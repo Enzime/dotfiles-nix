@@ -26,7 +26,7 @@
   swapDevices = [{ device = "/dev/pool/swap"; }];
 
   hardware.asahi.useExperimentalGPUDriver = true;
-  hardware.asahi.experimentalGPUInstallMode = "driver";
+  hardware.asahi.experimentalGPUInstallMode = "overlay";
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 }

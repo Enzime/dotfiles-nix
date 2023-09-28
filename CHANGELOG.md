@@ -1,3 +1,4 @@
+- Fixed hardware acceleration on `hermes-nixos`
 - Added `nix-darwin` support to `vm` module
 - Fixed `darwin-rebuild` failing on machines that haven't launched `Terminal.app`
 - Use non-Tailscale DNS on macOS laptops to reduce connection time
