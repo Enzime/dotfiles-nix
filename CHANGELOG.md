@@ -1,3 +1,8 @@
+- Use `repl-flake` experimental feature
+- Fixed `qalculate-gtk` not showing up as an macOS Application
+- Added assert guard to `joplin-desktop` overlay
+- Replaced `buildVimPluginFrom2Nix` with `buildVimPlugin`
+- Use `joplin-desktop` on macOS
 - Updated `nix`
 - Use `nixos-unstable` instead of `localhost`
 - Moved fix for 405 when `wgetrc` contains `continue` to `overlays`

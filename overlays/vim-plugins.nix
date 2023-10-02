@@ -1,14 +1,14 @@
 self: super:
 let
   inherit (super) fetchFromGitHub;
-  inherit (super.vimUtils) buildVimPluginFrom2Nix;
+  inherit (super.vimUtils) buildVimPlugin;
 in {
   vimPlugins = super.vimPlugins // super.lib.mapAttrs (name: plugin:
     if super.vimPlugins ? ${name} then
       throw "vimPlugins.${name} already exists"
     else
       plugin) {
-        hybrid-krompus-vim = buildVimPluginFrom2Nix {
+        hybrid-krompus-vim = buildVimPlugin {
           pname = "hybrid-krompus.vim";
           version = "2016-07-02";
           src = fetchFromGitHub {
@@ -20,7 +20,7 @@ in {
           meta.homepage = "https://github.com/airodactyl/hybrid-krompus.vim";
         };
 
-        neovim-ranger = buildVimPluginFrom2Nix {
+        neovim-ranger = buildVimPlugin {
           pname = "neovim-ranger";
           version = "2015-09-30";
           src = fetchFromGitHub {
@@ -32,7 +32,7 @@ in {
           meta.homepage = "https://github.com/airodactyl/neovim-ranger";
         };
 
-        vim-operator-flashy = buildVimPluginFrom2Nix {
+        vim-operator-flashy = buildVimPlugin {
           pname = "vim-operator-flashy";
           version = "2016-10-09";
           src = fetchFromGitHub {

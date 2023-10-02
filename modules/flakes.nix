@@ -1,7 +1,10 @@
 let
-  shared = { pkgs, lib, ... }: {
+  shared = { config, pkgs, lib, ... }: {
     nix.package = lib.mkDefault pkgs.nix;
-    nix.settings.experimental-features = "nix-command flakes";
+    # a < b | a == b
+    nix.settings.experimental-features =
+      assert builtins.compareVersions config.nix.package.version "2.18.0" < 1;
+      "nix-command flakes repl-flake";
   };
 in {
   darwinModule = { ... }: { imports = [ shared ]; };

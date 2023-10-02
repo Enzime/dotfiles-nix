@@ -24,9 +24,9 @@
         inherit (pkgs) gramps;
       } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
         # Runs on everything except `aarch64-linux`
-        inherit (pkgs) discord;
+        inherit (pkgs) discord joplin-desktop;
       } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isx86_64) {
-        inherit (pkgs) joplin-desktop signal-desktop;
+        inherit (pkgs) signal-desktop;
       });
 
       xsession.windowManager.i3.config.startup =
