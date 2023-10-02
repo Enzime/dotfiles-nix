@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -20,8 +20,9 @@
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.agenix.url = "github:ryantm/agenix";
-  inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
   inputs.agenix.inputs.darwin.follows = "nix-darwin";
+  inputs.agenix.inputs.home-manager.follows = "home-manager";
+  inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.firefox-addons-overlay.url = "path:overlays/firefox-addons";
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";

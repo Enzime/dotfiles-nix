@@ -1,3 +1,7 @@
+- Updated `nix`
+- Use `nixos-unstable` instead of `localhost`
+- Moved fix for 405 when `wgetrc` contains `continue` to `overlays`
+- Removed `firefox-bin-unwrapped`
 - Fixed hardware acceleration on `hermes-nixos`
 - Added `nix-darwin` support to `vm` module
 - Fixed `darwin-rebuild` failing on machines that haven't launched `Terminal.app`

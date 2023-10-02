@@ -18,6 +18,6 @@ self: super: {
         builtins.attrValues { inherit (super) i3 jsoncpp libsigcxx; };
 
       nativeBuildInputs =
-        builtins.attrValues { inherit (super) cmake pkgconfig; };
+        builtins.attrValues { inherit (super) cmake pkg-config; };
     });
 }

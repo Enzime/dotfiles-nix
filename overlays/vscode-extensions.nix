@@ -47,19 +47,26 @@ let
   fromMarketplaceRefs = mktplcRefs:
     extensionsAttrsetFromList (extensionsFromVscodeMarketplace mktplcRefs);
 in {
-  vscode-extensions = recursiveUpdate super.vscode-extensions
-    (fromMarketplaceRefs [
-      {
-        name = "comment-tagged-templates";
-        publisher = "bierner";
-        version = "0.3.1";
-        sha256 = "sha256-dJyc7txc3fSlNWNGx2G8yF0hObYaiE2c44vzMrvzdkE=";
-      }
-      {
-        name = "markdown-preview-github-styles";
-        publisher = "bierner";
-        version = "1.0.1";
-        sha256 = "sha256-UhWbygrGh0whVxfGcEa+hunrTG/gfHpXYii0E7YhXa4=";
-      }
-    ]);
+  vscode-extensions = recursiveUpdate (recursiveUpdate super.vscode-extensions {
+    ms-vscode-remote.remote-ssh =
+      super.vscode-extensions.ms-vscode-remote.remote-ssh.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace "out/extension.js" \
+            --replace "wget --no-proxy" "wget --no-proxy --no-continue"
+        '';
+      });
+  }) (fromMarketplaceRefs [
+    {
+      name = "comment-tagged-templates";
+      publisher = "bierner";
+      version = "0.3.1";
+      sha256 = "sha256-dJyc7txc3fSlNWNGx2G8yF0hObYaiE2c44vzMrvzdkE=";
+    }
+    {
+      name = "markdown-preview-github-styles";
+      publisher = "bierner";
+      version = "1.0.1";
+      sha256 = "sha256-UhWbygrGh0whVxfGcEa+hunrTG/gfHpXYii0E7YhXa4=";
+    }
+  ]);
 }

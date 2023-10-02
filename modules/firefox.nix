@@ -12,7 +12,10 @@
 
       programs.firefox.enable = true;
       programs.firefox.package = if hostPlatform.isDarwin then
-        pkgs.firefox-bin-unwrapped
+      # Leaving this until firefox-bin-unwrapped is merged
+        assert (pkgs.firefox.meta.unsupported
+          && pkgs.firefox-bin.meta.unsupported);
+        pkgs.emptyDirectory
       else
         pkgs.firefox;
       programs.firefox.profiles.base = {
