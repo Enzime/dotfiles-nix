@@ -3,7 +3,7 @@ let
     nix.package = lib.mkDefault pkgs.nix;
     # a < b | a == b
     nix.settings.experimental-features =
-      assert builtins.compareVersions config.nix.package.version "2.18.0" < 1;
+      assert builtins.compareVersions config.nix.package.version "2.18.1" < 1;
       "nix-command flakes repl-flake";
   };
 in {

@@ -1,3 +1,4 @@
+- Fixed `path: ... is not valid` Nix error
 - Use `repl-flake` experimental feature
 - Fixed `qalculate-gtk` not showing up as an macOS Application
 - Added assert guard to `joplin-desktop` overlay
