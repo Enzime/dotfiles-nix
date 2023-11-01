@@ -1,3 +1,5 @@
+- Fixed `linux-builder` no longer working after a few days of uptime
+- Use `linux-builder` on `hermes-macos`
 - Fixed `path: ... is not valid` Nix error
 - Use `repl-flake` experimental feature
 - Fixed `qalculate-gtk` not showing up as an macOS Application

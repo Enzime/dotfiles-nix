@@ -203,7 +203,9 @@
         hostSuffix = "-macos";
         user = "enzime";
         system = "aarch64-darwin";
-        modules = builtins.attrNames { inherit (modules) laptop personal; };
+        modules = builtins.attrNames {
+          inherit (modules) laptop linux-builder personal;
+        };
       }
       {
         host = "hermes";
