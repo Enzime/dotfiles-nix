@@ -1,3 +1,4 @@
+- Added `builder` access for `hermes-nixos`
 - Fixed `linux-builder` no longer working after a few days of uptime
 - Use `linux-builder` on `hermes-macos`
 - Fixed `path: ... is not valid` Nix error

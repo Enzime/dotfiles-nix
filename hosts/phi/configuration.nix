@@ -67,8 +67,10 @@
     isNormalUser = true;
     group = "builder";
 
-    openssh.authorizedKeys.keys =
-      builtins.attrValues { inherit (keys.users) enzime; };
+    openssh.authorizedKeys.keys = builtins.attrValues {
+      inherit (keys.users) enzime;
+      inherit (keys.hosts) hermes-nixos;
+    };
   };
 
   services.nextcloud.home = "/data/Nextcloud";

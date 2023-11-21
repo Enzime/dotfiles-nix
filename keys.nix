@@ -13,6 +13,8 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVe7IzmmpOy7zhqQoxPrSgFQHpeCEwFuIRO/vEEfEJn";
     echo =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9lGmlJLo3tQoCfyplj2pWoIdB0lPZJm4cEdo/rKExR";
+    hermes-nixos =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAc0GhOQvfKE6r+6oYRjGCepenZZiSNh+czkAqM2IAdK";
     phi =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxOi/S1TLBg8/ZRX5XfCTlM8A+I0q0pQksrxtfjdYFP";
     sigma =
