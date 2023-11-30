@@ -1,3 +1,5 @@
+- Fixed `VSCode` always crashing under Wayland
+- Added `scanners` module
 - Added `builder` access for `hermes-nixos`
 - Fixed `linux-builder` no longer working after a few days of uptime
 - Use `linux-builder` on `hermes-macos`

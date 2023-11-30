@@ -245,6 +245,10 @@
             "terminal.ansiWhite" = "#b6afab";
             "terminal.ansiBrightWhite" = "#fff5ed";
           };
+
+          # WORKAROUND: VS Code crashes when running under Wayland
+          # https://github.com/NixOS/nixpkgs/issues/246509
+          "window.titleBarStyle" = "custom";
         };
 
       home.file.".vscode-server/data/Machine/settings.json".text = ''

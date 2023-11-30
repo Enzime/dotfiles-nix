@@ -222,7 +222,7 @@
         nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
-            bluetooth duckdns gaming i3 nextcloud samba sway wireless
+            bluetooth duckdns gaming i3 nextcloud samba scanners sway wireless
             virt-manager x11vnc;
         };
       }

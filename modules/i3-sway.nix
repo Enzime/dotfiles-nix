@@ -9,6 +9,7 @@
 
     services.gnome.gnome-keyring.enable = true;
     programs.seahorse.enable = true;
+    programs.evince.enable = true;
   };
 
   hmModule = { config, pkgs, lib, ... }:
