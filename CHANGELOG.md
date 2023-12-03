@@ -1,3 +1,4 @@
+- Use `idle_inhibitor` `waybar` module
 - Fixed `VSCode` always crashing under Wayland
 - Added `scanners` module
 - Added `builder` access for `hermes-nixos`

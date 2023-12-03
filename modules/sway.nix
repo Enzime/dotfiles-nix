@@ -126,7 +126,7 @@
     programs.waybar.settings = [{
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "battery" "clock" "tray" ];
+      modules-right = [ "idle_inhibitor" "battery" "clock" "tray" ];
       "sway/window" = { max-length = 50; };
       battery = {
         format = "{capacity}% {icon}";
@@ -135,6 +135,13 @@
       clock = {
         format = "{:%a %b %d %I:%M:%S %p}";
         interval = 1;
+      };
+      idle_inhibitor = {
+        format = "{icon}";
+        format-icons = {
+          activated = "";
+          deactivated = "";
+        };
       };
     }];
 
