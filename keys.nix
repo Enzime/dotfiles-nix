@@ -2,10 +2,6 @@
   users = {
     enzime =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINKZfejb9htpSB5K9p0RuEowErkba2BMKaze93ZVkQIE";
-    enzime_phi =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILzD/3cOhlqe8NVEruSUnPSnG1GbmX8SgTbVGLFHMa7g";
-    enzime_sigma =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHwM0sVLdolDXb7LyKMT6Jfym0dP1NSgJClHcIOga+fa";
   };
 
   hosts = {

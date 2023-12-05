@@ -25,6 +25,8 @@
 
     programs.light.enable = true;
     users.users.${user}.extraGroups = [ "video" ];
+
+    programs.captive-browser.enable = true;
   };
 
   darwinModule = { pkgs, lib, ... }: {

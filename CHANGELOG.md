@@ -1,3 +1,6 @@
+- Use `enzime` key instead of `enzime_*`
+- Readded `agenix` `zsh` function
+- Added `captive-browser` on laptops
 - Use `idle_inhibitor` `waybar` module
 - Fixed `VSCode` always crashing under Wayland
 - Added `scanners` module

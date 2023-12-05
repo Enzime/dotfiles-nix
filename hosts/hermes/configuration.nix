@@ -39,6 +39,8 @@
 
   networking.networkmanager.wifi.backend = "iwd";
 
+  programs.captive-browser.interface = "wlan0";
+
   # Check that this can be bumped before changing it
   system.stateVersion = "23.11";
 }

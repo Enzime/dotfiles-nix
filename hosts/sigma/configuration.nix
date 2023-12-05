@@ -32,6 +32,8 @@
 
   services.fprintd.enable = true;
 
+  programs.captive-browser.interface = "wlp170s0";
+
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
 }
