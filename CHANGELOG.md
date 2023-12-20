@@ -1,3 +1,4 @@
+- Added `diff.age.textconv` to support `git diff` on `.age` files
 - Use `enzime` key instead of `enzime_*`
 - Readded `agenix` `zsh` function
 - Added `captive-browser` on laptops

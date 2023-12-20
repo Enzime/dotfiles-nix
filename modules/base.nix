@@ -175,8 +175,22 @@ in {
         extraConfig = {
           advice = { addIgnoredFile = false; };
           am = { threeWay = true; };
-          core = { hooksPath = "~/.config/git/hooks"; };
-          diff = { colorMoved = "default"; };
+          core = {
+            attributesfile = "${pkgs.writeText "attributesfile" ''
+              *.age diff=age
+            ''}";
+            hooksPath = "~/.config/git/hooks";
+          };
+          diff = {
+            colorMoved = "default";
+            age.textconv = "${lib.getExe (pkgs.writeShellApplication {
+              name = "age-textconv";
+              runtimeInputs = [ pkgs.age ];
+              text = ''
+                age --decrypt -i <(op read "op://trimcmujfu5fjcx5u4u752yk2i/6gedf3cheamokyw47sq4wbxlsy/private key?ssh-format=openssh") "$1"
+              '';
+            })}";
+          };
           fetch = { prune = true; };
           init = { defaultBranch = "main"; };
           merge = { conflictStyle = "zdiff3"; };
