@@ -1,3 +1,11 @@
+- Use `nix.linux-builder.settings` instead of `nix.linux-builder.modules`
+- Fixed `vscode` failing to change `User Settings` on startup
+- Fixed slow `zsh` startup
+- Enabled Num Lock on `sway` startup
+- Disabled `is dirty` Nix warning
+- Updated `nextcloud`
+- Use `nix` from Nixpkgs instead of flake input
+- Removed `ripgrep` patch for supporting quoted `excludesFile`
 - Added `diff.age.textconv` to support `git diff` on `.age` files
 - Use `enzime` key instead of `enzime_*`
 - Readded `agenix` `zsh` function

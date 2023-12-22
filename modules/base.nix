@@ -236,6 +236,9 @@ in {
         prezto = {
           enable = true;
 
+          # https://github.com/nix-community/home-manager/issues/2255
+          caseSensitive = true;
+
           pmoduleDirs = [ "${pkgs.zsh-you-should-use}/share/zsh/plugins" ];
 
           pmodules = [

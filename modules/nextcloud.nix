@@ -5,7 +5,7 @@
     let hostname = "nextcloud.enzim.ee";
     in {
       services.nextcloud.enable = true;
-      services.nextcloud.package = pkgs.nextcloud27;
+      services.nextcloud.package = pkgs.nextcloud28;
       services.nextcloud.hostName = hostname;
       services.nextcloud.config.extraTrustedDomains = [ "reflector.enzim.ee" ];
       services.nextcloud.https = true;
@@ -31,11 +31,5 @@
       };
 
       users.users.${user}.extraGroups = [ "nextcloud" ];
-
-      # Change `system.stateVersion` to 22.11+ or wait for this option to account for running Nextcloud 26
-      services.nextcloud.enableBrokenCiphersForSSE =
-        assert (options.services.nextcloud.enableBrokenCiphersForSSE.default
-          == true);
-        false;
     };
 }

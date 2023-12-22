@@ -36,6 +36,8 @@
 
       floating.criteria = [{ "app_id" = "^floating$"; }];
 
+      input."type:keyboard".xkb_numlock = "enabled";
+
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
         screenshotFilename =

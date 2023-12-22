@@ -182,7 +182,7 @@
           "workbench.colorTheme" = "Monokai";
           "markdown-preview-github-styles.colorTheme" = "light";
 
-          "editor.codeActionsOnSave" = { "source.fixAll" = true; };
+          "editor.codeActionsOnSave" = { "source.fixAll" = "explicit"; };
 
           "editor.lineNumbers" = "relative";
           "editor.renderFinalNewline" = "off";

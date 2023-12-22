@@ -5,6 +5,7 @@ let
     nix.settings.experimental-features =
       assert builtins.compareVersions config.nix.package.version "2.18.1" < 1;
       "nix-command flakes repl-flake";
+    nix.settings.warn-dirty = false;
   };
 in {
   darwinModule = { ... }: { imports = [ shared ]; };
