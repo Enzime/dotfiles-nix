@@ -15,6 +15,11 @@ let
         inputs.agenix.packages.${pkgs.system}.default
       ];
 
+      users.users.root = {
+        openssh.authorizedKeys.keys =
+          builtins.attrValues { inherit (keys.users) enzime; };
+      };
+
       users.users.${user} = {
         openssh.authorizedKeys.keys =
           builtins.attrValues { inherit (keys.users) enzime; };
@@ -86,12 +91,18 @@ in {
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "prohibit-password";
 
-    # On first setup, run `nixos-enter` then `passwd <user>`.
     users.users.${user} = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
       shell = pkgs.zsh;
+      initialPassword = "apple";
     };
+
+    system.activationScripts.expire-password = ''
+      if [[ $(passwd -S ${user} | cut -d" " -f 3) == "1970-01-02" ]]; then
+        passwd --expire ${user}
+      fi
+    '';
   };
 
   darwinModule = { user, host, inputs, config, lib, ... }: {
@@ -282,6 +293,7 @@ in {
           arg = "alias | rg --";
           l = "ls -lah";
           nb = "nix build";
+          nbl = "nb -L";
           sr = "_ ranger";
           w = "where -s";
 

@@ -10,11 +10,7 @@
       minimum-display-number=1
     '';
 
-    system.activationScripts.enableLingering = ''
-      rm -r /var/lib/systemd/linger
-      mkdir -p /var/lib/systemd/linger
-      touch /var/lib/systemd/linger/${user}
-    '';
+    users.users.${user}.linger = true;
   };
 
   hmModule = { pkgs, lib, ... }@args: {

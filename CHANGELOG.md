@@ -1,3 +1,14 @@
+- Changed `-nixos` `hostSuffix` to be opt-in
+- Renamed `sigma-nixos` to `sigma`
+- Added SSH key access to `root` for `nixos-rebuild switch --target-host`
+- Removed `achilles`
+- Use `passwd --expire` to ensure the default password is changed on first use
+- Fixed `sudo` not working after using `nixos-anywhere` for initial install
+- Use `users.users.<user>.linger` instead of custom activation script
+- Use `zfs` on `eris`
+- Use `gpt` type disks instead of `table` type
+- Updated `disko`
+- Added `nbl` alias
 - Use `nix.linux-builder.settings` instead of `nix.linux-builder.modules`
 - Fixed `vscode` failing to change `User Settings` on startup
 - Fixed slow `zsh` startup

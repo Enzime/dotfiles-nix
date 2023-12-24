@@ -5,8 +5,6 @@
   };
 
   hosts = {
-    achilles =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVe7IzmmpOy7zhqQoxPrSgFQHpeCEwFuIRO/vEEfEJn";
     echo =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9lGmlJLo3tQoCfyplj2pWoIdB0lPZJm4cEdo/rKExR";
     hermes-nixos =

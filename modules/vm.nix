@@ -7,11 +7,13 @@
 
   nixosModule = { config, lib, user, ... }:
     let
-      inherit (lib) mkIf;
+      inherit (lib) mkIf mkVMOverride;
       # The `virtualisation.diskImage` option only exists when using `nixos-rebuild build-vm`
     in mkIf (config.virtualisation ? diskImage) {
       users.users.root.password = "apple";
       users.users.${user}.password = "apple";
+
+      system.activationScripts.expire-password = mkVMOverride "";
 
       # WORKAROUND: Attempting to set `virtualisation.qemu` fails even inside of a `mkIf`
       #             as the option needs to exist unconditionally.

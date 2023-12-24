@@ -87,8 +87,8 @@
 
       mkConfigurations = configs:
         foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
-      mkConfiguration = { host, hostSuffix ? if nixos then "-nixos" else ""
-        , user, system, nixos ? false, modules }:
+      mkConfiguration =
+        { host, hostSuffix ? "", user, system, nixos ? false, modules }:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -209,6 +209,7 @@
       }
       {
         host = "hermes";
+        hostSuffix = "-nixos";
         user = "enzime";
         system = "aarch64-linux";
         nixos = true;
@@ -217,6 +218,7 @@
       }
       {
         host = "phi";
+        hostSuffix = "-nixos";
         user = "enzime";
         system = "x86_64-linux";
         nixos = true;
@@ -236,16 +238,6 @@
         };
       }
       {
-        host = "achilles";
-        hostSuffix = "";
-        user = "enzime";
-        system = "aarch64-linux";
-        nixos = true;
-        modules = builtins.attrNames {
-          inherit (modules) i3 graphical-minimal mullvad sway x11vnc;
-        };
-      }
-      {
         host = "echo";
         user = "builder";
         system = "aarch64-darwin";
@@ -253,7 +245,6 @@
       }
       {
         host = "eris";
-        hostSuffix = "";
         user = "human";
         system = "x86_64-linux";
         nixos = true;

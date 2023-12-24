@@ -15,11 +15,6 @@ in {
     inherit (hosts) phi;
   };
 
-  "x11vnc_achilles.age".publicKeys = builtins.attrValues {
-    inherit (users) enzime;
-    inherit (hosts) achilles;
-  };
-
   "x11vnc_phi.age".publicKeys = builtins.attrValues {
     inherit (users) enzime;
     inherit (hosts) phi;

@@ -21,12 +21,9 @@ jobs:
           - name: phi-nixos
             output: nixosConfigurations.phi-nixos.config.system.build.toplevel
             runs-on: ubuntu-latest
-          - name: sigma-nixos
-            output: nixosConfigurations.sigma-nixos.config.system.build.toplevel
+          - name: sigma
+            output: nixosConfigurations.sigma.config.system.build.toplevel
             runs-on: ubuntu-latest
-          - name: achilles
-            output: nixosConfigurations.achilles.config.system.build.toplevel
-            runs-on: [macOS, ARM64]
           - name: echo
             output: darwinConfigurations.echo.system
             runs-on: [macOS, ARM64]
