@@ -3,10 +3,9 @@
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-  boot.initrd.availableKernelModules =
-    [ "ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "virtio_scsi" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
   disko.devices = {
@@ -16,17 +15,13 @@
       content = {
         type = "gpt";
 
-        # for running GRUB on MBR
-        partitions.grub = {
-          size = "1M";
-          type = "EF02";
-        };
-
-        partitions.bpool = {
+        partitions.esp = {
           size = "500M";
+          type = "EF00";
           content = {
-            type = "zfs";
-            pool = "bpool";
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
           };
         };
 
@@ -37,22 +32,6 @@
             pool = "rpool";
           };
         };
-      };
-    };
-
-    zpool.bpool = {
-      type = "zpool";
-      options = { compatibility = "grub2"; };
-      rootFsOptions = {
-        canmount = "off";
-        mountpoint = "none";
-      };
-
-      datasets.boot = {
-        type = "zfs_fs";
-
-        mountpoint = "/boot";
-        options.mountpoint = "legacy";
       };
     };
 
@@ -73,7 +52,6 @@
         mountpoint = "/";
         options.mountpoint = "legacy";
 
-        options."com.sun:auto-snapshot" = "true";
         postCreateHook = "zfs snapshot rpool/root@blank";
       };
 

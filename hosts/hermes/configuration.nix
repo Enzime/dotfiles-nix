@@ -32,6 +32,18 @@
   services.xserver.displayManager.gdm.enable = lib.mkForce false;
   services.xserver.displayManager.lightdm.enable = true;
 
+  nix.distributedBuilds = true;
+
+  nix.buildMachines = [{
+    hostName = "aether";
+    sshUser = "builder";
+    sshKey = "/etc/ssh/ssh_host_ed25519_key";
+    system = "aarch64-linux";
+    supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
+    publicHostKey =
+      "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU5IejJTWjBjTzdsQlFyenVHclkySGNVczFSMnR5N3M5RnlXelNrSnh0OXkK";
+  }];
+
   nix.registry.lnas.to = {
     type = "git";
     url = "file:///home/${user}/Code/nixos-apple-silicon";

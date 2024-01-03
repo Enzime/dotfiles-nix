@@ -53,11 +53,11 @@ let
 in {
   imports = [
     "alacritty"
-    "cachix"
     "flakes"
     "impermanence"
     "kitty"
     "nix-index"
+    "remote"
     "termite"
     "vm"
     "vscode"
@@ -105,7 +105,7 @@ in {
     '';
   };
 
-  darwinModule = { user, host, inputs, config, lib, ... }: {
+  darwinModule = { user, host, inputs, config, pkgs, lib, ... }: {
     imports = [ shared ];
 
     # Used for `system.nixpkgsRevision`
@@ -113,7 +113,13 @@ in {
 
     networking.computerName = host;
 
-    users.users.${user}.home = "/Users/${user}";
+    environment.shells = [ pkgs.zsh ];
+
+    users.users.${user} = {
+      home = "/Users/${user}";
+      # WORKAROUND: Fixes alacritty's terminfo not being found over SSH
+      shell = pkgs.zsh;
+    };
 
     services.nix-daemon.enable = true;
 
@@ -158,6 +164,7 @@ in {
       home.sessionVariables = {
         EDITOR = "vim";
         VISUAL = "vim";
+        MANROFFOPT = "-P -c";
       };
 
       home.file.".ssh/config".text = ''
@@ -186,22 +193,8 @@ in {
         extraConfig = {
           advice = { addIgnoredFile = false; };
           am = { threeWay = true; };
-          core = {
-            attributesfile = "${pkgs.writeText "attributesfile" ''
-              *.age diff=age
-            ''}";
-            hooksPath = "~/.config/git/hooks";
-          };
-          diff = {
-            colorMoved = "default";
-            age.textconv = "${lib.getExe (pkgs.writeShellApplication {
-              name = "age-textconv";
-              runtimeInputs = [ pkgs.age ];
-              text = ''
-                age --decrypt -i <(op read "op://trimcmujfu5fjcx5u4u752yk2i/6gedf3cheamokyw47sq4wbxlsy/private key?ssh-format=openssh") "$1"
-              '';
-            })}";
-          };
+          core = { hooksPath = "~/.config/git/hooks"; };
+          diff = { colorMoved = "default"; };
           fetch = { prune = true; };
           init = { defaultBranch = "main"; };
           merge = { conflictStyle = "zdiff3"; };

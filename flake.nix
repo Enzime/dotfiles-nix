@@ -46,8 +46,17 @@
     "nix-overlay/nix/flake-compat";
   inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.terranix.url = "github:terranix/terranix";
+  inputs.terranix.inputs.flake-utils.follows = "flake-utils";
+  inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+  inputs.nixos-anywhere.inputs.disko.follows = "disko";
+  inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
+  inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
+
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
-    , agenix, disko, pre-commit-hooks, flake-parts, ... }:
+    , agenix, disko, pre-commit-hooks, flake-parts, terranix, ... }:
 
     nixpkgs.lib.recursiveUpdate
 
@@ -239,7 +248,7 @@
       }
       {
         host = "echo";
-        user = "builder";
+        user = "enzime";
         system = "aarch64-darwin";
         modules = builtins.attrNames { inherit (modules) graphical-minimal; };
       }
@@ -250,16 +259,25 @@
         nixos = true;
         modules = builtins.attrNames { inherit (modules) reflector vncserver; };
       }
+      {
+        host = "aether";
+        user = "enzime";
+        system = "aarch64-linux";
+        nixos = true;
+        modules = [ ];
+      }
     ]))
 
     (flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ pre-commit-hooks.flakeModule ];
       systems = import inputs.systems;
-      perSystem = { config, pkgs, system, ... }: {
+      perSystem = { config, self', pkgs, system, ... }: {
         _module.args.pkgs = import nixpkgs {
           inherit system;
+          config.allowUnfree = true;
           overlays = [
             (import ./overlays/identify.nix)
+            (import ./overlays/terraform.nix)
             (inputs.nix-overlay.outputs.overlay)
           ];
         };
@@ -284,6 +302,7 @@
             inherit (home-manager.packages.${system}) home-manager;
             inherit (agenix.packages.${system}) agenix;
             inherit (pkgs) pre-commit;
+            inherit (self'.packages) terraform;
           };
 
           shellHook = ''
@@ -306,13 +325,50 @@
             ${config.pre-commit.devShell.shellHook}
           '';
         };
+
+        packages.terraform = pkgs.terraform.withPlugins (p:
+          builtins.attrValues {
+            inherit (p) external hcloud local null onepassword tls;
+          });
+
+        packages."aether-apply" = pkgs.writeShellApplication {
+          name = "aether-apply";
+          runtimeInputs = [ self'.packages.terraform ];
+          text = ''
+            if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+            cp ${self.terraformConfigurations.aether} config.tf.json \
+              && terraform init \
+              && terraform apply
+          '';
+        };
+
+        packages."aether-destroy" = pkgs.writeShellApplication {
+          name = "aether-destroy";
+          runtimeInputs = [ self'.packages.terraform ];
+          text = ''
+            if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+            cp ${self.terraformConfigurations.aether} config.tf.json \
+              && terraform init \
+              && terraform destroy
+          '';
+        };
       };
       flake = {
         keys = import ./keys.nix;
 
         nixConfig = {
           extra-substituters = [ "https://enzime.cachix.org" ];
-          extra-trusted-public-keys = [ self.keys.signing."enzime.cachix.org" ];
+          extra-trusted-public-keys = builtins.attrValues {
+            inherit (self.keys.signing) aether chi-linux-builder;
+
+            "enzime.cachix.org" = self.keys.signing."enzime.cachix.org";
+          };
+        };
+
+        terraformConfigurations.aether = terranix.lib.terranixConfiguration {
+          system = "x86_64-linux";
+          modules = [ ./hosts/aether/terraform-configuration.nix ];
+          extraArgs = { inherit inputs; };
         };
       };
     });

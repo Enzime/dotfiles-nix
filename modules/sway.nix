@@ -23,6 +23,7 @@
 
     wayland.windowManager.sway.enable = true;
     wayland.windowManager.sway.package = null;
+    services.swayidle.enable = true;
     programs.waybar.enable = true;
 
     wayland.windowManager.sway.config = {
@@ -95,35 +96,40 @@
       };
     };
 
-    systemd.user.services.swayidle = {
-      Unit = {
-        Description = "Idle Manager for Wayland";
-        Documentation = [ "man:swayidle(1)" ];
-        PartOf = [ "graphical-session.target" ];
-      };
-
+    services.swayidle.events = let
+      swaymsg = "${pkgs.sway}/bin/swaymsg";
+      swaylock = lib.getExe pkgs.swaylock;
       # WORKAROUND: 1Password doesn't lock automatically when the screen lock is invoked under Wayland
-      Service.ExecStart = let
-        swayidle = "${pkgs.swayidle}/bin/swayidle";
-        swaymsg = "${pkgs.sway}/bin/swaymsg";
-        swaylock = "${pkgs.swaylock}/bin/swaylock";
-        lock1Password = pkgs.writeShellScript "lock-1p" ''
-          if ${pkgs.procps}/bin/pidof 1password; then
-            ${pkgs._1password-gui}/bin/1password --lock &
-          fi
-        '';
-      in ''
-        ${swayidle} -w -d \
-          before-sleep 'loginctl lock-session' \
-          timeout 1 'exit 0' \
-              resume '${swaymsg} "output * dpms on"' \
-          timeout 180 'loginctl lock-session' \
-              resume '${swaymsg} "output * dpms on"' \
-          lock '${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} "output * dpms off"'
+      lock1Password = pkgs.writeShellScript "lock-1p" ''
+        if ${pkgs.procps}/bin/pidof 1password; then
+          1password --lock &
+        fi
       '';
-
-      Install.WantedBy = [ "sway-session.target" ];
-    };
+    in [
+      {
+        event = "before-sleep";
+        command = "loginctl lock-session";
+      }
+      {
+        event = "lock";
+        command =
+          "${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} output '*' dpms off";
+      }
+    ];
+    services.swayidle.timeouts = let swaymsg = "${pkgs.sway}/bin/swaymsg";
+    in [
+      {
+        timeout = 1;
+        command = "exit 0";
+        resumeCommand = "${swaymsg} output '*' dpms on";
+      }
+      {
+        timeout = 180;
+        command = "loginctl lock-session";
+        resumeCommand = "${swaymsg} output '*' dpms on";
+      }
+    ];
+    services.swayidle.systemdTarget = "sway-session.target";
 
     programs.waybar.settings = [{
       modules-left = [ "sway/workspaces" "sway/mode" ];

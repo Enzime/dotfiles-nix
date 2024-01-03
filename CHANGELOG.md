@@ -1,3 +1,21 @@
+- Use `enzime` as the default user on `echo`
+- Removed `diff.age.textconv`
+- Use `/mnt/phi` on all `personal` NixOS systems
+- Added `aether` as a remote builder for `hermes-nixos`
+- Added `builder` user on all systems
+- Fixed `man` not using colours
+- Fixed `alacritty` terminfo on macOS
+- Refactored `swayidle` to use `home-manager` module
+- Removed RSA SSH host key for `aether`
+- Removed `store-new-generation`
+- Fixed `nixos-rebuild` not working with password-based sudo over SSH
+- Fixed `nixos-rebuild` when host and target use different architectures
+- Added `aether` and `chi-linux-builder` to `trusted-public-keys` for all systems
+- Renamed `cachix` module to `remote`
+- Added `aether`
+- Use `nixos-anywhere` to build `aether` remotely before deploying
+- Use `terranix` to provision `aether`
+- Updated `nixos-apple-silicon`
 - Changed `-nixos` `hostSuffix` to be opt-in
 - Renamed `sigma-nixos` to `sigma`
 - Added SSH key access to `root` for `nixos-rebuild switch --target-host`

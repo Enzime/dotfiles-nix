@@ -54,11 +54,10 @@
     enzime:aZod0R2utyFHotPvicvh1Kj1hcrGjT+5cHAFdnB7X8lJoDpiPDGqEvYXOCEaFsudXD3YFFjEvBiinXsj90jcXg==,mQCyOcbnehUfXRb2Jp/y40ixSeE69rhLnD66Q8bA209moCJmGMwShxT2SIwHJZPGutNTfyqaht2XRK9x27CpLg==,es256,+presence%
   '';
 
+  # For /mnt/phi on other systems
   users.users.${user} = {
-    openssh.authorizedKeys.keys = builtins.attrValues {
-      inherit (keys.users) enzime;
-      inherit (keys.hosts) sigma;
-    };
+    openssh.authorizedKeys.keys =
+      builtins.attrValues { inherit (keys.hosts) hermes-nixos sigma; };
   };
 
   users.groups.builder = { };
