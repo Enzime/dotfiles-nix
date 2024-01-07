@@ -39,6 +39,9 @@ let
         type = "indirect";
       };
 
+      nix.settings.min-free = lib.mkDefault (3 * 1024 * 1024 * 1024);
+      nix.settings.max-free = lib.mkDefault (10 * 1024 * 1024 * 1024);
+
       services.tailscale.enable = true;
 
       programs.zsh.enable = true;

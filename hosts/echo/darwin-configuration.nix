@@ -14,6 +14,4 @@
     publicHostKey =
       "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
   }];
-
-  nix.settings.min-free = 3 * 1024 * 1024 * 1024;
 }

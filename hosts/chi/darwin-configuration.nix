@@ -3,10 +3,6 @@
 {
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
 
-  # Start garbage collection when less than 5 GiB free and stop once 15 GiB is free
-  nix.settings.min-free = 5 * 1024 * 1024 * 1024;
-  nix.settings.max-free = 15 * 1024 * 1024 * 1024;
-
   launchd.user.agents.echo = {
     serviceConfig.ProgramArguments =
       [ "${pkgs.utm}/bin/utmctl" "start" "echo" ];
