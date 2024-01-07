@@ -47,6 +47,7 @@
           "extensions.pocket.enabled" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "app.normandy.enabled" = false;
+          "signon.firefoxRelay.feature" = "disabled";
 
           "browser.aboutConfig.showWarning" = false;
 

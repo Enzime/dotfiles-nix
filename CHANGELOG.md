@@ -1,3 +1,5 @@
+- Use `syncthing`
+- Disabled Firefox Relay prompt
 - Use garbage collection by default on all systems
 - Use `enzime` as the default user on `echo`
 - Removed `diff.age.textconv`
