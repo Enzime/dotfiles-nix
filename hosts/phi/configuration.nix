@@ -60,18 +60,6 @@
       builtins.attrValues { inherit (keys.hosts) hermes-nixos sigma; };
   };
 
-  users.groups.builder = { };
-
-  users.users.builder = {
-    isNormalUser = true;
-    group = "builder";
-
-    openssh.authorizedKeys.keys = builtins.attrValues {
-      inherit (keys.users) enzime;
-      inherit (keys.hosts) hermes-nixos;
-    };
-  };
-
   services.nextcloud.home = "/data/Nextcloud";
 
   services.tailscale.useRoutingFeatures = "both";

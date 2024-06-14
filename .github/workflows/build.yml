@@ -48,7 +48,7 @@ jobs:
         with:
           install_url: https://releases.nixos.org/nix/nix-2.16.1/install
           nix_path: nixpkgs=channel:nixos-unstable
-      - uses: cachix/cachix-action@ea6f6e9b45e696e7d061ffdbec262b68272d07eb
+      - uses: cachix/cachix-action@v15
         with:
           name: enzime
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'

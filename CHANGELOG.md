@@ -1,3 +1,7 @@
+- Use the SSH host key as the default identity when connecting as `root`
+- Use `tmux` automatically when connecting over SSH
+- Removed `builder` user on `phi`
+- Added `printers` module
 - Use `syncthing`
 - Disabled Firefox Relay prompt
 - Use garbage collection by default on all systems

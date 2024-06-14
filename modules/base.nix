@@ -42,6 +42,15 @@ let
       nix.settings.min-free = lib.mkDefault (3 * 1024 * 1024 * 1024);
       nix.settings.max-free = lib.mkDefault (10 * 1024 * 1024 * 1024);
 
+      home-manager.users.root.home.stateVersion = "24.05";
+
+      # We don't use `programs.ssh.extraConfig` because the SSH module
+      # sets a bunch of settings we don't necessarily want
+      home-manager.users.root.home.file.".ssh/config".text = ''
+        Host *
+          IdentityFile /etc/ssh/ssh_host_ed25519_key
+      '';
+
       services.tailscale.enable = true;
 
       programs.zsh.enable = true;
@@ -77,7 +86,6 @@ in {
 
     hardware.enableRedistributableFirmware = true;
 
-    home-manager.users.root.home.stateVersion = "22.11";
     home-manager.users.root.programs.git.enable = true;
     home-manager.users.root.programs.git.extraConfig.safe.directory =
       "${config.users.users.${user}.home}/dotfiles";
