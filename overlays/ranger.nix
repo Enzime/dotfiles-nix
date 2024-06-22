@@ -8,7 +8,7 @@ self: super: {
       propagatedBuildInputs = (assert (
         # SEE: https://github.com/NixOS/nixpkgs/pull/141466#issuecomment-942185842
         # SEE ALSO: https://github.com/ranger/ranger/issues/2404
-        versionAtMost "1.9.3" old.version);
+        versionAtMost "1.9.4" old.version);
         old.propagatedBuildInputs ++ [ super.xclip ]);
 
       patches = (old.patches or [ ]) ++ [

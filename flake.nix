@@ -16,13 +16,16 @@
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
   inputs.nix-overlay.url = "path:overlays/nix";
+  inputs.nix-overlay.inputs.flake-parts.follows = "flake-parts";
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.nix-overlay.inputs.git-hooks.follows = "git-hooks";
 
   inputs.agenix.url = "github:ryantm/agenix";
   inputs.agenix.inputs.darwin.follows = "nix-darwin";
   inputs.agenix.inputs.home-manager.follows = "home-manager";
   inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.agenix.inputs.systems.follows = "systems";
 
   inputs.firefox-addons-overlay.url = "path:overlays/firefox-addons";
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -31,12 +34,10 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-  inputs.pre-commit-hooks.inputs.flake-compat.follows =
-    "nix-overlay/nix/flake-compat";
-  inputs.pre-commit-hooks.inputs.flake-utils.follows = "flake-utils";
-  inputs.pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.pre-commit-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
+  inputs.git-hooks.url = "github:cachix/git-hooks.nix";
+  inputs.git-hooks.inputs.flake-compat.follows = "nix-overlay/nix/flake-compat";
+  inputs.git-hooks.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.git-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
 
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -56,7 +57,7 @@
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
-    , agenix, disko, pre-commit-hooks, flake-parts, terranix, ... }:
+    , agenix, disko, git-hooks, flake-parts, terranix, ... }:
 
     nixpkgs.lib.recursiveUpdate
 
@@ -269,7 +270,7 @@
     ]))
 
     (flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ pre-commit-hooks.flakeModule ];
+      imports = [ git-hooks.flakeModule ];
       systems = import inputs.systems;
       perSystem = { config, self', pkgs, system, ... }: {
         _module.args.pkgs = import nixpkgs {

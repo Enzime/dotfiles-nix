@@ -3,7 +3,7 @@
 
   nixosModule = { lib, ... }: {
     # Still overridable with mkForce
-    services.xserver.displayManager.defaultSession = lib.mkOverride 75 "sway";
+    services.displayManager.defaultSession = lib.mkOverride 75 "sway";
 
     programs.sway.enable = true;
     programs.sway.extraSessionCommands = ''

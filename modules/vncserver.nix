@@ -23,12 +23,12 @@
         Environment = "PATH=/run/current-system/sw/bin";
         Type = "exec";
         ExecStart = "${pkgs.writeShellScript "vnc-start" ''
-          WRAPPER=${args.osConfig.services.xserver.displayManager.sessionData.wrapper}
+          WRAPPER=${args.osConfig.services.displayManager.sessionData.wrapper}
           WRAPPER_ARGS=$(${
             lib.getExe pkgs.ripgrep
           } '(?<=^Exec=).*' --pcre2 --only-matching --no-line-number --color=never ${
             builtins.elemAt
-            args.osConfig.services.xserver.displayManager.sessionPackages 0
+            args.osConfig.services.displayManager.sessionPackages 0
           }/share/xsessions/none+i3.desktop)
           startx $WRAPPER $WRAPPER_ARGS -- ${pkgs.tigervnc}/bin/Xvnc -geometry 1366x768 -depth 24 -SecurityTypes=None
         ''}";

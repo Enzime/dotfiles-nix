@@ -2,7 +2,7 @@
   imports = [ "i3-sway" ];
 
   nixosModule = { pkgs, ... }: {
-    services.xserver.displayManager.defaultSession = "none+i3";
+    services.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3.enable = true;
 
     # Some D-Bus errors were occuring on `switch` without this line

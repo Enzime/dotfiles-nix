@@ -1,3 +1,7 @@
+- Fixed `alacritty` config
+- Disabled autologin on `phi`
+- Removed most `nixos-rebuild` patches
+- Renamed `pre-commit-hooks` to `git-hooks`
 - Use the SSH host key as the default identity when connecting as `root`
 - Use `tmux` automatically when connecting over SSH
 - Removed `builder` user on `phi`

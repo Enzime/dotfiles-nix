@@ -64,9 +64,6 @@
 
   services.tailscale.useRoutingFeatures = "both";
 
-  services.xserver.displayManager.autoLogin.user = user;
-  services.xserver.displayManager.gdm.autoLogin.delay = 5;
-
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
 }

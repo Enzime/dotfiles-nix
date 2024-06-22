@@ -9,7 +9,7 @@
       inherit (pkgs) config overlays;
     };
 
-    services.xserver.displayManager.defaultSession = lib.mkForce "none+i3";
+    services.displayManager.defaultSession = lib.mkForce "none+i3";
     environment.variables.LIBGL_ALWAYS_SOFTWARE = "true";
   };
 }

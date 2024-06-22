@@ -12,12 +12,12 @@
     home.packages = [ pkgs.alacritty.terminfo ];
 
     programs.alacritty.settings = {
-      draw_bold_text_with_bright_colors = true;
-
       font.normal.family = "DejaVu Sans Mono";
       font.size = 10;
 
       colors = {
+        draw_bold_text_with_bright_colors = true;
+
         primary.background = "#0d0c0c";
         primary.foreground = "#fff5ed";
 
