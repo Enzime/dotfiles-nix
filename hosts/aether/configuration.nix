@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -14,8 +14,7 @@
     type = "ed25519";
   }];
 
-  age.secrets.tailscale.file = ../../secrets/tailscale_aether.age;
-  services.tailscale.authKeyFile = config.age.secrets.tailscale.path;
+  services.tailscale.authKeyFile = "/tmp/tailscale.key";
 
   zramSwap.enable = true;
   zramSwap.memoryPercent = 250;

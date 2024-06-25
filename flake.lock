@@ -385,15 +385,16 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1718803059,
-        "narHash": "sha256-MYvDgSPWdF0hP6vzOhpqY+2a66ZLELFj+MUP5S/+dBY=",
-        "owner": "nix-community",
+        "lastModified": 1719368089,
+        "narHash": "sha256-U5KkW8TYa/gjZDBlNUX/Y7Bc7jVn+GeNy7OOnwWU1fk=",
+        "owner": "Enzime",
         "repo": "nixos-anywhere",
-        "rev": "ce18c086d8ca143d43ab20b3db20ab1e3e62c519",
+        "rev": "c47d89857fb3cfa82a0a4bdefaf8c970935c3926",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "Enzime",
+        "ref": "fix/terraform-install",
         "repo": "nixos-anywhere",
         "type": "github"
       }
@@ -411,16 +412,16 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1703425282,
-        "narHash": "sha256-ZgyyERQFHWqGH+H/2w2/zag7PFpIMDcMJ1DXiAJRWsg=",
+        "lastModified": 1719370037,
+        "narHash": "sha256-JnUxMmznv/Gk4mYNUdClirM3vkBAanSu5Yen9MWqjZc=",
         "owner": "Enzime",
         "repo": "nixos-apple-silicon",
-        "rev": "2b802619890f9d635c0ba15b0e408db564318c49",
+        "rev": "88ce93017a0c90d702004aa0a07b55209026a938",
         "type": "github"
       },
       "original": {
         "owner": "Enzime",
-        "ref": "localhost",
+        "ref": "refactor/peripheral-firmware",
         "repo": "nixos-apple-silicon",
         "type": "github"
       }

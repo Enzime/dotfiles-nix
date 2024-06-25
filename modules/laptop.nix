@@ -6,7 +6,7 @@
     services.automatic-timezoned.enable = true;
     services.geoclue2.enableDemoAgent = lib.mkForce true;
 
-    services.xserver.libinput.enable = true;
+    services.libinput.enable = true;
 
     services.udev.extraHwdb = ''
       evdev:name:AT Translated Set 2 keyboard:dmi:*

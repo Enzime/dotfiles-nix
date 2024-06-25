@@ -15,11 +15,6 @@ in {
     inherit (hosts) phi;
   };
 
-  "tailscale_aether.age".publicKeys = builtins.attrValues {
-    inherit (users) enzime;
-    inherit (hosts) aether;
-  };
-
   "x11vnc_phi.age".publicKeys = builtins.attrValues {
     inherit (users) enzime;
     inherit (hosts) phi;

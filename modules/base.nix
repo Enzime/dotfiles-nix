@@ -21,6 +21,8 @@ let
       };
 
       users.users.${user} = {
+        # WORKAROUND: Fixes alacritty's terminfo not being found on macOS over SSH
+        shell = pkgs.zsh;
         openssh.authorizedKeys.keys =
           builtins.attrValues { inherit (keys.users) enzime; };
       };
@@ -105,7 +107,6 @@ in {
     users.users.${user} = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
-      shell = pkgs.zsh;
       initialPassword = "apple";
     };
 
@@ -132,11 +133,7 @@ in {
       shell = pkgs.zsh;
     };
 
-    users.users.${user} = {
-      home = "/Users/${user}";
-      # WORKAROUND: Fixes alacritty's terminfo not being found over SSH
-      shell = pkgs.zsh;
-    };
+    users.users.${user}.home = "/Users/${user}";
 
     services.nix-daemon.enable = true;
 

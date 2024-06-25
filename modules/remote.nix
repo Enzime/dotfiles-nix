@@ -1,12 +1,13 @@
 let
-  shared = { inputs, keys, pkgs, ... }: {
+  shared = { inputs, keys, pkgs, lib, ... }: {
     nix.settings.substituters =
       inputs.self.outputs.nixConfig.extra-substituters;
     nix.settings.trusted-public-keys =
       inputs.self.outputs.nixConfig.extra-trusted-public-keys;
 
     users.users.builder = {
-      shell = pkgs.zsh;
+      # Still overridable with mkForce
+      shell = lib.mkOverride 75 pkgs.zsh;
       openssh.authorizedKeys.keys = builtins.attrValues {
         inherit (keys.users) enzime;
         inherit (keys.hosts) hermes-nixos sigma;

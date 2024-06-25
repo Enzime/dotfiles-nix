@@ -42,7 +42,7 @@
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
 
   inputs.nixos-apple-silicon.url =
-    "github:Enzime/nixos-apple-silicon/localhost";
+    "github:Enzime/nixos-apple-silicon/refactor/peripheral-firmware";
   inputs.nixos-apple-silicon.inputs.flake-compat.follows =
     "nix-overlay/nix/flake-compat";
   inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +51,8 @@
   inputs.terranix.inputs.flake-utils.follows = "flake-utils";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+  inputs.nixos-anywhere.url =
+    "github:Enzime/nixos-anywhere/fix/terraform-install";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
@@ -249,7 +250,7 @@
       }
       {
         host = "echo";
-        user = "enzime";
+        user = "builder";
         system = "aarch64-darwin";
         modules = builtins.attrNames { inherit (modules) graphical-minimal; };
       }
@@ -329,7 +330,7 @@
 
         packages.terraform = pkgs.terraform.withPlugins (p:
           builtins.attrValues {
-            inherit (p) external hcloud local null onepassword tls;
+            inherit (p) external hcloud local null onepassword tailscale;
           });
 
         packages."aether-apply" = pkgs.writeShellApplication {

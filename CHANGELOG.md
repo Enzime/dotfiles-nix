@@ -1,3 +1,6 @@
+- Fixed 1Password Terraform provider not being able to access credentials
+- Use Tailscale Terraform provider to generate auth key for `aether`
+- Use `builder` on `echo`
 - Fixed `nix-store` not being accessible over SSH as `root` on macOS
 - Removed `gramps` on macOS
 - Fixed `root` home-manager configuration failing to activate on macOS
