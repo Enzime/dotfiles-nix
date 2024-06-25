@@ -126,6 +126,12 @@ in {
 
     environment.shells = [ pkgs.zsh ];
 
+    users.users.root = {
+      home = "/var/root";
+      # WORKAROUND: Fixes alacritty's terminfo not being found over SSH
+      shell = pkgs.zsh;
+    };
+
     users.users.${user} = {
       home = "/Users/${user}";
       # WORKAROUND: Fixes alacritty's terminfo not being found over SSH

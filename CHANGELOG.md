@@ -1,3 +1,6 @@
+- Fixed `nix-store` not being accessible over SSH as `root` on macOS
+- Removed `gramps` on macOS
+- Fixed `root` home-manager configuration failing to activate on macOS
 - Fixed `alacritty` config
 - Disabled autologin on `phi`
 - Removed most `nixos-rebuild` patches

@@ -47,7 +47,8 @@
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) mkIf optionalAttrs;
     in {
-      home.packages = builtins.attrValues ({
+      home.packages = builtins.attrValues (optionalAttrs hostPlatform.isLinux {
+        # Currently broken on macOS
         inherit (pkgs) gramps;
       } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
         # Runs on everything except `aarch64-linux`
