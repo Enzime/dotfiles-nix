@@ -1,3 +1,5 @@
+- Fixed `alacritty` not opening as floating
+- Fixed NixOS VM getting stuck on `home-manager` for `root`
 - Fixed 1Password Terraform provider not being able to access credentials
 - Use Tailscale Terraform provider to generate auth key for `aether`
 - Use `builder` on `echo`

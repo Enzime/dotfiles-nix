@@ -32,7 +32,7 @@
     name = "aether";
     image = "debian-12";
     server_type = "cax31";
-    location = "hel1";
+    location = "nbg1";
     ssh_keys = [ (config.resource.hcloud_ssh_key.enzime "id") ];
     shutdown_before_deletion = true;
     backups = false;

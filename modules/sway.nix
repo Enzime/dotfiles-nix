@@ -63,7 +63,7 @@
           }";
 
         "${mod}+Shift+Return" =
-          "exec ${pkgs.alacritty}/bin/alacritty -o window.class.general=floating";
+          "exec ${pkgs.alacritty}/bin/alacritty -o 'window.class.general=\"floating\"'";
 
         "${mod}+1" = "workspace number 1";
         "${mod}+2" = "workspace number 2";

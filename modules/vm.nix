@@ -11,7 +11,13 @@
       # The `virtualisation.diskImage` option only exists when using `nixos-rebuild build-vm`
     in mkIf (config.virtualisation ? diskImage) {
       users.users.root.password = "apple";
-      users.users.${user}.password = "apple";
+      users.users.${user} = {
+        password = "apple";
+        initialPassword = mkVMOverride null;
+      };
+
+      # WORKAROUND: home-manager for `root` will attempt to GC unless it is disabled
+      nix.settings.min-free = mkVMOverride 0;
 
       system.activationScripts.expire-password = mkVMOverride "";
 
