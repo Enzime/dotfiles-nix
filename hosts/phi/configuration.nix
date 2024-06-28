@@ -26,8 +26,6 @@
   hardware.enableRedistributableFirmware = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  services.xserver.displayManager.gdm.autoSuspend = false;
-
   # Enable FreeSync
   services.xserver.deviceSection = ''
     Option "VariableRefresh" "true"

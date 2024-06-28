@@ -1,3 +1,7 @@
+- Removed `x11vnc`
+- Removed `gnome`
+- Use `wayvnc` inside of `greetd` to allow remotely initiating local sessions
+- Use `greetd` instead of `gdm` and `lightdm`
 - Fixed `alacritty` not opening as floating
 - Fixed NixOS VM getting stuck on `home-manager` for `root`
 - Fixed 1Password Terraform provider not being able to access credentials

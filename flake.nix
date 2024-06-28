@@ -235,8 +235,8 @@
         nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
-            bluetooth duckdns gaming i3 nextcloud printers samba scanners sway
-            syncthing wireless virt-manager x11vnc;
+            bluetooth duckdns gaming nextcloud printers samba scanners sway
+            syncthing wireless virt-manager;
         };
       }
       {
@@ -244,9 +244,8 @@
         user = "enzime";
         system = "x86_64-linux";
         nixos = true;
-        modules = builtins.attrNames {
-          inherit (modules) gnome i3 laptop personal sway;
-        };
+        modules =
+          builtins.attrNames { inherit (modules) laptop personal sway; };
       }
       {
         host = "echo";

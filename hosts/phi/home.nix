@@ -31,13 +31,6 @@ in {
     '';
   };
 
-  dconf.settings = {
-    # `phi` never sleeps
-    "org/gnome/settings-daemon/plugins/power" = {
-      sleep-inactive-ac-type = "nothing";
-    };
-  };
-
   services.screen-locker.inactiveInterval = 1;
   services.screen-locker.xautolock.enable = mkForce true;
 }

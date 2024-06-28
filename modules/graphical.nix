@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical-minimal" "mpv" ];
+  imports = [ "graphical-minimal" "greetd" "mpv" ];
 
   darwinModule = { pkgs, ... }: {
     environment.systemPackages =
@@ -22,8 +22,6 @@
   nixosModule = { user, pkgs, lib, ... }: {
     environment.systemPackages = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64
       (builtins.attrValues { inherit (pkgs) spotify-tray; });
-
-    services.xserver.displayManager.gdm.enable = true;
 
     programs._1password-gui.enable = true;
     programs._1password-gui.polkitPolicyOwners = [ user ];

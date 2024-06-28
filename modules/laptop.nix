@@ -62,13 +62,6 @@
         "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
       };
     in mkIf hostPlatform.isLinux {
-      dconf.settings = {
-        "org/gnome/desktop/peripherals/touchpad" = {
-          natural-scroll = false;
-          tap-to-click = true;
-        };
-      };
-
       wayland.windowManager.sway.config.input = {
         "type:touchpad" = { tap = "enabled"; };
       };

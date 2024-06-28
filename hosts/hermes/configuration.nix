@@ -28,10 +28,6 @@
     HandleLidSwitchExternalPower=lock
   '';
 
-  # GDM is currently broken
-  services.xserver.displayManager.gdm.enable = lib.mkForce false;
-  services.xserver.displayManager.lightdm.enable = true;
-
   nix.distributedBuilds = true;
 
   nix.buildMachines = [{
