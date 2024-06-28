@@ -1,13 +1,14 @@
 {
-  nixosModule = { config, pkgs, ... }: {
+  nixosModule = { config, pkgs, lib, ... }: {
     age.secrets.duckdns.file = ../secrets/duckdns.age;
 
     systemd.services.duckdns = {
       description = "Update DuckDNS";
       serviceConfig = {
         EnvironmentFile = config.age.secrets.duckdns.path;
-        ExecStart =
-          "${pkgs.curl}/bin/curl 'https://www.duckdns.org/update?domains=\${SUBDOMAIN}&token=\${TOKEN}&ip='";
+        ExecStart = "${
+            lib.getExe pkgs.curl
+          } 'https://www.duckdns.org/update?domains=\${SUBDOMAIN}&token=\${TOKEN}&ip='";
       };
     };
 

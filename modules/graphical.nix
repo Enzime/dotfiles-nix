@@ -1,7 +1,7 @@
 {
   imports = [ "graphical-minimal" "greetd" "mpv" ];
 
-  darwinModule = { pkgs, ... }: {
+  darwinModule = { pkgs, lib, ... }: {
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) raycast utm; };
 
@@ -13,7 +13,7 @@
 
     system.activationScripts.extraActivation.text = ''
       mkdir -p /usr/local/bin
-      cp ${pkgs._1password}/bin/op /usr/local/bin/op
+      cp ${lib.getExe pkgs._1password} /usr/local/bin/op
     '';
 
     services.karabiner-elements.enable = true;
@@ -50,7 +50,9 @@
       home.activation.updateDock = mkIf hostPlatform.isDarwin
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           echo "adding Visual Studio Code.app to the dock"
-          SUDO_USER= ${pkgs.dockutil}/bin/dockutil --add "${config.programs.vscode.package}/Applications/Visual Studio Code.app" --replacing "Visual Studio Code"
+          SUDO_USER= ${
+            lib.getExe pkgs.dockutil
+          } --add "${config.programs.vscode.package}/Applications/Visual Studio Code.app" --replacing "Visual Studio Code"
         '');
 
       home.file.".ssh/config".text = let

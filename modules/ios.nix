@@ -31,7 +31,7 @@
         Service = {
           # Arguments are taken directly from:
           # https://github.com/NixOS/nixpkgs/blob/HEAD/nixos/modules/services/networking/shairport-sync.nix#L32
-          ExecStart = "${pkgs.shairport-sync}/bin/shairport-sync -v -o pa";
+          ExecStart = "${lib.getExe pkgs.shairport-sync} -v -o pa";
           RuntimeDirectory = "shairport-sync";
         };
         Install = { WantedBy = [ "default.target" ]; };

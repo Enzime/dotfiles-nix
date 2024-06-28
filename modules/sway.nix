@@ -43,10 +43,10 @@
         mod = config.wayland.windowManager.sway.config.modifier;
         screenshotFilename =
           "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
-        grim = "${pkgs.grim}/bin/grim";
-        swaymsg = "${pkgs.sway}/bin/swaymsg";
-        jq = "${pkgs.jq}/bin/jq";
-        slurp = "${pkgs.slurp}/bin/slurp";
+        grim = lib.getExe pkgs.grim;
+        swaymsg = lib.getExe' pkgs.sway "swaymsg";
+        jq = lib.getExe pkgs.jq;
+        slurp = lib.getExe pkgs.slurp;
       in {
         "Control+Shift+2" = "exec ${
             pkgs.writeShellScript "grim-current-window" ''
@@ -62,8 +62,9 @@
             ''
           }";
 
-        "${mod}+Shift+Return" =
-          "exec ${pkgs.alacritty}/bin/alacritty -o 'window.class.general=\"floating\"'";
+        "${mod}+Shift+Return" = "exec ${
+            lib.getExe pkgs.alacritty
+          } -o 'window.class.general=\"floating\"'";
 
         "${mod}+1" = "workspace number 1";
         "${mod}+2" = "workspace number 2";
@@ -97,11 +98,11 @@
     };
 
     services.swayidle.events = let
-      swaymsg = "${pkgs.sway}/bin/swaymsg";
+      swaymsg = lib.getExe' pkgs.sway "swaymsg";
       swaylock = lib.getExe pkgs.swaylock;
       # WORKAROUND: 1Password doesn't lock automatically when the screen lock is invoked under Wayland
       lock1Password = pkgs.writeShellScript "lock-1p" ''
-        if ${pkgs.procps}/bin/pidof 1password; then
+        if ${lib.getExe' pkgs.procps "pidof"} 1password; then
           1password --lock &
         fi
       '';
@@ -116,7 +117,7 @@
           "${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} output '*' dpms off";
       }
     ];
-    services.swayidle.timeouts = let swaymsg = "${pkgs.sway}/bin/swaymsg";
+    services.swayidle.timeouts = let swaymsg = lib.getExe' pkgs.sway "swaymsg";
     in [
       {
         timeout = 1;

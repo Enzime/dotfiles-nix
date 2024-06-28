@@ -58,8 +58,8 @@
       inherit (pkgs.stdenv) hostPlatform;
 
       keybindings = {
-        "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 10";
-        "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 10";
+        "XF86MonBrightnessDown" = "exec ${lib.getExe pkgs.light} -U 10";
+        "XF86MonBrightnessUp" = "exec ${lib.getExe pkgs.light} -A 10";
       };
     in mkIf hostPlatform.isLinux {
       wayland.windowManager.sway.config.input = {

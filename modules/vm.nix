@@ -60,7 +60,7 @@
 
       # WORKAROUND: virtio-vga-gl provides OpenGL 3.0 however OpenGL 3.3 is required for kitty
       programs.kitty.package = pkgs.writeShellScriptBin "kitty" ''
-        LIBGL_ALWAYS_SOFTWARE=1 ${pkgs.kitty}/bin/kitty "$@"
+        LIBGL_ALWAYS_SOFTWARE=1 ${lib.getExe pkgs.kitty} "$@"
       '';
 
       wayland.windowManager.sway.config.output = {

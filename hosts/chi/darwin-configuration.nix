@@ -1,11 +1,11 @@
-{ user, pkgs, ... }:
+{ user, pkgs, lib, ... }:
 
 {
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
 
   launchd.user.agents.echo = {
     serviceConfig.ProgramArguments =
-      [ "${pkgs.utm}/bin/utmctl" "start" "echo" ];
+      [ (lib.getExe' pkgs.utm "utmctl") "start" "echo" ];
     serviceConfig.RunAtLoad = true;
   };
 

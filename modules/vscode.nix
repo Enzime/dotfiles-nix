@@ -172,9 +172,9 @@
           "workbench.settings.enableNaturalLanguageSearch" = false;
 
           "vscode-neovim.neovimExecutablePaths.${nvimSystem}" =
-            "${config.programs.neovim.finalPackage}/bin/nvim";
+            lib.getExe config.programs.neovim.finalPackage;
           "nix.enableLanguageServer" = true;
-          "nix.serverPath" = "${pkgs.nil}/bin/nil";
+          "nix.serverPath" = lib.getExe pkgs.nil;
           "extensions.experimental.affinity" = {
             "asvetliakov.vscode-neovim" = 1;
           };
@@ -253,7 +253,7 @@
 
       home.file.".vscode-server/data/Machine/settings.json".text = ''
         {
-          "nix.serverPath": "${pkgs.nil}/bin/nil"
+          "nix.serverPath": "${lib.getExe pkgs.nil}"
         }
       '';
 

@@ -43,9 +43,9 @@
         mod = config.xsession.windowManager.i3.config.modifier;
         screenshotFilename =
           "${config.xdg.userDirs.pictures}/Screenshots/$(date +%y-%m-%d_%H-%M-%S).png";
-        i3-ws = "${pkgs.i3-ws}/bin/i3-ws";
-        maim = "${pkgs.maim}/bin/maim";
-        xdotool = "${pkgs.xdotool}/bin/xdotool";
+        i3-ws = lib.getExe pkgs.i3-ws;
+        maim = lib.getExe pkgs.maim;
+        xdotool = lib.getExe pkgs.xdotool;
       in {
         "Control+Shift+2" =
           "exec bash -c '${maim} -i $(${xdotool} getactivewindow) ${screenshotFilename}'";
@@ -54,13 +54,15 @@
 
         # `xkill` will fail to grab the cursor if executed on button press
         # WORKAROUND: https://www.reddit.com/r/i3wm/wiki/faq/screenshot_binding
-        "Control+Mod4+${mod}+q" = "--release exec ${pkgs.xorg.xkill}/bin/xkill";
+        "Control+Mod4+${mod}+q" =
+          "--release exec ${lib.getExe pkgs.xorg.xkill}";
 
         # When pressing the keybinding too fast, `i3lock` will turn the screen back on
-        "Mod4+l" = "--release exec ${pkgs.xorg.xset}/bin/xset dpms force off";
+        "Mod4+l" = "--release exec ${lib.getExe pkgs.xorg.xset} dpms force off";
 
-        "${mod}+Shift+Return" =
-          "exec ${pkgs.alacritty}/bin/alacritty -o 'window.class.instance=\"floating\"'";
+        "${mod}+Shift+Return" = "exec ${
+            lib.getExe pkgs.alacritty
+          } -o 'window.class.instance=\"floating\"'";
 
         # switch between workspaces on the current monitor
         "${mod}+1" = "exec ${i3-ws} --ws 1";
@@ -206,7 +208,11 @@
           export PATH=${pkgs.coreutils}/bin:$PATH
 
           # get latest commit hash for dotfiles
-          LATEST=$(${pkgs.curl}/bin/curl -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.coreutils}/bin/cut -d ' ' -f 2)
+          LATEST=$(${
+            lib.getExe pkgs.curl
+          } -s https://github.com/Enzime/dotfiles-nix/commit/HEAD.patch | ${
+            lib.getExe' pkgs.coreutils "head"
+          } -n 1 | ${lib.getExe' pkgs.coreutils "cut"} -d ' ' -f 2)
 
           # get commit hash of currently running dotfiles
           RUNNING=${configRevision.full}
@@ -219,7 +225,9 @@
           fi
 
           export GIT_DIR=~/.config/home-manager/.git
-          if ! ${pkgs.git}/bin/git merge-base --is-ancestor $LATEST ''${RUNNING%-dirty} 2>/dev/null; then
+          if ! ${
+            lib.getExe pkgs.git
+          } merge-base --is-ancestor $LATEST ''${RUNNING%-dirty} 2>/dev/null; then
             UPDATE_FOUND=true
           fi
 
@@ -242,7 +250,7 @@
       longitude = "145.2";
     };
 
-    services.screen-locker.lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
+    services.screen-locker.lockCmd = "${lib.getExe pkgs.i3lock} -n -c 000000";
     services.screen-locker.xautolock.enable = false;
 
     systemd.user.targets.i3-session = {

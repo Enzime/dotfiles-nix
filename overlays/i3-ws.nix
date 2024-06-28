@@ -19,5 +19,7 @@ self: super: {
 
       nativeBuildInputs =
         builtins.attrValues { inherit (super) cmake pkg-config; };
+
+      meta.mainProgram = pname;
     });
 }

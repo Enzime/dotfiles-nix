@@ -30,7 +30,9 @@
             builtins.elemAt
             args.osConfig.services.displayManager.sessionPackages 0
           }/share/xsessions/none+i3.desktop)
-          startx $WRAPPER $WRAPPER_ARGS -- ${pkgs.tigervnc}/bin/Xvnc -geometry 1366x768 -depth 24 -SecurityTypes=None
+          startx $WRAPPER $WRAPPER_ARGS -- ${
+            lib.getExe' pkgs.tigervnc "Xvnc"
+          } -geometry 1366x768 -depth 24 -SecurityTypes=None
         ''}";
       };
       Install = { WantedBy = [ "default.target" ]; };

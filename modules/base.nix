@@ -378,7 +378,9 @@ in {
 
       xdg.dataFile."nvim/rplugin.vim".source =
         pkgs.runCommand "update-remote-plugins" { } ''
-          NVIM_RPLUGIN_MANIFEST=$out timeout 5s ${config.programs.neovim.finalPackage}/bin/nvim \
+          NVIM_RPLUGIN_MANIFEST=$out timeout 5s ${
+            lib.getExe config.programs.neovim.finalPackage
+          } \
             -i NONE \
             -n \
             -u ${

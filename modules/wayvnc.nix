@@ -1,5 +1,5 @@
 {
-  hmModule = { config, pkgs, ... }: {
+  hmModule = { pkgs, lib, ... }: {
     systemd.user.services.wayvnc = {
       Unit = {
         Description = "VNC Server for Sway";
@@ -10,7 +10,7 @@
       Service = {
         ExecStart = "${pkgs.writeShellScript "wayvnc-start" ''
           if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
-            ${pkgs.wayvnc}/bin/wayvnc && exit 1
+            ${lib.getExe pkgs.wayvnc} && exit 1
           else
             exit 0
           fi

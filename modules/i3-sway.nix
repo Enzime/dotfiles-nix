@@ -50,16 +50,16 @@
 
         keybindings = let mod = sharedConfig.modifier;
         in {
-          "XF86AudioMute" = "exec ${pkgs.pamixer}/bin/pamixer -t";
-          "XF86AudioLowerVolume" = "exec ${pkgs.pamixer}/bin/pamixer -d 5";
-          "XF86AudioRaiseVolume" = "exec ${pkgs.pamixer}/bin/pamixer -i 5";
+          "XF86AudioMute" = "exec ${lib.getExe pkgs.pamixer} -t";
+          "XF86AudioLowerVolume" = "exec ${lib.getExe pkgs.pamixer} -d 5";
+          "XF86AudioRaiseVolume" = "exec ${lib.getExe pkgs.pamixer} -i 5";
 
-          "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
+          "${mod}+Return" = "exec ${lib.getExe pkgs.alacritty}";
 
           "Mod4+e" = "exec ${lib.getExe pkgs.powermenu}";
 
           "${mod}+Shift+q" = "kill";
-          "${mod}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run -l 30";
+          "${mod}+d" = "exec ${lib.getExe' pkgs.bemenu "bemenu-run"} -l 30";
 
           "Control+${mod}+Left" = "focus output left";
           "Control+${mod}+Right" = "focus output right";
