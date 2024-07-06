@@ -1,3 +1,4 @@
+- Use `armcord` on `aarch64-linux`
 - Removed `x11vnc`
 - Removed `gnome`
 - Use `wayvnc` inside of `greetd` to allow remotely initiating local sessions

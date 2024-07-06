@@ -55,6 +55,8 @@
         inherit (pkgs) discord joplin-desktop;
       } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isx86_64) {
         inherit (pkgs) signal-desktop;
+      } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isAarch64) {
+        inherit (pkgs) armcord;
       });
 
       xsession.windowManager.i3.config.startup =
