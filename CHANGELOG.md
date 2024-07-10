@@ -1,3 +1,7 @@
+- Fixed `joplin-desktop` on macOS by installing it outside of Nixpkgs
+- Use `discord` without OpenASAR on macOS
+- Changed `rectangle` and `aldente` to autostart
+- Replaced `dockutil` with `system.defaults.dock.persistent-apps`
 - Use `armcord` on `aarch64-linux`
 - Removed `x11vnc`
 - Removed `gnome`

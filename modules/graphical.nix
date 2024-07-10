@@ -32,7 +32,7 @@
   hmModule = { config, pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
-      inherit (lib) mkIf optionalAttrs;
+      inherit (lib) optionalAttrs;
     in {
       home.packages = builtins.attrValues ({
         inherit (pkgs) qalculate-gtk remmina;
@@ -43,17 +43,6 @@
       });
 
       programs.vscode.package = pkgs.vscode;
-
-      # WORKAROUND: home-manager uses `sudo -u` to run activation scripts as the correct user
-      #             however dockutil uses `SUDO_USER` to determine the user who ran the command
-      #             meaning that it attempts to edit root's Dock intead of the current user
-      home.activation.updateDock = mkIf hostPlatform.isDarwin
-        (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          echo "adding Visual Studio Code.app to the dock"
-          SUDO_USER= ${
-            lib.getExe pkgs.dockutil
-          } --add "${config.programs.vscode.package}/Applications/Visual Studio Code.app" --replacing "Visual Studio Code"
-        '');
 
       home.file.".ssh/config".text = let
         _1password-agent = if hostPlatform.isDarwin then

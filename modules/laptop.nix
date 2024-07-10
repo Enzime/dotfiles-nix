@@ -35,6 +35,12 @@
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) aldente; };
 
+    launchd.user.agents.alDente = {
+      serviceConfig.ProgramArguments =
+        [ "/Applications/Nix Apps/AlDente.app/Contents/MacOS/AlDente" ];
+      serviceConfig.RunAtLoad = true;
+    };
+
     system.defaults.trackpad.Clicking = true;
 
     # WORKAROUND: Setting this via `system.defaults` won't check the checkbox

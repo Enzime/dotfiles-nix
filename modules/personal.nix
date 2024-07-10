@@ -52,9 +52,12 @@
         inherit (pkgs) gramps;
       } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
         # Runs on everything except `aarch64-linux`
-        inherit (pkgs) discord joplin-desktop;
+        discord = if hostPlatform.isLinux then
+          pkgs.discord.override { withOpenASAR = true; }
+        else
+          pkgs.discord;
       } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isx86_64) {
-        inherit (pkgs) signal-desktop;
+        inherit (pkgs) joplin-desktop signal-desktop;
       } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isAarch64) {
         inherit (pkgs) armcord;
       });

@@ -1,11 +1,19 @@
 {
   hmModule = { config, pkgs, lib, ... }:
-    let inherit (pkgs.stdenv) hostPlatform;
+    let
+      inherit (pkgs.stdenv) hostPlatform;
+
+      firefoxUnsupported = pkgs.firefox.meta.unsupported
+        && pkgs.firefox-bin.meta.unsupported;
     in {
       home.activation.setDefaultBrowser = lib.mkIf hostPlatform.isDarwin
+        # Update this to ~/Applications/Home Manager Apps/Firefox.app when firefox-bin-unwrapped is merged
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
-            /usr/bin/open ~/Applications/Home\ Manager\ Apps/Firefox.app
+            /usr/bin/open ${
+              assert firefoxUnsupported;
+              "/Applications/Firefox.app"
+            }
             ${lib.getExe pkgs.defaultbrowser} firefox
           fi
         '');
@@ -13,9 +21,7 @@
       programs.firefox.enable = true;
       programs.firefox.package = if hostPlatform.isDarwin then
       # Leaving this until firefox-bin-unwrapped is merged
-        assert (pkgs.firefox.meta.unsupported
-          && pkgs.firefox-bin.meta.unsupported);
-        pkgs.emptyDirectory
+        assert firefoxUnsupported; pkgs.emptyDirectory
       else
         pkgs.firefox;
       programs.firefox.profiles.base = {

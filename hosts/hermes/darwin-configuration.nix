@@ -1,4 +1,4 @@
-{ user, ... }:
+{ user, pkgs, ... }:
 
 {
   networking.knownNetworkServices = [ "Wi-Fi" ];
@@ -15,4 +15,17 @@
     type = "git";
     url = "file:///Users/${user}/Code/nix-darwin";
   };
+
+  system.defaults.dock.persistent-apps = [
+    # Update this when firefox-bin-unwrapped is merged
+    (assert pkgs.firefox.meta.unsupported && pkgs.firefox-bin.meta.unsupported;
+      "/Applications/Firefox.app")
+    "/System/Applications/Utilities/Terminal.app"
+    "/Applications/1Password.app"
+    "${pkgs.vscode}/Applications/Visual Studio Code.app"
+    "${pkgs.spotify}/Applications/Spotify.app"
+    "/System/Applications/Calendar.app"
+    "/Applications/Joplin.app"
+    "/System/Applications/System Settings.app"
+  ];
 }

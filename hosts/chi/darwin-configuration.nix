@@ -17,4 +17,12 @@
     type = "git";
     url = "file:///Users/${user}/Projects/nix-darwin";
   };
+
+  system.defaults.dock.persistent-apps = [
+    # Update this when firefox-bin-unwrapped is merged
+    (assert pkgs.firefox.meta.unsupported && pkgs.firefox-bin.meta.unsupported;
+      "/Applications/Firefox.app")
+    "${pkgs.utm}/Applications/UTM.app"
+    "/System/Applications/System Settings.app"
+  ];
 }

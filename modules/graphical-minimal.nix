@@ -5,6 +5,12 @@
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) rectangle; };
 
+    launchd.user.agents.rectangle = {
+      serviceConfig.ProgramArguments =
+        [ "/Applications/Nix Apps/Rectangle.app/Contents/MacOS/Rectangle" ];
+      serviceConfig.RunAtLoad = true;
+    };
+
     # Close Terminal if shell exited cleanly
     system.activationScripts.extraUserActivation.text = ''
       if [[ -f ~/Library/Preferences/com.apple.Terminal.plist ]]; then
