@@ -1,3 +1,5 @@
+- Updated `nextcloud`
+- Fixed `joplin-desktop` not syncing by using the latest version
 - Fixed `joplin-desktop` on macOS by installing it outside of Nixpkgs
 - Use `discord` without OpenASAR on macOS
 - Changed `rectangle` and `aldente` to autostart
