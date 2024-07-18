@@ -98,18 +98,19 @@
     };
 
     services.swayidle.events = let
+      loginctl = lib.getExe' pkgs.systemd "loginctl";
       swaymsg = lib.getExe' pkgs.sway "swaymsg";
       swaylock = lib.getExe pkgs.swaylock;
       # WORKAROUND: 1Password doesn't lock automatically when the screen lock is invoked under Wayland
       lock1Password = pkgs.writeShellScript "lock-1p" ''
         if ${lib.getExe' pkgs.procps "pidof"} 1password; then
-          1password --lock &
+          ${lib.getExe pkgs._1password-gui} --lock &
         fi
       '';
     in [
       {
         event = "before-sleep";
-        command = "loginctl lock-session";
+        command = "${loginctl} lock-session";
       }
       {
         event = "lock";
@@ -117,7 +118,9 @@
           "${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} output '*' dpms off";
       }
     ];
-    services.swayidle.timeouts = let swaymsg = lib.getExe' pkgs.sway "swaymsg";
+    services.swayidle.timeouts = let
+      swaymsg = lib.getExe' pkgs.sway "swaymsg";
+      loginctl = lib.getExe' pkgs.systemd "loginctl";
     in [
       {
         timeout = 1;
@@ -126,7 +129,7 @@
       }
       {
         timeout = 180;
-        command = "loginctl lock-session";
+        command = "${loginctl} lock-session";
         resumeCommand = "${swaymsg} output '*' dpms on";
       }
     ];

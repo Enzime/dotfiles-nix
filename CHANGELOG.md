@@ -1,3 +1,5 @@
+- Fixed `swayidle` not automatically locking the screen
+- Fixed 1Password not locking when locking screen
 - Renamed `hmModule` to `homeModule`
 - Fixed `gparted` not launching under Wayland
 - Added `gparted`
