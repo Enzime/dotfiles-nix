@@ -30,7 +30,7 @@
 
   nixosModule = { user, pkgs, ... }: {
     environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) pavucontrol; };
+      builtins.attrValues { inherit (pkgs) gparted pavucontrol; };
 
     services.xserver.enable = true;
 
