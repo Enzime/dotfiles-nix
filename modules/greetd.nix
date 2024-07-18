@@ -1,13 +1,28 @@
 {
-  nixosModule = { pkgs, lib, ... }: {
+  nixosModule = { config, pkgs, lib, ... }: {
+    # Remove this when the programs.regreet.theme options get added
+    # so we no longer need to add these packages manually
+    environment.systemPackages = assert !config.programs.regreet ? theme;
+      builtins.attrValues {
+        inherit (pkgs) gnome-themes-extra;
+        inherit (pkgs.gnome) adwaita-icon-theme;
+      };
+
+    fonts.packages = assert !config.programs.regreet ? theme;
+      builtins.attrValues { inherit (pkgs) cantarell-fonts; };
+
     services.greetd.enable = true;
     programs.regreet.enable = true;
 
     services.greetd.settings.default_session.command =
-      "${lib.getExe pkgs.sway} --config ${
+      "${lib.getExe' pkgs.dbus "dbus-run-session"} ${
+        lib.getExe pkgs.sway
+      } --config ${
         pkgs.writeText "greetd-sway-config" ''
           exec "${lib.getExe pkgs.wayvnc} &"
           exec "${lib.getExe pkgs.greetd.regreet}; swaymsg exit"
+
+          include /etc/sway/config.d/*
         ''
       }";
 

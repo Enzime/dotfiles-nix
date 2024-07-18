@@ -17,7 +17,8 @@
   };
 
   homeModule = { config, pkgs, lib, ... }: {
-    home.packages = builtins.attrValues { inherit (pkgs) wl-clipboard; };
+    home.packages =
+      builtins.attrValues { inherit (pkgs) wl-clipboard font-awesome; };
 
     home.sessionVariables = { NIXOS_OZONE_WL = 1; };
 

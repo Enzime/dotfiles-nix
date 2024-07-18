@@ -1,3 +1,6 @@
+- Removed `hidpi`
+- Fixed missing icons when using `greetd` and `sway`
+- Updated `nix` as it was crashing when running a NixOS VM
 - Fixed `swayidle` not automatically locking the screen
 - Fixed 1Password not locking when locking screen
 - Renamed `hmModule` to `homeModule`
