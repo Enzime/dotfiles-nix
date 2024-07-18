@@ -62,7 +62,7 @@
     networking.dns = [ "1.1.1.1" ];
   };
 
-  hmModule = { pkgs, lib, ... }:
+  homeModule = { pkgs, lib, ... }:
     let
       inherit (lib) mkIf;
       inherit (pkgs.stdenv) hostPlatform;

@@ -1,3 +1,4 @@
+- Renamed `hmModule` to `homeModule`
 - Fixed `gparted` not launching under Wayland
 - Added `gparted`
 - Use `/etc/nix-darwin` symlink to support `darwin-rebuild switch` without `--flake`

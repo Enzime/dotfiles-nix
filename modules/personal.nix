@@ -42,7 +42,7 @@
     users.users.${user}.extraGroups = [ "rslsync" ];
   };
 
-  hmModule = { config, pkgs, lib, ... }:
+  homeModule = { config, pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) mkIf optionalAttrs;

@@ -1,5 +1,5 @@
 {
-  hmModule = { ... }: {
+  homeModule = { ... }: {
     home.sessionVariablesExtra = ''
       if [[ $XDG_SESSION_TYPE = "x11" ]]; then
         export GDK_SCALE=2

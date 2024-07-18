@@ -16,7 +16,7 @@
     xdg.portal.wlr.enable = true;
   };
 
-  hmModule = { config, pkgs, lib, ... }: {
+  homeModule = { config, pkgs, lib, ... }: {
     home.packages = builtins.attrValues { inherit (pkgs) wl-clipboard; };
 
     home.sessionVariables = { NIXOS_OZONE_WL = 1; };

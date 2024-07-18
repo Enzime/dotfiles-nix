@@ -1,5 +1,5 @@
 {
-  hmModule = { pkgs, lib, ... }:
+  homeModule = { pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) mkIf mkDefault;

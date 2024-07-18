@@ -6,7 +6,7 @@
     users.users.${user}.extraGroups = [ "libvirtd" ];
   };
 
-  hmModule = { pkgs, ... }: {
+  homeModule = { pkgs, ... }: {
     home.packages = builtins.attrValues { inherit (pkgs) virt-manager; };
   };
 }

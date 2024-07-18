@@ -3,7 +3,7 @@
     environment.systemPackages = builtins.attrValues { inherit (pkgs) iina; };
   };
 
-  hmModule = { pkgs, ... }: {
+  homeModule = { pkgs, ... }: {
     programs.mpv.enable = true;
     programs.mpv.bindings = {
       "BS" = "cycle pause";

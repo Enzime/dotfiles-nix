@@ -41,7 +41,7 @@
     };
 
   # WORKAROUND: { osConfig ? { }, ... }: fails when using `home-manager build`
-  hmModule = { inputs, pkgs, lib, ... }@args:
+  homeModule = { inputs, pkgs, lib, ... }@args:
     let inherit (lib) hasAttrByPath mkIf mkVMOverride;
     in mkIf (hasAttrByPath [ "osConfig" "virtualisation" "diskImage" ] args) {
       services.polybar.config."bar/centre".monitor = mkVMOverride "Virtual-1";

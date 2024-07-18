@@ -11,7 +11,7 @@
     programs.steam.enable = true;
   };
 
-  hmModule = { pkgs, ... }: {
+  homeModule = { pkgs, ... }: {
     home.packages =
       builtins.attrValues { inherit (pkgs) lutris prismlauncher; };
   };

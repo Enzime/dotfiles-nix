@@ -113,11 +113,11 @@
           hostname = "${host}${hostSuffix}";
           nixosModules = map (getAttr "nixosModule")
             (filter (hasAttr "nixosModule") modulesToImport);
-          hmModules = map (getAttr "hmModule")
-            (filter (hasAttr "hmModule") modulesToImport);
+          homeModules = map (getAttr "homeModule")
+            (filter (hasAttr "homeModule") modulesToImport);
           darwinModules = map (getAttr "darwinModule")
             (filter (hasAttr "darwinModule") modulesToImport);
-          home = [ ./hosts/${host}/home.nix ] ++ hmModules;
+          home = [ ./hosts/${host}/home.nix ] ++ homeModules;
 
           configRevision = {
             full = self.rev or self.dirtyRev or "dirty-inputs";

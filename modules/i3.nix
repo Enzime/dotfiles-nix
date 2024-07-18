@@ -9,7 +9,7 @@
     programs.dconf.enable = true;
   };
 
-  hmModule = { config, pkgs, lib, configRevision, ... }: {
+  homeModule = { config, pkgs, lib, configRevision, ... }: {
     home.packages = builtins.attrValues {
       inherit (pkgs) xclip fira-mono font-awesome_5;
       inherit (pkgs.xfce) thunar;

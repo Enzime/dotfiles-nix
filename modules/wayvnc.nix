@@ -1,5 +1,5 @@
 {
-  hmModule = { pkgs, lib, ... }: {
+  homeModule = { pkgs, lib, ... }: {
     systemd.user.services.wayvnc = {
       Unit = {
         Description = "VNC Server for Sway";

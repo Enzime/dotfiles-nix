@@ -151,7 +151,7 @@ in {
     '';
   };
 
-  hmModule = { config, inputs, pkgs, lib, ... }:
+  homeModule = { config, inputs, pkgs, lib, ... }:
     let
       inherit (lib) mkIf readFile;
       inherit (pkgs.stdenv) hostPlatform;

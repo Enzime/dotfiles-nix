@@ -33,7 +33,7 @@ in {
     users.users.builder.home = "/Users/builder";
   };
 
-  hmModule = { pkgs, ... }: {
+  homeModule = { pkgs, ... }: {
     home.packages = builtins.attrValues { inherit (pkgs) cachix; };
   };
 }

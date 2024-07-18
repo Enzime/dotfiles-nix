@@ -33,7 +33,7 @@
     programs._1password.enable = true;
   };
 
-  hmModule = { config, pkgs, lib, ... }:
+  homeModule = { config, pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) optionalAttrs;

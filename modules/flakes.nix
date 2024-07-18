@@ -10,7 +10,7 @@ in {
 
   nixosModule = { ... }: { imports = [ shared ]; };
 
-  hmModule = { nixos, pkgs, lib, ... }: {
+  homeModule = { nixos, pkgs, lib, ... }: {
     imports = [ shared ];
 
     home.packages = lib.mkIf (!nixos) (builtins.attrValues {

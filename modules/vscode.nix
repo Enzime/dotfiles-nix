@@ -5,7 +5,7 @@
     '';
   };
 
-  hmModule = { config, pkgs, lib, ... }:
+  homeModule = { config, pkgs, lib, ... }:
     let inherit (pkgs.stdenv) hostPlatform;
     in {
       home.file.".vscode-server/extensions".source =

@@ -8,7 +8,7 @@
     environment.systemPackages = [ pkgs.kitty.terminfo ];
   };
 
-  hmModule = { pkgs, ... }: {
+  homeModule = { pkgs, ... }: {
     home.packages = [ pkgs.kitty.terminfo ];
 
     programs.kitty.font.name = "DejaVu Sans Mono";

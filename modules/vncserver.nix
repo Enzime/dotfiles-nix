@@ -13,7 +13,7 @@
     users.users.${user}.linger = true;
   };
 
-  hmModule = { pkgs, lib, ... }@args: {
+  homeModule = { pkgs, lib, ... }@args: {
     services.redshift.enable = lib.mkForce false;
     services.screen-locker.enable = lib.mkForce false;
 

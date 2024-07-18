@@ -1,5 +1,5 @@
 {
-  hmModule = { config, pkgs, lib, ... }:
+  homeModule = { config, pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
 

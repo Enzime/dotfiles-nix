@@ -8,7 +8,7 @@
     environment.systemPackages = [ pkgs.alacritty.terminfo ];
   };
 
-  hmModule = { pkgs, ... }: {
+  homeModule = { pkgs, ... }: {
     home.packages = [ pkgs.alacritty.terminfo ];
 
     programs.alacritty.settings = {
