@@ -36,8 +36,12 @@
       builtins.attrValues { inherit (pkgs) aldente; };
 
     launchd.user.agents.alDente = {
-      serviceConfig.ProgramArguments =
-        [ "/Applications/Nix Apps/AlDente.app/Contents/MacOS/AlDente" ];
+      serviceConfig.ProgramArguments = [
+        "/bin/sh"
+        "-c"
+        ''
+          /bin/wait4path /nix/store &amp;&amp; exec "/Applications/Nix Apps/AlDente.app/Contents/MacOS/AlDente"''
+      ];
       serviceConfig.RunAtLoad = true;
     };
 

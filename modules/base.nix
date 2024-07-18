@@ -125,6 +125,9 @@ in {
 
     networking.computerName = host;
 
+    environment.etc."nix-darwin".source =
+      "${config.users.users.${user}.home}/dotfiles";
+
     environment.shells = [ pkgs.zsh ];
 
     users.users.root = {

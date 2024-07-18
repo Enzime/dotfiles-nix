@@ -4,8 +4,14 @@
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
 
   launchd.user.agents.echo = {
-    serviceConfig.ProgramArguments =
-      [ (lib.getExe' pkgs.utm "utmctl") "start" "echo" ];
+    serviceConfig.ProgramArguments = [
+      "/bin/sh"
+      "-c"
+      ''
+        /bin/wait4path /nix/store &amp;&amp; exec "${
+          lib.getExe' pkgs.utm "utmctl"
+        }" start echo''
+    ];
     serviceConfig.RunAtLoad = true;
   };
 

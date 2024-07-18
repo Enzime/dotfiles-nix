@@ -1,3 +1,5 @@
+- Use `/etc/nix-darwin` symlink to support `darwin-rebuild switch` without `--flake`
+- Fixed some apps not running on startup on macOS
 - Updated `nextcloud`
 - Fixed `joplin-desktop` not syncing by using the latest version
 - Fixed `joplin-desktop` on macOS by installing it outside of Nixpkgs
