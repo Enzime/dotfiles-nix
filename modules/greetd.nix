@@ -8,11 +8,9 @@
         inherit (pkgs.gnome) adwaita-icon-theme;
       };
 
-    fonts.packages = assert !config.programs.regreet ? theme;
-      builtins.attrValues { inherit (pkgs) cantarell-fonts; };
-
     services.greetd.enable = true;
     programs.regreet.enable = true;
+    programs.regreet.settings.font_name = "DejaVu Sans 16";
 
     services.greetd.settings.default_session.command =
       "${lib.getExe' pkgs.dbus "dbus-run-session"} ${

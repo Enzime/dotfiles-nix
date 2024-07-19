@@ -12,6 +12,6 @@ elif [ $no_todos_found -eq 0 ]; then
   echo "hint: Use --no-verify (-n) to bypass this pre-commit hook."
   exit 1
 else
-  echo "error: unknown error code returned by grep '$?'"
+  echo "error: unknown error code returned by grep '$no_todos_found'"
   exit 1
 fi

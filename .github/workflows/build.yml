@@ -6,7 +6,6 @@ jobs:
   build:
     strategy:
       fail-fast: false
-      max-parallel: 1
       matrix:
         include:
           - name: chi
@@ -17,7 +16,7 @@ jobs:
             runs-on: [macOS, ARM64]
           - name: hermes-nixos
             output: nixosConfigurations.hermes-nixos.config.system.build.toplevel
-            runs-on: [macOS, ARM64]
+            runs-on: ARM64
           - name: phi-nixos
             output: nixosConfigurations.phi-nixos.config.system.build.toplevel
             runs-on: ubuntu-latest
@@ -30,12 +29,15 @@ jobs:
           - name: eris
             output: nixosConfigurations.eris.config.system.build.toplevel
             runs-on: ubuntu-latest
+          - name: aether
+            output: nixosConfigurations.aether.config.system.build.toplevel
+            runs-on: ARM64
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Free space on GitHub-hosted Runner
-        if: ${{ matrix.runs-on == 'ubuntu-latest' }}
+        if: runner.environment == 'github-hosted'
         run: |
           # 13.5GiB
           sudo rm -rf /usr/local/lib/android
@@ -43,16 +45,16 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           # 4.7GiB
           sudo rm -rf /usr/local/.ghcup
-      - uses: actions/checkout@v3.5.3
-      - uses: cachix/install-nix-action@v22
+      - uses: actions/checkout@v4.1.7
+      - uses: cachix/install-nix-action@v27
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.16.1/install
+          install_url: https://releases.nixos.org/nix/nix-2.23.3/install
           nix_path: nixpkgs=channel:nixos-unstable
       - uses: cachix/cachix-action@v15
         with:
           name: enzime
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-          skipAddingSubstituter: ${{ contains(matrix.runs-on, 'macOS') }}
+          skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
       - run: nix flake update
       - run: git reset --hard
       - run: nix flake check

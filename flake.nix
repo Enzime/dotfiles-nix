@@ -51,8 +51,7 @@
   inputs.terranix.inputs.flake-utils.follows = "flake-utils";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixos-anywhere.url =
-    "github:Enzime/nixos-anywhere/fix/terraform-install";
+  inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";

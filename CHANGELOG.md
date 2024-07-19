@@ -1,3 +1,10 @@
+- Fixed `cachix` trying to add substituters on self-hosted GitHub runners
+- Changed `zshrc` to allow detaching from `tmux` over SSH
+- Use `services.fwupd.uefiCapsuleSettings` to configure `fwupd`
+- Removed `max-parallel` to run multiple builds at the same time
+- Fixed `shellcheck` warning in `no-todos` script
+- Fixed `nix flake update` failing in GitHub Actions
+- Removed `cantarell-fonts` as it causes Firefox and VSCode to use worse fonts
 - Removed `hidpi`
 - Fixed missing icons when using `greetd` and `sway`
 - Updated `nix` as it was crashing when running a NixOS VM

@@ -385,16 +385,15 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1719368089,
-        "narHash": "sha256-U5KkW8TYa/gjZDBlNUX/Y7Bc7jVn+GeNy7OOnwWU1fk=",
-        "owner": "Enzime",
+        "lastModified": 1720926282,
+        "narHash": "sha256-JOF4DNpKHzK7noVkh9tP+Rg9yZUyOBrEKPbdqKom5KI=",
+        "owner": "nix-community",
         "repo": "nixos-anywhere",
-        "rev": "c47d89857fb3cfa82a0a4bdefaf8c970935c3926",
+        "rev": "daf19effbafba2cfeac4c41e17dccdd07ca86cb3",
         "type": "github"
       },
       "original": {
-        "owner": "Enzime",
-        "ref": "fix/terraform-install",
+        "owner": "nix-community",
         "repo": "nixos-anywhere",
         "type": "github"
       }
