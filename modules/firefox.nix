@@ -6,7 +6,8 @@
       firefoxUnsupported = pkgs.firefox.meta.unsupported
         && pkgs.firefox-bin.meta.unsupported;
     in {
-      home.activation.setDefaultBrowser = lib.mkIf hostPlatform.isDarwin
+      home.activation.setDefaultBrowser = lib.mkIf
+        (config.programs.firefox.enable && hostPlatform.isDarwin)
         # Update this to ~/Applications/Home Manager Apps/Firefox.app when firefox-bin-unwrapped is merged
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
@@ -18,7 +19,7 @@
           fi
         '');
 
-      programs.firefox.enable = true;
+      programs.firefox.enable = lib.mkDefault true;
       programs.firefox.package = if hostPlatform.isDarwin then
       # Leaving this until firefox-bin-unwrapped is merged
         assert firefoxUnsupported; pkgs.emptyDirectory

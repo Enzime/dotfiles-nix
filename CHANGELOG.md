@@ -1,3 +1,7 @@
+- Fixed `echo` trying to set Firefox as the default browser
+- Fixed `nixConfig` being defined in the wrong place in `flake.nix`
+- Use `enzime` as the default user on `echo`
+- Removed `gaming` profile from `phi`
 - Fixed `cachix` trying to add substituters on self-hosted GitHub runners
 - Changed `zshrc` to allow detaching from `tmux` over SSH
 - Use `services.fwupd.uefiCapsuleSettings` to configure `fwupd`

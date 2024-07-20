@@ -1,9 +1,10 @@
 let
   shared = { inputs, keys, pkgs, lib, ... }: {
-    nix.settings.substituters =
-      inputs.self.outputs.nixConfig.extra-substituters;
-    nix.settings.trusted-public-keys =
-      inputs.self.outputs.nixConfig.extra-trusted-public-keys;
+    nix.settings = let flake = import "${inputs.self}/flake.nix";
+    in {
+      substituters = flake.nixConfig.extra-substituters;
+      trusted-public-keys = flake.nixConfig.extra-trusted-public-keys;
+    };
 
     users.users.builder = {
       # Still overridable with mkForce

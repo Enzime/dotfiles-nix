@@ -56,6 +56,16 @@
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
 
+  nixConfig = {
+    extra-substituters = [ "https://enzime.cachix.org" ];
+
+    extra-trusted-public-keys = [
+      "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
+      "aether-1:fMOnq1aouEVTB6pz6TvszTrXQhrQAbPePlilPafmsHs="
+      "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs="
+    ];
+  };
+
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
     , agenix, disko, git-hooks, flake-parts, terranix, ... }:
 
@@ -234,7 +244,7 @@
         nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
-            bluetooth duckdns gaming nextcloud printers samba scanners sway
+            bluetooth duckdns nextcloud personal printers samba scanners sway
             syncthing wireless virt-manager;
         };
       }
@@ -248,7 +258,7 @@
       }
       {
         host = "echo";
-        user = "builder";
+        user = "enzime";
         system = "aarch64-darwin";
         modules = builtins.attrNames { inherit (modules) graphical-minimal; };
       }
@@ -355,15 +365,6 @@
       };
       flake = {
         keys = import ./keys.nix;
-
-        nixConfig = {
-          extra-substituters = [ "https://enzime.cachix.org" ];
-          extra-trusted-public-keys = builtins.attrValues {
-            inherit (self.keys.signing) aether chi-linux-builder;
-
-            "enzime.cachix.org" = self.keys.signing."enzime.cachix.org";
-          };
-        };
 
         terraformConfigurations.aether = terranix.lib.terranixConfiguration {
           system = "x86_64-linux";
