@@ -1,3 +1,5 @@
+- Use `services.github-runners` to manage self-hosted GitHub runner on `echo`
+- Refactored `defaults write` to use `system.defaults.Custom{User,System}Preferences` instead
 - Fixed `echo` trying to set Firefox as the default browser
 - Fixed `nixConfig` being defined in the wrong place in `flake.nix`
 - Use `enzime` as the default user on `echo`

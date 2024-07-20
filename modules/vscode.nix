@@ -1,8 +1,7 @@
 {
   darwinModule = { ... }: {
-    system.activationScripts.extraUserActivation.text = ''
-      defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
-    '';
+    system.defaults.CustomUserPreferences."com.microsoft.VSCode"."ApplePressAndHoldEnabled" =
+      false;
   };
 
   homeModule = { config, pkgs, lib, ... }:

@@ -260,7 +260,9 @@
         host = "echo";
         user = "enzime";
         system = "aarch64-darwin";
-        modules = builtins.attrNames { inherit (modules) graphical-minimal; };
+        modules = builtins.attrNames {
+          inherit (modules) github-runner graphical-minimal;
+        };
       }
       {
         host = "eris";
