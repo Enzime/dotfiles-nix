@@ -1,3 +1,6 @@
+- Removed `signal-desktop`
+- Removed `resilio-sync`
+- Removed `discord`
 - Use `services.github-runners` to manage self-hosted GitHub runner on `echo`
 - Refactored `defaults write` to use `system.defaults.Custom{User,System}Preferences` instead
 - Fixed `echo` trying to set Firefox as the default browser
