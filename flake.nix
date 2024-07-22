@@ -244,8 +244,8 @@
         nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
-            bluetooth duckdns nextcloud personal printers samba scanners sway
-            syncthing wireless virt-manager;
+            bluetooth deluge duckdns nextcloud personal printers samba scanners
+            sway syncthing wireless virt-manager;
         };
       }
       {
@@ -269,7 +269,8 @@
         user = "human";
         system = "x86_64-linux";
         nixos = true;
-        modules = builtins.attrNames { inherit (modules) reflector vncserver; };
+        modules =
+          builtins.attrNames { inherit (modules) deluge reflector vncserver; };
       }
       {
         host = "aether";

@@ -1,3 +1,7 @@
+- Removed `nixos-option` and `qalculate-gtk` overlays as they are no longer necessary
+- Use `pythonPackagesExtensions` instead of `lib.recursiveUpdate python3Packages` for overriding Python packages
+- Fixed `deluge` not running due to old `pyasn1-modules`
+- Added `deluge` module
 - Removed `signal-desktop`
 - Removed `resilio-sync`
 - Removed `discord`

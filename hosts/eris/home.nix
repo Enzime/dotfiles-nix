@@ -7,6 +7,17 @@ in {
     output = "VNC-0";
   }];
 
+  xsession.windowManager.i3.config.startup = [
+    {
+      command = "firefox";
+      notification = false;
+    }
+    {
+      command = "deluge";
+      notification = false;
+    }
+  ];
+
   services.polybar = {
     config = {
       "bar/base" = {
