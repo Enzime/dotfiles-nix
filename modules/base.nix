@@ -86,6 +86,8 @@ in {
     environment.etc."nixos".source =
       "${config.users.users.${user}.home}/dotfiles";
 
+    nix.channel.enable = false;
+
     hardware.enableRedistributableFirmware = true;
 
     home-manager.users.root.programs.git.enable = true;
