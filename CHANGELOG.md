@@ -1,3 +1,4 @@
+- Fixed `Access to the path '/var/run/github-runners/echo' is denied` error after restarting `echo`
 - Disabled `nix-channel` on NixOS
 - Fixed `Access to the path '/var/run/github-runners/echo' is denied` error after restarting `echo`
 - Removed `nixos-option` and `qalculate-gtk` overlays as they are no longer necessary
