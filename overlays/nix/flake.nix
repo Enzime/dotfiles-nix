@@ -2,7 +2,7 @@
   inputs.nix.url = "github:NixOS/nix";
   inputs.nix.inputs.flake-parts.follows = "flake-parts";
   inputs.nix.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.nix.inputs.pre-commit-hooks.follows = "git-hooks";
+  inputs.nix.inputs.git-hooks-nix.follows = "git-hooks";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 

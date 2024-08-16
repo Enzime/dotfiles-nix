@@ -132,11 +132,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1673956053,
-        "narHash": "sha256-4gtG9iQuiKITOjNQQeQIpoIB6b16fm+504Ch3sNKLd8=",
+        "lastModified": 1696426674,
+        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "35bb57c0c8d8b62bbfd284272c928ceb64ddbde9",
+        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
         "type": "github"
       },
       "original": {
@@ -276,15 +276,16 @@
     "libgit2": {
       "flake": false,
       "locked": {
-        "lastModified": 1697646580,
-        "narHash": "sha256-oX4Z3S9WtJlwvj0uH9HlYcWv+x1hqp8mhXl7HsLu2f0=",
+        "lastModified": 1715853528,
+        "narHash": "sha256-J2rCxTecyLbbDdsyBWn9w7r3pbKRMkI9E7RvRgAqBdY=",
         "owner": "libgit2",
         "repo": "libgit2",
-        "rev": "45fd9ed7ae1a9b74b957ef4f337bc3c8b3df01b5",
+        "rev": "36f7e21ad757a3dacc58cf7944329da6bc1d6e96",
         "type": "github"
       },
       "original": {
         "owner": "libgit2",
+        "ref": "v1.8.1",
         "repo": "libgit2",
         "type": "github"
       }
@@ -296,24 +297,24 @@
           "nix-overlay",
           "flake-parts"
         ],
+        "git-hooks-nix": [
+          "nix-overlay",
+          "git-hooks"
+        ],
         "libgit2": "libgit2",
         "nixpkgs": [
           "nix-overlay",
           "nixpkgs"
         ],
         "nixpkgs-23-11": "nixpkgs-23-11",
-        "nixpkgs-regression": "nixpkgs-regression",
-        "pre-commit-hooks": [
-          "nix-overlay",
-          "git-hooks"
-        ]
+        "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1721277547,
-        "narHash": "sha256-I8XCL/HqnMl4UG9t18ffJvVwx0qJP7iuuFysxjKJ6VM=",
+        "lastModified": 1723122168,
+        "narHash": "sha256-ne4/57E2hOeBIc4yIJkm5JDIPtAaRvkDPkKj7pJ5fhg=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "606ace41d28964400e78ae2dd5699b0cfc29b330",
+        "rev": "4036c3aafb7a6c4c625e68cc14acf6b529be2cb2",
         "type": "github"
       },
       "original": {
@@ -361,7 +362,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-FhZurU8Z3Z2KAfaRvU5dOxXRP81xZW/3It727cWs+aE=",
+        "narHash": "sha256-ISS0061FRkZu/repU/KnUvGNCLTU8EfiEUS23AifIcA=",
         "path": "overlays/nix",
         "type": "path"
       },

@@ -1,3 +1,4 @@
+- Updated `nix` again to fix crash when running a NixOS VM
 - Fixed `Access to the path '/var/run/github-runners/echo' is denied` error after restarting `echo`
 - Disabled `nix-channel` on NixOS
 - Fixed `Access to the path '/var/run/github-runners/echo' is denied` error after restarting `echo`
