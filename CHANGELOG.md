@@ -1,3 +1,4 @@
+- Changed GitHub workflow to run on pull requests
 - Changed GitHub workflow to only run on the 🔥 branch
 - Updated `nix` again to fix crash when running a NixOS VM
 - Fixed `Access to the path '/var/run/github-runners/echo' is denied` error after restarting `echo`
