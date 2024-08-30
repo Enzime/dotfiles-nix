@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ keys, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -16,6 +16,11 @@
   zramSwap.memoryPercent = 250;
 
   nix.settings.secret-key-files = [ "/etc/nix/key" ];
+
+  users.users.builder = {
+    openssh.authorizedKeys.keys =
+      builtins.attrValues { inherit (keys.hosts) echo; };
+  };
 
   # Check that this can be bumped before changing it
   system.stateVersion = "23.11";

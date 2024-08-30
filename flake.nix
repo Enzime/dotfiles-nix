@@ -73,6 +73,7 @@
       "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
       "aether-1:fMOnq1aouEVTB6pz6TvszTrXQhrQAbPePlilPafmsHs="
       "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs="
+      "echo-1:B0HChd9IxG8P9V2NezeWCBsst8AdVTxesCiePZUaduc="
     ];
   };
 
@@ -124,6 +125,11 @@
             inherit system;
             config.allowUnfree = true;
             overlays = importedRegularOverlays ++ importedFlakeOverlays;
+          };
+
+          pkgs' = import nixpkgs {
+            system = "x86_64-linux";
+            inherit (pkgs) config overlays;
           };
 
           moduleList = unique (concatMap getModuleList ([ "base" ] ++ modules));
@@ -238,7 +244,7 @@
 
           packages.x86_64-linux = if builtins.pathExists
           ./hosts/${host}/terraform-configuration.nix then {
-            "${hostname}-apply" = pkgs.writeShellApplication {
+            "${hostname}-apply" = pkgs'.writeShellApplication {
               name = "${hostname}-apply";
               runtimeInputs = [ self.packages.x86_64-linux.terraform ];
               text = ''
@@ -249,7 +255,7 @@
               '';
             };
 
-            "${hostname}-destroy" = pkgs.writeShellApplication {
+            "${hostname}-destroy" = pkgs'.writeShellApplication {
               name = "${hostname}-destroy";
               runtimeInputs = [ self.packages.x86_64-linux.terraform ];
               text = ''
@@ -343,7 +349,6 @@
           config.allowUnfree = true;
           overlays = [
             (import ./overlays/identify.nix)
-            (import ./overlays/terraform.nix)
             (inputs.nix-overlay.outputs.overlay)
           ];
         };

@@ -4,12 +4,12 @@ on:
       - 🔥
   pull_request:
 
-concurrency: build
-
 jobs:
   build:
+    timeout-minutes: 7200
+
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
           - name: chi
@@ -52,11 +52,12 @@ jobs:
       - uses: actions/checkout@v4.1.7
       - uses: cachix/install-nix-action@v27
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.2/install
+          install_url: https://releases.nixos.org/nix/nix-2.24.5/install
           nix_path: nixpkgs=channel:nixos-unstable
       - uses: cachix/cachix-action@v15
         with:
           name: enzime
+          useDaemon: ${{ runner.environment == 'github-hosted' }}
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
       - run: nix flake update

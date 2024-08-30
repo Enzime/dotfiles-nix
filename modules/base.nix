@@ -127,6 +127,9 @@ in {
       fi
     '';
 
+    system.autoUpgrade.enable = true;
+    system.autoUpgrade.flake = "github:Enzime/dotfiles-nix";
+
     environment.persistence."/persist".enable = false;
   };
 

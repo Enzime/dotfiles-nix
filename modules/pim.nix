@@ -1,7 +1,8 @@
 {
   nixosModule = { user, pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
-      inherit (pkgs.gnome) gnome-calendar gnome-contacts gnome-control-center;
+      inherit (pkgs) gnome-calendar gnome-contacts;
+      inherit (pkgs.gnome) gnome-control-center;
     };
 
     services.gnome.gnome-online-accounts.enable = true;

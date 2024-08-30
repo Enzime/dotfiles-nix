@@ -31,6 +31,9 @@
   nix.distributedBuilds = true;
 
   nix.buildMachines = [{
+    # Use ssh-ng for trustless remote building of input-addressed derivations
+    # i.e. not requiring builder@aether to be a trusted-user
+    protocol = "ssh-ng";
     hostName = "aether";
     sshUser = "builder";
     sshKey = "/etc/ssh/ssh_host_ed25519_key";

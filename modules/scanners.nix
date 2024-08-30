@@ -5,6 +5,6 @@
     users.users.${user}.extraGroups = [ "scanner" ];
 
     environment.systemPackages =
-      builtins.attrValues { inherit (pkgs.gnome) simple-scan; };
+      builtins.attrValues { inherit (pkgs) simple-scan; };
   };
 }

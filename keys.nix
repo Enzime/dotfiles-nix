@@ -23,5 +23,6 @@
     aether = "aether-1:fMOnq1aouEVTB6pz6TvszTrXQhrQAbPePlilPafmsHs=";
     chi-linux-builder =
       "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs=";
+    echo = "echo-1:B0HChd9IxG8P9V2NezeWCBsst8AdVTxesCiePZUaduc=";
   };
 }

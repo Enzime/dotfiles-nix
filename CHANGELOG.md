@@ -1,3 +1,19 @@
+- Changed GitHub Actions job timeout to 2 days
+- Removed `chi-linux-builder` on `echo` to force using `aether`
+- Removed `builder` from `trusted-users` inside `{chi,hermes}-linux-builder`
+- Removed `extra-trusted-users` from `linux-builder` as it gets overriden by `trusted-users` due to `nix.conf` being generated alphabetically
+- Added signing key for `echo` to be able to build input-addressed derivations on `aether`
+- Use `aether` on `echo`
+- Fixed `aether-{apply,destroy}` not using `x86_64-linux`
+- Updated `nix` to attempt to fix `Segmentation fault` when running `nix flake check` in GitHub Actions
+- Use Cachix daemon only on GitHub hosted runners
+- Use `nix` from `nix-overlay` in `linux-builder`
+- Use `system.autoUpgrade` for automated deployment on NixOS
+- Fixed `kitty` build on macOS
+- Changed GitHub Actions to fail fast when any job fails
+- Removed `terraform` overlay
+- Removed `concurrency` to run unlimited workflows at once
+- Removed `gparted`, `joplin` and `pyasn1` overlays
 - Removed unnecessary inputs by setting `follows = ""`
 - Added all the tools for the `pre-commit` hook to `devShell`
 - Disabled `nix-channel` on macOS
