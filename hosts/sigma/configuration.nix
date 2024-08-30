@@ -10,6 +10,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  networking.hostId = "215212b4";
+
   hardware.cpu.intel.updateMicrocode = true;
 
   nix.registry.ln.to = {
@@ -21,8 +23,10 @@
 
   services.fprintd.enable = true;
 
+  environment.persistence."/persist".directories = [ "/var/lib/fprint" ];
+
   programs.captive-browser.interface = "wlp170s0";
 
   # Check that this can be bumped before changing it
-  system.stateVersion = "22.05";
+  system.stateVersion = "24.11";
 }

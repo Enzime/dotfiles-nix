@@ -77,5 +77,9 @@
           export MOZ_ENABLE_WAYLAND=1
         fi
       '';
+
+      home.persistence."/persist${config.home.homeDirectory}".directories =
+        map (name: ".mozilla/firefox/${name}")
+        (builtins.attrNames config.programs.firefox.profiles);
     };
 }

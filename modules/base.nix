@@ -68,7 +68,6 @@ in {
   imports = [
     "alacritty"
     "flakes"
-    "impermanence"
     "kitty"
     "nix-index"
     "remote"
@@ -78,7 +77,7 @@ in {
     "xdg"
   ];
 
-  nixosModule = { config, user, pkgs, ... }: {
+  nixosModule = { config, user, pkgs, lib, ... }: {
     imports = [ shared ];
 
     i18n.defaultLocale = "en_AU.UTF-8";
@@ -89,6 +88,12 @@ in {
     nix.channel.enable = false;
 
     hardware.enableRedistributableFirmware = true;
+
+    # Remove this when https://github.com/nix-community/home-manager/pull/5780 is merged
+    systemd.services."home-manager-${user}".serviceConfig.RemainAfterExit =
+      assert config.systemd.services.home-manager-root.serviceConfig.RemainAfterExit
+        == "yes";
+      lib.mkForce "no";
 
     home-manager.users.root.programs.git.enable = true;
     home-manager.users.root.programs.git.extraConfig.safe.directory =
@@ -105,6 +110,10 @@ in {
 
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "prohibit-password";
+    services.openssh.hostKeys = [{
+      path = "/etc/ssh/ssh_host_ed25519_key";
+      type = "ed25519";
+    }];
 
     users.users.${user} = {
       isNormalUser = true;
@@ -117,6 +126,8 @@ in {
         passwd --expire ${user}
       fi
     '';
+
+    environment.persistence."/persist".enable = false;
   };
 
   darwinModule = { user, host, inputs, config, pkgs, lib, ... }: {
@@ -153,7 +164,7 @@ in {
     '';
   };
 
-  homeModule = { config, inputs, pkgs, lib, ... }:
+  homeModule = { config, inputs, moduleList, pkgs, lib, ... }:
     let
       inherit (lib) mkIf readFile;
       inherit (pkgs.stdenv) hostPlatform;
@@ -397,6 +408,9 @@ in {
       xdg.configFile."ranger/commands.py".source = ../files/commands.py;
 
       systemd.user.startServices = mkIf hostPlatform.isLinux "sd-switch";
+
+      home.persistence =
+        lib.mkIf (!builtins.elem "impermanence" moduleList) (lib.mkForce { });
 
       programs.home-manager.enable = true;
     };

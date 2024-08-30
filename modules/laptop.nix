@@ -1,10 +1,36 @@
 {
   imports = [ "wireless" ];
 
-  nixosModule = { user, pkgs, lib, ... }: {
+  nixosModule = { config, user, pkgs, lib, ... }: {
     time.timeZone = lib.mkForce null;
     services.automatic-timezoned.enable = true;
     services.geoclue2.enableDemoAgent = lib.mkForce true;
+    services.geoclue2.geoProviderUrl = "https://beacondb.net/v1/geolocate";
+
+    systemd.services.restore-timezone =
+      lib.mkIf config.environment.persistence."/persist".enable {
+        description = "Restore /etc/localtime from /persist";
+        wantedBy = [ "multi-user.target" ];
+        unitConfig.RequiresMountsFor = "/persist";
+        serviceConfig.Type = "oneshot";
+        # We want to run `ExecStop` when the computer is shutting down
+        serviceConfig.RemainAfterExit = true;
+        serviceConfig.ExecStart = lib.getExe (pkgs.writeShellApplication {
+          name = "restore-timezone";
+          text = ''
+            if [[ -L /persist/etc/localtime ]]; then
+              cp -av /persist/etc/localtime /etc/localtime
+            fi
+          '';
+        });
+        serviceConfig.ExecStop = lib.getExe (pkgs.writeShellApplication {
+          name = "persist-timezone";
+          text = ''
+            mkdir -p /persist/etc
+            cp -av /etc/localtime /persist/etc/localtime
+          '';
+        });
+      };
 
     services.libinput.enable = true;
 

@@ -17,6 +17,7 @@
         # Required for version check to generate extensions.json
         version = "1.74.0";
       });
+      programs.vscode.mutableExtensionsDir = false;
       programs.vscode.extensions = [
         pkgs.vscode-extensions.asvetliakov.vscode-neovim
         pkgs.vscode-extensions.eamodio.gitlens

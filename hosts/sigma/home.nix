@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   xsession.windowManager.i3.config.workspaceOutputAssign = [{
@@ -22,4 +22,7 @@
 
   xdg.userDirs.download = "$HOME/Downloads";
   xdg.userDirs.pictures = "$HOME/Pictures";
+
+  home.persistence."/persist${config.home.homeDirectory}".directories =
+    [ "Code" "Downloads" "Pictures" "Work" ];
 }

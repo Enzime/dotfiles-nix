@@ -51,10 +51,13 @@
   inputs.terranix.inputs.flake-utils.follows = "flake-utils";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+  inputs.nixos-anywhere.url =
+    "github:Enzime/nixos-anywhere/fix/build-on-remote";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.impermanence.url = "github:nix-community/impermanence";
 
   nixConfig = {
     extra-substituters = [ "https://enzime.cachix.org" ];
@@ -67,7 +70,7 @@
   };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
-    , agenix, disko, git-hooks, flake-parts, terranix, ... }:
+    , agenix, disko, impermanence, flake-parts, git-hooks, terranix, ... }:
 
     nixpkgs.lib.recursiveUpdate
 
@@ -126,7 +129,10 @@
             (filter (hasAttr "homeModule") modulesToImport);
           darwinModules = map (getAttr "darwinModule")
             (filter (hasAttr "darwinModule") modulesToImport);
-          home = [ ./hosts/${host}/home.nix ] ++ homeModules;
+          home = [
+            impermanence.nixosModules.home-manager.impermanence
+            ./hosts/${host}/home.nix
+          ] ++ homeModules;
 
           configRevision = {
             full = self.rev or self.dirtyRev or "dirty-inputs";
@@ -135,7 +141,9 @@
 
           keys = import ./keys.nix;
 
-          extraHomeManagerArgs = { inherit inputs nixos configRevision keys; };
+          extraHomeManagerArgs = {
+            inherit inputs nixos configRevision keys moduleList;
+          };
         in {
           # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
           # OR
@@ -148,6 +156,7 @@
                 flake-utils-plus.nixosModules.autoGenFromInputs
                 agenix.nixosModules.age
                 disko.nixosModules.disko
+                impermanence.nixosModules.impermanence
                 ./hosts/${host}/configuration.nix
               ] ++ nixosModules ++ [
                 home-manager.nixosModules.home-manager
@@ -209,6 +218,42 @@
               })] ++ home;
               extraSpecialArgs = extraHomeManagerArgs;
             };
+
+          terraformConfigurations = if builtins.pathExists
+          ./hosts/${host}/terraform-configuration.nix then {
+            ${hostname} = terranix.lib.terranixConfiguration {
+              system = "x86_64-linux";
+              modules = [ ./hosts/${host}/terraform-configuration.nix ];
+              extraArgs = { inherit inputs hostname; };
+            };
+          } else
+            { };
+
+          packages.x86_64-linux = if builtins.pathExists
+          ./hosts/${host}/terraform-configuration.nix then {
+            "${hostname}-apply" = pkgs.writeShellApplication {
+              name = "${hostname}-apply";
+              runtimeInputs = [ self.packages.x86_64-linux.terraform ];
+              text = ''
+                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                cp ${self.terraformConfigurations.${hostname}} config.tf.json \
+                  && terraform init \
+                  && terraform apply
+              '';
+            };
+
+            "${hostname}-destroy" = pkgs.writeShellApplication {
+              name = "${hostname}-destroy";
+              runtimeInputs = [ self.packages.x86_64-linux.terraform ];
+              text = ''
+                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                cp ${self.terraformConfigurations.${hostname}} config.tf.json \
+                  && terraform init \
+                  && terraform destroy
+              '';
+            };
+          } else
+            { };
         };
     in (mkConfigurations [
       {
@@ -253,8 +298,9 @@
         user = "enzime";
         system = "x86_64-linux";
         nixos = true;
-        modules =
-          builtins.attrNames { inherit (modules) laptop personal sway; };
+        modules = builtins.attrNames {
+          inherit (modules) impermanence laptop personal sway;
+        };
       }
       {
         host = "echo";
@@ -343,37 +389,7 @@
           builtins.attrValues {
             inherit (p) external hcloud local null onepassword tailscale;
           });
-
-        packages."aether-apply" = pkgs.writeShellApplication {
-          name = "aether-apply";
-          runtimeInputs = [ self'.packages.terraform ];
-          text = ''
-            if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-            cp ${self.terraformConfigurations.aether} config.tf.json \
-              && terraform init \
-              && terraform apply
-          '';
-        };
-
-        packages."aether-destroy" = pkgs.writeShellApplication {
-          name = "aether-destroy";
-          runtimeInputs = [ self'.packages.terraform ];
-          text = ''
-            if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-            cp ${self.terraformConfigurations.aether} config.tf.json \
-              && terraform init \
-              && terraform destroy
-          '';
-        };
       };
-      flake = {
-        keys = import ./keys.nix;
-
-        terraformConfigurations.aether = terranix.lib.terranixConfiguration {
-          system = "x86_64-linux";
-          modules = [ ./hosts/aether/terraform-configuration.nix ];
-          extraArgs = { inherit inputs; };
-        };
-      };
+      flake = { keys = import ./keys.nix; };
     });
 }

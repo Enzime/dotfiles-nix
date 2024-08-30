@@ -46,6 +46,10 @@
         inherit (pkgs) spotify;
       });
 
+      home.persistence."/persist${config.home.homeDirectory}" = {
+        directories = [ ".config/1Password" ];
+      };
+
       programs.vscode.package = pkgs.vscode;
 
       home.file.".ssh/config".text = let
