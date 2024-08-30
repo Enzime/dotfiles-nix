@@ -1,3 +1,5 @@
+- Removed `concurrency` to run unlimited workflows at once
+- Removed `gparted`, `joplin` and `pyasn1` overlays
 - Fixed `home-manager-<user>.service` only running when the `home-manager` configuration changed
 - Fixed `.zsh_history` becoming a regular file and not getting persisted
 - Added systemd service to persist `/etc/localtime`

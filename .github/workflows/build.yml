@@ -4,8 +4,6 @@ on:
       - 🔥
   pull_request:
 
-concurrency: build
-
 jobs:
   build:
     strategy:
