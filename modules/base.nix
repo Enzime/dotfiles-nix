@@ -8,6 +8,8 @@ let
 
       time.timeZone = "Australia/Melbourne";
 
+      nix.channel.enable = false;
+
       environment.systemPackages = (builtins.attrValues {
         inherit (pkgs) killall wget ranger zip unzip sshfs;
       }) ++ [
@@ -84,8 +86,6 @@ in {
 
     environment.etc."nixos".source =
       "${config.users.users.${user}.home}/dotfiles";
-
-    nix.channel.enable = false;
 
     hardware.enableRedistributableFirmware = true;
 

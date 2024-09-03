@@ -1,3 +1,7 @@
+- Removed unnecessary inputs by setting `follows = ""`
+- Added all the tools for the `pre-commit` hook to `devShell`
+- Disabled `nix-channel` on macOS
+- Use `nix-community/flake-compat` for `shell.nix`
 - Fixed `home-manager-<user>.service` only running when the `home-manager` configuration changed
 - Fixed `.zsh_history` becoming a regular file and not getting persisted
 - Added systemd service to persist `/etc/localtime`

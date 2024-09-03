@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.nix-darwin.url = "github:Enzime/nix-darwin/localhost";
+  inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";
@@ -10,12 +10,16 @@
   inputs.systems.url = "path:./flake.systems.nix";
   inputs.systems.flake = false;
 
+  inputs.flake-compat.url = "github:nix-community/flake-compat";
+
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.flake-utils.inputs.systems.follows = "systems";
   inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
   inputs.nix-overlay.url = "path:overlays/nix";
+  inputs.nix-overlay.inputs.empty.follows = "";
+  inputs.nix-overlay.inputs.flake-compat.follows = "flake-compat";
   inputs.nix-overlay.inputs.flake-parts.follows = "flake-parts";
   inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +39,7 @@
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.git-hooks.url = "github:cachix/git-hooks.nix";
-  inputs.git-hooks.inputs.flake-compat.follows = "nix-overlay/nix/flake-compat";
+  inputs.git-hooks.inputs.flake-compat.follows = "flake-compat";
   inputs.git-hooks.inputs.nixpkgs.follows = "nixpkgs";
   inputs.git-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
 
@@ -43,18 +47,21 @@
 
   inputs.nixos-apple-silicon.url =
     "github:Enzime/nixos-apple-silicon/refactor/peripheral-firmware";
-  inputs.nixos-apple-silicon.inputs.flake-compat.follows =
-    "nix-overlay/nix/flake-compat";
+  inputs.nixos-apple-silicon.inputs.flake-compat.follows = "flake-compat";
   inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.terranix.url = "github:terranix/terranix";
+  inputs.terranix.inputs.bats-assert.follows = "";
+  inputs.terranix.inputs.bats-support.follows = "";
   inputs.terranix.inputs.flake-utils.follows = "flake-utils";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.terranix.inputs.terranix-examples.follows = "";
 
   inputs.nixos-anywhere.url =
     "github:Enzime/nixos-anywhere/fix/build-on-remote";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
+  inputs.nixos-anywhere.inputs.nixos-stable.follows = "";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.impermanence.url = "github:nix-community/impermanence";
@@ -357,12 +364,11 @@
         };
 
         devShells.default = pkgs.mkShell {
-          buildInputs = builtins.attrValues {
+          buildInputs = (builtins.attrValues {
             inherit (home-manager.packages.${system}) home-manager;
             inherit (agenix.packages.${system}) agenix;
-            inherit (pkgs) pre-commit;
             inherit (self'.packages) terraform;
-          };
+          }) ++ config.pre-commit.settings.enabledPackages;
 
           shellHook = ''
             POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
