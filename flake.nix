@@ -303,7 +303,7 @@
         modules = builtins.attrNames {
           inherit (modules)
             bluetooth deluge duckdns nextcloud personal printers samba scanners
-            sway syncthing wireless virt-manager;
+            sway wireless virt-manager;
         };
       }
       {

@@ -1,3 +1,6 @@
+- Use `/persist` directly for `syncthing` to avoid race condition between `syncthing` and `home-manager-<user>`
+- Use `syncthing` as `<user>`
+- Use `syncthing` on all NixOS hosts
 - Fixed `NetworkManager-wait-online` causing `nixos-rebuild switch` to fail
 - Removed `remmina` web plugin as it depends on `webkitgtk`
 - Removed default NetworkManager plugins as some depend on `webkitgtk`

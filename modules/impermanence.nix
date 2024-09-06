@@ -72,11 +72,14 @@
     };
 
     system.activationScripts.expire-password = lib.mkForce "";
+
+    services.syncthing.dataDir =
+      "/persist${config.users.users.${user}.home}/Sync";
   };
 
   homeModule = { config, ... }: {
     home.persistence."/persist${config.home.homeDirectory}" = {
-      directories = [ "dotfiles" ];
+      directories = [ "dotfiles" "Sync" ];
       files = [ ".ssh/known_hosts" ".zsh_history" ];
       allowOther = true;
     };

@@ -73,6 +73,7 @@ in {
     "kitty"
     "nix-index"
     "remote"
+    "syncthing"
     "termite"
     "vm"
     "vscode"

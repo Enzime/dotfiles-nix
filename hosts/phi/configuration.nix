@@ -1,4 +1,4 @@
-{ user, keys, pkgs, ... }:
+{ config, user, keys, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -63,6 +63,8 @@
   services.nextcloud.home = "/data/Nextcloud";
 
   services.tailscale.useRoutingFeatures = "both";
+
+  services.syncthing.dataDir = "${config.users.users.${user}.home}/sync";
 
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
