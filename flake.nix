@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
 
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";

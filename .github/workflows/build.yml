@@ -5,6 +5,43 @@ on:
   pull_request:
 
 jobs:
+  check:
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - system: x86_64-linux
+            runs-on: ubuntu-latest
+          - system: aarch64-darwin
+            runs-on: [macOS, ARM64]
+
+    name: ${{ matrix.system }}
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - name: Free space on GitHub-hosted Runner
+        if: runner.environment == 'github-hosted'
+        run: |
+          # 13.5GiB
+          sudo rm -rf /usr/local/lib/android
+          # 8.6GiB
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          # 4.7GiB
+          sudo rm -rf /usr/local/.ghcup
+      - uses: actions/checkout@v4.1.7
+      - uses: cachix/install-nix-action@v27
+        with:
+          install_url: https://releases.nixos.org/nix/nix-2.24.5/install
+          nix_path: nixpkgs=channel:nixos-unstable
+      - uses: cachix/cachix-action@v15
+        with:
+          name: enzime
+          useDaemon: ${{ runner.environment == 'github-hosted' }}
+          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+          skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
+      - run: nix flake update
+      - run: git reset --hard
+      - run: nix flake check --print-build-logs
+
   build:
     timeout-minutes: 7200
 
@@ -39,6 +76,7 @@ jobs:
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}
+    needs: check
     steps:
       - name: Free space on GitHub-hosted Runner
         if: runner.environment == 'github-hosted'
@@ -62,5 +100,4 @@ jobs:
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
       - run: nix flake update
       - run: git reset --hard
-      - run: nix flake check
       - run: nix build --print-build-logs .#${{ matrix.output }}

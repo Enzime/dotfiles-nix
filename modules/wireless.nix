@@ -1,6 +1,7 @@
 {
   nixosModule = { config, lib, ... }: {
     networking.networkmanager.enable = true;
+    networking.networkmanager.enableDefaultPlugins = false;
     networking.useDHCP = lib.mkForce false;
 
     age.secrets.wireless.file = ../secrets/wireless.age;

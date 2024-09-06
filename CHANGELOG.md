@@ -1,3 +1,8 @@
+- Removed `kitty` overlay
+- Use stable kernel on `phi`
+- Changed GitHub workflow to only run `nix flake check` once per `system`
+- Use DejaVu Sans for login screen
+- Disabled default NetworkManager plugins
 - Changed GitHub Actions job timeout to 2 days
 - Removed `chi-linux-builder` on `echo` to force using `aether`
 - Removed `builder` from `trusted-users` inside `{chi,hermes}-linux-builder`

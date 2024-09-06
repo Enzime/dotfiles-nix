@@ -225,11 +225,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1724435763,
-        "narHash": "sha256-UNky3lJNGQtUEXT2OY8gMxejakSWPTfWKvpFkpFlAfM=",
+        "lastModified": 1725180166,
+        "narHash": "sha256-fzssXuGR/mCeGbzM1ExaTqDz7QDGta3WA4jJsZyRruo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c2cd2a52e02f1dfa1c88f95abeb89298d46023be",
+        "rev": "471e3eb0a114265bcd62d11d58ba8d3421ee68eb",
         "type": "github"
       },
       "original": {
@@ -319,11 +319,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1725189302,
-        "narHash": "sha256-IhXok/kwQqtusPsoguQLCHA+h6gKvgdCrkhIaN+kByA=",
+        "lastModified": 1725544312,
+        "narHash": "sha256-ETyDNLOF5YvFO2lVlKttXgdHTqSGdp9ZCRRCjv2gaoM=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "7c4b53a7d9f3a3df902b3fddf2ae245ef20ebcda",
+        "rev": "a55b3f1ab41bb6d5025ebeebb4da5fd240b9b3b3",
         "type": "github"
       },
       "original": {
@@ -404,11 +404,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1725060287,
-        "narHash": "sha256-4zztMVCzgvYgGktWl5Q8rpE1yPeLQCABHV2KjFom0rQ=",
+        "lastModified": 1725603301,
+        "narHash": "sha256-3JeioDNX/u9h2APP/jQpo2x1mnObmctr9HBTdk5m7aQ=",
         "owner": "Enzime",
         "repo": "nixos-apple-silicon",
-        "rev": "7cf47467c13cb6c12c16b2e9e2917c57c1353b11",
+        "rev": "b75fc500e257a1c7299b9727096fb8f0cf094405",
         "type": "github"
       },
       "original": {
@@ -445,16 +445,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1724819573,
-        "narHash": "sha256-GnR7/ibgIH1vhoy8cYdmXE6iyZqKqFxQSVkFgosBh6w=",
-        "owner": "NixOS",
+        "lastModified": 1725609839,
+        "narHash": "sha256-UhojrJb8hoWPT6NFy5KcAEe6x3MqvydF+P2dbeeaaU4=",
+        "owner": "Enzime",
         "repo": "nixpkgs",
-        "rev": "71e91c409d1e654808b2621f28a327acfdad8dc2",
+        "rev": "c0b75d779020938cb26a4e9dc987fe8a49a34491",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "owner": "Enzime",
+        "ref": "localhost",
         "repo": "nixpkgs",
         "type": "github"
       }
