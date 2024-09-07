@@ -1,7 +1,9 @@
 {
-  nixosModule = { config, lib, ... }: {
+  nixosModule = { config, pkgs, lib, ... }: {
     networking.networkmanager.enable = true;
-    networking.networkmanager.enableDefaultPlugins = false;
+    networking.networkmanager.plugins =
+      assert !config.networking.networkmanager ? enableDefaultPlugins;
+      lib.mkForce [ ];
     networking.useDHCP = lib.mkForce false;
 
     age.secrets.wireless.file = ../secrets/wireless.age;
@@ -44,6 +46,15 @@
           key-mgmt = "wpa-psk";
           psk = "$NETWORK_2_KEY";
         };
+      };
+    };
+
+    # WORKAROUND: https://github.com/NixOS/nixpkgs/issues/296953
+    systemd.services.NetworkManager-wait-online = {
+      serviceConfig = {
+        # These each get converted into separate directives and the empty directive is
+        # necessary to override the original service's ExecStart
+        ExecStart = [ "" "${lib.getExe' pkgs.networkmanager "nm-online"} -q" ];
       };
     };
   };

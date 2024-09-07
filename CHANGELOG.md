@@ -1,3 +1,6 @@
+- Fixed `NetworkManager-wait-online` causing `nixos-rebuild switch` to fail
+- Removed `remmina` web plugin as it depends on `webkitgtk`
+- Removed default NetworkManager plugins as some depend on `webkitgtk`
 - Removed `kitty` overlay
 - Use stable kernel on `phi`
 - Changed GitHub workflow to only run `nix flake check` once per `system`
