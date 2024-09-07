@@ -32,22 +32,24 @@ in {
       networking.hostName = mkVMOverride "${hostname}-vm";
     };
 
-  nixosModule = { user, lib, ... }:
-    let inherit (lib) mkVMOverride;
-    in {
-      virtualisation.vmVariant = {
+  nixosModule = { config, user, lib, ... }:
+    let
+      inherit (lib) mkForce mkVMOverride;
+
+      shared = {
         home-manager.sharedModules = [ homeModule ];
 
         users.users.root.password = "apple";
         users.users.${user} = {
-          password = "apple";
-          initialPassword = mkVMOverride null;
+          password = mkVMOverride "apple";
+          initialPassword = mkForce null;
+          hashedPasswordFile = mkForce null;
         };
 
         # WORKAROUND: home-manager for `root` will attempt to GC unless it is disabled
         nix.settings.min-free = 0;
 
-        system.activationScripts.expire-password = mkVMOverride "";
+        system.activationScripts.expire-password = mkForce "";
 
         virtualisation.qemu.options = [
           "-display gtk,grab-on-hover=true,gl=on"
@@ -61,6 +63,19 @@ in {
         programs.sway.extraSessionCommands = ''
           export WLR_NO_HARDWARE_CURSORS=1
         '';
+      };
+    in {
+      virtualisation.vmVariant = shared;
+
+      virtualisation.vmVariantWithDisko = {
+        imports = [ shared ];
+
+        disko.testMode = true;
+
+        virtualisation.fileSystems =
+          lib.mkIf config.environment.persistence."/persist".enable {
+            "/persist".neededForBoot = true;
+          };
       };
     };
 }

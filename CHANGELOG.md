@@ -1,3 +1,6 @@
+- Fixed `postCreateHook` for `/persist` on `sigma` not being idempotent
+- Fixed disko-based interactive VM
+- Fixed `/persist/.zfs/snapshot` not being accessible
 - Removed `shairport-sync`
 - Migrated `nixbld` users on macOS in preparation for Sequoia
 - Use older version of `karabiner-elements` to be compatible with `nix-darwin` module

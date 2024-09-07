@@ -40,7 +40,7 @@
         config.resource.onepassword_item.tailscale_auth_key "uuid";
     };
     disk_encryption_key_scripts = [{
-      path = "/tmp/disk.key";
+      path = "/tmp/secret.key";
       script = lib.getExe (pkgs.writeShellApplication {
         name = "get-luks-passphrase";
         text = ''

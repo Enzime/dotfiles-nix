@@ -1,4 +1,4 @@
-{ ... }:
+{ config, pkgs, lib, ... }:
 
 {
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" ];
@@ -28,7 +28,8 @@
           content = {
             type = "luks";
             name = "crypted";
-            passwordFile = "/tmp/disk.key";
+            passwordFile = "/tmp/secret.key";
+            askPassword = config.disko.testMode;
             content = {
               type = "zfs";
               pool = "rpool";
@@ -51,32 +52,25 @@
 
       datasets.root = {
         type = "zfs_fs";
-
         mountpoint = "/";
-        options.mountpoint = "legacy";
 
-        postCreateHook = "zfs snapshot rpool/root@blank";
+        postCreateHook =
+          "zfs list -t snapshot -H -o name | grep -E '^rpool/root@blank$' || zfs snapshot rpool/root@blank";
       };
 
       datasets.nix = {
         type = "zfs_fs";
-
         mountpoint = "/nix";
-        options.mountpoint = "legacy";
       };
 
       datasets.persist = {
         type = "zfs_fs";
-
         mountpoint = "/persist";
-        options.mountpoint = "legacy";
       };
 
       datasets.logs = {
         type = "zfs_fs";
-
         mountpoint = "/var/log";
-        options.mountpoint = "legacy";
 
         options.acltype = "posixacl";
         options.xattr = "sa";
@@ -85,4 +79,11 @@
   };
 
   fileSystems."/persist".neededForBoot = true;
+
+  systemd.services.zfs-mount = {
+    serviceConfig = {
+      ExecStart =
+        [ "${lib.getExe' pkgs.util-linux "mount"} -a -t zfs -o remount" ];
+    };
+  };
 }
