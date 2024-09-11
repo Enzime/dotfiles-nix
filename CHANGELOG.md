@@ -1,3 +1,4 @@
+- Use older version of `karabiner-elements` to be compatible with `nix-darwin` module
 - Use `virtualisation.vmVariant` instead of hacky logic to detect if evaluating a NixOS VM
 - Use `/persist` directly for `syncthing` to avoid race condition between `syncthing` and `home-manager-<user>`
 - Use `syncthing` as `<user>`
