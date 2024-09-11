@@ -155,6 +155,8 @@ in {
 
     users.users.${user}.home = "/Users/${user}";
 
+    nix.configureBuildUsers = true;
+
     services.nix-daemon.enable = true;
 
     services.tailscale.overrideLocalDns = lib.mkDefault true;

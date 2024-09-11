@@ -3,6 +3,8 @@
 {
   networking.knownNetworkServices = [ "Ethernet" ];
 
+  ids.gids.nixbld = 30000;
+
   nix.settings.secret-key-files = [ "/etc/nix/key" ];
 
   nix.distributedBuilds = true;

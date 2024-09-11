@@ -7,6 +7,8 @@
     nvram StartupMute=%01
   '';
 
+  ids.gids.nixbld = 30000;
+
   nix.registry.ln.to = {
     type = "git";
     url = "file:///Users/${user}/Code/nixpkgs";

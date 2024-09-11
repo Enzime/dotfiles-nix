@@ -15,6 +15,8 @@
     serviceConfig.RunAtLoad = true;
   };
 
+  ids.gids.nixbld = 30000;
+
   nix.registry.ln.to = {
     type = "git";
     url = "file:///Users/${user}/Projects/nixpkgs";
