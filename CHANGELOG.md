@@ -1,3 +1,4 @@
+- Removed `shairport-sync`
 - Migrated `nixbld` users on macOS in preparation for Sequoia
 - Use older version of `karabiner-elements` to be compatible with `nix-darwin` module
 - Use `virtualisation.vmVariant` instead of hacky logic to detect if evaluating a NixOS VM
