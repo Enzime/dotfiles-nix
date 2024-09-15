@@ -1,3 +1,4 @@
+- Fixed `nix-daemon` failing to start on `sigma`
 - Fixed `postCreateHook` for `/persist` on `sigma` not being idempotent
 - Fixed disko-based interactive VM
 - Fixed `/persist/.zfs/snapshot` not being accessible

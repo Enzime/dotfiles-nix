@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, ... }:
 
 {
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" ];
@@ -82,8 +82,7 @@
 
   systemd.services.zfs-mount = {
     serviceConfig = {
-      ExecStart =
-        [ "${lib.getExe' pkgs.util-linux "mount"} -a -t zfs -o remount" ];
+      ExecStart = [ "${config.boot.zfs.package}/sbin/zfs mount -a -o remount" ];
     };
   };
 }
