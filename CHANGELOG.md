@@ -1,3 +1,5 @@
+- Fixed `vm` on `aarch64-linux`
+- Disabled `aether` as a remote builder for `hermes-nixos`
 - Fixed `nix-daemon` failing to start on `sigma`
 - Fixed `postCreateHook` for `/persist` on `sigma` not being idempotent
 - Fixed disko-based interactive VM

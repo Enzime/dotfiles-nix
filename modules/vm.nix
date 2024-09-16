@@ -32,7 +32,7 @@ in {
       networking.hostName = mkVMOverride "${hostname}-vm";
     };
 
-  nixosModule = { config, user, lib, ... }:
+  nixosModule = { config, user, pkgs, lib, ... }:
     let
       inherit (lib) mkForce mkVMOverride;
 
@@ -54,7 +54,8 @@ in {
         virtualisation.qemu.options = [
           "-display gtk,grab-on-hover=true,gl=on"
           # Use a better fake GPU
-          "-vga none -device virtio-vga-gl"
+          (lib.mkIf pkgs.stdenv.hostPlatform.isx86_64
+            "-vga none -device virtio-vga-gl")
         ];
 
         zramSwap.enable = true;

@@ -28,21 +28,6 @@
     HandleLidSwitchExternalPower=lock
   '';
 
-  nix.distributedBuilds = true;
-
-  nix.buildMachines = [{
-    # Use ssh-ng for trustless remote building of input-addressed derivations
-    # i.e. not requiring builder@aether to be a trusted-user
-    protocol = "ssh-ng";
-    hostName = "aether";
-    sshUser = "builder";
-    sshKey = "/etc/ssh/ssh_host_ed25519_key";
-    system = "aarch64-linux";
-    supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
-    publicHostKey =
-      "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU5IejJTWjBjTzdsQlFyenVHclkySGNVczFSMnR5N3M5RnlXelNrSnh0OXkK";
-  }];
-
   nix.registry.lnas.to = {
     type = "git";
     url = "file:///home/${user}/Code/nixos-apple-silicon";
