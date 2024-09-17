@@ -50,7 +50,7 @@
       programs.firefox.profiles.personal.isDefault = true;
 
       home.persistence."/persist${config.home.homeDirectory}" = {
-        directories = [ ".config/joplin-desktop" ];
+        directories = [ ".config/joplin-desktop" ".gramps" ];
       };
     };
 }

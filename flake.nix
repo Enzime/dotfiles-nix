@@ -57,25 +57,13 @@
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
   inputs.terranix.inputs.terranix-examples.follows = "";
 
-  inputs.nixos-anywhere.url =
-    "github:Enzime/nixos-anywhere/fix/build-on-remote";
+  inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixos-stable.follows = "";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.impermanence.url = "github:nix-community/impermanence";
-
-  nixConfig = {
-    extra-substituters = [ "https://enzime.cachix.org" ];
-
-    extra-trusted-public-keys = [
-      "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
-      "aether-1:fMOnq1aouEVTB6pz6TvszTrXQhrQAbPePlilPafmsHs="
-      "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs="
-      "echo-1:B0HChd9IxG8P9V2NezeWCBsst8AdVTxesCiePZUaduc="
-    ];
-  };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
     , agenix, disko, impermanence, flake-parts, git-hooks, terranix, ... }:

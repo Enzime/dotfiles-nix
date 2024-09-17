@@ -1,9 +1,10 @@
 let
   shared = { inputs, keys, pkgs, lib, ... }: {
-    nix.settings = let flake = import "${inputs.self}/flake.nix";
-    in {
-      substituters = flake.nixConfig.extra-substituters;
-      trusted-public-keys = flake.nixConfig.extra-trusted-public-keys;
+    nix.settings.substituters = [ "https://enzime.cachix.org" ];
+    nix.settings.trusted-public-keys = builtins.attrValues {
+      inherit (keys.signing) aether chi-linux-builder echo;
+
+      "enzime.cachix.org" = keys.signing."enzime.cachix.org";
     };
 
     users.users.builder = {

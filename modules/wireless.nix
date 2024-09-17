@@ -57,5 +57,10 @@
         ExecStart = [ "" "${lib.getExe' pkgs.networkmanager "nm-online"} -q" ];
       };
     };
+
+    environment.persistence."/persist".directories = [{
+      directory = "/etc/NetworkManager/system-connections";
+      mode = "0700";
+    }];
   };
 }

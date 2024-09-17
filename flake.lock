@@ -36,11 +36,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1726153585,
-        "narHash": "sha256-ShZ3YeEutJk+QoY/VrpujzZgocmyXYqhOC8I8pudO9U=",
+        "lastModified": 1726581763,
+        "narHash": "sha256-c/BN0hg0Hza1rj5I+FeNrz/L1zBHwG3BZlBCxsBTbXs=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "59fb64b36b0a1961f6d4c6d5b8db45cc35d040f2",
+        "rev": "88b015b9eb65edefc0b6501980a3d53cd1764637",
         "type": "github"
       },
       "original": {
@@ -379,16 +379,15 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1724946226,
-        "narHash": "sha256-bmF7QHy1tBE0Y2y/Y2iPOS6qKJGhmZ0367/WGldUX7E=",
-        "owner": "Enzime",
+        "lastModified": 1726489922,
+        "narHash": "sha256-Gj8nV53Bgbki0AFZMbwI0p4TodMe2ChNgRgB/4d5eHs=",
+        "owner": "nix-community",
         "repo": "nixos-anywhere",
-        "rev": "9531b59f01d6f48a9ebf81512f2539ad7c313ad1",
+        "rev": "9db169c166689458ef652a91417f6afa22f5b478",
         "type": "github"
       },
       "original": {
-        "owner": "Enzime",
-        "ref": "fix/build-on-remote",
+        "owner": "nix-community",
         "repo": "nixos-anywhere",
         "type": "github"
       }

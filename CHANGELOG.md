@@ -1,3 +1,5 @@
+- Removed `nixConfig` from `flake.nix` due to poor Nix UX
+- Use `syncthing` to sync `gramps` database and backups
 - Fixed `vm` on `aarch64-linux`
 - Disabled `aether` as a remote builder for `hermes-nixos`
 - Fixed `nix-daemon` failing to start on `sigma`

@@ -32,6 +32,11 @@
     in {
       devices = lib.mkMerge (map mkDevice [
         {
+          name = "hermes-nixos";
+          id =
+            "GDV44DZ-DYPA2BZ-KFKVNPQ-RM2R7VT-GJAJG6V-IG25NEY-ZUXEOLL-V2B4DAH";
+        }
+        {
           name = "phi-nixos";
           id =
             "2YEN2S7-JYISWE4-UGUF6N4-7ZNSDNX-IKLEDGT-4WLFFGV-CWB2VKG-SL3ALAP";
@@ -102,6 +107,18 @@
               path = "/persist${
                   config.users.users.${user}.home
                 }/Pictures/Screenshots.sigma";
+            };
+          };
+        }
+        {
+          id = "dd8lo-8p1o4";
+          name = "Gramps";
+          devices = {
+            phi-nixos = {
+              path = "${config.users.users.${user}.home}/.gramps";
+            };
+            sigma = {
+              path = "/persist${config.users.users.${user}.home}/.gramps";
             };
           };
         }

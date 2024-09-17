@@ -251,6 +251,9 @@
           "window.titleBarStyle" = "custom";
         };
 
+      home.persistence."/persist${config.home.homeDirectory}".directories =
+        [ ".config/Code" ];
+
       home.file.".vscode-server/data/Machine/settings.json".text = ''
         {
           "nix.serverPath": "${lib.getExe pkgs.nil}"
