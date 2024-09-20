@@ -121,6 +121,11 @@
               path = "/persist${config.users.users.${user}.home}/.gramps";
             };
           };
+          versioning = {
+            type = "simple";
+            # Only keep last 2 old versions
+            params.keep = "2";
+          };
         }
       ]);
 

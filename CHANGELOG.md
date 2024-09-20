@@ -1,3 +1,4 @@
+- Changed `syncthing` to store old versions of `gramps`
 - Removed `nixConfig` from `flake.nix` due to poor Nix UX
 - Use `syncthing` to sync `gramps` database and backups
 - Fixed `vm` on `aarch64-linux`
