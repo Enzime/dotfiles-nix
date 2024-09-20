@@ -5,9 +5,11 @@
 
       firefoxUnsupported = pkgs.firefox.meta.unsupported
         && pkgs.firefox-bin.meta.unsupported;
+
+      cfg = config.programs.firefox;
     in {
       home.activation.setDefaultBrowser = lib.mkIf
-        (config.programs.firefox.enable && hostPlatform.isDarwin)
+        (cfg.enable && hostPlatform.isDarwin)
         # Update this to ~/Applications/Home Manager Apps/Firefox.app when firefox-bin-unwrapped is merged
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
@@ -80,6 +82,20 @@
 
       home.persistence."/persist${config.home.homeDirectory}".directories =
         map (name: ".mozilla/firefox/${name}")
-        (builtins.attrNames config.programs.firefox.profiles);
+        (builtins.attrNames cfg.profiles);
+
+      home.file."Library/Application Support/Firefox/profiles.ini" =
+        assert !cfg ? profileVersion;
+        lib.mkIf (cfg.enable && hostPlatform.isDarwin) {
+          text = ''
+            [Install2656FF1E876E9973]
+            Default=Profiles/${
+              lib.elemAt
+              (lib.attrNames (lib.filterAttrs (k: v: v.isDefault) cfg.profiles))
+              0
+            }
+            Locked=1
+          '';
+        };
     };
 }

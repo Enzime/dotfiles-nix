@@ -1,3 +1,4 @@
+- Fixed `firefox` on macOS failing to start
 - Use externally installed and managed `syncthing-macos` on `hermes-macos`
 - Fixed `gramps` on macOS
 - Use `gramps` on `hermes-nixos`
