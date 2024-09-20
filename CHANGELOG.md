@@ -1,3 +1,5 @@
+- Use externally installed and managed `syncthing-macos` on `hermes-macos`
+- Fixed `gramps` on macOS
 - Use `gramps` on `hermes-nixos`
 - Changed `syncthing` to store old versions of `gramps`
 - Removed `nixConfig` from `flake.nix` due to poor Nix UX

@@ -32,6 +32,11 @@
     in {
       devices = lib.mkMerge (map mkDevice [
         {
+          name = "hermes-macos";
+          id =
+            "QMDYKCN-4RSWSNS-QXKQREU-VTIEPQJ-X4RA4PX-KJJMMHU-DFWE6RS-BXNCEAF";
+        }
+        {
           name = "hermes-nixos";
           id =
             "GDV44DZ-DYPA2BZ-KFKVNPQ-RM2R7VT-GJAJG6V-IG25NEY-ZUXEOLL-V2B4DAH";
@@ -114,6 +119,8 @@
           id = "dd8lo-8p1o4";
           name = "Gramps";
           devices = {
+            # Managed manually currently
+            hermes-macos = { };
             hermes-nixos = {
               path = "${config.users.users.${user}.home}/.gramps";
             };

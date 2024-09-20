@@ -40,10 +40,10 @@
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) optionalAttrs;
     in {
-      home.packages = builtins.attrValues (optionalAttrs hostPlatform.isLinux {
-        # Currently broken on macOS
+      home.packages = builtins.attrValues ({
         inherit (pkgs) gramps;
       } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isx86_64) {
+        # not currently built for `aarch64-linux` and fails to launch on `aarch64-darwin`
         inherit (pkgs) joplin-desktop;
       });
 
