@@ -114,6 +114,9 @@
           id = "dd8lo-8p1o4";
           name = "Gramps";
           devices = {
+            hermes-nixos = {
+              path = "${config.users.users.${user}.home}/.gramps";
+            };
             phi-nixos = {
               path = "${config.users.users.${user}.home}/.gramps";
             };
