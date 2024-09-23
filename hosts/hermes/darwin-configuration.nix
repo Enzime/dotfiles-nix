@@ -29,5 +29,8 @@
     "/System/Applications/Calendar.app"
     "/Applications/Joplin.app"
     "/System/Applications/System Settings.app"
+    "/System/Applications/iPhone Mirroring.app"
   ];
+
+  system.stateVersion = 5;
 }

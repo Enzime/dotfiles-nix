@@ -4,14 +4,7 @@
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
 
   launchd.user.agents.echo = {
-    serviceConfig.ProgramArguments = [
-      "/bin/sh"
-      "-c"
-      ''
-        /bin/wait4path /nix/store &amp;&amp; exec "${
-          lib.getExe' pkgs.utm "utmctl"
-        }" start echo''
-    ];
+    command = "${lib.getExe' pkgs.utm "utmctl"} start echo";
     serviceConfig.RunAtLoad = true;
   };
 
@@ -33,4 +26,6 @@
     "${pkgs.utm}/Applications/UTM.app"
     "/System/Applications/System Settings.app"
   ];
+
+  system.stateVersion = 5;
 }

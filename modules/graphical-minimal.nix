@@ -6,12 +6,8 @@
       builtins.attrValues { inherit (pkgs) rectangle; };
 
     launchd.user.agents.rectangle = {
-      serviceConfig.ProgramArguments = [
-        "/bin/sh"
-        "-c"
-        ''
-          /bin/wait4path /nix/store &amp;&amp; exec "/Applications/Nix Apps/Rectangle.app/Contents/MacOS/Rectangle"''
-      ];
+      command =
+        ''"/Applications/Nix Apps/Rectangle.app/Contents/MacOS/Rectangle"'';
       serviceConfig.RunAtLoad = true;
     };
 

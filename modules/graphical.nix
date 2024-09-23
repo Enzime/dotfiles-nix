@@ -6,12 +6,7 @@
       builtins.attrValues { inherit (pkgs) raycast utm; };
 
     launchd.user.agents.raycast = {
-      serviceConfig.ProgramArguments = [
-        "/bin/sh"
-        "-c"
-        ''
-          /bin/wait4path /nix/store &amp;&amp; exec "/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"''
-      ];
+      command = ''"/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"'';
       serviceConfig.RunAtLoad = true;
     };
 

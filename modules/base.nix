@@ -140,6 +140,10 @@ in {
     # Used for `system.nixpkgsRevision`
     nixpkgs.source = inputs.nixpkgs;
 
+    # This already gets set by FUP
+    nixpkgs.flake.setFlakeRegistry = false;
+    nixpkgs.flake.setNixPath = false;
+
     networking.computerName = host;
 
     environment.etc."nix-darwin".source =

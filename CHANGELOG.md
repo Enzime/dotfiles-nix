@@ -1,3 +1,8 @@
+- Refactored `launchd` agents to use `command` instead of manually specifying `wait4path`
+- Added `iPhone Mirroring` to Dock on `hermes-macos`
+- Fixed `nix.registry.nixpkgs.to.path` being defined multiple times in `nix-darwin`
+- Fixed `system.stateVersion` not being set on macOS
+- Removed `gR` binding in `ranger`
 - Fixed `firefox` on macOS failing to start
 - Use externally installed and managed `syncthing-macos` on `hermes-macos`
 - Fixed `gramps` on macOS
