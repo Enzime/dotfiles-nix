@@ -254,11 +254,10 @@
       home.persistence."/persist${config.home.homeDirectory}".directories =
         [ ".config/Code" ];
 
-      home.file.".vscode-server/data/Machine/settings.json".text = ''
-        {
-          "nix.serverPath": "${lib.getExe pkgs.nil}"
-        }
-      '';
+      home.file.".vscode-server/data/Machine/settings.json".source =
+        (pkgs.formats.json { }).generate "vscode-server-settings.json" {
+          "nix.serverPath" = lib.getExe pkgs.nil;
+        };
 
       programs.git.extraConfig.core.editor =
         "${pkgs.writeShellScript "use-vscode-sometimes" ''

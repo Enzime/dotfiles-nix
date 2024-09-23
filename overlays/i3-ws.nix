@@ -1,5 +1,5 @@
 self: super: {
-  i3-ws = assert (!builtins.hasAttr "i3-ws" super);
+  i3-ws = assert !super ? i3-ws;
     super.stdenv.mkDerivation (let
       pname = "i3-ws";
       version = "git-2017-07-30";

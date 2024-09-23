@@ -1,3 +1,6 @@
+- Use Swift Quit on macOS
+- Refactored `settings.json` to not generate a hardcoded JSON string
+- Use AltTab on macOS
 - Refactored `launchd` agents to use `command` instead of manually specifying `wait4path`
 - Added `iPhone Mirroring` to Dock on `hermes-macos`
 - Fixed `nix.registry.nixpkgs.to.path` being defined multiple times in `nix-darwin`

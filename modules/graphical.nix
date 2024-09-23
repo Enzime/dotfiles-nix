@@ -2,8 +2,9 @@
   imports = [ "graphical-minimal" "greetd" "mpv" ];
 
   darwinModule = { pkgs, lib, ... }: {
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) raycast utm; };
+    environment.systemPackages = builtins.attrValues {
+      inherit (pkgs) alt-tab-macos raycast swift-quit utm;
+    };
 
     launchd.user.agents.raycast = {
       command = ''"/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"'';
@@ -16,6 +17,62 @@
     '';
 
     services.karabiner-elements.enable = true;
+
+    launchd.user.agents.alt-tab = {
+      command = ''"/Applications/Nix Apps/AltTab.app/Contents/MacOS/AltTab"'';
+      serviceConfig.RunAtLoad = true;
+    };
+
+    system.defaults.CustomUserPreferences."com.lwouis.alt-tab-macos" = {
+      SUAutomaticallyUpdate = false;
+      SUEnableAutomaticChecks = false;
+      updatePolicy = 0;
+
+      alignThumbnails = true;
+      # Took a lot of debugging to figure this out
+      # plutil -type hideSpaceNumberLabels ~/Library/Preferences/com.lwouis.alt-tab-macos.plist
+      hideSpaceNumberLabels = "true";
+      holdShortcut = "\\u2318";
+      startAtLogin = "false";
+
+      blacklist = lib.generators.toJSON { } [
+        {
+          "bundleIdentifier" = "com.apple.finder";
+          "hide" = "2";
+          "ignore" = "0";
+        }
+        {
+          "bundleIdentifier" = "com.apple.ScreenSharing";
+          "hide" = "0";
+          "ignore" = "2";
+        }
+        {
+          "bundleIdentifier" = "com.utmapp.UTM";
+          "hide" = "0";
+          "ignore" = "2";
+        }
+        {
+          "bundleIdentifier" = "com.apple.Terminal";
+          "hide" = "2";
+          "ignore" = "0";
+        }
+      ];
+    };
+
+    launchd.user.agents.swift-quit = {
+      command =
+        ''"/Applications/Nix Apps/Swift Quit.app/Contents/MacOS/Swift Quit"'';
+      serviceConfig.RunAtLoad = true;
+    };
+
+    system.defaults.CustomUserPreferences."onebadidea.Swift-Quit" = {
+      SwiftQuitExcludedApps = [ "/System/Applications/Utilities/Terminal.app" ];
+      SwiftQuitSettings = {
+        excludeBehaviour = "includeApps";
+        launchAtLogin = false;
+        menubarIconEnabled = true;
+      };
+    };
   };
 
   nixosModule = { user, pkgs, lib, ... }: {
