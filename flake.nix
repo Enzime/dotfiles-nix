@@ -290,8 +290,8 @@
         nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
-            bluetooth deluge duckdns nextcloud personal printers samba scanners
-            sway wireless virt-manager;
+            bluetooth deluge nextcloud personal printers samba scanners sway
+            wireless virt-manager;
         };
       }
       {
@@ -381,6 +381,19 @@
             fi
 
             ${config.pre-commit.devShell.shellHook}
+          '';
+        };
+
+        packages.check = pkgs.writeShellApplication {
+          name = "nix-flake-check-without-ifd";
+          runtimeInputs = builtins.attrValues { inherit (pkgs) patch nix jq; };
+          text = ''
+            set -x
+
+            patch < ${./files/no-ifd.diff}
+            PATCHED=$(nix flake metadata "''${1:-$PWD}" --json | jq -r '.path')
+            patch -R < ${./files/no-ifd.diff}
+            nix flake check --print-build-logs "$PATCHED"
           '';
         };
 

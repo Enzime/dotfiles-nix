@@ -39,7 +39,7 @@ jobs:
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
       - run: ./justfile subflakes
-      - run: nix flake check --print-build-logs
+      - run: nix run .#check
 
   build:
     timeout-minutes: 7200

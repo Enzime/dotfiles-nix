@@ -5,11 +5,6 @@ in {
     inherit (hosts) phi;
   };
 
-  "duckdns.age".publicKeys = builtins.attrValues {
-    inherit (users) enzime;
-    inherit (hosts) phi;
-  };
-
   "github-runner.age".publicKeys = builtins.attrValues {
     inherit (users) enzime;
     inherit (hosts) echo;

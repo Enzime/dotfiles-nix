@@ -1,7 +1,7 @@
 {
   nixosModule = { user, ... }: {
     services.samba.enable = true;
-    services.samba.shares.phi = {
+    services.samba.settings.everything = {
       path = "/";
       "read only" = "no";
       "guest ok" = "no";

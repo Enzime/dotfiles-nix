@@ -1,3 +1,7 @@
+- Removed `duckdns`
+- Replaced `nix flake check` with custom patcher script to remove outputs that use IFD
+- Removed `remmina` overlay
+- Use `system.replaceDependencies` to avoid rebuilding the world for `hermes-nixos`
 - Fixed `home-path` for `enzime@hermes-nixos` failing to push to Cachix on `aarch64-darwin`
 - Fixed `karabiner-elements` not working at all on macOS
 - Removed unused X11 settings

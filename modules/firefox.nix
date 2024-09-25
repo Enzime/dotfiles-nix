@@ -83,19 +83,5 @@
       home.persistence."/persist${config.home.homeDirectory}".directories =
         map (name: ".mozilla/firefox/${name}")
         (builtins.attrNames cfg.profiles);
-
-      home.file."Library/Application Support/Firefox/profiles.ini" =
-        assert !cfg ? profileVersion;
-        lib.mkIf (cfg.enable && hostPlatform.isDarwin) {
-          text = ''
-            [Install2656FF1E876E9973]
-            Default=Profiles/${
-              lib.elemAt
-              (lib.attrNames (lib.filterAttrs (k: v: v.isDefault) cfg.profiles))
-              0
-            }
-            Locked=1
-          '';
-        };
     };
 }

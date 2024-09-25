@@ -37,29 +37,15 @@
 
     services.tailscale.authKeyFile = "/persist/tailscale.key";
 
-    # Change when https://github.com/NixOS/nixpkgs/pull/338210 is merged
-    systemd.services.tailscaled-autoconnect.serviceConfig.ExecStart =
-      assert ((builtins.match ".*BackendState.*"
-        config.systemd.services.tailscaled-autoconnect.script) == null);
-      lib.mkForce (lib.getExe (pkgs.writeShellApplication {
-        name = "tailscaled-autoconnect-with-impermanence";
-        runtimeInputs = [ config.services.tailscale.package pkgs.jq ];
-        text = let
-          cfg = config.services.tailscale;
-          statusCommand = "tailscale status --json | jq -r '.BackendState'";
-        in ''
-          while [[ "$(${statusCommand})" == "NoState" ]]; do
-            sleep 0.5
-          done
-          status=$(${statusCommand})
-          if [[ "$status" == "NeedsLogin" || "$status" == "NeedsMachineAuth" ]]; then
-            tailscale up --auth-key 'file:${cfg.authKeyFile}' ${
-              lib.escapeShellArgs cfg.extraUpFlags
-            }
-            rm -v ${cfg.authKeyFile}
+    systemd.services.tailscaled-autoconnect.serviceConfig.ExecStartPost =
+      lib.getExe (pkgs.writeShellApplication {
+        name = "tailscaled-autoconnect-cleanup";
+        text = ''
+          if [[ -f ${config.services.tailscale.authKeyFile} ]]; then
+            rm -v ${config.services.tailscale.authKeyFile}
           fi
         '';
-      }));
+      });
 
     users.mutableUsers = false;
 
