@@ -32,6 +32,7 @@
       # Took a lot of debugging to figure this out
       # plutil -type hideSpaceNumberLabels ~/Library/Preferences/com.lwouis.alt-tab-macos.plist
       hideSpaceNumberLabels = "true";
+      hideWindowlessApps = "true";
       holdShortcut = "\\u2318";
       startAtLogin = "false";
 
@@ -66,7 +67,11 @@
     };
 
     system.defaults.CustomUserPreferences."onebadidea.Swift-Quit" = {
-      SwiftQuitExcludedApps = [ "/System/Applications/Utilities/Terminal.app" ];
+      SwiftQuitExcludedApps = [
+        "/System/Applications/Calendar.app"
+        "/System/Applications/Utilities/Terminal.app"
+        "${pkgs.vscode}/Applications/Visual Studio Code.app"
+      ];
       SwiftQuitSettings = {
         excludeBehaviour = "includeApps";
         launchAtLogin = false;

@@ -1,3 +1,5 @@
+- Removed windowless apps from AltTab on macOS
+- Added more apps to quit when windowless on macOS
 - Use Swift Quit on macOS
 - Refactored `settings.json` to not generate a hardcoded JSON string
 - Use AltTab on macOS
