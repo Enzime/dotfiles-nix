@@ -10,8 +10,6 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - system: x86_64-linux
-            runs-on: ubuntu-latest
           - system: aarch64-darwin
             runs-on: [macOS, ARM64]
 
