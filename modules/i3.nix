@@ -10,10 +10,8 @@
   };
 
   homeModule = { config, pkgs, lib, configRevision, ... }: {
-    home.packages = builtins.attrValues {
-      inherit (pkgs) xclip fira-mono font-awesome_5;
-      inherit (pkgs.xfce) thunar;
-    };
+    home.packages =
+      builtins.attrValues { inherit (pkgs) xclip fira-mono font-awesome_5; };
 
     xsession.windowManager.i3.enable = true;
     services.redshift.enable = true;
@@ -253,6 +251,13 @@
     services.screen-locker.lockCmd = "${lib.getExe pkgs.i3lock} -n -c 000000";
     services.screen-locker.xautolock.enable = false;
 
+    systemd.user.targets.tray = {
+      Unit = {
+        Description = "Home Manager System Tray";
+        Requires = [ "graphical-session-pre.target" ];
+      };
+    };
+
     systemd.user.targets.i3-session = {
       Unit = {
         Description = "i3 window manager session";
@@ -262,18 +267,13 @@
       };
     };
 
-    systemd.user.services.xss-lock.Unit.PartOf =
+    systemd.user.services.xss-lock =
       assert !config.services.screen-locker ? systemdTarget;
-      lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.xss-lock.Install.WantedBy =
-      assert !config.services.screen-locker ? systemdTarget;
-      lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.xautolock-session.Unit.PartOf =
-      assert !config.services.screen-locker ? systemdTarget;
-      lib.mkForce [ "i3-session.target" ];
-    systemd.user.services.xautolock-session.Install.WantedBy =
-      assert !config.services.screen-locker ? systemdTarget;
-      lib.mkForce [ "i3-session.target" ];
+      lib.mkIf config.services.screen-locker.enable (lib.mkForce {
+        Unit.PartOf = [ "i3-session.target" ];
+        Install.WantedBy = [ "i3-session.target" ];
+      });
+
     systemd.user.services.polybar.Unit.PartOf =
       assert !config.services.polybar ? systemdTarget;
       lib.mkForce [ "i3-session.target" ];

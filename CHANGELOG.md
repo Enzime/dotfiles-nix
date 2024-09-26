@@ -1,3 +1,7 @@
+- Removed unused X11 settings
+- Fixed trying to change settings of non-existent `xautolock-session.service` and `xss-lock.service`
+- Moved `thunar` into `i3-sway` module
+- Fixed `udiskie` not starting because `tray.target` missing
 - Updated `nix`
 - Use `justfile` for initializing subflakes in GitHub workflow
 - Added `justfile` for commands that need to run while subflakes haven't been initialized correctly

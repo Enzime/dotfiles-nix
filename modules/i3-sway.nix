@@ -145,7 +145,10 @@
       xsession.windowManager.i3.config = sharedConfig;
       wayland.windowManager.sway.config = sharedConfig;
 
-      home.packages = builtins.attrValues { inherit (pkgs) bemenu powermenu; };
+      home.packages = builtins.attrValues {
+        inherit (pkgs) bemenu powermenu;
+        inherit (pkgs.xfce) thunar;
+      };
 
       programs.alacritty.enable = true;
       programs.kitty.enable = true;
