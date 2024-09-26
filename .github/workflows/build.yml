@@ -38,8 +38,7 @@ jobs:
           useDaemon: ${{ runner.environment == 'github-hosted' }}
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
-      - run: nix flake update
-      - run: git reset --hard
+      - run: ./justfile subflakes
       - run: nix flake check --print-build-logs
 
   build:
@@ -98,6 +97,5 @@ jobs:
           useDaemon: ${{ runner.environment == 'github-hosted' }}
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
-      - run: nix flake update
-      - run: git reset --hard
+      - run: ./justfile subflakes
       - run: nix build --print-build-logs .#${{ matrix.output }}

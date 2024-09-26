@@ -1,3 +1,5 @@
+- Use `justfile` for initializing subflakes in GitHub workflow
+- Added `justfile` for commands that need to run while subflakes haven't been initialized correctly
 - Removed windowless apps from AltTab on macOS
 - Added more apps to quit when windowless on macOS
 - Use Swift Quit on macOS

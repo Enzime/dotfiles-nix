@@ -1,50 +1,19 @@
-# Inspiration
+I use Nix to declaratively manage and configure all of my systems everywhere all at once
 
-- `flake.nix` grew from https://github.com/colemickens/nixos-flake-example/blob/master/flake.nix
-- `overlays/paperwm/flake.nix` is based off https://github.com/nix-community/neovim-nightly-overlay/blob/master/flake.nix
+## Getting started
 
-# Setup
-
-## NixOS
-
-Add to `/etc/nixos/configuration.nix`:
-
-```nix
-{
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-  nix.binaryCaches = [ "https://enzime.cachix.org" ];
-  nix.binaryCachePublicKeys = [
-    "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4="
-  ];
-}
-```
-
-## Non-NixOS
-
-Add to `~/.config/nix/nix.conf`:
+Due to subflakes being broken in Nix, before you can use this repo you'll need to run:
 
 ```
-experimental-features = nix-command flakes
-substituters = https://enzime.cachix.org https://cache.nixos.org/
-trusted-public-keys = enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+$ ./justfile subflakes
 ```
 
-# Usage
+You can then run a NixOS VM like so:
 
 ```
-nixos-rebuild build-vm --flake github:Enzime/dotfiles-nix#phi-nixos
+$ nix run .#nixosConfigurations.phi-nixos.config.system.build.vm
 ```
 
-```
-home-manager switch --flake github:Enzime/dotfiles-nix#enzime@phi-nixos
-```
+## See also
 
-## Cachix w/o adding to config
-
-If you did not add Cachix to your Nix config, you can use the following flags on any Nix commands:
-
-```
---option substituters "https://enzime.cachix.org https://cache.nixos.org" --option trusted-public-keys "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4 cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-```
+- [Frequently Asked Questions about Nix](https://github.com/hlissner/dotfiles/tree/55194e703d1fe82e7e0ffd06e460f1897b6fc404?tab=readme-ov-file#frequently-asked-questions)

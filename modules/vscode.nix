@@ -39,6 +39,7 @@
         pkgs.vscode-extensions.dbaeumer.vscode-eslint
         pkgs.vscode-extensions.jnoortheen.nix-ide
         pkgs.vscode-extensions.xadillax.viml
+        pkgs.vscode-extensions.nefrob.vscode-just-syntax
       ];
       programs.vscode.keybindings =
         let mod = if hostPlatform.isDarwin then "cmd" else "ctrl";
