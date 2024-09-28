@@ -1,3 +1,5 @@
+- Fixed `home-path` for `enzime@hermes-nixos` failing to push to Cachix on `aarch64-darwin`
+- Fixed `karabiner-elements` not working at all on macOS
 - Removed unused X11 settings
 - Fixed trying to change settings of non-existent `xautolock-session.service` and `xss-lock.service`
 - Moved `thunar` into `i3-sway` module
