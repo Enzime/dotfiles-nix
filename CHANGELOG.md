@@ -1,3 +1,5 @@
+- Disabled `aether` on `echo`
+- Fixed `nixos-anywhere` Terraform modules failing to import
 - Removed `duckdns`
 - Replaced `nix flake check` with custom patcher script to remove outputs that use IFD
 - Removed `remmina` overlay
