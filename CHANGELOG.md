@@ -1,3 +1,4 @@
+- Added assert guard for `NetworkManager-wait-online.service` fix
 - Disabled `aether` on `echo`
 - Fixed `nixos-anywhere` Terraform modules failing to import
 - Removed `duckdns`

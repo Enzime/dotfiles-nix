@@ -51,11 +51,13 @@
 
     # WORKAROUND: https://github.com/NixOS/nixpkgs/issues/296953
     systemd.services.NetworkManager-wait-online = {
-      serviceConfig = {
-        # These each get converted into separate directives and the empty directive is
-        # necessary to override the original service's ExecStart
-        ExecStart = [ "" "${lib.getExe' pkgs.networkmanager "nm-online"} -q" ];
-      };
+      serviceConfig = assert !builtins.elem "NetworkManager-wait-online.service"
+        config.systemd.services.tailscaled.after; {
+          # These each get converted into separate directives and the empty directive is
+          # necessary to override the original service's ExecStart
+          ExecStart =
+            [ "" "${lib.getExe' pkgs.networkmanager "nm-online"} -q" ];
+        };
     };
 
     environment.persistence."/persist".directories = [{
