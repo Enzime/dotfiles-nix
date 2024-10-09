@@ -46,6 +46,8 @@ let
       nix.settings.min-free = lib.mkDefault (3 * 1024 * 1024 * 1024);
       nix.settings.max-free = lib.mkDefault (10 * 1024 * 1024 * 1024);
 
+      nix.settings.builders-use-substitutes = true;
+
       home-manager.users.root.home.stateVersion = "24.05";
 
       # We don't use `programs.ssh.extraConfig` because the SSH module
@@ -69,10 +71,11 @@ let
 in {
   imports = [
     "alacritty"
+    "builder"
+    "cache"
     "flakes"
     "kitty"
     "nix-index"
-    "remote"
     "syncthing"
     "termite"
     "vm"

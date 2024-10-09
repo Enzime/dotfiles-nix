@@ -5,7 +5,7 @@ I use Nix to declaratively manage and configure all of my systems everywhere all
 Due to subflakes being broken in Nix, before you can use this repo you'll need to run:
 
 ```
-$ ./justfile subflakes
+$ nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
 ```
 
 You can then run a NixOS VM like so:

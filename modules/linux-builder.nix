@@ -1,8 +1,11 @@
 {
   darwinModule = { inputs, user, host, keys, pkgs, ... }: {
     nix.linux-builder.enable = true;
-    nix.linux-builder.package = pkgs.darwin.linux-builder;
     nix.linux-builder.config = { config, pkgs, lib, ... }: {
+      imports = [ (import ./cache.nix).nixosModule ];
+
+      _module.args = { inherit keys; };
+
       networking.hostName = "${host}-linux-builder";
 
       services.tailscale.enable = true;

@@ -28,17 +28,18 @@ jobs:
           # 4.7GiB
           sudo rm -rf /usr/local/.ghcup
       - uses: actions/checkout@v4.1.7
-      - uses: cachix/install-nix-action@v27
+      - uses: cachix/install-nix-action@v30
         with:
           install_url: https://releases.nixos.org/nix/nix-2.24.8/install
-          nix_path: nixpkgs=channel:nixos-unstable
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: cachix/cachix-action@v15
         with:
           name: enzime
           useDaemon: ${{ runner.environment == 'github-hosted' }}
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
-      - run: ./justfile subflakes
+      - name: nix run .#add-subflakes-to-store
+        run: nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
       - run: nix run .#check
 
   build:
@@ -87,15 +88,16 @@ jobs:
           # 4.7GiB
           sudo rm -rf /usr/local/.ghcup
       - uses: actions/checkout@v4.1.7
-      - uses: cachix/install-nix-action@v27
+      - uses: cachix/install-nix-action@v30
         with:
           install_url: https://releases.nixos.org/nix/nix-2.24.8/install
-          nix_path: nixpkgs=channel:nixos-unstable
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: cachix/cachix-action@v15
         with:
           name: enzime
           useDaemon: ${{ runner.environment == 'github-hosted' }}
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
-      - run: ./justfile subflakes
+      - name: nix run .#add-subflakes-to-store
+        run: nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
       - run: nix build --print-build-logs .#${{ matrix.output }}

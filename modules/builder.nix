@@ -1,12 +1,5 @@
 let
   shared = { inputs, keys, pkgs, lib, ... }: {
-    nix.settings.substituters = [ "https://enzime.cachix.org" ];
-    nix.settings.trusted-public-keys = builtins.attrValues {
-      inherit (keys.signing) aether chi-linux-builder echo;
-
-      "enzime.cachix.org" = keys.signing."enzime.cachix.org";
-    };
-
     users.users.builder = {
       # Still overridable with mkForce
       shell = lib.mkOverride 75 pkgs.zsh;
@@ -33,9 +26,5 @@ in {
 
     users.users.builder.uid = 550;
     users.users.builder.home = "/Users/builder";
-  };
-
-  homeModule = { pkgs, ... }: {
-    home.packages = builtins.attrValues { inherit (pkgs) cachix; };
   };
 }

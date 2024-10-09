@@ -1,3 +1,11 @@
+- Fixed `add-subflakes-to-store` failing to find the correct commit in GitHub workflow
+- Use GitHub token to avoid rate limiting
+- Fixed `add-subflakes-to-store` failing to connect to HTTPS under `nix-shell --pure`
+- Fixed `add-subflakes-to-store` failing to find `<nixpkgs>` on self-hosted GitHub runners
+- Readded `nix` command to `linux-builder` for debugging
+- Use binary caches on `linux-builder`
+- Replaced `justfile` with `add-subflakes-to-store` flake output
+- Split `remote` module into `builder` and `cache`
 - Added assert guard for `NetworkManager-wait-online.service` fix
 - Disabled `aether` on `echo`
 - Fixed `nixos-anywhere` Terraform modules failing to import

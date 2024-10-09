@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
 
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -381,6 +381,27 @@
             fi
 
             ${config.pre-commit.devShell.shellHook}
+          '';
+        };
+
+        packages.add-subflakes-to-store = pkgs.writeShellApplication {
+          name = "add-subflakes-to-store";
+          runtimeInputs =
+            builtins.attrValues { inherit (pkgs) nix git findutils gnused; };
+          text = ''
+            set -x
+
+            # This gets set when nix-shell --pure is used
+            if [[ "''${NIX_SSL_CERT_FILE:-}" == "/no-cert-file.crt" ]]; then
+              export NIX_SSL_CERT_FILE=
+            fi
+
+            cp flake.lock flake.lock.old
+
+            # shellcheck disable=SC2046
+            nix flake update systems $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/&-overlay/' | paste -sd ' ' -)
+
+            mv flake.lock.old flake.lock
           '';
         };
 
