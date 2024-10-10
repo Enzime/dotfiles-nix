@@ -1,3 +1,4 @@
+- Changed `system.autoUpgrade` to run on next boot if system was off
 - Fixed `add-subflakes-to-store` failing to find the correct commit in GitHub workflow
 - Use GitHub token to avoid rate limiting
 - Fixed `add-subflakes-to-store` failing to connect to HTTPS under `nix-shell --pure`

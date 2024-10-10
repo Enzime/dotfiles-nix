@@ -133,6 +133,7 @@ in {
 
     system.autoUpgrade.enable = true;
     system.autoUpgrade.flake = "github:Enzime/dotfiles-nix";
+    system.autoUpgrade.persistent = true;
 
     environment.persistence."/persist".enable = false;
   };
