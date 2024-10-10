@@ -1,3 +1,7 @@
+- Fixed `vscode` build on macOS
+- Removed `berkeleydb` and `swift-quit` overlays
+- Removed `NetworkManager-wait-online` workaround
+- Removed some unnecessary flake inputs
 - Changed `system.autoUpgrade` to run on next boot if system was off
 - Fixed `add-subflakes-to-store` failing to find the correct commit in GitHub workflow
 - Use GitHub token to avoid rate limiting

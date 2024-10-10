@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v4.1.7
       - uses: cachix/install-nix-action@v30
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.8/install
+          install_url: https://releases.nixos.org/nix/nix-2.24.9/install
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: cachix/cachix-action@v15
         with:
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/checkout@v4.1.7
       - uses: cachix/install-nix-action@v30
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.8/install
+          install_url: https://releases.nixos.org/nix/nix-2.24.9/install
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: cachix/cachix-action@v15
         with:

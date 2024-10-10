@@ -44,6 +44,7 @@
   inputs.git-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
 
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
+  inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
   inputs.nixos-apple-silicon.url =
     "github:Enzime/nixos-apple-silicon/refactor/peripheral-firmware";
@@ -62,6 +63,7 @@
   inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixos-stable.follows = "";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.nixos-anywhere.inputs.treefmt-nix.follows = "";
 
   inputs.impermanence.url = "github:nix-community/impermanence";
 
