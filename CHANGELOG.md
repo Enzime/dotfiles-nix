@@ -1,3 +1,5 @@
+- Added `packages.aarch64-darwin.<hostname>` alias for `darwinConfigurations.<hostname>` for `nix flake check` support
+- Replaced `if x then y else { };` with `lib.optionalAttrs`
 - Fixed `vscode` build on macOS
 - Removed `berkeleydb` and `swift-quit` overlays
 - Removed `NetworkManager-wait-online` workaround

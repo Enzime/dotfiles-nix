@@ -76,7 +76,8 @@
       inherit (builtins) attrNames hasAttr filter getAttr readDir;
       inherit (nixpkgs.lib)
         concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs'
-        mapAttrsToList nameValuePair recursiveUpdate removeSuffix unique;
+        mapAttrsToList nameValuePair optionalAttrs recursiveUpdate removeSuffix
+        unique;
 
       importFrom = path: filename: import (path + ("/" + filename));
 
@@ -151,7 +152,7 @@
           # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
           # OR
           # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
-          nixosConfigurations = if nixos then {
+          nixosConfigurations = optionalAttrs nixos {
             ${hostname} = nixpkgs.lib.nixosSystem {
               inherit system;
               modules = [
@@ -178,13 +179,12 @@
                 inherit inputs configRevision user host hostname keys;
               };
             };
-          } else
-            { };
+          };
 
           # nix build ~/.config/home-manager#darwinConfigurations.chi.system
           # OR
           # darwin-rebuild build --flake ~/.config/home-manager#chi
-          darwinConfigurations = if (hasSuffix "darwin" system) then {
+          darwinConfigurations = optionalAttrs (hasSuffix "darwin" system) {
             ${hostname} = nix-darwin.lib.darwinSystem {
               inherit system pkgs inputs;
               modules = [
@@ -203,8 +203,7 @@
               ];
               specialArgs = { inherit configRevision user host hostname keys; };
             };
-          } else
-            { };
+          };
 
           # nix build ~/.config/home-manager#homeConfigurations.enzime@phi-nixos.activationPackage
           # OR
@@ -222,41 +221,43 @@
               extraSpecialArgs = extraHomeManagerArgs;
             };
 
-          terraformConfigurations = if builtins.pathExists
-          ./hosts/${host}/terraform-configuration.nix then {
-            ${hostname} = terranix.lib.terranixConfiguration {
-              system = "x86_64-linux";
-              modules = [ ./hosts/${host}/terraform-configuration.nix ];
-              extraArgs = { inherit inputs hostname; };
-            };
-          } else
-            { };
-
-          packages.x86_64-linux = if builtins.pathExists
-          ./hosts/${host}/terraform-configuration.nix then {
-            "${hostname}-apply" = pkgs'.writeShellApplication {
-              name = "${hostname}-apply";
-              runtimeInputs = [ self.packages.x86_64-linux.terraform ];
-              text = ''
-                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-                cp ${self.terraformConfigurations.${hostname}} config.tf.json \
-                  && terraform init \
-                  && terraform apply
-              '';
+          terraformConfigurations = optionalAttrs
+            (builtins.pathExists ./hosts/${host}/terraform-configuration.nix) {
+              ${hostname} = terranix.lib.terranixConfiguration {
+                system = "x86_64-linux";
+                modules = [ ./hosts/${host}/terraform-configuration.nix ];
+                extraArgs = { inherit inputs hostname; };
+              };
             };
 
-            "${hostname}-destroy" = pkgs'.writeShellApplication {
-              name = "${hostname}-destroy";
-              runtimeInputs = [ self.packages.x86_64-linux.terraform ];
-              text = ''
-                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-                cp ${self.terraformConfigurations.${hostname}} config.tf.json \
-                  && terraform init \
-                  && terraform destroy
-              '';
+          packages.x86_64-linux = optionalAttrs
+            (builtins.pathExists ./hosts/${host}/terraform-configuration.nix) {
+              "${hostname}-apply" = pkgs'.writeShellApplication {
+                name = "${hostname}-apply";
+                runtimeInputs = [ self.packages.x86_64-linux.terraform ];
+                text = ''
+                  if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                  cp ${
+                    self.terraformConfigurations.${hostname}
+                  } config.tf.json \
+                    && terraform init \
+                    && terraform apply
+                '';
+              };
+
+              "${hostname}-destroy" = pkgs'.writeShellApplication {
+                name = "${hostname}-destroy";
+                runtimeInputs = [ self.packages.x86_64-linux.terraform ];
+                text = ''
+                  if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                  cp ${
+                    self.terraformConfigurations.${hostname}
+                  } config.tf.json \
+                    && terraform init \
+                    && terraform destroy
+                '';
+              };
             };
-          } else
-            { };
         };
     in (mkConfigurations [
       {
@@ -333,98 +334,109 @@
     (flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ git-hooks.flakeModule ];
       systems = import inputs.systems;
-      perSystem = { config, self', pkgs, system, ... }: {
-        _module.args.pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = [
-            (import ./overlays/identify.nix)
-            (inputs.nix-overlay.outputs.overlay)
-          ];
-        };
+      perSystem = ({ config, self', pkgs, lib, system, ... }:
+        lib.mkMerge [
+          {
+            _module.args.pkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+              overlays = [
+                (import ./overlays/identify.nix)
+                (inputs.nix-overlay.outputs.overlay)
+              ];
+            };
 
-        pre-commit.settings = {
-          src = ./.;
-          hooks.nixfmt.enable = true;
-          hooks.nil.enable = true;
-          hooks.shellcheck.enable = true;
+            pre-commit.settings = {
+              src = ./.;
+              hooks.nixfmt.enable = true;
+              hooks.nil.enable = true;
+              hooks.shellcheck.enable = true;
 
-          hooks.no-todo = {
-            enable = true;
-            name = "no TODOs";
-            entry = "${./files/no-todos}";
-            language = "system";
-            pass_filenames = false;
-          };
-        };
+              hooks.no-todo = {
+                enable = true;
+                name = "no TODOs";
+                entry = "${./files/no-todos}";
+                language = "system";
+                pass_filenames = false;
+              };
+            };
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = (builtins.attrValues {
-            inherit (home-manager.packages.${system}) home-manager;
-            inherit (agenix.packages.${system}) agenix;
-            inherit (self'.packages) terraform;
-          }) ++ config.pre-commit.settings.enabledPackages;
+            devShells.default = pkgs.mkShell {
+              buildInputs = (builtins.attrValues {
+                inherit (home-manager.packages.${system}) home-manager;
+                inherit (agenix.packages.${system}) agenix;
+                inherit (self'.packages) terraform;
+              }) ++ config.pre-commit.settings.enabledPackages;
 
-          shellHook = ''
-            POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
-            TMPFILE=$(mktemp)
-            if curl -o $TMPFILE --fail https://raw.githubusercontent.com/Enzime/dotfiles-nix/HEAD/files/post-checkout; then
-              if [[ -e $POST_CHECKOUT_HOOK ]]; then
-                echo "Removing existing $POST_CHECKOUT_HOOK"
-                rm $POST_CHECKOUT_HOOK
-              fi
-              echo "Replacing $POST_CHECKOUT_HOOK with $TMPFILE"
-              cp $TMPFILE $POST_CHECKOUT_HOOK
-              chmod a+x $POST_CHECKOUT_HOOK
-            fi
+              shellHook = ''
+                POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
+                TMPFILE=$(mktemp)
+                if curl -o $TMPFILE --fail https://raw.githubusercontent.com/Enzime/dotfiles-nix/HEAD/files/post-checkout; then
+                  if [[ -e $POST_CHECKOUT_HOOK ]]; then
+                    echo "Removing existing $POST_CHECKOUT_HOOK"
+                    rm $POST_CHECKOUT_HOOK
+                  fi
+                  echo "Replacing $POST_CHECKOUT_HOOK with $TMPFILE"
+                  cp $TMPFILE $POST_CHECKOUT_HOOK
+                  chmod a+x $POST_CHECKOUT_HOOK
+                fi
 
-            if [[ -e $POST_CHECKOUT_HOOK ]]; then
-              $POST_CHECKOUT_HOOK
-            fi
+                if [[ -e $POST_CHECKOUT_HOOK ]]; then
+                  $POST_CHECKOUT_HOOK
+                fi
 
-            ${config.pre-commit.devShell.shellHook}
-          '';
-        };
+                ${config.pre-commit.devShell.shellHook}
+              '';
+            };
 
-        packages.add-subflakes-to-store = pkgs.writeShellApplication {
-          name = "add-subflakes-to-store";
-          runtimeInputs =
-            builtins.attrValues { inherit (pkgs) nix git findutils gnused; };
-          text = ''
-            set -x
+            packages.add-subflakes-to-store = pkgs.writeShellApplication {
+              name = "add-subflakes-to-store";
+              runtimeInputs = builtins.attrValues {
+                inherit (pkgs) nix git findutils gnused;
+              };
+              text = ''
+                set -x
 
-            # This gets set when nix-shell --pure is used
-            if [[ "''${NIX_SSL_CERT_FILE:-}" == "/no-cert-file.crt" ]]; then
-              export NIX_SSL_CERT_FILE=
-            fi
+                # This gets set when nix-shell --pure is used
+                if [[ "''${NIX_SSL_CERT_FILE:-}" == "/no-cert-file.crt" ]]; then
+                  export NIX_SSL_CERT_FILE=
+                fi
 
-            cp flake.lock flake.lock.old
+                cp flake.lock flake.lock.old
 
-            # shellcheck disable=SC2046
-            nix flake update systems $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/&-overlay/' | paste -sd ' ' -)
+                # shellcheck disable=SC2046
+                nix flake update systems $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/&-overlay/' | paste -sd ' ' -)
 
-            mv flake.lock.old flake.lock
-          '';
-        };
+                mv flake.lock.old flake.lock
+              '';
+            };
 
-        packages.check = pkgs.writeShellApplication {
-          name = "nix-flake-check-without-ifd";
-          runtimeInputs = builtins.attrValues { inherit (pkgs) patch nix jq; };
-          text = ''
-            set -x
+            packages.check = pkgs.writeShellApplication {
+              name = "nix-flake-check-without-ifd";
+              runtimeInputs =
+                builtins.attrValues { inherit (pkgs) patch nix jq; };
+              text = ''
+                set -x
 
-            patch < ${./files/no-ifd.diff}
-            PATCHED=$(nix flake metadata "''${1:-$PWD}" --json | jq -r '.path')
-            patch -R < ${./files/no-ifd.diff}
-            nix flake check --print-build-logs "$PATCHED"
-          '';
-        };
+                patch < ${./files/no-ifd.diff}
+                PATCHED=$(nix flake metadata "''${1:-$PWD}" --json | jq -r '.path')
+                patch -R < ${./files/no-ifd.diff}
+                nix flake check --print-build-logs "$PATCHED"
+              '';
+            };
 
-        packages.terraform = pkgs.terraform.withPlugins (p:
-          builtins.attrValues {
-            inherit (p) external hcloud local null onepassword tailscale;
-          });
-      };
+            packages.terraform = pkgs.terraform.withPlugins (p:
+              builtins.attrValues {
+                inherit (p) external hcloud local null onepassword tailscale;
+              });
+          }
+          {
+            # Necessary to get `nix flake check` to evaluate `darwinConfigurations`
+            packages = builtins.mapAttrs (_: config: config.system)
+              (lib.filterAttrs (_: config: config.pkgs.system == system)
+                self.darwinConfigurations);
+          }
+        ]);
       flake = { keys = import ./keys.nix; };
     });
 }
