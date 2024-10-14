@@ -1,3 +1,4 @@
+- Use `nix-index-database` for prebuilt `nix-index` databases on all platforms
 - Fixed `darwin-rebuild switch` outputting `Dock` PID
 - Fixed `vscode` build on macOS
 - Removed `berkeleydb` and `swift-quit` overlays

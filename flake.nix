@@ -67,8 +67,12 @@
 
   inputs.impermanence.url = "github:nix-community/impermanence";
 
+  inputs.nix-index-database.url = "github:nix-community/nix-index-database";
+  inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
-    , agenix, disko, impermanence, flake-parts, git-hooks, terranix, ... }:
+    , agenix, disko, impermanence, nix-index-database, flake-parts, git-hooks
+    , terranix, ... }:
 
     nixpkgs.lib.recursiveUpdate
 
@@ -133,6 +137,7 @@
           darwinModules = map (getAttr "darwinModule")
             (filter (hasAttr "darwinModule") modulesToImport);
           home = [
+            nix-index-database.hmModules.nix-index
             impermanence.nixosModules.home-manager.impermanence
             ./hosts/${host}/home.nix
           ] ++ homeModules;
@@ -160,6 +165,7 @@
                 agenix.nixosModules.age
                 disko.nixosModules.disko
                 impermanence.nixosModules.impermanence
+                nix-index-database.nixosModules.nix-index
                 ./hosts/${host}/configuration.nix
               ] ++ nixosModules ++ [
                 home-manager.nixosModules.home-manager
@@ -190,6 +196,7 @@
               modules = [
                 flake-utils-plus.darwinModules.autoGenFromInputs
                 agenix.darwinModules.age
+                nix-index-database.darwinModules.nix-index
                 ./hosts/${host}/darwin-configuration.nix
               ] ++ darwinModules ++ [
                 home-manager.darwinModules.home-manager

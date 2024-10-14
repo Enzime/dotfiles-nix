@@ -67,6 +67,8 @@ let
         path = "${config.users.users.${user}.home}/.zshrc.secrets";
         owner = user;
       };
+
+      programs.nix-index-database.comma.enable = true;
     };
 in {
   imports = [
@@ -75,7 +77,6 @@ in {
     "cache"
     "flakes"
     "kitty"
-    "nix-index"
     "syncthing"
     "termite"
     "vm"
@@ -360,6 +361,8 @@ in {
           gtx = "git tag --delete";
         };
       };
+
+      programs.nix-index-database.comma.enable = true;
 
       programs.direnv.enable = true;
       programs.direnv.nix-direnv.enable = true;
