@@ -1,3 +1,4 @@
+- Fixed `darwin-rebuild switch` outputting `Dock` PID
 - Fixed `vscode` build on macOS
 - Removed `berkeleydb` and `swift-quit` overlays
 - Removed `NetworkManager-wait-online` workaround
