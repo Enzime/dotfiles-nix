@@ -80,7 +80,8 @@
       inherit (builtins) attrNames hasAttr filter getAttr readDir;
       inherit (nixpkgs.lib)
         concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs'
-        mapAttrsToList nameValuePair recursiveUpdate removeSuffix unique;
+        mapAttrsToList nameValuePair optionalAttrs recursiveUpdate removeSuffix
+        unique;
 
       importFrom = path: filename: import (path + ("/" + filename));
 
@@ -112,8 +113,8 @@
 
       mkConfigurations = configs:
         foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
-      mkConfiguration =
-        { host, hostSuffix ? "", user, system, nixos ? false, modules }:
+      mkConfiguration = { host, hostSuffix ? "", user, system
+        , nixos ? hasSuffix "linux" system, modules }:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -156,7 +157,7 @@
           # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
           # OR
           # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
-          nixosConfigurations = if nixos then {
+          nixosConfigurations = optionalAttrs nixos {
             ${hostname} = nixpkgs.lib.nixosSystem {
               inherit system;
               modules = [
@@ -184,34 +185,35 @@
                 inherit inputs configRevision user host hostname keys;
               };
             };
-          } else
-            { };
+          };
 
           # nix build ~/.config/home-manager#darwinConfigurations.chi.system
           # OR
           # darwin-rebuild build --flake ~/.config/home-manager#chi
-          darwinConfigurations = if (hasSuffix "darwin" system) then {
-            ${hostname} = nix-darwin.lib.darwinSystem {
-              inherit system pkgs inputs;
-              modules = [
-                flake-utils-plus.darwinModules.autoGenFromInputs
-                agenix.darwinModules.age
-                nix-index-database.darwinModules.nix-index
-                ./hosts/${host}/darwin-configuration.nix
-              ] ++ darwinModules ++ [
-                home-manager.darwinModules.home-manager
-                {
-                  home-manager.useGlobalPkgs = true;
-                  home-manager.useUserPackages = true;
+          darwinConfigurations =
+            optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+              ${hostname} = nix-darwin.lib.darwinSystem {
+                inherit system pkgs inputs;
+                modules = [
+                  flake-utils-plus.darwinModules.autoGenFromInputs
+                  agenix.darwinModules.age
+                  nix-index-database.darwinModules.nix-index
+                  ./hosts/${host}/darwin-configuration.nix
+                ] ++ darwinModules ++ [
+                  home-manager.darwinModules.home-manager
+                  {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
 
-                  home-manager.users.${user}.imports = home;
-                  home-manager.extraSpecialArgs = extraHomeManagerArgs;
-                }
-              ];
-              specialArgs = { inherit configRevision user host hostname keys; };
+                    home-manager.users.${user}.imports = home;
+                    home-manager.extraSpecialArgs = extraHomeManagerArgs;
+                  }
+                ];
+                specialArgs = {
+                  inherit configRevision user host hostname keys;
+                };
+              };
             };
-          } else
-            { };
 
           # nix build ~/.config/home-manager#homeConfigurations.enzime@phi-nixos.activationPackage
           # OR
@@ -221,49 +223,51 @@
               inherit pkgs;
               modules = [({
                 home.username = user;
-                home.homeDirectory = if (hasSuffix "linux" system) then
-                  "/home/${user}"
+                home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then
+                  "/Users/${user}"
                 else
-                  "/Users/${user}";
+                  "/home/${user}";
               })] ++ home;
               extraSpecialArgs = extraHomeManagerArgs;
             };
 
-          terraformConfigurations = if builtins.pathExists
-          ./hosts/${host}/terraform-configuration.nix then {
-            ${hostname} = terranix.lib.terranixConfiguration {
-              system = "x86_64-linux";
-              modules = [ ./hosts/${host}/terraform-configuration.nix ];
-              extraArgs = { inherit inputs hostname; };
-            };
-          } else
-            { };
-
-          packages.x86_64-linux = if builtins.pathExists
-          ./hosts/${host}/terraform-configuration.nix then {
-            "${hostname}-apply" = pkgs'.writeShellApplication {
-              name = "${hostname}-apply";
-              runtimeInputs = [ self.packages.x86_64-linux.terraform ];
-              text = ''
-                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-                cp ${self.terraformConfigurations.${hostname}} config.tf.json \
-                  && terraform init \
-                  && terraform apply
-              '';
+          terraformConfigurations = optionalAttrs
+            (builtins.pathExists ./hosts/${host}/terraform-configuration.nix) {
+              ${hostname} = terranix.lib.terranixConfiguration {
+                system = "x86_64-linux";
+                modules = [ ./hosts/${host}/terraform-configuration.nix ];
+                extraArgs = { inherit inputs hostname; };
+              };
             };
 
-            "${hostname}-destroy" = pkgs'.writeShellApplication {
-              name = "${hostname}-destroy";
-              runtimeInputs = [ self.packages.x86_64-linux.terraform ];
-              text = ''
-                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-                cp ${self.terraformConfigurations.${hostname}} config.tf.json \
-                  && terraform init \
-                  && terraform destroy
-              '';
+          packages.x86_64-linux = optionalAttrs
+            (builtins.pathExists ./hosts/${host}/terraform-configuration.nix) {
+              "${hostname}-apply" = pkgs'.writeShellApplication {
+                name = "${hostname}-apply";
+                runtimeInputs = [ self.packages.x86_64-linux.terraform ];
+                text = ''
+                  if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                  cp ${
+                    self.terraformConfigurations.${hostname}
+                  } config.tf.json \
+                    && terraform init \
+                    && terraform apply
+                '';
+              };
+
+              "${hostname}-destroy" = pkgs'.writeShellApplication {
+                name = "${hostname}-destroy";
+                runtimeInputs = [ self.packages.x86_64-linux.terraform ];
+                text = ''
+                  if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
+                  cp ${
+                    self.terraformConfigurations.${hostname}
+                  } config.tf.json \
+                    && terraform init \
+                    && terraform destroy
+                '';
+              };
             };
-          } else
-            { };
         };
     in (mkConfigurations [
       {
@@ -287,7 +291,6 @@
         hostSuffix = "-nixos";
         user = "enzime";
         system = "aarch64-linux";
-        nixos = true;
         modules =
           builtins.attrNames { inherit (modules) laptop personal sway; };
       }
@@ -296,7 +299,6 @@
         hostSuffix = "-nixos";
         user = "enzime";
         system = "x86_64-linux";
-        nixos = true;
         modules = builtins.attrNames {
           inherit (modules)
             bluetooth deluge nextcloud personal printers samba scanners sway
@@ -307,7 +309,6 @@
         host = "sigma";
         user = "enzime";
         system = "x86_64-linux";
-        nixos = true;
         modules = builtins.attrNames {
           inherit (modules) impermanence laptop personal sway;
         };
@@ -324,7 +325,6 @@
         host = "eris";
         user = "human";
         system = "x86_64-linux";
-        nixos = true;
         modules =
           builtins.attrNames { inherit (modules) deluge reflector vncserver; };
       }
@@ -332,7 +332,6 @@
         host = "aether";
         user = "enzime";
         system = "aarch64-linux";
-        nixos = true;
         modules = [ ];
       }
     ]))

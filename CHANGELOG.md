@@ -1,3 +1,6 @@
+- Changed `nixos` to be `true` by default for Linux hosts
+- Refactored `if x then y else { }` into `optionalAttrs x y`
+- Refactored `hasSuffix "{darwin,linux}"` into `pkgs.stdenv.hostPlatform.is{Darwin,Linux}`
 - Added `<hostname>-vm` packages for running a VM with a different `hostPlatform`
 - Fixed `sshfs` on macOS
 - Use `nix-index-database` for prebuilt `nix-index` databases on all platforms

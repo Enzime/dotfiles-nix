@@ -1,8 +1,8 @@
 diff --git a/flake.nix b/flake.nix
-index 44c2cb4..adba80a 100644
+index cf8fbb7..cad4e0a 100644
 --- a/flake.nix
 +++ b/flake.nix
-@@ -273,15 +273,6 @@
+@@ -286,14 +286,6 @@
            inherit (modules) laptop linux-builder personal;
          };
        }
@@ -11,7 +11,6 @@ index 44c2cb4..adba80a 100644
 -        hostSuffix = "-nixos";
 -        user = "enzime";
 -        system = "aarch64-linux";
--        nixos = true;
 -        modules =
 -          builtins.attrNames { inherit (modules) laptop personal sway; };
 -      }
