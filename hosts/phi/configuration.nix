@@ -1,4 +1,4 @@
-{ config, user, keys, pkgs, ... }:
+{ config, user, keys, pkgs, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -7,7 +7,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.netbootxyz.enable = true;
 
-  hardware.cpu.amd.updateMicrocode = true;
+  hardware.cpu.amd.updateMicrocode =
+    lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 true;
 
   networking.nameservers = [ "1.1.1.1" ];
   networking.dhcpcd.extraConfig = ''

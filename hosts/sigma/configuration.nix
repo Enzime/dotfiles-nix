@@ -1,4 +1,4 @@
-{ user, ... }:
+{ user, pkgs, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -12,7 +12,8 @@
 
   networking.hostId = "215212b4";
 
-  hardware.cpu.intel.updateMicrocode = true;
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 true;
 
   nix.registry.ln.to = {
     type = "git";

@@ -340,98 +340,128 @@
     (flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ git-hooks.flakeModule ];
       systems = import inputs.systems;
-      perSystem = { config, self', pkgs, system, ... }: {
-        _module.args.pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = [
-            (import ./overlays/identify.nix)
-            (inputs.nix-overlay.outputs.overlay)
-          ];
-        };
+      perSystem = { config, self', pkgs, lib, system, ... }:
+        lib.mkMerge [
+          {
+            _module.args.pkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+              overlays = [
+                (import ./overlays/identify.nix)
+                (inputs.nix-overlay.outputs.overlay)
+              ];
+            };
 
-        pre-commit.settings = {
-          src = ./.;
-          hooks.nixfmt.enable = true;
-          hooks.nil.enable = true;
-          hooks.shellcheck.enable = true;
+            pre-commit.settings = {
+              src = ./.;
+              hooks.nixfmt.enable = true;
+              hooks.nil.enable = true;
+              hooks.shellcheck.enable = true;
 
-          hooks.no-todo = {
-            enable = true;
-            name = "no TODOs";
-            entry = "${./files/no-todos}";
-            language = "system";
-            pass_filenames = false;
-          };
-        };
+              hooks.no-todo = {
+                enable = true;
+                name = "no TODOs";
+                entry = "${./files/no-todos}";
+                language = "system";
+                pass_filenames = false;
+              };
+            };
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = (builtins.attrValues {
-            inherit (home-manager.packages.${system}) home-manager;
-            inherit (agenix.packages.${system}) agenix;
-            inherit (self'.packages) terraform;
-          }) ++ config.pre-commit.settings.enabledPackages;
+            devShells.default = pkgs.mkShell {
+              buildInputs = (builtins.attrValues {
+                inherit (home-manager.packages.${system}) home-manager;
+                inherit (agenix.packages.${system}) agenix;
+                inherit (self'.packages) terraform;
+              }) ++ config.pre-commit.settings.enabledPackages;
 
-          shellHook = ''
-            POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
-            TMPFILE=$(mktemp)
-            if curl -o $TMPFILE --fail https://raw.githubusercontent.com/Enzime/dotfiles-nix/HEAD/files/post-checkout; then
-              if [[ -e $POST_CHECKOUT_HOOK ]]; then
-                echo "Removing existing $POST_CHECKOUT_HOOK"
-                rm $POST_CHECKOUT_HOOK
-              fi
-              echo "Replacing $POST_CHECKOUT_HOOK with $TMPFILE"
-              cp $TMPFILE $POST_CHECKOUT_HOOK
-              chmod a+x $POST_CHECKOUT_HOOK
-            fi
+              shellHook = ''
+                POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
+                TMPFILE=$(mktemp)
+                if curl -o $TMPFILE --fail https://raw.githubusercontent.com/Enzime/dotfiles-nix/HEAD/files/post-checkout; then
+                  if [[ -e $POST_CHECKOUT_HOOK ]]; then
+                    echo "Removing existing $POST_CHECKOUT_HOOK"
+                    rm $POST_CHECKOUT_HOOK
+                  fi
+                  echo "Replacing $POST_CHECKOUT_HOOK with $TMPFILE"
+                  cp $TMPFILE $POST_CHECKOUT_HOOK
+                  chmod a+x $POST_CHECKOUT_HOOK
+                fi
 
-            if [[ -e $POST_CHECKOUT_HOOK ]]; then
-              $POST_CHECKOUT_HOOK
-            fi
+                if [[ -e $POST_CHECKOUT_HOOK ]]; then
+                  $POST_CHECKOUT_HOOK
+                fi
 
-            ${config.pre-commit.devShell.shellHook}
-          '';
-        };
+                ${config.pre-commit.devShell.shellHook}
+              '';
+            };
 
-        packages.add-subflakes-to-store = pkgs.writeShellApplication {
-          name = "add-subflakes-to-store";
-          runtimeInputs =
-            builtins.attrValues { inherit (pkgs) nix git findutils gnused; };
-          text = ''
-            set -x
+            packages.add-subflakes-to-store = pkgs.writeShellApplication {
+              name = "add-subflakes-to-store";
+              runtimeInputs = builtins.attrValues {
+                inherit (pkgs) nix git findutils gnused;
+              };
+              text = ''
+                set -x
 
-            # This gets set when nix-shell --pure is used
-            if [[ "''${NIX_SSL_CERT_FILE:-}" == "/no-cert-file.crt" ]]; then
-              export NIX_SSL_CERT_FILE=
-            fi
+                # This gets set when nix-shell --pure is used
+                if [[ "''${NIX_SSL_CERT_FILE:-}" == "/no-cert-file.crt" ]]; then
+                  export NIX_SSL_CERT_FILE=
+                fi
 
-            cp flake.lock flake.lock.old
+                cp flake.lock flake.lock.old
 
-            # shellcheck disable=SC2046
-            nix flake update systems $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/&-overlay/' | paste -sd ' ' -)
+                # shellcheck disable=SC2046
+                nix flake update systems $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/&-overlay/' | paste -sd ' ' -)
 
-            mv flake.lock.old flake.lock
-          '';
-        };
+                mv flake.lock.old flake.lock
+              '';
+            };
 
-        packages.check = pkgs.writeShellApplication {
-          name = "nix-flake-check-without-ifd";
-          runtimeInputs = builtins.attrValues { inherit (pkgs) patch nix jq; };
-          text = ''
-            set -x
+            packages.check = pkgs.writeShellApplication {
+              name = "nix-flake-check-without-ifd";
+              runtimeInputs =
+                builtins.attrValues { inherit (pkgs) patch nix jq; };
+              text = ''
+                set -x
 
-            patch < ${./files/no-ifd.diff}
-            PATCHED=$(nix flake metadata "''${1:-$PWD}" --json | jq -r '.path')
-            patch -R < ${./files/no-ifd.diff}
-            nix flake check --print-build-logs "$PATCHED"
-          '';
-        };
+                patch < ${./files/no-ifd.diff}
+                PATCHED=$(nix flake metadata "''${1:-$PWD}" --json | jq -r '.path')
+                patch -R < ${./files/no-ifd.diff}
+                nix flake check --print-build-logs "$PATCHED"
+              '';
+            };
 
-        packages.terraform = pkgs.terraform.withPlugins (p:
-          builtins.attrValues {
-            inherit (p) external hcloud local null onepassword tailscale;
-          });
-      };
+            packages.terraform = pkgs.terraform.withPlugins (p:
+              builtins.attrValues {
+                inherit (p) external hcloud local null onepassword tailscale;
+              });
+          }
+          {
+            packages = let
+              vmWithNewHostPlatform = name:
+                pkgs.writeShellApplication {
+                  name = "run-${name}-vm-on-${system}";
+                  runtimeInputs = builtins.attrValues { inherit (pkgs) jq; };
+                  text = ''
+                    set -x
+
+                    drv="$(nix eval --raw ${self}#nixosConfigurations.${name} \
+                      --apply 'original:
+                        let configuration = original.extendModules { modules = [ ({ lib, ... }: {
+                          _file = "<nixos-rebuild build-vm override>";
+                          nixpkgs.hostPlatform = lib.mkForce "${system}";
+                        }) ]; };
+                        in configuration.config.system.build.vm.drvPath' )"
+                    vm=$(nix build --no-link "$drv^*" --json | jq -r '.[0].outputs.out')
+                    # shellcheck disable=SC2211
+                    "$vm"/bin/run-*-vm
+                  '';
+                };
+            in lib.mapAttrs' (hostname: configuration:
+              lib.nameValuePair "${hostname}-vm"
+              (vmWithNewHostPlatform hostname)) self.nixosConfigurations;
+          }
+        ];
       flake = { keys = import ./keys.nix; };
     });
 }

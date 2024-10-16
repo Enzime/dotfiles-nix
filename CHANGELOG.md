@@ -1,3 +1,4 @@
+- Added `<hostname>-vm` packages for running a VM with a different `hostPlatform`
 - Fixed `sshfs` on macOS
 - Use `nix-index-database` for prebuilt `nix-index` databases on all platforms
 - Fixed `darwin-rebuild switch` outputting `Dock` PID

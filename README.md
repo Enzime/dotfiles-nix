@@ -8,11 +8,13 @@ Due to subflakes being broken in Nix, before you can use this repo you'll need t
 $ nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
 ```
 
-You can then run a NixOS VM like so:
+You can then run a NixOS VM on Linux with:
 
 ```
-$ nix run .#nixosConfigurations.phi-nixos.config.system.build.vm
+$ nix run .#phi-nixos-vm
 ```
+
+All the possible hostnames are `aether`, `eris`, `hermes-nixos`, `phi-nixos` and `sigma`
 
 ## See also
 
