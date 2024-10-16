@@ -18,17 +18,16 @@
       };
 
       mkFolder = { name, devices, ... }@v:
-        if devices ? ${hostname} then
-          let
-            defaultArgs = lib.recursiveUpdate {
-              path = "${config.services.syncthing.dataDir}/${name}";
-            } v;
-            mergedArgs = lib.recursiveUpdate defaultArgs devices.${hostname};
-            args = mergedArgs // { devices = builtins.attrNames devices; };
-            filteredArgs = builtins.removeAttrs args [ "name" ];
-          in { ${name} = filteredArgs; }
-        else
-          { };
+        let
+          defaultArgs = lib.recursiveUpdate {
+            path = "${config.services.syncthing.dataDir}/${name}";
+          } v;
+          mergedArgs = lib.recursiveUpdate defaultArgs devices.${hostname};
+          args = mergedArgs // { devices = builtins.attrNames devices; };
+          filteredArgs = builtins.removeAttrs args [ "name" ];
+        in lib.optionalAttrs (devices ? ${hostname}) {
+          ${name} = filteredArgs;
+        };
     in {
       devices = lib.mkMerge (map mkDevice [
         {
