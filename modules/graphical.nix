@@ -32,6 +32,8 @@
       # Took a lot of debugging to figure this out
       # plutil -type hideSpaceNumberLabels ~/Library/Preferences/com.lwouis.alt-tab-macos.plist
       hideSpaceNumberLabels = "true";
+      # Only show windows from current space
+      spacesToShow = 1;
       hideWindowlessApps = "true";
       holdShortcut = "\\u2318";
       startAtLogin = "false";

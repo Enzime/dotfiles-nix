@@ -1,3 +1,4 @@
+- Changed AltTab on macOS to only show windows from current space
 - Fixed `jj` not using 1Password SSH Agent on macOS
 - Added `jj`
 - Moved `git` configuration to new `vcs` module
