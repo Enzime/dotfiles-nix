@@ -79,5 +79,11 @@
     };
 
     programs.jujutsu.enable = true;
+    programs.jujutsu.settings = {
+      user.name = "Michael Hoang";
+      user.email = "enzime@users.noreply.github.com";
+
+      ui.default-command = "log";
+    };
   };
 }
