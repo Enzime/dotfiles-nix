@@ -1,3 +1,4 @@
+- Changed default branch to `main` to support `jj`
 - Added `android` module for using `adb` and `scrcpy`
 - Changed `nixos` to be `true` by default for Linux hosts
 - Refactored `if x then y else { }` into `optionalAttrs x y`
