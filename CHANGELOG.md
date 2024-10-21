@@ -1,3 +1,6 @@
+- Fixed `jj` not using 1Password SSH Agent on macOS
+- Added `jj`
+- Moved `git` configuration to new `vcs` module
 - Changed default branch to `main` to support `jj`
 - Added `android` module for using `adb` and `scrcpy`
 - Changed `nixos` to be `true` by default for Linux hosts
