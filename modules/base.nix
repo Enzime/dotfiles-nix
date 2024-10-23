@@ -154,12 +154,19 @@ in {
     environment.shells = [ pkgs.zsh ];
 
     users.users.root = {
+      uid = 0;
+      # Necessary otherwise `home-manager` will error out
       home = "/var/root";
       # WORKAROUND: Fixes alacritty's terminfo not being found over SSH
       shell = pkgs.zsh;
     };
 
-    users.users.${user}.home = "/Users/${user}";
+    users.users.${user} = {
+      uid = 501;
+      home = "/Users/${user}";
+    };
+
+    users.knownUsers = [ "root" user ];
 
     nix.configureBuildUsers = true;
 

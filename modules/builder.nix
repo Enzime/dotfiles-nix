@@ -1,8 +1,7 @@
 let
   shared = { inputs, keys, pkgs, lib, ... }: {
     users.users.builder = {
-      # Still overridable with mkForce
-      shell = lib.mkOverride 75 pkgs.zsh;
+      shell = pkgs.zsh;
       openssh.authorizedKeys.keys = builtins.attrValues {
         inherit (keys.users) enzime;
         inherit (keys.hosts) hermes-nixos sigma;

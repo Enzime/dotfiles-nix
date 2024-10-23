@@ -1,3 +1,5 @@
+- Removed workaround for `users.users.builder.shell` being defined twice even when it's set to the same derivation
+- Fixed `shell` not getting updated for users on macOS
 - Removed `vscode-colorize` as it crashes the Extension Host on some repos
 - Fixed `jj` not using 1Password SSH Agent on Linux
 - Fixed warning when using `jj` to view the log
