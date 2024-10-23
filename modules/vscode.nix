@@ -31,7 +31,6 @@
         pkgs.vscode-extensions.bierner.markdown-emoji
         pkgs.vscode-extensions.bierner.markdown-preview-github-styles
         pkgs.vscode-extensions.editorconfig.editorconfig
-        pkgs.vscode-extensions.kamikillerto.vscode-colorize
         pkgs.vscode-extensions.mkhl.direnv
         pkgs.vscode-extensions.shardulm94.trailing-spaces
 

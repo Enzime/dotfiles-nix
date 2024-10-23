@@ -1,3 +1,5 @@
+- Removed `vscode-colorize` as it crashes the Extension Host on some repos
+- Fixed `jj` not using 1Password SSH Agent on Linux
 - Fixed warning when using `jj` to view the log
 - Use `programs.jujutsu.settings` to configure `jj`
 - Changed AltTab on macOS to only show windows from current space
