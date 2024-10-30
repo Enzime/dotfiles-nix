@@ -423,10 +423,15 @@
               text = ''
                 set -x
 
-                patch < ${./files/no-ifd.diff}
-                PATCHED=$(nix flake metadata "''${1:-$PWD}" --json | jq -r '.path')
-                patch -R < ${./files/no-ifd.diff}
-                nix flake check --print-build-logs "$PATCHED"
+                nix flake check ${
+                  pkgs.stdenvNoCC.mkDerivation {
+                    name = "patched-self";
+                    # WORKAROUND: `toString ./.` works on macOS but not Linux
+                    src = toString self;
+                    patches = [ ./files/no-ifd.diff ];
+                    installPhase = "cp -r . $out";
+                  }
+                } "$@"
               '';
             };
 

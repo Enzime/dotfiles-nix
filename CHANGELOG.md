@@ -1,3 +1,6 @@
+- Fixed `packages'.check` failing to build on Linux
+- Refactored `packages'.check` to not modify the local directory
+- Fixed `packages'.check` not consistently operating on same directory
 - Removed workaround for `users.users.builder.shell` being defined twice even when it's set to the same derivation
 - Fixed `shell` not getting updated for users on macOS
 - Removed `vscode-colorize` as it crashes the Extension Host on some repos

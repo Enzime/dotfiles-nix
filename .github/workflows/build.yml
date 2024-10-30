@@ -40,7 +40,7 @@ jobs:
           skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
       - name: nix run .#add-subflakes-to-store
         run: nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
-      - run: nix run .#check
+      - run: nix run --print-build-logs .#check -- --print-build-logs
 
   build:
     timeout-minutes: 7200
