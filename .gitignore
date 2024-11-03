@@ -4,3 +4,4 @@ result
 config.tf.json
 .terraform*
 *.tfstate*
+*.qcow2

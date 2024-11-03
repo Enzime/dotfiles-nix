@@ -1,3 +1,4 @@
+- Added `*.qcow2` to `gitignore` to prevent `jj` adding them to commits
 - Fixed `packages'.check` failing to build on Linux
 - Refactored `packages'.check` to not modify the local directory
 - Fixed `packages'.check` not consistently operating on same directory
