@@ -6,6 +6,7 @@
   };
 
   homeModule = { pkgs, ... }: {
-    home.packages = builtins.attrValues { inherit (pkgs) scrcpy; };
+    home.packages =
+      builtins.attrValues { inherit (pkgs) android-tools scrcpy; };
   };
 }
