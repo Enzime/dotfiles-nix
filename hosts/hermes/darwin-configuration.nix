@@ -32,5 +32,9 @@
     "/System/Applications/iPhone Mirroring.app"
   ];
 
+  nix.linux-builder.config.virtualisation.cores = 4;
+  nix.linux-builder.config.virtualisation.darwin-builder.diskSize = 50
+    * 1024; # 50 GiB
+
   system.stateVersion = 5;
 }

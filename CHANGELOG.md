@@ -1,3 +1,10 @@
+- Use Microsoft's Python VSCode extension for Python IDE functionality
+- Use `gitlens.remotes` to support `git.clan.lol`
+- Added signing key for `hermes-macos` and `hermes-linux-builder`
+- Changed `hermes-linux-builder` to use up to 50 GiB disk space
+- Removed `nix-generate-signing-key` service from `linux-builder`
+- Added assert guard for when `nix.linux-builder.maxJobs` defaults to `virtualisation.cores`
+- Use `nix.linux-builder.config.virtualisation.cores` to add more cores to `{chi,hermes}-linux-builder`
 - Use `scrcpy` over Tailscale on `hermes-macos`
 - Updated `nix-darwin`
 - Added `*.qcow2` to `gitignore` to prevent `jj` adding them to commits

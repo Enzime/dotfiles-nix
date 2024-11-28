@@ -39,6 +39,10 @@
         pkgs.vscode-extensions.jnoortheen.nix-ide
         pkgs.vscode-extensions.xadillax.viml
         pkgs.vscode-extensions.nefrob.vscode-just-syntax
+      ] ++ lib.optionals (hostPlatform.isx86_64 || hostPlatform.isDarwin) [
+        (pkgs.vscode-extensions.ms-python.python.override {
+          pythonUseFixed = true;
+        })
       ];
       programs.vscode.keybindings =
         let mod = if hostPlatform.isDarwin then "cmd" else "ctrl";
@@ -200,6 +204,11 @@
 
           # Don't use GitLens to edit git rebase commands
           "workbench.editorAssociations" = { "git-rebase-todo" = "default"; };
+
+          "gitlens.remotes" = [{
+            domain = "git.clan.lol";
+            type = "Gitea";
+          }];
 
           "editor.bracketPairColorization.enabled" = true;
           "editor.guides.bracketPairs" = true;

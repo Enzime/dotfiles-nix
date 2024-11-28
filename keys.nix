@@ -24,5 +24,9 @@
     chi-linux-builder =
       "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs=";
     echo = "echo-1:B0HChd9IxG8P9V2NezeWCBsst8AdVTxesCiePZUaduc=";
+    hermes-macos =
+      "hermes-macos-1:H8qFV4OhrWSbfHsQV6R2VzE2t3N+3nzItt856oWG0Kc=";
+    hermes-linux-builder =
+      "hermes-linux-builder-1:tibNs5BpVb54V17EimjfobHDgut+y9cfHMD57vojLmo=";
   };
 }

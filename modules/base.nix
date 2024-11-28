@@ -48,6 +48,9 @@ let
 
       nix.settings.builders-use-substitutes = true;
 
+      nix.settings.secret-key-files =
+        lib.mkIf (keys.signing ? ${hostname}) [ "/etc/nix/key" ];
+
       home-manager.users.root.home.stateVersion = "24.05";
 
       # We don't use `programs.ssh.extraConfig` because the SSH module

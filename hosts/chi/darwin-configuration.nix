@@ -1,4 +1,4 @@
-{ user, pkgs, lib, ... }:
+{ user, keys, pkgs, lib, ... }:
 
 {
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
@@ -26,6 +26,10 @@
     "${pkgs.utm}/Applications/UTM.app"
     "/System/Applications/System Settings.app"
   ];
+
+  nix.linux-builder.config.users.users.builder.openssh.authorizedKeys.keys =
+    builtins.attrValues { inherit (keys.hosts) echo; };
+  nix.linux-builder.config.virtualisation.cores = 4;
 
   system.stateVersion = 5;
 }

@@ -15,8 +15,6 @@
   zramSwap.enable = true;
   zramSwap.memoryPercent = 250;
 
-  nix.settings.secret-key-files = [ "/etc/nix/key" ];
-
   users.users.builder = {
     openssh.authorizedKeys.keys =
       builtins.attrValues { inherit (keys.hosts) echo; };
