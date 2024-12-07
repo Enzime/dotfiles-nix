@@ -465,6 +465,61 @@
               lib.nameValuePair "${hostname}-vm"
               (vmWithNewHostPlatform hostname)) self.nixosConfigurations;
           }
+          {
+            packages = let
+              deploy = hostname: configuration:
+                pkgs.writeShellApplication {
+                  name = "deploy-${hostname}-from-${system}";
+                  runtimeInputs = builtins.attrValues { inherit (pkgs) jq; };
+                  text = let
+                    cfg = configuration.config;
+
+                    user = configuration._module.specialArgs.user;
+                    dest = configuration._module.specialArgs.hostname;
+                    darwin-rebuild = cfg.system.build.darwin-rebuild;
+                  in ''
+                    flags=()
+                    overriddenInputs=()
+
+                    while [ $# -gt 0 ]; do
+                      flag=$1; shift 1
+                      if [[ $flag == "--override-input" ]]; then
+                        arg1=$1; shift 1
+                        arg2=$1; shift 1
+                        resolved=$(nix flake metadata "$arg2" --json | jq -r '.path')
+                        flags+=("--override-input" "$arg1" "$resolved")
+                        overriddenInputs+=("$resolved")
+                      fi
+                    done
+
+                    if [[ $(hostname) != "${hostname}" || $USER != "${user}" ]]; then
+                      nix copy --to ssh-ng://root@${dest} ${
+                        ./.
+                      } "''${overriddenInputs[@]}"
+                      ssh -t ${user}@${dest} nix run \
+                        ${
+                          ./.
+                        }#darwinConfigurations.${hostname}.config.system.build.darwin-rebuild \
+                        "''${flags[@]}" \
+                        switch \
+                        -- \
+                        --flake ${./.} \
+                        "''${flags[@]}"
+
+                    ${lib.optionalString
+                    (system == configuration.pkgs.hostPlatform.system) ''
+                      else
+                        ${lib.getExe darwin-rebuild} switch --flake ${
+                          ./.
+                        } "''${flags[@]}"
+                    ''}
+                    fi
+                  '';
+                };
+            in lib.mapAttrs' (hostname: configuration:
+              lib.nameValuePair "deploy-${hostname}"
+              (deploy hostname configuration)) self.darwinConfigurations;
+          }
         ];
       flake = { keys = import ./keys.nix; };
     });

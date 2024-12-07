@@ -1,3 +1,4 @@
+- Added `deploy-<hostname>` packages for remotely deploying macOS machines
 - Use Microsoft's Python VSCode extension for Python IDE functionality
 - Use `gitlens.remotes` to support `git.clan.lol`
 - Added signing key for `hermes-macos` and `hermes-linux-builder`
