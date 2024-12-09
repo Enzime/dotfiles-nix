@@ -15,6 +15,7 @@ let
       }) ++ [
         inputs.home-manager.packages.${pkgs.system}.default
         inputs.agenix.packages.${pkgs.system}.default
+        inputs.clan-core.packages.${pkgs.system}.default
       ];
 
       users.users.root = {
@@ -43,8 +44,9 @@ let
         type = "indirect";
       };
 
-      nix.settings.min-free = lib.mkDefault (3 * 1024 * 1024 * 1024);
-      nix.settings.max-free = lib.mkDefault (10 * 1024 * 1024 * 1024);
+      # Override Clan's default using mkDefault (1000)
+      nix.settings.min-free = lib.mkOverride 500 (3 * 1024 * 1024 * 1024);
+      nix.settings.max-free = lib.mkOverride 500 (10 * 1024 * 1024 * 1024);
 
       nix.settings.builders-use-substitutes = true;
 

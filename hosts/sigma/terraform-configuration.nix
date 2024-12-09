@@ -1,4 +1,4 @@
-{ config, inputs, hostname, pkgs, lib, ... }:
+{ config, inputs, hostname, keys, pkgs, lib, ... }:
 
 {
   terraform.required_providers.onepassword.source = "1Password/onepassword";
@@ -67,14 +67,14 @@
         op read "op://o3urqzwged2afsdmxqkjjazstq/cbhneyjvapzvchxywtz6xgrchq/private key?ssh-format=openssh" | sed 's/\r$//' > persist/etc/ssh/ssh_host_ed25519_key
         chmod 400 persist/etc/ssh/ssh_host_ed25519_key
         echo "${
-          inputs.self.keys.hosts.${hostname}
+          keys.hosts.${hostname}
         }" > persist/etc/ssh/ssh_host_ed25519_key.pub
         chmod 444 persist/etc/ssh/ssh_host_ed25519_key.pub
-      '' + (lib.optionalString (inputs.self.keys.signing ? ${hostname}) ''
+      '' + (lib.optionalString (keys.signing ? ${hostname}) ''
         mkdir -p etc/nix
         op read "op://r3fgka56ukyvdslqp3jxc37e3q/kfbpbjzox2h2qapi74p5dzqld4/key" > etc/nix/key
         chmod 400 etc/nix/key
-        echo "${inputs.self.keys.signing.${hostname}}" > etc/nix/key.pub
+        echo "${keys.signing.${hostname}}" > etc/nix/key.pub
         chmod 444 etc/nix/key.pub
       '') + ''
         op read "op://r3fgka56ukyvdslqp3jxc37e3q/$TAILSCALE_AUTH_KEY_UUID/password" > persist/tailscale.key

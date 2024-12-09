@@ -1,4 +1,4 @@
-{ config, inputs, hostname, pkgs, lib, ... }:
+{ config, inputs, hostname, keys, pkgs, lib, ... }:
 
 {
   terraform.required_providers.hcloud.source = "hetznercloud/hcloud";
@@ -25,7 +25,7 @@
 
   resource.hcloud_ssh_key.enzime = {
     name = "enzime";
-    public_key = inputs.self.keys.users.enzime;
+    public_key = keys.users.enzime;
   };
 
   resource.hcloud_server.${hostname} = {
@@ -68,13 +68,11 @@
         mkdir -p etc/ssh etc/nix tmp
         op read "op://o3urqzwged2afsdmxqkjjazstq/56zbrbwh5ctqzh5jz2a2iixol4/private key?ssh-format=openssh" | sed 's/\r$//' > etc/ssh/ssh_host_ed25519_key
         chmod 400 etc/ssh/ssh_host_ed25519_key
-        echo "${
-          inputs.self.keys.hosts.${hostname}
-        }" > etc/ssh/ssh_host_ed25519_key.pub
+        echo "${keys.hosts.${hostname}}" > etc/ssh/ssh_host_ed25519_key.pub
         chmod 444 etc/ssh/ssh_host_ed25519_key.pub
         op read "op://r3fgka56ukyvdslqp3jxc37e3q/kfbpbjzox2h2qapi74p5dzqld4/key" > etc/nix/key
         chmod 400 etc/nix/key
-        echo "${inputs.self.keys.signing.${hostname}}" > etc/nix/key.pub
+        echo "${keys.signing.${hostname}}" > etc/nix/key.pub
         chmod 444 etc/nix/key.pub
         op read "op://r3fgka56ukyvdslqp3jxc37e3q/$TAILSCALE_AUTH_KEY_UUID/password" > tmp/tailscale.key
         chmod 400 tmp/tailscale.key

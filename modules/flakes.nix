@@ -2,7 +2,7 @@ let
   shared = { config, pkgs, lib, ... }: {
     nix.package = lib.mkDefault pkgs.nix;
     # a < b | a == b
-    nix.settings.experimental-features = "nix-command flakes";
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.settings.warn-dirty = false;
   };
 in {

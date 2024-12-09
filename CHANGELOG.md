@@ -1,3 +1,8 @@
+- Changed `no-ifd` patch to change `hosts/hermes/hardware-configuration.nix` instead of `flake.nix` to reduce churn
+- Added `formatter` flake output to support `nix fmt`
+- Refactored `mkConfigurations` to be inside `flake-parts.lib.mkFlake`
+- Use `clan` to deploy to `sigma`
+- Use renamed `nixfmt-classic` instead of `nixfmt`
 - Added `deploy-<hostname>` packages for remotely deploying macOS machines
 - Use Microsoft's Python VSCode extension for Python IDE functionality
 - Use `gitlens.remotes` to support `git.clan.lol`

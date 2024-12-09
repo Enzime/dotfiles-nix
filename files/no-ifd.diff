@@ -1,19 +1,13 @@
-diff --git a/flake.nix b/flake.nix
-index cf8fbb7..cad4e0a 100644
---- a/flake.nix
-+++ b/flake.nix
-@@ -286,14 +286,6 @@
-           inherit (modules) laptop linux-builder personal;
-         };
-       }
--      {
--        host = "hermes";
--        hostSuffix = "-nixos";
--        user = "enzime";
--        system = "aarch64-linux";
--        modules =
--          builtins.attrNames { inherit (modules) laptop personal sway; };
--      }
-       {
-         host = "phi";
-         hostSuffix = "-nixos";
+diff --git a/hosts/hermes/hardware-configuration.nix b/hosts/hermes/hardware-configuration.nix
+index 5e5fdf9..738de1b 100644
+--- a/hosts/hermes/hardware-configuration.nix
++++ b/hosts/hermes/hardware-configuration.nix
+@@ -26,7 +26,7 @@
+   swapDevices = [{ device = "/dev/pool/swap"; }];
+ 
+   hardware.asahi.useExperimentalGPUDriver = true;
+-  hardware.asahi.experimentalGPUInstallMode = "replace";
++  hardware.asahi.experimentalGPUInstallMode = "overlay";
+ 
+   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+ }
