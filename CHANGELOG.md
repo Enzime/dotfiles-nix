@@ -1,3 +1,5 @@
+- Use `clan` to deploy to `sigma`
+- Use renamed `nixfmt-classic` instead of `nixfmt`
 - Added `deploy-<hostname>` packages for remotely deploying macOS machines
 - Use Microsoft's Python VSCode extension for Python IDE functionality
 - Use `gitlens.remotes` to support `git.clan.lol`

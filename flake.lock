@@ -29,6 +29,38 @@
         "type": "github"
       }
     },
+    "clan-core": {
+      "inputs": {
+        "disko": [
+          "disko"
+        ],
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixos-facter-modules": "nixos-facter-modules",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "sops-nix": "sops-nix",
+        "systems": [
+          "systems"
+        ],
+        "treefmt-nix": []
+      },
+      "locked": {
+        "lastModified": 1733704392,
+        "narHash": "sha256-QzvEqfbO/btLfVOFuqJJ+QhkW+9SPaC17Twj5eCy95U=",
+        "ref": "refs/heads/main",
+        "rev": "9cf4fbb041a7371307acdf3463f716c5ef62f616",
+        "revCount": 5100,
+        "type": "git",
+        "url": "https://git.clan.lol/clan/clan-core"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.clan.lol/clan/clan-core"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -439,6 +471,21 @@
         "type": "github"
       }
     },
+    "nixos-facter-modules": {
+      "locked": {
+        "lastModified": 1732288619,
+        "narHash": "sha256-zSQ2cR+NRJfHUVfkv+O6Wi53wXfzX8KHiO8fRfnvc0M=",
+        "owner": "numtide",
+        "repo": "nixos-facter-modules",
+        "rev": "862648589993a96480c2255197a28feea712f68f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nixos-facter-modules",
+        "type": "github"
+      }
+    },
     "nixos-images": {
       "inputs": {
         "nixos-stable": [
@@ -483,6 +530,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "clan-core": "clan-core",
         "disko": "disko",
         "firefox-addons-overlay": "firefox-addons-overlay",
         "flake-compat": "flake-compat",
@@ -515,6 +563,27 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "clan-core",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733128155,
+        "narHash": "sha256-m6/qwJAJYcidGMEdLqjKzRIjapK4nUfMq7rDCTmZajc=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "c6134b6fff6bda95a1ac872a2a9d5f32e3c37856",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
         "type": "github"
       }
     },
