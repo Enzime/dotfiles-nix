@@ -70,9 +70,16 @@
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core";
+  inputs.clan-core.inputs.disko.follows = "disko";
+  inputs.clan-core.inputs.flake-parts.follows = "flake-parts";
+  inputs.clan-core.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.clan-core.inputs.systems.follows = "systems";
+  inputs.clan-core.inputs.treefmt-nix.follows = "";
+
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
-    , agenix, disko, impermanence, nix-index-database, flake-parts, git-hooks
-    , terranix, ... }:
+    , agenix, disko, impermanence, nix-index-database, flake-parts, clan-core
+    , git-hooks, terranix, ... }:
 
     nixpkgs.lib.recursiveUpdate
 
@@ -80,8 +87,8 @@
       inherit (builtins) attrNames hasAttr filter getAttr readDir;
       inherit (nixpkgs.lib)
         concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs'
-        mapAttrsToList nameValuePair optionalAttrs recursiveUpdate removeSuffix
-        unique;
+        mapAttrsToList nameValuePair optionals optionalAttrs recursiveUpdate
+        removeSuffix unique;
 
       importFrom = path: filename: import (path + ("/" + filename));
 
@@ -114,7 +121,7 @@
       mkConfigurations = configs:
         foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
       mkConfiguration = { host, hostSuffix ? "", user, system
-        , nixos ? hasSuffix "linux" system, modules }:
+        , nixos ? hasSuffix "linux" system, modules, clan ? false }:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -127,7 +134,8 @@
             inherit (pkgs) config overlays;
           };
 
-          moduleList = unique (concatMap getModuleList ([ "base" ] ++ modules));
+          moduleList = unique (concatMap getModuleList
+            ([ "base" ] ++ modules ++ optionals clan [ "clan" ]));
           modulesToImport = map (name: getAttr name modules') moduleList;
 
           hostname = "${host}${hostSuffix}";
@@ -153,11 +161,14 @@
           extraHomeManagerArgs = {
             inherit inputs nixos configRevision keys moduleList;
           };
+
+          nixosConfigurationsKey =
+            if clan then "baseNixosConfigurations" else "nixosConfigurations";
         in {
           # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
           # OR
           # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
-          nixosConfigurations = optionalAttrs nixos {
+          ${nixosConfigurationsKey} = optionalAttrs nixos {
             ${hostname} = nixpkgs.lib.nixosSystem {
               inherit system;
               modules = [
@@ -309,6 +320,7 @@
         host = "sigma";
         user = "enzime";
         system = "x86_64-linux";
+        clan = true;
         modules = builtins.attrNames {
           inherit (modules) impermanence laptop personal sway;
         };
@@ -337,8 +349,21 @@
     ]))
 
     (flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ git-hooks.flakeModule ];
+      imports = [ clan-core.flakeModules.default git-hooks.flakeModule ];
       systems = import inputs.systems;
+
+      clan = {
+        meta.name = "Enzime";
+
+        pkgsForSystem = system: nixpkgs.legacyPackages.${system};
+
+        machines = builtins.mapAttrs (hostname: configuration: {
+          imports = configuration._module.args.modules;
+
+          config = { _module.args = configuration._module.specialArgs; };
+        }) self.baseNixosConfigurations;
+      };
+
       perSystem = { config, self', pkgs, lib, system, ... }:
         lib.mkMerge [
           {
@@ -353,7 +378,7 @@
 
             pre-commit.settings = {
               src = ./.;
-              hooks.nixfmt.enable = true;
+              hooks.nixfmt-classic.enable = true;
               hooks.nil.enable = true;
               hooks.shellcheck.enable = true;
 
@@ -370,6 +395,7 @@
               buildInputs = (builtins.attrValues {
                 inherit (home-manager.packages.${system}) home-manager;
                 inherit (agenix.packages.${system}) agenix;
+                inherit (clan-core.packages.${system}) clan-core;
                 inherit (self'.packages) terraform;
               }) ++ config.pre-commit.settings.enabledPackages;
 
