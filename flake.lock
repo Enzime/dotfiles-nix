@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "age-plugin-op": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1717530060,
+        "narHash": "sha256-mJa9gQ3D46T/vF0yaF2bBBFh1jzNlIjxetvupIPE8PQ=",
+        "owner": "bromanko",
+        "repo": "age-plugin-op",
+        "rev": "f4dc4bea66e54526a12a1bec5217131b11fe9ebc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bromanko",
+        "repo": "age-plugin-op",
+        "type": "github"
+      }
+    },
     "agenix": {
       "inputs": {
         "darwin": [
@@ -531,6 +551,7 @@
     },
     "root": {
       "inputs": {
+        "age-plugin-op": "age-plugin-op",
         "agenix": "agenix",
         "clan-core": "clan-core",
         "disko": "disko",

@@ -78,6 +78,9 @@
   # This causes a stack overflow when set to empty string
   inputs.clan-core.inputs.treefmt-nix.follows = "systems";
 
+  inputs.age-plugin-op.url = "github:bromanko/age-plugin-op";
+  inputs.age-plugin-op.inputs.nixpkgs.follows = "nixpkgs";
+
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
     , agenix, disko, impermanence, nix-index-database, flake-parts, clan-core
     , git-hooks, terranix, ... }:

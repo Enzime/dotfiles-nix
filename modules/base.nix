@@ -201,6 +201,8 @@ in {
         inherit (pkgs)
           peco ripgrep jq htop ranger tmux tree magic-wormhole-rs hishtory;
 
+        inherit (inputs.age-plugin-op.packages.${pkgs.system}) age-plugin-op;
+
         reptyr = mkIf hostPlatform.isLinux pkgs.reptyr;
       };
 
@@ -362,6 +364,11 @@ in {
 
       xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
       xdg.configFile."ranger/commands.py".source = ../files/commands.py;
+
+      home.file."${if hostPlatform.isDarwin then "Library/Application Support" else ".config"}/sops/age/keys.txt".text = ''
+        # Recipient: age1op1dacr5te02pexjanpw3jj7v2sv9ehxam0wfjz7urjd9mxzar9yp4k27gc3qst4
+        AGE-PLUGIN-OP-1Q9HHQW309AG8Y6TKV96X2TE32PSHXUMHDAEXGTMSWF5HVCT5V5SXKETES2777E
+      '';
 
       systemd.user.startServices = mkIf hostPlatform.isLinux "sd-switch";
 
