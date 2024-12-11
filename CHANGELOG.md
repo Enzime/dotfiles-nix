@@ -1,7 +1,9 @@
+- Added `phi-nixos` to `clan`
+- Changed `nixpkgs.hostPlatform` to be automatically set by `mkConfiguration` rather than `hardware-configuration.nix` and passed as `system` to `nixpkgs.lib.nixosSystem`
 - Changed `no-ifd` patch to change `hosts/hermes/hardware-configuration.nix` instead of `flake.nix` to reduce churn
 - Added `formatter` flake output to support `nix fmt`
 - Refactored `mkConfigurations` to be inside `flake-parts.lib.mkFlake`
-- Use `clan` to deploy to `sigma`
+- Use `clan` to deploy `sigma`
 - Use renamed `nixfmt-classic` instead of `nixfmt`
 - Added `deploy-<hostname>` packages for remotely deploying macOS machines
 - Use Microsoft's Python VSCode extension for Python IDE functionality

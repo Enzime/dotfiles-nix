@@ -370,9 +370,13 @@
             # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
             ${nixosConfigurationsKey} = optionalAttrs nixos {
               ${hostname} = nixpkgs.lib.nixosSystem {
-                inherit system;
                 modules = [
-                  { nixpkgs = { inherit (pkgs) config overlays; }; }
+                  {
+                    nixpkgs = {
+                      inherit (pkgs) config overlays;
+                      hostPlatform = system;
+                    };
+                  }
                   flake-utils-plus.nixosModules.autoGenFromInputs
                   agenix.nixosModules.age
                   disko.nixosModules.disko
@@ -510,6 +514,7 @@
           hostSuffix = "-nixos";
           user = "enzime";
           system = "x86_64-linux";
+          clan = true;
           modules = builtins.attrNames {
             inherit (modules)
               android bluetooth deluge nextcloud personal printers samba
