@@ -132,6 +132,7 @@
                 inherit (home-manager.packages.${system}) home-manager;
                 inherit (agenix.packages.${system}) agenix;
                 inherit (clan-core.packages.${system}) clan-cli;
+                inherit (pkgs) python3;
                 inherit (self'.packages) terraform;
               }) ++ config.pre-commit.settings.enabledPackages;
 
@@ -153,6 +154,10 @@
                 fi
 
                 ${config.pre-commit.devShell.shellHook}
+
+                if [[ $(hostname) == "hermes-macos" ]]; then
+                  export PATH=~/Work/clan/clan-core/pkgs/clan-cli/bin:$PATH
+                fi
               '';
             };
 
