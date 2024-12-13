@@ -99,6 +99,15 @@
 
           config = { _module.args = configuration._module.specialArgs; };
         }) self.baseNixosConfigurations;
+
+        inventory = {
+          services = {
+            zerotier.enzime = {
+              roles.controller.machines = [ "phi-nixos" ];
+              roles.peer.tags = [ "all" ];
+            };
+          };
+        };
       };
 
       perSystem = { config, self', pkgs, lib, system, ... }:
