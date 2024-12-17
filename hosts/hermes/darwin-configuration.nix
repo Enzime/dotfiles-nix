@@ -36,5 +36,19 @@
   nix.linux-builder.config.virtualisation.darwin-builder.diskSize = 50
     * 1024; # 50 GiB
 
+  nix.distributedBuilds = true;
+
+  nix.buildMachines = [{
+    # Use ssh-ng for trustless remote building of input-addressed derivations
+    # i.e. not requiring remote user to be a trusted-user
+    protocol = "ssh-ng";
+    hostName = "clan.lol";
+    sshUser = "enzime";
+    sshKey = "/etc/ssh/ssh_host_ed25519_key";
+    system = "x86_64-linux";
+    supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+    maxJobs = 96;
+  }];
+
   system.stateVersion = 5;
 }

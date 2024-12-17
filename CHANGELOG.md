@@ -1,3 +1,4 @@
+- Use `clan.lol` as a remote builder for `hermes-macos`
 - Added `phi-nixos` to `clan`
 - Changed `nixpkgs.hostPlatform` to be automatically set by `mkConfiguration` rather than `hardware-configuration.nix` and passed as `system` to `nixpkgs.lib.nixosSystem`
 - Changed `no-ifd` patch to change `hosts/hermes/hardware-configuration.nix` instead of `flake.nix` to reduce churn
