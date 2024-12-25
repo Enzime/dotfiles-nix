@@ -1,3 +1,5 @@
+- Use `ghostty` on `hermes-macos`
+- Use Go VSCode extension
 - Use `clan.lol` as a remote builder for `hermes-macos`
 - Added `phi-nixos` to `clan`
 - Changed `nixpkgs.hostPlatform` to be automatically set by `mkConfiguration` rather than `hardware-configuration.nix` and passed as `system` to `nixpkgs.lib.nixosSystem`

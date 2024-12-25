@@ -39,6 +39,7 @@
         pkgs.vscode-extensions.jnoortheen.nix-ide
         pkgs.vscode-extensions.xadillax.viml
         pkgs.vscode-extensions.nefrob.vscode-just-syntax
+        pkgs.vscode-extensions.golang.go
       ] ++ lib.optionals (hostPlatform.isx86_64 || hostPlatform.isDarwin) [
         (pkgs.vscode-extensions.ms-python.python.override {
           pythonUseFixed = true;

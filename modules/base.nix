@@ -81,6 +81,7 @@ in {
     "builder"
     "cache"
     "flakes"
+    "ghostty"
     "kitty"
     "syncthing"
     "termite"
