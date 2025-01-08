@@ -4,6 +4,8 @@
       assert !options.programs ? ghostty; ''
         theme = hybrid-krompus
         bold-is-bright = true
+
+        quit-after-last-window-closed = true
       '';
 
     xdg.configFile."ghostty/themes/hybrid-krompus".text =

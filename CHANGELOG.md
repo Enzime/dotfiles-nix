@@ -1,3 +1,4 @@
+- Changed `ghostty` to quit after last window is closed on macOS
 - Use `ghostty` on `hermes-macos`
 - Use Go VSCode extension
 - Use `clan.lol` as a remote builder for `hermes-macos`
