@@ -2,9 +2,8 @@
   imports = [ "graphical-minimal" "greetd" "mpv" ];
 
   darwinModule = { pkgs, lib, ... }: {
-    environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) alt-tab-macos raycast swift-quit utm;
-    };
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) alt-tab-macos raycast utm; };
 
     launchd.user.agents.raycast = {
       command = ''"/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"'';
@@ -60,25 +59,6 @@
           "ignore" = "0";
         }
       ];
-    };
-
-    launchd.user.agents.swift-quit = {
-      command =
-        ''"/Applications/Nix Apps/Swift Quit.app/Contents/MacOS/Swift Quit"'';
-      serviceConfig.RunAtLoad = true;
-    };
-
-    system.defaults.CustomUserPreferences."onebadidea.Swift-Quit" = {
-      SwiftQuitExcludedApps = [
-        "/System/Applications/Calendar.app"
-        "/System/Applications/Utilities/Terminal.app"
-        "${pkgs.vscode}/Applications/Visual Studio Code.app"
-      ];
-      SwiftQuitSettings = {
-        excludeBehaviour = "includeApps";
-        launchAtLogin = false;
-        menubarIconEnabled = true;
-      };
     };
   };
 

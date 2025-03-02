@@ -1,3 +1,4 @@
+- Removed `swift-quit`
 - Changed `ghostty` to quit after last window is closed on macOS
 - Use `ghostty` on `hermes-macos`
 - Use Go VSCode extension
