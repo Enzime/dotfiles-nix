@@ -20,6 +20,8 @@
   signing = {
     "enzime.cachix.org" =
       "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4=";
+    "cache.clan.lol" =
+      "cache.clan.lol-1:3KztgSAB5R1M+Dz7vzkBGzXdodizbgLXGXKXlcQLA28=";
     aether = "aether-1:fMOnq1aouEVTB6pz6TvszTrXQhrQAbPePlilPafmsHs=";
     chi-linux-builder =
       "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs=";

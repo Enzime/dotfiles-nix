@@ -74,7 +74,7 @@
       defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
     '';
 
-    security.pam.enableSudoTouchIdAuth = true;
+    security.pam.services.sudo_local.touchIdAuth = true;
 
     # WORKAROUND: Using Override Local DNS with tailscaled on macOS leads to
     # DNS not working for a long time after reconnecting to the internet.

@@ -3,9 +3,6 @@
     let
       inherit (pkgs.stdenv) hostPlatform;
 
-      firefoxUnsupported = pkgs.firefox.meta.unsupported
-        && pkgs.firefox-bin.meta.unsupported;
-
       cfg = config.programs.firefox;
     in {
       home.activation.setDefaultBrowser = lib.mkIf
@@ -14,7 +11,7 @@
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
             /usr/bin/open ${
-              assert firefoxUnsupported;
+              assert pkgs.firefox-bin.meta.unsupported;
               "/Applications/Firefox.app"
             }
             ${lib.getExe pkgs.defaultbrowser} firefox
@@ -24,13 +21,13 @@
       programs.firefox.enable = lib.mkDefault true;
       programs.firefox.package = if hostPlatform.isDarwin then
       # Leaving this until firefox-bin-unwrapped is merged
-        assert firefoxUnsupported; pkgs.emptyDirectory
+        assert pkgs.firefox-bin.meta.unsupported; pkgs.emptyDirectory
       else
         pkgs.firefox;
       programs.firefox.profiles.base = {
         id = 0;
 
-        extensions = [
+        extensions.packages = [
           pkgs.firefox-addons.onepassword-password-manager
           pkgs.firefox-addons.clearurls
           pkgs.firefox-addons.ublock-origin
@@ -38,14 +35,14 @@
         ];
 
         search = {
-          default = "DuckDuckGo";
+          default = "ddg";
           engines = {
-            "Google".metaData.hidden = true;
-            "Wikipedia (en)".metaData.hidden = true;
-            "Bing".metaData.hidden = true;
-            "Amazon.com.au".metaData.hidden = true;
-            "eBay".metaData.hidden = true;
-            "Amazon.com".metaData.hidden = true;
+            google.metaData.hidden = true;
+            wikipedia.metaData.hidden = true;
+            bing.metaData.hidden = true;
+            amazondotcom-au.metaData.hidden = true;
+            ebay.metaData.hidden = true;
+            amazondotcom-us.metaData.hidden = true;
           };
           force = true;
         };

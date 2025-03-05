@@ -5,8 +5,8 @@ self: super: {
         (super.fetchpatch {
           name = "fix-cross-building-flakes.patch";
           url =
-            "https://github.com/Enzime/nixpkgs/commit/6a504caae83fce4fe5e345f6c1ee4cf3f7f4fb09.patch";
-          sha256 = "sha256-Rg+xo+Qr/TK5L8YBMnsIKoGwf0LHI/e+svJFvARtWnM=";
+            "https://github.com/Enzime/nixpkgs/commit/8f7debeafaff06c2a5f039402d207712f2001770.patch";
+          sha256 = "sha256-7ZS6RLqrekftJVx4C/OSLcESAwS5kaIxw9tujkI4YXo=";
         })
       ];
     in {
