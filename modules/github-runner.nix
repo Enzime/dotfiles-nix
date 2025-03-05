@@ -10,6 +10,7 @@
       url = "https://github.com/Enzime/dotfiles-nix";
       tokenFile = config.age.secrets.github-runner.path;
       extraPackages = builtins.attrValues { inherit (pkgs) cachix; };
+      replace = true;
     };
   };
 }

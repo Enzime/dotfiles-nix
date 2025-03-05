@@ -44,6 +44,10 @@ let
         type = "indirect";
       };
 
+      # By default NixOS and nix-darwin oversubscribe a lot (max-jobs = auto, cores = 0)
+      # instead we would rather only oversubscribe a little bit
+      nix.settings.cores = 2;
+
       # Override Clan's default using mkDefault (1000)
       nix.settings.min-free = lib.mkOverride 500 (3 * 1024 * 1024 * 1024);
       nix.settings.max-free = lib.mkOverride 500 (10 * 1024 * 1024 * 1024);
@@ -53,6 +57,11 @@ let
       nix.settings.secret-key-files =
         lib.mkIf (keys.signing ? ${hostname}) [ "/etc/nix/key" ];
 
+      nix.settings.trusted-public-keys = builtins.attrValues
+        (lib.optionalAttrs (keys.signing ? ${hostname}) {
+          self = keys.signing.${hostname};
+        });
+
       home-manager.users.root.home.stateVersion = "24.05";
 
       # We don't use `programs.ssh.extraConfig` because the SSH module
@@ -61,6 +70,8 @@ let
         Host *
           IdentityFile /etc/ssh/ssh_host_ed25519_key
       '';
+
+      services.openssh.enable = true;
 
       services.tailscale.enable = true;
 
@@ -82,7 +93,6 @@ in {
     "cache"
     "flakes"
     "ghostty"
-    "kitty"
     "syncthing"
     "termite"
     "vcs"
@@ -101,12 +111,6 @@ in {
 
     hardware.enableRedistributableFirmware = true;
 
-    # Remove this when https://github.com/nix-community/home-manager/pull/5780 is merged
-    systemd.services."home-manager-${user}".serviceConfig.RemainAfterExit =
-      assert config.systemd.services.home-manager-root.serviceConfig.RemainAfterExit
-        == "yes";
-      lib.mkForce "no";
-
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;
     programs.neovim.defaultEditor = true;
@@ -116,7 +120,6 @@ in {
     networking.firewall.trustedInterfaces =
       [ config.services.tailscale.interfaceName ];
 
-    services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "prohibit-password";
     services.openssh.hostKeys = [{
       path = "/etc/ssh/ssh_host_ed25519_key";
@@ -174,19 +177,7 @@ in {
 
     users.knownUsers = [ "root" user ];
 
-    nix.configureBuildUsers = true;
-
-    services.nix-daemon.enable = true;
-
     services.tailscale.overrideLocalDns = lib.mkDefault true;
-
-    # WORKAROUND: `systemsetup -f -setremotelogin on` requires `Full Disk Access`
-    # permission for the Application calling it
-    system.activationScripts.extraActivation.text = ''
-      if [[ "$(systemsetup -getremotelogin | sed 's/Remote Login: //')" == "Off" ]]; then
-        launchctl load -w /System/Library/LaunchDaemons/ssh.plist
-      fi
-    '';
   };
 
   homeModule = { config, inputs, moduleList, pkgs, lib, ... }:

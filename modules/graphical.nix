@@ -2,9 +2,8 @@
   imports = [ "graphical-minimal" "greetd" "mpv" ];
 
   darwinModule = { pkgs, lib, ... }: {
-    environment.systemPackages = builtins.attrValues {
-      inherit (pkgs) alt-tab-macos raycast swift-quit utm;
-    };
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) alt-tab-macos raycast utm; };
 
     launchd.user.agents.raycast = {
       command = ''"/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"'';
@@ -13,7 +12,7 @@
 
     system.activationScripts.extraActivation.text = ''
       mkdir -p /usr/local/bin
-      cp ${lib.getExe pkgs._1password} /usr/local/bin/op
+      cp ${lib.getExe pkgs._1password-cli} /usr/local/bin/op
     '';
 
     services.karabiner-elements.enable = true;
@@ -61,25 +60,6 @@
         }
       ];
     };
-
-    launchd.user.agents.swift-quit = {
-      command =
-        ''"/Applications/Nix Apps/Swift Quit.app/Contents/MacOS/Swift Quit"'';
-      serviceConfig.RunAtLoad = true;
-    };
-
-    system.defaults.CustomUserPreferences."onebadidea.Swift-Quit" = {
-      SwiftQuitExcludedApps = [
-        "/System/Applications/Calendar.app"
-        "/System/Applications/Utilities/Terminal.app"
-        "${pkgs.vscode}/Applications/Visual Studio Code.app"
-      ];
-      SwiftQuitSettings = {
-        excludeBehaviour = "includeApps";
-        launchAtLogin = false;
-        menubarIconEnabled = true;
-      };
-    };
   };
 
   nixosModule = { user, pkgs, lib, ... }: {
@@ -109,6 +89,8 @@
         directories = [ ".config/1Password" ];
       };
 
+      programs.ghostty.enable = true;
+
       programs.vscode.package = pkgs.vscode;
 
       home.file.".ssh/config".text = let
@@ -130,24 +112,30 @@
       programs.firefox.profiles.personal = {
         id = 1;
 
-        inherit (config.programs.firefox.profiles.base) search settings;
+        inherit (config.programs.firefox.profiles.base) settings;
 
-        extensions = config.programs.firefox.profiles.base.extensions ++ [
-          pkgs.firefox-addons.copy-selected-links
-          pkgs.firefox-addons.ff2mpv
-          pkgs.firefox-addons.hover-zoom-plus
-          pkgs.firefox-addons.improved-tube
-          pkgs.firefox-addons.multi-account-containers
-          pkgs.firefox-addons.old-reddit-redirect
-          pkgs.firefox-addons.reddit-enhancement-suite
-          pkgs.firefox-addons.redirector
-          pkgs.firefox-addons.sponsorblock
-          pkgs.firefox-addons.tetrio-plus
-          pkgs.firefox-addons.translate-web-pages
-          pkgs.firefox-addons.tree-style-tab
-          pkgs.firefox-addons.tst-wheel-and-double
-          pkgs.firefox-addons.web-archives
-        ];
+        search = {
+          inherit (config.programs.firefox.profiles.base.search)
+            default engines force;
+        };
+
+        extensions.packages =
+          config.programs.firefox.profiles.base.extensions.packages ++ [
+            pkgs.firefox-addons.copy-selected-links
+            pkgs.firefox-addons.ff2mpv
+            pkgs.firefox-addons.hover-zoom-plus
+            pkgs.firefox-addons.improved-tube
+            pkgs.firefox-addons.multi-account-containers
+            pkgs.firefox-addons.old-reddit-redirect
+            pkgs.firefox-addons.reddit-enhancement-suite
+            pkgs.firefox-addons.redirector
+            pkgs.firefox-addons.sponsorblock
+            pkgs.firefox-addons.tetrio-plus
+            pkgs.firefox-addons.translate-web-pages
+            pkgs.firefox-addons.tree-style-tab
+            pkgs.firefox-addons.tst-wheel-and-double
+            pkgs.firefox-addons.web-archives
+          ];
 
         # Disable tab bar when using vertical tabs
         userChrome = ''
@@ -158,12 +146,18 @@
       programs.firefox.profiles.work = {
         id = 2;
 
-        inherit (config.programs.firefox.profiles.base) search settings;
+        inherit (config.programs.firefox.profiles.base) settings;
 
-        extensions = config.programs.firefox.profiles.base.extensions ++ [
-          pkgs.firefox-addons.multi-account-containers
-          pkgs.firefox-addons.open-url-in-container
-        ];
+        search = {
+          inherit (config.programs.firefox.profiles.base.search)
+            default engines force;
+        };
+
+        extensions.packages =
+          config.programs.firefox.profiles.base.extensions.packages ++ [
+            pkgs.firefox-addons.multi-account-containers
+            pkgs.firefox-addons.open-url-in-container
+          ];
       };
     };
 }

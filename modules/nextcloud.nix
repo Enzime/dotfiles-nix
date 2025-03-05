@@ -14,6 +14,7 @@
       age.secrets.nextcloud.owner = "nextcloud";
 
       services.nextcloud.config = {
+        dbtype = "sqlite";
         adminuser = "admin";
         adminpassFile = config.age.secrets.nextcloud.path;
       };

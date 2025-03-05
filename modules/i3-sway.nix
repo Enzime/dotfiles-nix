@@ -151,7 +151,6 @@
       };
 
       programs.alacritty.enable = true;
-      programs.kitty.enable = true;
       programs.feh.enable = true;
       services.udiskie.enable = true;
 

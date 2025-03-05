@@ -18,7 +18,7 @@
         version = "1.74.0";
       });
       programs.vscode.mutableExtensionsDir = false;
-      programs.vscode.extensions = [
+      programs.vscode.profiles.default.extensions = [
         pkgs.vscode-extensions.asvetliakov.vscode-neovim
         pkgs.vscode-extensions.eamodio.gitlens
         (pkgs.vscode-extensions.ms-vscode-remote.remote-ssh.override {
@@ -45,7 +45,7 @@
           pythonUseFixed = true;
         })
       ];
-      programs.vscode.keybindings =
+      programs.vscode.profiles.default.keybindings =
         let mod = if hostPlatform.isDarwin then "cmd" else "ctrl";
         in [
           # Fix `C-e` not working in terminal
@@ -165,7 +165,7 @@
             command = "-editor.action.toggleTabFocusMode";
           }
         ];
-      programs.vscode.userSettings =
+      programs.vscode.profiles.default.userSettings =
         let nvimSystem = if hostPlatform.isDarwin then "darwin" else "linux";
         in {
           "update.mode" = "manual";
@@ -259,6 +259,9 @@
           # WORKAROUND: VS Code crashes when running under Wayland
           # https://github.com/NixOS/nixpkgs/issues/246509
           "window.titleBarStyle" = "custom";
+
+          # Disable Copilot
+          "chat.commandCenter.enabled" = false;
         };
 
       home.persistence."/persist${config.home.homeDirectory}".directories =

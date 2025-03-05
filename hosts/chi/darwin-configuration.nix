@@ -20,9 +20,7 @@
   };
 
   system.defaults.dock.persistent-apps = [
-    # Update this when firefox-bin-unwrapped is merged
-    (assert pkgs.firefox.meta.unsupported && pkgs.firefox-bin.meta.unsupported;
-      "/Applications/Firefox.app")
+    "~/Applications/Home Manager Apps/Firefox.app"
     "${pkgs.utm}/Applications/UTM.app"
     "/System/Applications/System Settings.app"
   ];

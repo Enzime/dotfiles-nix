@@ -2,46 +2,8 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
-  check:
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - system: x86_64-linux
-            runs-on: ubuntu-latest
-          - system: aarch64-darwin
-            runs-on: [macOS, ARM64]
-
-    name: ${{ matrix.system }}
-    runs-on: ${{ matrix.runs-on }}
-    steps:
-      - name: Free space on GitHub-hosted Runner
-        if: runner.environment == 'github-hosted'
-        run: |
-          # 13.5GiB
-          sudo rm -rf /usr/local/lib/android
-          # 8.6GiB
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          # 4.7GiB
-          sudo rm -rf /usr/local/.ghcup
-      - uses: actions/checkout@v4.1.7
-      - uses: cachix/install-nix-action@v30
-        with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.9/install
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: cachix/cachix-action@v15
-        with:
-          name: enzime
-          useDaemon: ${{ runner.environment == 'github-hosted' }}
-          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-          skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
-      - name: nix run .#add-subflakes-to-store
-        run: nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
-      - run: nix run --print-build-logs .#check -- --print-build-logs
-
   build:
     timeout-minutes: 7200
 
@@ -76,7 +38,6 @@ jobs:
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}
-    needs: check
     steps:
       - name: Free space on GitHub-hosted Runner
         if: runner.environment == 'github-hosted'
@@ -88,16 +49,21 @@ jobs:
           # 4.7GiB
           sudo rm -rf /usr/local/.ghcup
       - uses: actions/checkout@v4.1.7
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@v31
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.24.9/install
+          install_url: https://releases.nixos.org/nix/nix-2.26.3/install
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: cachix/cachix-action@v15
+          extra_nix_config: |
+            !include /etc/nix/nix.conf.extra
+      - name: Run nix build --print-build-logs .#github-actions-nix-config --out-link /etc/nix/nix.conf.extra
+        if: runner.environment == 'github-hosted'
+        run: |
+          nix build --print-build-logs .#github-actions-nix-config --out-link nix.conf.extra
+          sudo mv nix.conf.extra /etc/nix
+      - uses: cachix/cachix-action@v16
         with:
           name: enzime
           useDaemon: ${{ runner.environment == 'github-hosted' }}
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-          skipAddingSubstituter: ${{ runner.environment == 'self-hosted' }}
-      - name: nix run .#add-subflakes-to-store
-        run: nix-shell --pure -I nixpkgs=flake:nixpkgs -p '(import ./shell.nix { }).packages.${builtins.currentSystem}.add-subflakes-to-store' --command add-subflakes-to-store
+          skipAddingSubstituter: true
       - run: nix build --print-build-logs .#${{ matrix.output }}

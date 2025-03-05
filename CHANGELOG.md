@@ -1,3 +1,43 @@
+- Removed `nix flake check` from GitHub Actions workflow
+- Fixed `cachix/cachix-action` overriding `cache.clan.lol` as a substituter
+- Use `cache.clan.lol` as a substituter inside GitHub Actions
+- Use `services.openssh.enable` from `nix-darwin`
+- Added GitHub workflow to mirror changes from GitHub to Gitea
+- Disabled GitHub Actions workflow on pull requests
+- Added own signing key to `trusted-public-keys`
+- Use `args ? osConfig` instead of `nixos` to check if home-manager is inside another module system
+- Fixed `darwin-rebuild` not using `config.nix.package`
+- Fixed setting `nix.package` causing a priority clash in `home-manager`
+- Fixed `pkgs.nix` being added to `home.packages` instead of `config.nix.package` which shadowed everything else
+- Added `cache.clan.lol` as a substituter
+- Removed Swift Quit
+- Removed `nix` overlay
+- Use `nixVersions.latest` instead of `nix` flake input
+- Use `checks` to expose outputs for Buildbot
+- Disabled GitHub Actions on Gitea
+- Imported GitHub repo into Clan Gitea
+- Removed `jujutsu` overlay as `jj` now respects `~/.ssh/config`
+- Fixed old `nixos-rebuild` PR commit no longer being accessible on GitHub
+- Fixed `goocanvas3` not building
+- Removed `add-subflakes-to-store` as it is no longer necessary with Nix 2.26
+- Fixed `github-runner` not starting on `echo`
+- Disabled Copilot in VSCode
+- Use `firefox-bin` on macOS as `pkgs.firefox` is very laggy
+- Added `bootstrap` script for `linux-builder`
+- Added own `linux-builder` to `trusted-public-keys`
+- Fixed `ghostty` terminfo missing inside `linux-builder`
+- Added `enzime` user inside `linux-builder`
+- Removed `kitty`
+- Disabled `auto-optimise-store` inside `linux-builder`
+- Changed `nix.settings.cores` to avoid excessive oversubscription causing builds to fail
+- Fixed stack overflow when trying to build configuration with new Nix
+- Use `services.pulseaudio` instead of `hardware.pulseaudio`
+- Fixed `services.nextcloud.config.dbtype` not being specified
+- Use `ghostty` home-manager module
+- Removed `vscode` overlay
+- Use `programs.vscode.profiles.default.*` instead of `programs.vscode.*`
+- Remove unused `nix-darwin` options
+- Fixed `firefox` extensions moved to `extensions.packages` in `home-manager`
 - Changed `ghostty` to quit after last window is closed on macOS
 - Use `ghostty` on `hermes-macos`
 - Use Go VSCode extension

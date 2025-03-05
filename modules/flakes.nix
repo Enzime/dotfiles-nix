@@ -1,21 +1,23 @@
 let
   shared = { config, pkgs, lib, ... }: {
-    nix.package = lib.mkDefault pkgs.nix;
-    # a < b | a == b
+    nix.package = pkgs.nixVersions.latest;
+
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.settings.warn-dirty = false;
   };
 in {
-  darwinModule = { ... }: { imports = [ shared ]; };
+  darwinModule = shared;
 
-  nixosModule = { ... }: { imports = [ shared ]; };
+  nixosModule = shared;
 
-  homeModule = { nixos, pkgs, lib, ... }: {
+  homeModule = { config, pkgs, lib, ... }@args: {
     imports = [ shared ];
 
-    home.packages = lib.mkIf (!nixos) (builtins.attrValues {
-      # Necessary for non-NixOS systems which won't have the dirtiest version of Nix
-      inherit (pkgs) nix;
-    });
+    home.packages = builtins.attrValues
+      (lib.optionalAttrs (!args ? osConfig) { inherit (config.nix) package; });
+
+    nix = lib.optionalAttrs (args ? osConfig) {
+      package = lib.mkForce args.osConfig.nix.package;
+    };
   };
 }

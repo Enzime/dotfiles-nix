@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:Enzime/nixpkgs/localhost";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   inputs.nix-darwin.url = "github:LnL7/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -17,14 +17,6 @@
   inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.nix-overlay.url = "path:overlays/nix";
-  inputs.nix-overlay.inputs.empty.follows = "";
-  inputs.nix-overlay.inputs.flake-compat.follows = "flake-compat";
-  inputs.nix-overlay.inputs.flake-parts.follows = "flake-parts";
-  inputs.nix-overlay.inputs.flake-utils.follows = "flake-utils";
-  inputs.nix-overlay.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.nix-overlay.inputs.git-hooks.follows = "git-hooks";
-
   inputs.agenix.url = "github:ryantm/agenix";
   inputs.agenix.inputs.darwin.follows = "nix-darwin";
   inputs.agenix.inputs.home-manager.follows = "home-manager";
@@ -41,21 +33,21 @@
   inputs.git-hooks.url = "github:cachix/git-hooks.nix";
   inputs.git-hooks.inputs.flake-compat.follows = "flake-compat";
   inputs.git-hooks.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.git-hooks.inputs.nixpkgs-stable.follows = "nixpkgs";
 
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
   inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
   inputs.nixos-apple-silicon.url =
-    "github:Enzime/nixos-apple-silicon/refactor/peripheral-firmware";
+    "github:tpwrules/nixos-apple-silicon/pull/94/merge";
   inputs.nixos-apple-silicon.inputs.flake-compat.follows = "flake-compat";
   inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.terranix.url = "github:terranix/terranix";
   inputs.terranix.inputs.bats-assert.follows = "";
   inputs.terranix.inputs.bats-support.follows = "";
-  inputs.terranix.inputs.flake-utils.follows = "flake-utils";
+  inputs.terranix.inputs.flake-parts.follows = "flake-parts";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.terranix.inputs.systems.follows = "systems";
   inputs.terranix.inputs.terranix-examples.follows = "";
 
   inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
@@ -75,8 +67,8 @@
   inputs.clan-core.inputs.flake-parts.follows = "flake-parts";
   inputs.clan-core.inputs.nixpkgs.follows = "nixpkgs";
   inputs.clan-core.inputs.systems.follows = "systems";
-  # This causes a stack overflow when set to empty string
-  inputs.clan-core.inputs.treefmt-nix.follows = "systems";
+  # This causes a stack overflow when set to empty string or relative path inputs
+  inputs.clan-core.inputs.treefmt-nix.follows = "flake-compat";
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
     , agenix, disko, impermanence, nix-index-database, flake-parts, clan-core
@@ -104,10 +96,7 @@
             _module.args.pkgs = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
-              overlays = [
-                (import ./overlays/identify.nix)
-                (inputs.nix-overlay.outputs.overlay)
-              ];
+              overlays = [ (import ./overlays/identify.nix) ];
             };
 
             pre-commit.settings = {
@@ -156,44 +145,13 @@
               '';
             };
 
-            packages.add-subflakes-to-store = pkgs.writeShellApplication {
-              name = "add-subflakes-to-store";
-              runtimeInputs = builtins.attrValues {
-                inherit (pkgs) nix git findutils gnused;
-              };
-              text = ''
-                set -x
-
-                # This gets set when nix-shell --pure is used
-                if [[ "''${NIX_SSL_CERT_FILE:-}" == "/no-cert-file.crt" ]]; then
-                  export NIX_SSL_CERT_FILE=
-                fi
-
-                cp flake.lock flake.lock.old
-
-                # shellcheck disable=SC2046
-                nix flake update systems $(find overlays -mindepth 1 -type d -exec basename {} \; | sed -E 's/^(.*)$/&-overlay/' | paste -sd ' ' -)
-
-                mv flake.lock.old flake.lock
-              '';
-            };
-
-            packages.check = pkgs.writeShellApplication {
-              name = "nix-flake-check-without-ifd";
-              runtimeInputs =
-                builtins.attrValues { inherit (pkgs) patch nix jq; };
-              text = ''
-                set -x
-
-                nix flake check ${
-                  pkgs.stdenvNoCC.mkDerivation {
-                    name = "patched-self";
-                    # WORKAROUND: `toString ./.` works on macOS but not Linux
-                    src = toString self;
-                    patches = [ ./files/no-ifd.diff ];
-                    installPhase = "cp -r . $out";
-                  }
-                } "$@"
+            packages.github-actions-nix-config = pkgs.writeTextFile {
+              name = "github-actions-nix.conf";
+              text = let
+                cfg = self.nixosConfigurations.phi-nixos.config.nix.settings;
+              in ''
+                substituters = ${toString cfg.substituters}
+                trusted-public-keys = ${toString cfg.trusted-public-keys}
               '';
             };
 
@@ -201,6 +159,32 @@
               builtins.attrValues {
                 inherit (p) external hcloud local null onepassword tailscale;
               });
+
+            checks = let
+              machinesPerSystem = {
+                x86_64-linux = [ "eris" "phi-nixos" "sigma" ];
+                aarch64-darwin = [ "chi" "echo" "hermes-macos" ];
+                aarch64-linux = [ "aether" "hermes-nixos" ];
+              };
+              nixosMachines = lib.optionalAttrs pkgs.hostPlatform.isLinux
+                (lib.mapAttrs' (n: lib.nameValuePair "nixos-${n}")
+                  (lib.genAttrs (machinesPerSystem.${system} or [ ]) (name:
+                    self.nixosConfigurations.${name}.config.system.build.toplevel)));
+              darwinMachines = lib.optionalAttrs pkgs.hostPlatform.isDarwin
+                (lib.mapAttrs' (n: lib.nameValuePair "nix-darwin-${n}")
+                  (lib.genAttrs (machinesPerSystem.${system} or [ ]) (name:
+                    self.darwinConfigurations.${name}.config.system.build.toplevel)));
+              homeConfigurations = lib.mapAttrs' (name: config:
+                lib.nameValuePair "home-manager-${name}"
+                config.activationPackage) (lib.filterAttrs
+                  (_: config: config.pkgs.hostPlatform.system == system)
+                  (self.homeConfigurations or { }));
+              packages = lib.mapAttrs' (n: lib.nameValuePair "package-${n}")
+                self'.packages;
+              devShells = lib.mapAttrs' (n: lib.nameValuePair "devShell-${n}")
+                self'.devShells;
+            in nixosMachines // darwinMachines // homeConfigurations // packages
+            // devShells;
           }
           {
             packages = let
@@ -359,7 +343,7 @@
             keys = import ./keys.nix;
 
             extraHomeManagerArgs = {
-              inherit inputs nixos configRevision keys moduleList;
+              inherit inputs configRevision keys moduleList;
             };
 
             nixosConfigurationsKey =
