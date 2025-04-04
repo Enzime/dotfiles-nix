@@ -1,12 +1,7 @@
-{ user, keys, pkgs, lib, ... }:
+{ user, keys, pkgs, ... }:
 
 {
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
-
-  launchd.user.agents.echo = {
-    command = "${lib.getExe' pkgs.utm "utmctl"} start echo";
-    serviceConfig.RunAtLoad = true;
-  };
 
   ids.gids.nixbld = 30000;
 

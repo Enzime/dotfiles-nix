@@ -161,30 +161,11 @@
               });
 
             checks = let
-              machinesPerSystem = {
-                x86_64-linux = [ "eris" "phi-nixos" "sigma" ];
-                aarch64-darwin = [ "chi" "echo" "hermes-macos" ];
-                aarch64-linux = [ "aether" "hermes-nixos" ];
-              };
-              nixosMachines = lib.optionalAttrs pkgs.hostPlatform.isLinux
-                (lib.mapAttrs' (n: lib.nameValuePair "nixos-${n}")
-                  (lib.genAttrs (machinesPerSystem.${system} or [ ]) (name:
-                    self.nixosConfigurations.${name}.config.system.build.toplevel)));
-              darwinMachines = lib.optionalAttrs pkgs.hostPlatform.isDarwin
-                (lib.mapAttrs' (n: lib.nameValuePair "nix-darwin-${n}")
-                  (lib.genAttrs (machinesPerSystem.${system} or [ ]) (name:
-                    self.darwinConfigurations.${name}.config.system.build.toplevel)));
-              homeConfigurations = lib.mapAttrs' (name: config:
-                lib.nameValuePair "home-manager-${name}"
-                config.activationPackage) (lib.filterAttrs
-                  (_: config: config.pkgs.hostPlatform.system == system)
-                  (self.homeConfigurations or { }));
               packages = lib.mapAttrs' (n: lib.nameValuePair "package-${n}")
                 self'.packages;
               devShells = lib.mapAttrs' (n: lib.nameValuePair "devShell-${n}")
                 self'.devShells;
-            in nixosMachines // darwinMachines // homeConfigurations // packages
-            // devShells;
+            in packages // devShells;
           }
           {
             packages = let
@@ -467,6 +448,17 @@
                   '';
                 };
               };
+
+            checks.${system} = (optionalAttrs nixos {
+              "nixos-${hostname}" =
+                self.nixosConfigurations.${hostname}.config.system.build.toplevel;
+            }) // (optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+              "nix-darwin-${hostname}" =
+                self.darwinConfigurations.${hostname}.config.system.build.toplevel;
+            }) // {
+              "home-manager-${user}@${hostname}" =
+                self.homeConfigurations."${user}@${hostname}".activationPackage;
+            };
           };
       in (mkConfigurations [
         {
@@ -515,26 +507,12 @@
           };
         }
         {
-          host = "echo";
-          user = "enzime";
-          system = "aarch64-darwin";
-          modules = builtins.attrNames {
-            inherit (modules) github-runner graphical-minimal;
-          };
-        }
-        {
           host = "eris";
           user = "human";
           system = "x86_64-linux";
           modules = builtins.attrNames {
             inherit (modules) deluge reflector vncserver;
           };
-        }
-        {
-          host = "aether";
-          user = "enzime";
-          system = "aarch64-linux";
-          modules = [ ];
         }
       ]));
     };

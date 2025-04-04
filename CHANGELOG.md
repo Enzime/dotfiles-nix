@@ -1,3 +1,8 @@
+- Changed GitHub Actions to run workflow without `trusted-user`
+- Use `mkConfiguration` to construct per-machine `checks` to remove a hardcoded list of machines
+- Added `withoutLinuxBuilder` variants for macOS to build in GitHub Actions
+- Removed `echo` and `aether`
+- Use GitHub-hosted runners for all systems
 - Removed `nix flake check` from GitHub Actions workflow
 - Fixed `cachix/cachix-action` overriding `cache.clan.lol` as a substituter
 - Use `cache.clan.lol` as a substituter inside GitHub Actions

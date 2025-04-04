@@ -1,7 +1,5 @@
 on:
   push:
-    branches:
-      - main
 
 jobs:
   build:
@@ -12,29 +10,23 @@ jobs:
       matrix:
         include:
           - name: chi
-            output: darwinConfigurations.chi.system
-            runs-on: [macOS, ARM64]
+            output: darwinConfigurations.chi.config.withoutLinuxBuilder.system.build.toplevel
+            runs-on: macos-latest
           - name: hermes-macos
-            output: darwinConfigurations.hermes-macos.system
-            runs-on: [macOS, ARM64]
+            output: darwinConfigurations.hermes-macos.config.withoutLinuxBuilder.system.build.toplevel
+            runs-on: macos-latest
           - name: hermes-nixos
             output: nixosConfigurations.hermes-nixos.config.system.build.toplevel
-            runs-on: ARM64
+            runs-on: ubuntu-24.04-arm
           - name: phi-nixos
             output: nixosConfigurations.phi-nixos.config.system.build.toplevel
             runs-on: ubuntu-latest
           - name: sigma
             output: nixosConfigurations.sigma.config.system.build.toplevel
             runs-on: ubuntu-latest
-          - name: echo
-            output: darwinConfigurations.echo.system
-            runs-on: [macOS, ARM64]
           - name: eris
             output: nixosConfigurations.eris.config.system.build.toplevel
             runs-on: ubuntu-latest
-          - name: aether
-            output: nixosConfigurations.aether.config.system.build.toplevel
-            runs-on: ARM64
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}
@@ -49,10 +41,11 @@ jobs:
           # 4.7GiB
           sudo rm -rf /usr/local/.ghcup
       - uses: actions/checkout@v4.1.7
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v31.1.0
         with:
           install_url: https://releases.nixos.org/nix/nix-2.26.3/install
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          set_as_trusted_user: false
           extra_nix_config: |
             !include /etc/nix/nix.conf.extra
       - name: Run nix build --print-build-logs .#github-actions-nix-config --out-link /etc/nix/nix.conf.extra
