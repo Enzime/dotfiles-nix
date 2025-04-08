@@ -6,6 +6,7 @@
 
   inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.home-manager.inputs.treefmt-nix.follows = "";
 
   inputs.systems.url = "path:./flake.systems.nix";
   inputs.systems.flake = false;
@@ -25,7 +26,6 @@
 
   inputs.firefox-addons-overlay.url = "path:overlays/firefox-addons";
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.firefox-addons-overlay.inputs.flake-utils.follows = "flake-utils";
 
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -66,6 +66,7 @@
   inputs.clan-core.inputs.disko.follows = "disko";
   inputs.clan-core.inputs.flake-parts.follows = "flake-parts";
   inputs.clan-core.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.clan-core.inputs.nix-darwin.follows = "nix-darwin";
   inputs.clan-core.inputs.systems.follows = "systems";
   # This causes a stack overflow when set to empty string or relative path inputs
   inputs.clan-core.inputs.treefmt-nix.follows = "flake-compat";
@@ -88,6 +89,8 @@
 
           config = { _module.args = configuration._module.specialArgs; };
         }) self.baseNixosConfigurations;
+
+        specialArgs = { inherit inputs; };
       };
 
       perSystem = { config, self', pkgs, lib, system, ... }:
@@ -286,7 +289,7 @@
         mkConfigurations = configs:
           foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
         mkConfiguration = { host, hostSuffix ? "", user, system
-          , nixos ? hasSuffix "linux" system, modules, clan ? false }:
+          , nixos ? hasSuffix "linux" system, modules, clan ? true }:
           let
             pkgs = import nixpkgs {
               inherit system;
@@ -490,7 +493,6 @@
           hostSuffix = "-nixos";
           user = "enzime";
           system = "x86_64-linux";
-          clan = true;
           modules = builtins.attrNames {
             inherit (modules)
               android bluetooth deluge nextcloud personal printers samba
@@ -501,7 +503,6 @@
           host = "sigma";
           user = "enzime";
           system = "x86_64-linux";
-          clan = true;
           modules = builtins.attrNames {
             inherit (modules) impermanence laptop personal sway;
           };

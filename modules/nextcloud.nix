@@ -5,7 +5,7 @@
     let hostname = "nextcloud.enzim.ee";
     in {
       services.nextcloud.enable = true;
-      services.nextcloud.package = pkgs.nextcloud29;
+      services.nextcloud.package = pkgs.nextcloud31;
       services.nextcloud.hostName = hostname;
       services.nextcloud.settings.trusted_domains = [ "reflector.enzim.ee" ];
       services.nextcloud.https = true;

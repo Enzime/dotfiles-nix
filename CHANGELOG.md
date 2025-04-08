@@ -1,3 +1,7 @@
+- Fixed Cachix Daemon in GitHub Actions workflow
+- Fixed `specialArgs.inputs` missing in `hermes-nixos` when used through Clan
+- Updated `nextcloud`
+- Use `clan` by default on NixOS
 - Changed GitHub Actions to run workflow without `trusted-user`
 - Use `mkConfiguration` to construct per-machine `checks` to remove a hardcoded list of machines
 - Added `withoutLinuxBuilder` variants for macOS to build in GitHub Actions

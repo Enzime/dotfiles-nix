@@ -45,7 +45,6 @@ jobs:
         with:
           install_url: https://releases.nixos.org/nix/nix-2.26.3/install
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          set_as_trusted_user: false
           extra_nix_config: |
             !include /etc/nix/nix.conf.extra
       - name: Run nix build --print-build-logs .#github-actions-nix-config --out-link /etc/nix/nix.conf.extra
