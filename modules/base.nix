@@ -213,7 +213,7 @@ in {
         MANROFFOPT = "-P -c";
       };
 
-      home.file.".ssh/config".text = ''
+      home.file.".ssh/config".text = lib.mkAfter ''
         Include config.local
       '';
 

@@ -1,3 +1,4 @@
+- Added SSH configuration for connecting to `clan-infra`
 - Fixed Cachix Daemon in GitHub Actions workflow
 - Fixed `specialArgs.inputs` missing in `hermes-nixos` when used through Clan
 - Updated `nextcloud`
