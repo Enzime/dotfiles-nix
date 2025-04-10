@@ -91,6 +91,7 @@ in {
     "alacritty"
     "builder"
     "cache"
+    "clan"
     "flakes"
     "ghostty"
     "syncthing"
@@ -147,6 +148,8 @@ in {
 
   darwinModule = { user, host, inputs, config, pkgs, lib, ... }: {
     imports = [ shared ];
+
+    system.primaryUser = user;
 
     # Used for `system.nixpkgsRevision`
     nixpkgs.source = inputs.nixpkgs;

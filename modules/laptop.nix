@@ -55,7 +55,7 @@
     programs.captive-browser.enable = true;
   };
 
-  darwinModule = { pkgs, lib, ... }: {
+  darwinModule = { user, pkgs, lib, ... }: {
     time.timeZone = lib.mkForce null;
 
     environment.systemPackages =
@@ -70,8 +70,8 @@
 
     # WORKAROUND: Setting this via `system.defaults` won't check the checkbox
     #             in System Preferences > Trackpad
-    system.activationScripts.extraUserActivation.text = ''
-      defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
+    system.activationScripts.extraActivation.text = ''
+      sudo -u ${user} defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
     '';
 
     security.pam.services.sudo_local.touchIdAuth = true;

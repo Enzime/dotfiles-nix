@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.nix-darwin.url = "github:LnL7/nix-darwin";
+  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin/pull/1341/merge";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";
@@ -88,7 +88,11 @@
           imports = configuration._module.args.modules;
 
           config = { _module.args = configuration._module.specialArgs; };
-        }) self.baseNixosConfigurations;
+        }) (self.baseNixosConfigurations // self.baseDarwinConfigurations);
+
+        inventory.machines =
+          builtins.mapAttrs (hostname: _: { machineClass = "darwin"; })
+          self.baseDarwinConfigurations;
 
         specialArgs = { inherit inputs; };
       };
@@ -204,8 +208,7 @@
                   text = let
                     cfg = configuration.config;
 
-                    user = configuration._module.specialArgs.user;
-                    dest = configuration._module.specialArgs.hostname;
+                    dest = configuration._module.args.hostname;
                     darwin-rebuild = cfg.system.build.darwin-rebuild;
                   in ''
                     flags=()
@@ -222,11 +225,11 @@
                       fi
                     done
 
-                    if [[ $(hostname) != "${hostname}" || $USER != "${user}" ]]; then
+                    if [[ $(hostname) != "${hostname}" ]]; then
                       nix copy --to ssh-ng://root@${dest} ${
                         ./.
                       } "''${overriddenInputs[@]}"
-                      ssh -t ${user}@${dest} nix run \
+                      ssh -t root@${dest} nix run \
                         ${
                           ./.
                         }#darwinConfigurations.${hostname}.config.system.build.darwin-rebuild \
@@ -239,7 +242,7 @@
                     ${lib.optionalString
                     (system == configuration.pkgs.hostPlatform.system) ''
                       else
-                        ${lib.getExe darwin-rebuild} switch --flake ${
+                        sudo ${lib.getExe darwin-rebuild} switch --flake ${
                           ./.
                         } "''${flags[@]}"
                     ''}
@@ -255,7 +258,7 @@
         inherit (builtins) attrNames hasAttr filter getAttr readDir;
         inherit (nixpkgs.lib)
           concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs'
-          mapAttrsToList nameValuePair optionals optionalAttrs recursiveUpdate
+          mapAttrsToList nameValuePair optionalAttrs recursiveUpdate
           removeSuffix unique;
 
         importFrom = path: filename: import (path + ("/" + filename));
@@ -289,7 +292,7 @@
         mkConfigurations = configs:
           foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
         mkConfiguration = { host, hostSuffix ? "", user, system
-          , nixos ? hasSuffix "linux" system, modules, clan ? true }:
+          , nixos ? hasSuffix "linux" system, modules }:
           let
             pkgs = import nixpkgs {
               inherit system;
@@ -302,8 +305,8 @@
               inherit (pkgs) config overlays;
             };
 
-            moduleList = unique (concatMap getModuleList
-              ([ "base" ] ++ modules ++ optionals clan [ "clan" ]));
+            moduleList =
+              unique (concatMap getModuleList ([ "base" ] ++ modules));
             modulesToImport = map (name: getAttr name modules') moduleList;
 
             hostname = "${host}${hostSuffix}";
@@ -329,14 +332,11 @@
             extraHomeManagerArgs = {
               inherit inputs configRevision keys moduleList;
             };
-
-            nixosConfigurationsKey =
-              if clan then "baseNixosConfigurations" else "nixosConfigurations";
           in {
             # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
             # OR
             # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
-            ${nixosConfigurationsKey} = optionalAttrs nixos {
+            baseNixosConfigurations = optionalAttrs nixos {
               ${hostname} = nixpkgs.lib.nixosSystem {
                 modules = [
                   {
@@ -373,7 +373,7 @@
             # nix build ~/.config/home-manager#darwinConfigurations.chi.system
             # OR
             # darwin-rebuild build --flake ~/.config/home-manager#chi
-            darwinConfigurations =
+            baseDarwinConfigurations =
               optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
                 ${hostname} = nix-darwin.lib.darwinSystem {
                   inherit system pkgs inputs;

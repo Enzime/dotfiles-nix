@@ -1,7 +1,7 @@
 {
   imports = [ "firefox" "fonts" ];
 
-  darwinModule = { pkgs, ... }: {
+  darwinModule = { user, pkgs, ... }: {
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) rectangle; };
 
@@ -12,9 +12,9 @@
     };
 
     # Close Terminal if shell exited cleanly
-    system.activationScripts.extraUserActivation.text = ''
-      if [[ -f ~/Library/Preferences/com.apple.Terminal.plist ]]; then
-        plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~/Library/Preferences/com.apple.Terminal.plist
+    system.activationScripts.extraActivation.text = ''
+      if [[ -f ~${user}/Library/Preferences/com.apple.Terminal.plist ]]; then
+        sudo -u ${user} plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~${user}/Library/Preferences/com.apple.Terminal.plist
       fi
     '';
 
