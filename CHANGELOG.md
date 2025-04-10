@@ -1,3 +1,4 @@
+- Fixed `PATH` not being set correctly on `eris`
 - Use `clan` on all machines
 - Use the PR
 - Added SSH configuration for connecting to `clan-infra`
