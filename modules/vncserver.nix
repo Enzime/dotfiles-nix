@@ -1,63 +1,77 @@
 {
-  imports = [ "i3" ];
+  imports = [ "greetd" "sway" ];
 
   nixosModule = { user, pkgs, lib, ... }: {
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs.xorg) xinit; };
-
-    # Let VNC use :0
-    services.xserver.displayManager.lightdm.extraConfig = ''
-      minimum-display-number=1
-    '';
-
     users.users.${user}.linger = true;
   };
 
-  homeModule = { pkgs, lib, ... }@args: {
-    services.redshift.enable = lib.mkForce false;
-    services.screen-locker.enable = lib.mkForce false;
+  homeModule = { pkgs, lib, ... }@args:
+    let
+      vncEnvironment = [
+        "WLR_BACKENDS=headless"
+        "WLR_LIBINPUT_NO_DEVICES=1"
+        "WAYLAND_DISPLAY=wayland-1"
+      ];
+    in {
+      # Move regular wayvnc to another port
+      xdg.configFile."wayvnc/config".text = ''
+        port=5901
+      '';
 
-    systemd.user.services.import-path = {
-      Unit = { Description = "Import PATH from zsh"; };
-      Service = {
-        Environment = [
-          # Necessary for running interactive Zsh (`zsh -i` which sources `~/.zshrc`) which
-          # is necessary for setting some components of the PATH
-          "PATH=/run/current-system/sw/bin"
-          # NixOS doesn't expose the PATH in the NixOS module system so we need to unset this
-          # environment variable to get NixOS to set the default PATH for us
-          "__NIXOS_SET_ENVIRONMENT_DONE="
-        ];
-        Type = "oneshot";
-        ExecStart = "${
-            lib.getExe pkgs.zsh
-          } -ic 'systemctl --user import-environment PATH'";
-        RemainAfterExit = true;
+      services.swayidle.enable = lib.mkForce false;
+
+      systemd.user.services.import-path = {
+        Unit = { Description = "Import PATH from zsh"; };
+        Service = {
+          Environment = [
+            # Necessary for running interactive Zsh (`zsh -i` which sources `~/.zshrc`) which
+            # is necessary for setting some components of the PATH
+            "PATH=/run/current-system/sw/bin"
+            # NixOS doesn't expose the PATH in the NixOS module system so we need to unset this
+            # environment variable to get NixOS to set the default PATH for us
+            "__NIXOS_SET_ENVIRONMENT_DONE="
+          ];
+          Type = "oneshot";
+          ExecStart = "${
+              lib.getExe pkgs.zsh
+            } -ic 'systemctl --user import-environment PATH'";
+          RemainAfterExit = true;
+        };
+      };
+
+      systemd.user.services.wayvnc-headless = lib.mkIf (args ? osConfig) {
+        Unit = {
+          Description = "VNC server for headless session";
+          Requires = [ "import-path.service" "sway-headless.service" ];
+          After = [ "import-path.service" "sway-headless.service" ];
+        };
+        Service = {
+          Type = "exec";
+          ExecStart = "${lib.getExe pkgs.wayvnc} --config=${
+              pkgs.writeTextFile {
+                name = "wayvnc-headless.conf";
+                text = ''
+                  address=0.0.0.0
+                  port=5900
+                '';
+              }
+            }";
+          Environment = vncEnvironment;
+        };
+        Install = { WantedBy = [ "default.target" ]; };
+      };
+
+      systemd.user.services.sway-headless = {
+        Unit = {
+          Description = "Wayland compositor for headless session";
+          Requires = [ "import-path.service" ];
+          After = [ "import-path.service" ];
+        };
+        Service = {
+          Environment = vncEnvironment;
+          ExecStart = lib.getExe pkgs.sway;
+        };
+        Install = { WantedBy = [ "default.target" ]; };
       };
     };
-
-    systemd.user.services.vnc = lib.mkIf (args ? osConfig) {
-      Unit = {
-        Description = "Start a VNC and X server";
-        Requires = [ "import-path.service" ];
-        After = [ "import-path.service" ];
-      };
-      Service = {
-        Type = "exec";
-        ExecStart = "${pkgs.writeShellScript "vnc-start" ''
-          WRAPPER=${args.osConfig.services.displayManager.sessionData.wrapper}
-          WRAPPER_ARGS=$(${
-            lib.getExe pkgs.ripgrep
-          } '(?<=^Exec=).*' --pcre2 --only-matching --no-line-number --color=never ${
-            builtins.elemAt
-            args.osConfig.services.displayManager.sessionPackages 0
-          }/share/xsessions/none+i3.desktop)
-          startx $WRAPPER $WRAPPER_ARGS -- ${
-            lib.getExe' pkgs.tigervnc "Xvnc"
-          } -geometry 1366x768 -depth 24 -SecurityTypes=None
-        ''}";
-      };
-      Install = { WantedBy = [ "default.target" ]; };
-    };
-  };
 }

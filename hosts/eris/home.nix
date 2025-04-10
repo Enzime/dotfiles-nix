@@ -1,30 +1,17 @@
-{ lib, ... }:
+{ ... }:
 
-let inherit (lib) mkForce;
-in {
-  xsession.windowManager.i3.config.workspaceOutputAssign = [{
-    workspace = "101";
-    output = "VNC-0";
-  }];
-
-  xsession.windowManager.i3.config.startup = [
+{
+  wayland.windowManager.sway.config.workspaceOutputAssign = [
     {
-      command = "firefox";
-      notification = false;
+      workspace = "1";
+      output = "HEADLESS-1";
     }
     {
-      command = "deluge";
-      notification = false;
+      workspace = "1";
+      output = "VGA-1";
     }
   ];
 
-  services.polybar = {
-    config = {
-      "bar/base" = {
-        modules-right = mkForce "dotfiles ethernet fs memory date";
-      };
-
-      "bar/centre" = { monitor = "VNC-0"; };
-    };
-  };
+  wayland.windowManager.sway.config.startup =
+    [ { command = "firefox"; } { command = "deluge"; } ];
 }

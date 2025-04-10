@@ -1,5 +1,5 @@
 {
-  imports = [ "firefox" "fonts" ];
+  imports = [ "firefox" "fonts" "greetd" ];
 
   darwinModule = { user, pkgs, ... }: {
     environment.systemPackages =

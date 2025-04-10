@@ -1,5 +1,5 @@
 {
-  imports = [ "graphical-minimal" "greetd" "mpv" ];
+  imports = [ "graphical-minimal" "mpv" ];
 
   darwinModule = { pkgs, lib, ... }: {
     environment.systemPackages =
