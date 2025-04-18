@@ -62,7 +62,7 @@
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core";
+  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core?ref=feat/age-plugin-support";
   inputs.clan-core.inputs.disko.follows = "disko";
   inputs.clan-core.inputs.flake-parts.follows = "flake-parts";
   inputs.clan-core.inputs.nixpkgs.follows = "nixpkgs";

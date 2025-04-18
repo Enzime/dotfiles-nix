@@ -54,15 +54,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1744274413,
-        "narHash": "sha256-HLvg9WO4OsTfPIq5jfjnQhNzaNZw0CpT5r+RktmovZo=",
-        "ref": "refs/heads/main",
-        "rev": "3b90064a99f9ca0c81519c2d5f14804210b5b134",
-        "revCount": 6240,
+        "lastModified": 1744900447,
+        "narHash": "sha256-k1aoXkfcrQOhEJGDRWqE7aTVmFldOGjvJUfsdY6qKs8=",
+        "ref": "feat/age-plugin-support",
+        "rev": "f968dd95c865ea4197123462b0b38631d6f2aab7",
+        "revCount": 6368,
         "type": "git",
         "url": "https://git.clan.lol/clan/clan-core"
       },
       "original": {
+        "ref": "feat/age-plugin-support",
         "type": "git",
         "url": "https://git.clan.lol/clan/clan-core"
       }
@@ -453,11 +454,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1743964447,
-        "narHash": "sha256-nEo1t3Q0F+0jQ36HJfbJtiRU4OI+/0jX/iITURKe3EE=",
+        "lastModified": 1744463964,
+        "narHash": "sha256-LWqduOgLHCFxiTNYi3Uj5Lgz0SR+Xhw3kr/3Xd0GPTM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "063dece00c5a77e4a0ea24e5e5a5bd75232806f8",
+        "rev": "2631b0b7abcea6e640ce31cd78ea58910d31e650",
         "type": "github"
       },
       "original": {
