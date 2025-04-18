@@ -1,7 +1,19 @@
 {
-  nixosModule = { options, inputs, host, hostname, pkgs, lib, ... }: {
+  nixosModule = { options, config, inputs, host, hostname, pkgs, lib, ... }: {
     config = lib.optionalAttrs (options ? clan) {
       clan.core.networking.targetHost = "root@${host}";
+
+      clan.core.vars.generators.nix-signing-key = {
+        files."key" = { };
+        files."key.pub".secret = false;
+        runtimeInputs = [
+          config.nix.package
+        ];
+        script = ''
+          nix key generate-secret --key-name ${config.networking.hostName}-1 > $out/key
+          nix key convert-secret-to-public < $out/key > $out/key.pub
+        '';
+      };
     };
   };
 
