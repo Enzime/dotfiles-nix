@@ -4,7 +4,7 @@ self: super: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
         url =
-          "https://gitlab.gnome.org/Archive/goocanvas/-/commit/d025d0eeae1c5266063bdc1476dbdff121bcfa57.patch";
+          "https://web.archive.org/web/20250117005555if_/https://gitlab.gnome.org/Archive/goocanvas/-/commit/d025d0eeae1c5266063bdc1476dbdff121bcfa57.patch";
         hash = "sha256-9uqqC1uKZF9TDz5dfDTKSRCmjEiuvqkLnZ9w6U+q2TI=";
       })
     ];
