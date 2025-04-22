@@ -1,3 +1,4 @@
+- Added SSH configuration for connect to `build01`
 - Use `sway` in `vncserver`
 - Fixed `PATH` not being set correctly on `eris`
 - Use `clan` on all machines
