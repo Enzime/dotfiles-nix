@@ -41,6 +41,7 @@
         "nix-darwin": [
           "nix-darwin"
         ],
+        "nix-select": "nix-select",
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": [
           "nixpkgs"
@@ -54,11 +55,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744956014,
-        "narHash": "sha256-sBTR0D1x1zf5WG6zszzfK5O1veHOdwUczfp8gOS2/ec=",
+        "lastModified": 1745890809,
+        "narHash": "sha256-fgYTkAR80u6jSCKDQRdYqv8rQ1wNYFdTYaeSyNy9XZ8=",
         "ref": "refs/heads/main",
-        "rev": "a7256f7fb3eb9e91e1ee3718d57153c76469e681",
-        "revCount": 6373,
+        "rev": "a79c79ffecafba770be402d3d9085d2b480ea84e",
+        "revCount": 6536,
         "type": "git",
         "url": "https://git.clan.lol/clan/clan-core"
       },
@@ -87,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744707635,
-        "narHash": "sha256-aiZL9isFQPd8hqq8B5qdzpvvfEfInG6M8InxYfckA9o=",
+        "lastModified": 1745889637,
+        "narHash": "sha256-+BW9rppchFYIiJldD+fZA3MS2OtPNrb8l27SC3GyoSk=",
         "ref": "refs/heads/main",
-        "rev": "439f8513a4afc7b633d7f50326eefaaaed145984",
-        "revCount": 407,
+        "rev": "11b5673d9c7290a6b96c2b6c6c5be600304f310f",
+        "revCount": 415,
         "type": "git",
         "url": "https://git.clan.lol/clan/data-mesher"
       },
@@ -323,11 +324,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744274666,
-        "narHash": "sha256-hPjFtwXZL8cfY0SSUKoC8uAz2VGORbKse2uDQFN1pTY=",
+        "lastModified": 1744481234,
+        "narHash": "sha256-STSl40rC9BXh3ca6qQ4OzBgUDtvNXuhowryHutpU2aw=",
         "owner": "nix-darwin",
         "repo": "nix-darwin",
-        "rev": "079f4129ab71c9b2367600c6744d07fe1b9ae8c5",
+        "rev": "0653ce272847367138f220dd5cf1a3dad48e07e6",
         "type": "github"
       },
       "original": {
@@ -355,6 +356,21 @@
         "owner": "nix-community",
         "repo": "nix-index-database",
         "type": "github"
+      }
+    },
+    "nix-select": {
+      "locked": {
+        "lastModified": 1745005516,
+        "narHash": "sha256-IVaoOGDIvAa/8I0sdiiZuKptDldrkDWUNf/+ezIRhyc=",
+        "ref": "refs/heads/main",
+        "rev": "69d8bf596194c5c35a4e90dd02c52aa530caddf8",
+        "revCount": 40,
+        "type": "git",
+        "url": "https://git.clan.lol/clan/nix-select"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.clan.lol/clan/nix-select"
       }
     },
     "nixos-anywhere": {
@@ -513,11 +529,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744669848,
-        "narHash": "sha256-pXyanHLUzLNd3MX9vsWG+6Z2hTU8niyphWstYEP3/GU=",
+        "lastModified": 1745310711,
+        "narHash": "sha256-ePyTpKEJTgX0gvgNQWd7tQYQ3glIkbqcW778RpHlqgA=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "61154300d945f0b147b30d24ddcafa159148026a",
+        "rev": "5e3e92b16d6fdf9923425a8d4df7496b2434f39c",
         "type": "github"
       },
       "original": {

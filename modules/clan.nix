@@ -1,9 +1,13 @@
-{
-  nixosModule = { options, inputs, host, hostname, pkgs, lib, ... }: {
+let
+  shared = { options, hostname, lib, ... }: {
     config = lib.optionalAttrs (options ? clan) {
-      clan.core.networking.targetHost = "root@${host}";
+      clan.core.networking.targetHost = "root@${hostname}";
     };
   };
+in {
+  nixosModule = { ... }: { imports = [ shared ]; };
+
+  darwinModule = { ... }: { imports = [ shared ]; };
 
   homeModule = { ... }: {
     home.file.".ssh/config".text = ''

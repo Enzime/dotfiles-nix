@@ -217,6 +217,9 @@ in {
       };
 
       home.file.".ssh/config".text = lib.mkAfter ''
+        Host phi
+          HostName phi-nixos
+
         Include config.local
       '';
 

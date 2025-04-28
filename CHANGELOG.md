@@ -1,3 +1,6 @@
+- Changed `phi` to expose itself as `phi-nixos` in Tailscale for consistency
+- Fixed `clan.core.networking.targetHost` incorrectly set on `hermes-macos`
+- Use `clan` to deploy macOS machines
 - Added SSH configuration for connect to `build01`
 - Use `sway` in `vncserver`
 - Fixed `PATH` not being set correctly on `eris`
