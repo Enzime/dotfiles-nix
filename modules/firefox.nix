@@ -5,25 +5,18 @@
 
       cfg = config.programs.firefox;
     in {
-      home.activation.setDefaultBrowser = lib.mkIf
-        (cfg.enable && hostPlatform.isDarwin)
-        # Update this to ~/Applications/Home Manager Apps/Firefox.app when firefox-bin-unwrapped is merged
+      home.activation.setDefaultBrowser =
+        lib.mkIf (cfg.enable && hostPlatform.isDarwin)
         (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           if ! ${lib.getExe pkgs.defaultbrowser} firefox; then
-            /usr/bin/open ${
-              assert pkgs.firefox-bin.meta.unsupported;
-              "/Applications/Firefox.app"
-            }
+            /usr/bin/open ${pkgs.firefox-bin}/Applications/Firefox.app
             ${lib.getExe pkgs.defaultbrowser} firefox
           fi
         '');
 
       programs.firefox.enable = lib.mkDefault true;
-      programs.firefox.package = if hostPlatform.isDarwin then
-      # Leaving this until firefox-bin-unwrapped is merged
-        assert pkgs.firefox-bin.meta.unsupported; pkgs.emptyDirectory
-      else
-        pkgs.firefox;
+      programs.firefox.package =
+        if hostPlatform.isDarwin then pkgs.firefox-bin else pkgs.firefox;
       programs.firefox.profiles.base = {
         id = 0;
 
@@ -32,11 +25,19 @@
           pkgs.firefox-addons.clearurls
           pkgs.firefox-addons.ublock-origin
           pkgs.firefox-addons.youtube-nonstop
+          pkgs.firefox-addons.kagi-privacy-pass
         ];
 
         search = {
-          default = "ddg";
+          default = "kagi";
           engines = {
+            kagi = {
+              name = "Kagi";
+              urls =
+                [{ template = "https://kagi.com/search?q={searchTerms}"; }];
+              icon = "https://kagi.com/favicon.ico";
+            };
+
             google.metaData.hidden = true;
             wikipedia.metaData.hidden = true;
             bing.metaData.hidden = true;

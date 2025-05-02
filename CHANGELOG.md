@@ -1,3 +1,10 @@
+- Use `human` as the default user when SSH'ing into `eris`
+- Use `i18n.inputMethod.{enable,type}` instead of deprecated `i18n.inputMethod.enabled`
+- Removed `$HOME/.nix-profile/bin` from `$PATH`
+- Use `programs.zsh.initContent` instead of `programs.zsh.initExtra{,First}`
+- Removed `goocanvas3` patch
+- Use `pkgs.firefox-bin` on macOS
+- Use Kagi
 - Changed `phi` to expose itself as `phi-nixos` in Tailscale for consistency
 - Fixed `clan.core.networking.targetHost` incorrectly set on `hermes-macos`
 - Use `clan` to deploy macOS machines

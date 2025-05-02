@@ -6,7 +6,6 @@
 
   inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.home-manager.inputs.treefmt-nix.follows = "";
 
   inputs.systems.url = "path:./flake.systems.nix";
   inputs.systems.flake = false;
@@ -43,12 +42,9 @@
   inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.terranix.url = "github:terranix/terranix";
-  inputs.terranix.inputs.bats-assert.follows = "";
-  inputs.terranix.inputs.bats-support.follows = "";
   inputs.terranix.inputs.flake-parts.follows = "flake-parts";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
   inputs.terranix.inputs.systems.follows = "systems";
-  inputs.terranix.inputs.terranix-examples.follows = "";
 
   inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";

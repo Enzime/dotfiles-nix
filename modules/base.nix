@@ -184,9 +184,7 @@ in {
   };
 
   homeModule = { config, inputs, moduleList, pkgs, lib, ... }:
-    let
-      inherit (lib) mkIf readFile;
-      inherit (pkgs.stdenv) hostPlatform;
+    let inherit (pkgs.stdenv) hostPlatform;
     in {
       home.stateVersion = "22.11";
 
@@ -196,7 +194,7 @@ in {
         inherit (pkgs)
           peco ripgrep jq htop ranger tmux tree magic-wormhole-rs hishtory;
 
-        reptyr = mkIf hostPlatform.isLinux pkgs.reptyr;
+        reptyr = lib.mkIf hostPlatform.isLinux pkgs.reptyr;
       };
 
       # Allow fonts to be specified in `home.packages`
@@ -220,6 +218,9 @@ in {
         Host phi
           HostName phi-nixos
 
+        Host eris
+          User human
+
         Include config.local
       '';
 
@@ -239,13 +240,6 @@ in {
         # `home-manager` installs `nix-zsh-completions`
         # which conflicts with `nix` in `home.packages`
         enableCompletion = false;
-
-        initExtraFirst = ''
-          path=(
-            ~/.nix-profile/bin
-            $path
-          )
-        '';
 
         prezto = {
           enable = true;
@@ -278,7 +272,7 @@ in {
           expireDuplicatesFirst = true;
         };
 
-        initExtra = readFile ../files/zshrc + ''
+        initContent = lib.readFile ../files/zshrc + ''
           if [[ -d ~/.hishtory ]]; then
             source ${pkgs.hishtory}/share/hishtory/config.zsh
           fi
@@ -341,7 +335,7 @@ in {
         pkgs.vimPlugins.vim-jsx-pretty
         pkgs.vimPlugins.vim-nix
       ];
-      programs.neovim.extraConfig = readFile ../files/init.vim;
+      programs.neovim.extraConfig = lib.readFile ../files/init.vim;
 
       xdg.dataFile."nvim/rplugin.vim".source =
         pkgs.runCommand "update-remote-plugins" { } ''
@@ -361,7 +355,7 @@ in {
       xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
       xdg.configFile."ranger/commands.py".source = ../files/commands.py;
 
-      systemd.user.startServices = mkIf hostPlatform.isLinux "sd-switch";
+      systemd.user.startServices = lib.mkIf hostPlatform.isLinux "sd-switch";
 
       home.persistence =
         lib.mkIf (!builtins.elem "impermanence" moduleList) (lib.mkForce { });

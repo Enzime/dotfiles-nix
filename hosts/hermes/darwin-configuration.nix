@@ -19,8 +19,7 @@
   };
 
   system.defaults.dock.persistent-apps = [
-    # Update this when firefox-bin-unwrapped is merged
-    (assert pkgs.firefox-bin.meta.unsupported; "/Applications/Firefox.app")
+    "${pkgs.firefox-bin}/Applications/Firefox.app"
     "/Applications/Ghostty.app"
     "/Applications/1Password.app"
     "${pkgs.vscode}/Applications/Visual Studio Code.app"
