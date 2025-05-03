@@ -1,3 +1,5 @@
+- Use Signal on Pixel 6a
+- Use `signal-desktop-bin`
 - Use `human` as the default user when SSH'ing into `eris`
 - Use `i18n.inputMethod.{enable,type}` instead of deprecated `i18n.inputMethod.enabled`
 - Removed `$HOME/.nix-profile/bin` from `$PATH`

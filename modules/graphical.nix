@@ -78,7 +78,7 @@
       inherit (lib) optionalAttrs;
     in {
       home.packages = builtins.attrValues ({
-        inherit (pkgs) qalculate-gtk remmina;
+        inherit (pkgs) qalculate-gtk remmina signal-desktop-bin;
       } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
         # Works on every platform except `aarch64-linux`
         # Spotify is only necessary for the icons on Linux

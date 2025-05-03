@@ -52,9 +52,9 @@
             "MYUB4WO-KFBERW6-VC3VXYY-K32WL7S-CX7X5NP-5JZYCEE-NNLYRT5-UXWP6AP";
         }
         {
-          name = "moto-g5-plus";
+          name = "pixel-6a";
           id =
-            "SNFCA4P-6FNPUMD-BI62ZEI-MFRSQRP-OK6IMU2-ZN67HQH-UKPAN5I-OCTSHAU";
+            "NURXDKI-MPMVCY3-24YQHHX-6PDTE47-YP6QVO3-PC47MAP-BJY6LO6-6HLJAAQ";
         }
       ]);
 
@@ -73,7 +73,7 @@
                 params.maxAge = toString (14 * 24 * 60 * 60);
               };
             };
-            moto-g5-plus = { };
+            pixel-6a = { };
           };
         }
         {
