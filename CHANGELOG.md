@@ -1,3 +1,7 @@
+- Use `joplin-desktop` from Nixpkgs on macOS
+- Fixed `joplin-desktop` on macOS
+- Fixed wrong hostname for `phi-nixos` in Syncthing
+- Use `~/.local/share/gramps` instead of `~/.gramps`
 - Use Signal on Pixel 6a
 - Use `signal-desktop-bin`
 - Use `human` as the default user when SSH'ing into `eris`

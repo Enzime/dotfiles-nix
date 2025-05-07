@@ -44,7 +44,6 @@
           name = "phi-nixos";
           id =
             "2YEN2S7-JYISWE4-UGUF6N4-7ZNSDNX-IKLEDGT-4WLFFGV-CWB2VKG-SL3ALAP";
-          hostname = "phi";
         }
         {
           name = "sigma";
@@ -124,7 +123,7 @@
               path = "${config.users.users.${user}.home}/.gramps";
             };
             phi-nixos = {
-              path = "${config.users.users.${user}.home}/.gramps";
+              path = "${config.users.users.${user}.home}/.local/share/gramps";
             };
             sigma = {
               path = "/persist${config.users.users.${user}.home}/.gramps";

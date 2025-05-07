@@ -42,10 +42,11 @@
     in {
       home.packages = builtins.attrValues ({
         inherit (pkgs) gramps;
-      } // optionalAttrs (hostPlatform.isLinux && hostPlatform.isx86_64) {
-        # not currently built for `aarch64-linux` and fails to launch on `aarch64-darwin`
-        inherit (pkgs) joplin-desktop;
-      });
+      } // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64)
+        || hostPlatform.isDarwin) {
+          # not currently built for `aarch64-linux`
+          inherit (pkgs) joplin-desktop;
+        });
 
       programs.firefox.profiles.personal.isDefault = true;
 

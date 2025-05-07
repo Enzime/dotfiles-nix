@@ -25,7 +25,7 @@
     "${pkgs.vscode}/Applications/Visual Studio Code.app"
     "${pkgs.spotify}/Applications/Spotify.app"
     "/System/Applications/Calendar.app"
-    "/Applications/Joplin.app"
+    "${pkgs.joplin-desktop}/Applications/Joplin.app"
     "/System/Applications/System Settings.app"
     "/System/Applications/iPhone Mirroring.app"
   ];
