@@ -1,3 +1,4 @@
+- Use `gramps` from Nixpkgs on macOS
 - Use `joplin-desktop` from Nixpkgs on macOS
 - Fixed `joplin-desktop` on macOS
 - Fixed wrong hostname for `phi-nixos` in Syncthing
