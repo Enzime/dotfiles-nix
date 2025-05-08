@@ -1,9 +1,14 @@
 {
   imports = [ "graphical" "i18n" "ios" "mullvad" "pim" ];
 
-  darwinModule = { pkgs, ... }: {
+  darwinModule = { pkgs, lib, ... }: {
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) apparency; };
+
+    launchd.user.agents.install-flighty = {
+      command = "${lib.getExe pkgs.mas} install 1358823008";
+      serviceConfig.RunAtLoad = true;
+    };
   };
 
   nixosModule = { user, pkgs, utils, ... }: {
@@ -46,7 +51,8 @@
         || hostPlatform.isDarwin) {
           # not currently built for `aarch64-linux`
           inherit (pkgs) joplin-desktop;
-        });
+        }
+        // optionalAttrs hostPlatform.isDarwin { inherit (pkgs) sequential; });
 
       programs.firefox.profiles.personal.isDefault = true;
 

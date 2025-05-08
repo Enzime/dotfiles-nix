@@ -4,14 +4,22 @@
     environment.systemPackages = [ pkgs.ghostty.terminfo ];
   };
 
+  darwinModule = { pkgs, ... }: {
+    environment.systemPackages = [ pkgs.ghostty-bin.terminfo ];
+  };
+
   homeModule = { options, pkgs, lib, ... }: {
-    programs.ghostty.package =
-      if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
+    programs.ghostty.package = if pkgs.stdenv.hostPlatform.isDarwin then
+      pkgs.ghostty-bin
+    else
+      pkgs.ghostty;
     programs.ghostty.settings = {
       theme = "hybrid-krompus";
       bold-is-bright = true;
 
       quit-after-last-window-closed = true;
+
+      auto-update = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "off";
     };
 
     programs.ghostty.themes.hybrid-krompus = {

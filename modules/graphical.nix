@@ -1,7 +1,14 @@
-{
+let
+  shared = { ... }: {
+    programs._1password-gui.enable = true;
+    programs._1password.enable = true;
+  };
+in {
   imports = [ "graphical-minimal" "mpv" ];
 
   darwinModule = { pkgs, lib, ... }: {
+    imports = [ shared ];
+
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) alt-tab-macos raycast utm; };
 
@@ -9,11 +16,6 @@
       command = ''"/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"'';
       serviceConfig.RunAtLoad = true;
     };
-
-    system.activationScripts.extraActivation.text = ''
-      mkdir -p /usr/local/bin
-      cp ${lib.getExe pkgs._1password-cli} /usr/local/bin/op
-    '';
 
     services.karabiner-elements.enable = true;
 
@@ -63,13 +65,12 @@
   };
 
   nixosModule = { user, pkgs, lib, ... }: {
+    imports = [ shared ];
+
     environment.systemPackages = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64
       (builtins.attrValues { inherit (pkgs) spotify-tray; });
 
-    programs._1password-gui.enable = true;
     programs._1password-gui.polkitPolicyOwners = [ user ];
-
-    programs._1password.enable = true;
   };
 
   homeModule = { config, pkgs, lib, ... }:

@@ -1,3 +1,15 @@
+- Disabled `ghostty`'s auto updater on macOS
+- Added `mas` overlay
+- Use `ghostty-bin` on macOS
+- Added `ghostty` overlay
+- Fixed `syncthing-macos` not working in locations other than `/Applications/Syncthing.app`
+- Use `syncthing-macos` on macOS
+- Added `syncthing-macos` overlay
+- Use `sequential` on macOS
+- Added `sequential` overlay
+- Use `programs._1password{,-gui}.enable` from `nix-darwin`
+- Use 1Password from Nixpkgs on macOS
+- Use `mas` to install Flighty on macOS
 - Use `gramps` from Nixpkgs on macOS
 - Use `joplin-desktop` from Nixpkgs on macOS
 - Fixed `joplin-desktop` on macOS

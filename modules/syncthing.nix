@@ -1,4 +1,24 @@
 {
+  darwinModule = { user, hostname, pkgs, ... }: {
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) syncthing-macos; };
+
+    system.defaults.CustomUserPreferences."com.github.xor-gate.syncthing-macosx" =
+      {
+        SUEnableAutomaticChecks = false;
+        SUSendProfileInfo = 0;
+        StartAtLogin = 1;
+        URI = "http://${hostname}:8384";
+      };
+
+    # Don't let Syncthing for macOS hardcode the path for `syncthing`
+    system.activationScripts.extraActivation.text = ''
+      if sudo -u ${user} defaults read com.github.xor-gate.syncthing-macosx Executable &>/dev/null; then
+        sudo -u ${user} defaults delete com.github.xor-gate.syncthing-macosx Executable
+      fi
+    '';
+  };
+
   nixosModule = { config, user, host, hostname, pkgs, lib, ... }: {
     services.syncthing.enable = true;
     services.syncthing.user = user;
