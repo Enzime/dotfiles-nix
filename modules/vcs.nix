@@ -1,9 +1,13 @@
-{
-  nixosModule = { config, user, ... }: {
+let
+  shared = { config, user, ... }: {
     home-manager.users.root.programs.git.enable = true;
     home-manager.users.root.programs.git.extraConfig.safe.directory =
       "${config.users.users.${user}.home}/dotfiles";
   };
+in {
+  nixosModule = shared;
+
+  darwinModule = shared;
 
   homeModule = { ... }: {
     programs.git = {
