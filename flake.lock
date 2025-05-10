@@ -55,11 +55,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1746861323,
-        "narHash": "sha256-YjrLU/0s4n3+ZRmN0FFWQD0MWJm4+Qs15xUfAZbFIUg=",
+        "lastModified": 1747011011,
+        "narHash": "sha256-bQ2Bjx2jj40nStLhyfWNNq57iSsPZT3hP/1jidsLZ18=",
         "ref": "refs/heads/main",
-        "rev": "b933dcf2e244b9cdfcff9fcaf2c041b3a3e637e3",
-        "revCount": 6739,
+        "rev": "8069b137f3f5f7840b4ff6a97e235adcf883ed47",
+        "revCount": 6745,
         "type": "git",
         "url": "https://git.clan.lol/clan/clan-core"
       },
@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1746628829,
-        "narHash": "sha256-q77HWbHlJTXFVRD2kRnYwqGfbGmCm9XYPG0ZgLLVh8M=",
-        "rev": "9a3856421bd6733192b57037cdf26712d73c0871",
+        "lastModified": 1747008053,
+        "narHash": "sha256-rob/qftmEuk+/JVGCIrOpv+LWjdmayFtebEKqRZXVAI=",
+        "rev": "2666bb11f4287cfbdf3b7c5f55231c6b5772a436",
         "type": "tarball",
-        "url": "https://git.clan.lol/api/v1/repos/clan/data-mesher/archive/9a3856421bd6733192b57037cdf26712d73c0871.tar.gz"
+        "url": "https://git.clan.lol/api/v1/repos/clan/data-mesher/archive/2666bb11f4287cfbdf3b7c5f55231c6b5772a436.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -286,15 +286,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1746134275,
-        "narHash": "sha256-sxfY7TIP59o2hcueanoRAtg833PiNroZkQDwlKJxGvs=",
+        "lastModified": 1747113278,
+        "narHash": "sha256-GurVGEy97H0z/+6ogqWAfMPaH/1FrP4zJZ+tSNjKpus=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "015f1913109d44c36e683b55f0e47e283b383caa",
+        "rev": "4a137df186d45fd7c1b0a46ca19ffd959c04a22e",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
+        "ref": "pull/7051/merge",
         "repo": "home-manager",
         "type": "github"
       }
@@ -321,16 +322,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1746708779,
-        "narHash": "sha256-cknQG/zdGMj/rYBGWw/ovwTsCk/iuAaN0k2A3DZC0Xs=",
-        "owner": "nix-darwin",
+        "lastModified": 1747021051,
+        "narHash": "sha256-SgjlNYKRWixhVG9ZP96VIoQ0aeE4WG6JxLAwfN7+S6s=",
+        "owner": "Enzime",
         "repo": "nix-darwin",
-        "rev": "d6257f80572b213e99b27ac50afcbd01310409e9",
+        "rev": "c089246572da6aa60227f4f13eb664daa45a874f",
         "type": "github"
       },
       "original": {
-        "owner": "nix-darwin",
-        "ref": "pull/1341/merge",
+        "owner": "Enzime",
+        "ref": "test",
         "repo": "nix-darwin",
         "type": "github"
       }

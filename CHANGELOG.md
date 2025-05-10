@@ -1,3 +1,9 @@
+- Use `age-plugin-1p` as the default for `sops`
+- Fixed `defaultbrowser` not working over SSH
+- Use `watchman` to make `jujutsu` work faster with Nixpkgs
+- Fixed `firefox` not using light mode
+- Fixed `karabiner-elements` missing entitlements
+- Added `hyperion`
 - Fixed `clan machines update` missing output on macOS
 - Fixed `ssh root@hermes-macos darwin-rebuild switch`
 - Disabled `ghostty`'s auto updater on macOS

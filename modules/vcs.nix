@@ -9,7 +9,9 @@ in {
 
   darwinModule = shared;
 
-  homeModule = { ... }: {
+  homeModule = { pkgs, ... }: {
+    home.packages = builtins.attrValues { inherit (pkgs) watchman; };
+
     programs.git = {
       enable = true;
       userName = "Michael Hoang";

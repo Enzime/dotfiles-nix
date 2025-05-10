@@ -69,6 +69,9 @@
 
           # Use userChrome.css
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+          # Default to light mode on all websites
+          "layout.css.prefers-color-scheme.content-override" = 1;
         };
       };
 

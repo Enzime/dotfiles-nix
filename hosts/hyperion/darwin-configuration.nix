@@ -3,8 +3,6 @@
 {
   networking.knownNetworkServices = [ "Wi-Fi" ];
 
-  ids.gids.nixbld = 30000;
-
   nix.registry.ln.to = {
     type = "git";
     url = "file:///Users/${user}/Code/nixpkgs";
@@ -26,10 +24,6 @@
     "/System/Applications/iPhone Mirroring.app"
   ];
 
-  nix.linux-builder.config.virtualisation.cores = 4;
-  nix.linux-builder.config.virtualisation.darwin-builder.diskSize = 50
-    * 1024; # 50 GiB
-
   nix.distributedBuilds = true;
 
   nix.buildMachines = [{
@@ -44,5 +38,5 @@
     maxJobs = 96;
   }];
 
-  system.stateVersion = 5;
+  system.stateVersion = 6;
 }

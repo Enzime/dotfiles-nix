@@ -71,7 +71,9 @@
     # WORKAROUND: Setting this via `system.defaults` won't check the checkbox
     #             in System Preferences > Trackpad
     system.activationScripts.extraActivation.text = ''
-      sudo -u ${user} defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
+      launchctl asuser "$(id -u ${user})" sudo -u ${user} defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
+
+      nvram StartupMute=%01
     '';
 
     security.pam.services.sudo_local.touchIdAuth = true;

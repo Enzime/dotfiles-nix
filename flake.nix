@@ -1,10 +1,10 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin/pull/1341/merge";
+  inputs.nix-darwin.url = "github:Enzime/nix-darwin/test";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.home-manager.url = "github:nix-community/home-manager";
+  inputs.home-manager.url = "github:nix-community/home-manager/pull/7051/merge";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.systems.url = "path:./flake.systems.nix";
@@ -483,6 +483,14 @@
           system = "aarch64-linux";
           modules =
             builtins.attrNames { inherit (modules) laptop personal sway; };
+        }
+        {
+          host = "hyperion";
+          hostSuffix = "-macos";
+          user = "enzime";
+          system = "aarch64-darwin";
+          modules =
+            builtins.attrNames { inherit (modules) android laptop personal; };
         }
         {
           host = "phi";

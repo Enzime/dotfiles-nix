@@ -94,6 +94,7 @@ in {
     "clan"
     "flakes"
     "ghostty"
+    "sops"
     "syncthing"
     "termite"
     "vcs"
