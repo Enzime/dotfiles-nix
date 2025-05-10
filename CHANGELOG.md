@@ -1,3 +1,5 @@
+- Fixed `clan machines update` missing output on macOS
+- Fixed `ssh root@hermes-macos darwin-rebuild switch`
 - Disabled `ghostty`'s auto updater on macOS
 - Added `mas` overlay
 - Use `ghostty-bin` on macOS
