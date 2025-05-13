@@ -21,6 +21,13 @@
     # WORKAROUND: Screensaver starts on the login screen and cannot be closed from VNC
     system.defaults.CustomSystemPreferences."/Library/Preferences/com.apple.screensaver".loginWindowIdleTime =
       0;
+
+    system.defaults.screencapture.location = "~/Pictures/Screenshots";
+
+    system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
+
+    # disable `Add full stop with double-space`
+    system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
   };
 
   nixosModule = { user, pkgs, ... }: {

@@ -58,7 +58,7 @@
   # For /mnt/phi on other systems
   users.users.${user} = {
     openssh.authorizedKeys.keys =
-      builtins.attrValues { inherit (keys.hosts) hermes-nixos sigma; };
+      builtins.attrValues { inherit (keys.hosts) sigma; };
   };
 
   services.nextcloud.home = "/data/Nextcloud";

@@ -1,3 +1,11 @@
+- Removed `github-runner`
+- Fixed 1Password refusing to launch from an older version by using the latest 1Password
+- Disabled `Capitalise words automatically` and `Add full stop on double-space` on macOS
+- Fixed `EDITOR` not being set correctly
+- Use `config.users.users.${user}.home` instead of `/Users/${user}`
+- Use `system.defaults.screencapture.location` to configure where screenshots are saved
+- Removed `hermes-nixos`
+- Removed `aether` and `echo` SSH host keys
 - Use `age-plugin-1p` as the default for `sops`
 - Fixed `defaultbrowser` not working over SSH
 - Use `watchman` to make `jujutsu` work faster with Nixpkgs

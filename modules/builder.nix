@@ -4,7 +4,7 @@ let
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = builtins.attrValues {
         inherit (keys.users) enzime;
-        inherit (keys.hosts) hermes-nixos sigma;
+        inherit (keys.hosts) sigma;
       };
     };
   };

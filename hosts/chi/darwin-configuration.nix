@@ -1,4 +1,4 @@
-{ user, keys, pkgs, ... }:
+{ user, config, pkgs, ... }:
 
 {
   networking.knownNetworkServices = [ "Ethernet" "Wi-Fi" ];
@@ -7,11 +7,11 @@
 
   nix.registry.ln.to = {
     type = "git";
-    url = "file:///Users/${user}/Projects/nixpkgs";
+    url = "file://${config.users.users.${user}.home}/Projects/nixpkgs";
   };
   nix.registry.lnd.to = {
     type = "git";
-    url = "file:///Users/${user}/Projects/nix-darwin";
+    url = "file://${config.users.users.${user}.home}/Projects/nix-darwin";
   };
 
   system.defaults.dock.persistent-apps = [
@@ -20,8 +20,6 @@
     "/System/Applications/System Settings.app"
   ];
 
-  nix.linux-builder.config.users.users.builder.openssh.authorizedKeys.keys =
-    builtins.attrValues { inherit (keys.hosts) echo; };
   nix.linux-builder.config.virtualisation.cores = 4;
 
   system.stateVersion = 5;

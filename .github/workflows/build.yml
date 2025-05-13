@@ -15,9 +15,6 @@ jobs:
           - name: hermes-macos
             output: darwinConfigurations.hermes-macos.config.withoutLinuxBuilder.system.build.toplevel
             runs-on: macos-latest
-          - name: hermes-nixos
-            output: nixosConfigurations.hermes-nixos.config.system.build.toplevel
-            runs-on: ubuntu-24.04-arm
           - name: hyperion-macos
             output: darwinConfigurations.hyperion-macos.config.system.build.toplevel
             runs-on: macos-latest

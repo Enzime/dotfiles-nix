@@ -56,11 +56,6 @@
             "QMDYKCN-4RSWSNS-QXKQREU-VTIEPQJ-X4RA4PX-KJJMMHU-DFWE6RS-BXNCEAF";
         }
         {
-          name = "hermes-nixos";
-          id =
-            "GDV44DZ-DYPA2BZ-KFKVNPQ-RM2R7VT-GJAJG6V-IG25NEY-ZUXEOLL-V2B4DAH";
-        }
-        {
           name = "phi-nixos";
           id =
             "2YEN2S7-JYISWE4-UGUF6N4-7ZNSDNX-IKLEDGT-4WLFFGV-CWB2VKG-SL3ALAP";
@@ -139,9 +134,6 @@
           devices = {
             # Managed manually currently
             hermes-macos = { };
-            hermes-nixos = {
-              path = "${config.users.users.${user}.home}/.gramps";
-            };
             phi-nixos = {
               path = "${config.users.users.${user}.home}/.local/share/gramps";
             };
@@ -166,8 +158,6 @@
           sigma =
             "$2a$10$wdfmhwbLNu9jSForuNG5pe2AAqL8d67G1TIa/Gk7DTO/SM6uuIZve";
           eris = "$2a$10$pDw1ciPdbkXp3fhTqYBJGeO9JEcrF2EMZXVAXrn1q3cenn64lJPsO";
-          aether =
-            "$2a$10$sjjfk8wLSdiNc2LiMaqBneQpJO.rjYCOoMxdmjWIgzKNkWUPnMPTC";
         }.${host};
       };
     };

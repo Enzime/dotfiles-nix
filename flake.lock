@@ -286,11 +286,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747113278,
-        "narHash": "sha256-GurVGEy97H0z/+6ogqWAfMPaH/1FrP4zJZ+tSNjKpus=",
+        "lastModified": 1747184386,
+        "narHash": "sha256-bxfrD421+Be1SglXv6DnrReDpS7TTM660IhYYVCs/j4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "4a137df186d45fd7c1b0a46ca19ffd959c04a22e",
+        "rev": "4fb00e2c7b67dea537bf4d90755d1d60da6594ea",
         "type": "github"
       },
       "original": {
@@ -398,31 +398,6 @@
         "type": "github"
       }
     },
-    "nixos-apple-silicon": {
-      "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": "rust-overlay"
-      },
-      "locked": {
-        "lastModified": 1745788661,
-        "narHash": "sha256-O+kVjgOhe/tOTP+v6R7VKbgoVkUGByoT2KIn5EoYCFo=",
-        "owner": "tpwrules",
-        "repo": "nixos-apple-silicon",
-        "rev": "99122210d2e1f8834e322930c5680f7d889b3a8a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tpwrules",
-        "ref": "pull/94/merge",
-        "repo": "nixos-apple-silicon",
-        "type": "github"
-      }
-    },
     "nixos-facter-modules": {
       "locked": {
         "lastModified": 1743671943,
@@ -495,26 +470,9 @@
         "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
         "nixos-anywhere": "nixos-anywhere",
-        "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpkgs": "nixpkgs",
         "systems": "systems",
         "terranix": "terranix"
-      }
-    },
-    "rust-overlay": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1686795910,
-        "narHash": "sha256-jDa40qRZ0GRQtP9EMZdf+uCbvzuLnJglTUI2JoHfWDc=",
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "rev": "5c2b97c0a9bc5217fc3dfb1555aae0fb756d99f9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "type": "github"
       }
     },
     "sops-nix": {

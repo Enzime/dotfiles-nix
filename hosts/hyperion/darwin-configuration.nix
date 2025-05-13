@@ -1,15 +1,15 @@
-{ user, pkgs, ... }:
+{ user, config, pkgs, ... }:
 
 {
   networking.knownNetworkServices = [ "Wi-Fi" ];
 
   nix.registry.ln.to = {
     type = "git";
-    url = "file:///Users/${user}/Code/nixpkgs";
+    url = "file://${config.users.users.${user}.home}/Code/nixpkgs";
   };
   nix.registry.lnd.to = {
     type = "git";
-    url = "file:///Users/${user}/Code/nix-darwin";
+    url = "file://${config.users.users.${user}.home}/Code/nix-darwin";
   };
 
   system.defaults.dock.persistent-apps = [

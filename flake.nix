@@ -36,11 +36,6 @@
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
   inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
-  inputs.nixos-apple-silicon.url =
-    "github:tpwrules/nixos-apple-silicon/pull/94/merge";
-  inputs.nixos-apple-silicon.inputs.flake-compat.follows = "flake-compat";
-  inputs.nixos-apple-silicon.inputs.nixpkgs.follows = "nixpkgs";
-
   inputs.terranix.url = "github:terranix/terranix";
   inputs.terranix.inputs.flake-parts.follows = "flake-parts";
   inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
@@ -475,14 +470,6 @@
           modules = builtins.attrNames {
             inherit (modules) android laptop linux-builder personal;
           };
-        }
-        {
-          host = "hermes";
-          hostSuffix = "-nixos";
-          user = "enzime";
-          system = "aarch64-linux";
-          modules =
-            builtins.attrNames { inherit (modules) laptop personal sway; };
         }
         {
           host = "hyperion";

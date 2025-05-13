@@ -5,11 +5,6 @@ in {
     inherit (hosts) phi;
   };
 
-  "github-runner.age".publicKeys = builtins.attrValues {
-    inherit (users) enzime;
-    inherit (hosts) echo;
-  };
-
   "nextcloud.age".publicKeys = builtins.attrValues {
     inherit (users) enzime;
     inherit (hosts) phi;
@@ -22,7 +17,7 @@ in {
 
   "wireless.age".publicKeys = builtins.attrValues {
     inherit (users) enzime;
-    inherit (hosts) hermes-nixos phi sigma;
+    inherit (hosts) phi sigma;
   };
 
   "zshrc_phi.age".publicKeys = builtins.attrValues {
