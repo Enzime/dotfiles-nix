@@ -1,9 +1,11 @@
 {
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
   inputs.firefox-addons.url =
     "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
   inputs.firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = { firefox-addons, nixpkgs, ... }: {
+  outputs = { firefox-addons, ... }: {
     overlay = final: prev:
       let
         # We need to import default.nix to use buildFirefoxXpiAddon which doesn't get exported in flake.nix

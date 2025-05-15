@@ -1,7 +1,7 @@
 {
   imports = [ "personal" ];
 
-  nixosModule = { ... }: {
+  nixosModule = {
     services.xserver.inputClassSections = [''
       Identifier    "CTL-472"
       MatchProduct  "Wacom One"

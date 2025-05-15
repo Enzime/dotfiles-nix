@@ -29,10 +29,6 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.git-hooks.url = "github:cachix/git-hooks.nix";
-  inputs.git-hooks.inputs.flake-compat.follows = "flake-compat";
-  inputs.git-hooks.inputs.nixpkgs.follows = "nixpkgs";
-
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
   inputs.flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
@@ -62,12 +58,15 @@
   # This causes a stack overflow when set to empty string or relative path inputs
   inputs.clan-core.inputs.treefmt-nix.follows = "flake-compat";
 
+  inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
+  inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, flake-utils-plus
     , agenix, disko, impermanence, nix-index-database, flake-parts, clan-core
-    , git-hooks, terranix, ... }:
+    , treefmt-nix, terranix, ... }:
 
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ clan-core.flakeModules.default git-hooks.flakeModule ];
+      imports = [ clan-core.flakeModules.default treefmt-nix.flakeModule ];
       systems = import inputs.systems;
 
       clan = {
@@ -94,33 +93,51 @@
             _module.args.pkgs = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
-              overlays = [ (import ./overlays/identify.nix) ];
             };
 
-            pre-commit.settings = {
-              src = ./.;
-              hooks.nixfmt-classic.enable = true;
-              hooks.nil.enable = true;
-              hooks.shellcheck.enable = true;
+            treefmt = {
+              projectRootFile = ".git/config";
 
-              hooks.no-todo = {
-                enable = true;
-                name = "no TODOs";
-                entry = "${./files/no-todos}";
-                language = "system";
-                pass_filenames = false;
+              programs.deadnix.enable = true;
+              programs.deadnix.no-lambda-arg = true;
+
+              programs.nixfmt-classic.enable = true;
+              programs.statix.enable = true;
+              programs.shellcheck.enable = true;
+
+              settings.formatter.nil = {
+                # https://github.com/cachix/git-hooks.nix/blob/fa466640195d38ec97cf0493d6d6882bc4d14969/modules/hooks.nix#L3242-L3261
+                command = lib.getExe (pkgs.writeShellApplication {
+                  name = "nil";
+                  runtimeInputs = [ pkgs.nil ];
+                  text = ''
+                    errors=false
+                    echo "Checking: $*"
+                    for file in "$@"; do
+                      nil diagnostics "$file"
+                      exit_code=$?
+
+                      if [[ $exit_code -ne 0 ]]; then
+                        echo "\"$file\" failed with exit code: $exit_code"
+                        errors=true
+                      fi
+                    done
+                    if [[ $errors == true ]]; then
+                      exit 1
+                    fi
+                  '';
+                });
+                includes = [ "*.nix" ];
               };
             };
 
-            formatter = config.pre-commit.settings.hooks.nixfmt-classic.package;
-
             devShells.default = pkgs.mkShell {
-              buildInputs = (builtins.attrValues {
+              buildInputs = builtins.attrValues {
                 inherit (home-manager.packages.${system}) home-manager;
                 inherit (agenix.packages.${system}) agenix;
                 inherit (clan-core.packages.${system}) clan-cli;
                 inherit (self'.packages) terraform;
-              }) ++ config.pre-commit.settings.enabledPackages;
+              };
 
               shellHook = ''
                 POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
@@ -138,8 +155,6 @@
                 if [[ -e $POST_CHECKOUT_HOOK ]]; then
                   $POST_CHECKOUT_HOOK
                 fi
-
-                ${config.pre-commit.devShell.shellHook}
               '';
             };
 
@@ -200,7 +215,7 @@
                     cfg = configuration.config;
 
                     dest = configuration._module.args.hostname;
-                    darwin-rebuild = cfg.system.build.darwin-rebuild;
+                    inherit (cfg.system.build) darwin-rebuild;
                   in ''
                     flags=()
                     overriddenInputs=()
@@ -245,7 +260,7 @@
               (deploy hostname configuration)) self.darwinConfigurations;
           }
         ];
-      flake = (let
+      flake = let
         inherit (builtins) attrNames hasAttr filter getAttr readDir;
         inherit (nixpkgs.lib)
           concatMap filterAttrs foldr getAttrFromPath hasSuffix mapAttrs'
@@ -281,7 +296,7 @@
             [ a ] ++ unique (concatMap getModuleList imports);
 
         mkConfigurations = configs:
-          foldr (recursiveUpdate) { } (map (mkConfiguration) configs);
+          foldr recursiveUpdate { } (map mkConfiguration configs);
         mkConfiguration = { host, hostSuffix ? "", user, system
           , nixos ? hasSuffix "linux" system, modules }:
           let
@@ -395,13 +410,13 @@
             homeConfigurations."${user}@${hostname}" =
               home-manager.lib.homeManagerConfiguration {
                 inherit pkgs;
-                modules = [({
+                modules = [{
                   home.username = user;
                   home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then
                     "/Users/${user}"
                   else
                     "/home/${user}";
-                })] ++ home;
+                }] ++ home;
                 extraSpecialArgs = extraHomeManagerArgs;
               };
 
@@ -454,7 +469,7 @@
                 self.homeConfigurations."${user}@${hostname}".activationPackage;
             };
           };
-      in (mkConfigurations [
+      in mkConfigurations [
         {
           host = "chi";
           user = "enzime";
@@ -506,6 +521,6 @@
             inherit (modules) deluge reflector vncserver;
           };
         }
-      ]));
+      ];
     };
 }

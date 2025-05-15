@@ -1,7 +1,7 @@
 {
   imports = [ "acme" ];
 
-  nixosModule = { user, options, config, pkgs, ... }:
+  nixosModule = { user, config, pkgs, ... }:
     let hostname = "nextcloud.enzim.ee";
     in {
       services.nextcloud.enable = true;

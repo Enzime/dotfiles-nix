@@ -1,7 +1,7 @@
 {
   imports = [ "graphical-minimal" ];
 
-  nixosModule = { ... }: {
+  nixosModule = {
     # Allows storage devices to be controlled over D-Bus
     services.udisks2.enable = true;
     # Used as an abstraction over udisks2 by file managers

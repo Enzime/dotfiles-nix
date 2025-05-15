@@ -166,9 +166,9 @@
     };
 
     services.mako.enable = true;
-    services.mako.defaultTimeout = 5000;
-    services.mako.backgroundColor = "#0d0c0c";
-    services.mako.borderColor = "#e61f00";
-    services.mako.padding = "10,5,10,10";
+    services.mako.settings.default-timeout = 5000;
+    services.mako.settings.background-color = "#0d0c0c";
+    services.mako.settings.border-color = "#e61f00";
+    services.mako.settings.padding = "10,5,10,10";
   };
 }

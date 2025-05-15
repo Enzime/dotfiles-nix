@@ -1,5 +1,5 @@
 let
-  shared = { config, pkgs, lib, ... }: {
+  shared = { pkgs, ... }: {
     nix.package = pkgs.nixVersions.latest;
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -10,7 +10,7 @@ in {
 
   nixosModule = shared;
 
-  homeModule = { config, pkgs, lib, ... }@args: {
+  homeModule = { config, lib, ... }@args: {
     imports = [ shared ];
 
     home.packages = builtins.attrValues

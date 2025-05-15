@@ -1,3 +1,11 @@
+- Changed `firefox-addons-overlay` to explicitly specify its inputs
+- Removed `no-todos`
+- Disabled updating extensions automatically in Firefox
+- Use `statix`
+- Removed `no-ifd` patch
+- Use `deadnix`
+- Removed `identify` overlay
+- Replaced `git-hooks.nix` with `treefmt-nix`
 - Removed `github-runner`
 - Fixed 1Password refusing to launch from an older version by using the latest 1Password
 - Disabled `Capitalise words automatically` and `Add full stop on double-space` on macOS

@@ -1,5 +1,5 @@
 let
-  homeModule = { inputs, pkgs, lib, ... }:
+  homeModule = { lib, ... }:
     let inherit (lib) mkVMOverride;
     in {
       services.polybar.config."bar/centre".monitor = mkVMOverride "Virtual-1";

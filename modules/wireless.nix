@@ -1,5 +1,5 @@
 {
-  nixosModule = { config, pkgs, lib, ... }: {
+  nixosModule = { config, lib, ... }: {
     networking.networkmanager.enable = true;
     networking.networkmanager.plugins =
       assert !config.networking.networkmanager ? enableDefaultPlugins;

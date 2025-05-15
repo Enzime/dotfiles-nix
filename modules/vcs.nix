@@ -52,8 +52,6 @@ in {
       };
     };
 
-    xdg.configFile."git/hooks/pre-commit".source = ../files/no-todos;
-
     programs.zsh.shellAliases = {
       gai = "git add --interactive";
       gaf = "git add --force";

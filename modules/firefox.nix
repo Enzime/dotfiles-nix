@@ -67,6 +67,8 @@
           "signon.rememberSignons" = false;
           "dom.security.https_only_mode" = true;
 
+          "extensions.update.enabled" = false;
+
           # Use userChrome.css
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 

@@ -11,7 +11,7 @@
     };
   };
 
-  nixosModule = { user, pkgs, utils, ... }: {
+  nixosModule = { utils, ... }: {
     fileSystems."/mnt/phi" = {
       device = "enzime@phi:/";
       fsType = "fuse.sshfs";

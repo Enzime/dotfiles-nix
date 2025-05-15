@@ -30,7 +30,7 @@
     system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
   };
 
-  nixosModule = { user, pkgs, ... }: {
+  nixosModule = { pkgs, ... }: {
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) gparted pavucontrol; };
 

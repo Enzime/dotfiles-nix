@@ -1,5 +1,5 @@
 {
-  nixosModule = { user, pkgs, ... }: {
+  nixosModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) gnome-calendar gnome-contacts gnome-control-center;
     };

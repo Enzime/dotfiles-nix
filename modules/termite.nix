@@ -8,7 +8,7 @@
     environment.systemPackages = [ pkgs.termite.terminfo ];
   };
 
-  homeModule = { pkgs, config, ... }: {
+  homeModule = { pkgs, ... }: {
     home.packages = [ pkgs.termite.terminfo ];
 
     programs.termite = {

@@ -1,5 +1,5 @@
 {
-  nixosModule = { config, pkgs, lib, ... }: {
+  nixosModule = { pkgs, lib, ... }: {
     services.greetd.enable = true;
     programs.regreet.enable = true;
 

@@ -1,7 +1,7 @@
 {
   imports = [ "i3-sway" ];
 
-  nixosModule = { pkgs, ... }: {
+  nixosModule = {
     services.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3.enable = true;
 

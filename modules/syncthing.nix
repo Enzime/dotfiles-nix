@@ -19,7 +19,7 @@
     '';
   };
 
-  nixosModule = { config, user, host, hostname, pkgs, lib, ... }: {
+  nixosModule = { config, user, host, hostname, lib, ... }: {
     services.syncthing.enable = true;
     services.syncthing.user = user;
     services.syncthing.group = "users";

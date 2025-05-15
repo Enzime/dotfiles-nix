@@ -1,5 +1,5 @@
 {
-  darwinModule = { ... }: {
+  darwinModule = {
     system.defaults.CustomUserPreferences."com.microsoft.VSCode"."ApplePressAndHoldEnabled" =
       false;
   };

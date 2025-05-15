@@ -1,9 +1,7 @@
 {
   imports = [ "greetd" "sway" ];
 
-  nixosModule = { user, pkgs, lib, ... }: {
-    users.users.${user}.linger = true;
-  };
+  nixosModule = { user, ... }: { users.users.${user}.linger = true; };
 
   homeModule = { pkgs, lib, ... }@args:
     let

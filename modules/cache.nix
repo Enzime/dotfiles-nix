@@ -1,5 +1,5 @@
 let
-  shared = { inputs, keys, pkgs, lib, ... }: {
+  shared = { keys, ... }: {
     nix.settings.substituters =
       [ "https://enzime.cachix.org" "https://cache.clan.lol" ];
     nix.settings.trusted-public-keys = builtins.attrValues {

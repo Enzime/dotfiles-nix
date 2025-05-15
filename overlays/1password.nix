@@ -3,7 +3,7 @@ self: super: {
     version = assert super.lib.versionOlder old.version "8.10.76"; "8.10.76";
 
     src = assert super.lib.versionOlder old.version "8.10.76";
-      super.fetchurl ({
+      super.fetchurl {
         "x86_64-linux" = {
           "url" =
             "https://downloads.1password.com/linux/tar/stable/x86_64/1password-8.10.76.x64.tar.gz";
@@ -24,7 +24,7 @@ self: super: {
             "https://downloads.1password.com/mac/1Password-8.10.76-aarch64.zip";
           "hash" = "sha256-jfdtLBsd1IvntJHZOJ0pxIrwjIUOcG3thfyjTMNIMK4=";
         };
-      }.${super.hostPlatform.system});
+      }.${super.hostPlatform.system};
 
     meta = assert old.meta.broken == super.stdenv.hostPlatform.isDarwin;
       old.meta // {

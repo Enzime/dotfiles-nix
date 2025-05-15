@@ -103,7 +103,7 @@ in {
     "xdg"
   ];
 
-  nixosModule = { config, user, pkgs, lib, ... }: {
+  nixosModule = { config, user, ... }: {
     imports = [ shared ];
 
     i18n.defaultLocale = "en_AU.UTF-8";
@@ -205,8 +205,7 @@ in {
         "${config.home.homeDirectory}/dotfiles";
 
       # Remove this once we have autoGenFromInputs for home-manager
-      home.extraBuilderCommands =
-        assert ((config.nix or { }) ? linkInputs == false);
+      home.extraBuilderCommands = assert (!(config.nix or { }) ? linkInputs);
         "ln -sv ${inputs.self} $out/dotfiles";
 
       home.sessionVariables = {

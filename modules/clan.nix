@@ -5,11 +5,11 @@ let
     };
   };
 in {
-  nixosModule = { ... }: { imports = [ shared ]; };
+  nixosModule = shared;
 
-  darwinModule = { ... }: { imports = [ shared ]; };
+  darwinModule = shared;
 
-  homeModule = { ... }: {
+  homeModule = {
     home.file.".ssh/config".text = ''
       Host build01
         ProxyJump tunnel@clan.lol

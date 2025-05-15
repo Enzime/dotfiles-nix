@@ -1,11 +1,11 @@
 {
-  darwinModule = { config, user, pkgs, ... }: {
+  darwinModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs) colima docker-client docker-compose;
     };
   };
 
-  nixosModule = { user, pkgs, ... }: {
+  nixosModule = { pkgs, ... }: {
     environment.systemPackages = builtins.attrValues {
       # Uses podman-compose instead of docker-compose
       inherit (pkgs) arion;

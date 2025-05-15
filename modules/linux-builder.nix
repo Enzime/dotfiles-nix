@@ -1,6 +1,5 @@
 {
-  darwinModule = { inputs, user, host, keys, options, config, extendModules
-    , pkgs, lib, ... }:
+  darwinModule = { host, keys, options, config, extendModules, pkgs, lib, ... }:
     let
       withoutLinuxBuilderVariant = extendModules {
         modules = [{ nix.linux-builder.enable = lib.mkForce false; }];
@@ -15,7 +14,7 @@
       };
       config = {
         nix.linux-builder.enable = true;
-        nix.linux-builder.config = { config, lib, ... }: {
+        nix.linux-builder.config = { lib, ... }: {
           imports = [
             (import ./cache.nix).nixosModule
             (import ./flakes.nix).nixosModule

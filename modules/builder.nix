@@ -1,5 +1,5 @@
 let
-  shared = { inputs, keys, pkgs, lib, ... }: {
+  shared = { keys, pkgs, ... }: {
     users.users.builder = {
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = builtins.attrValues {
@@ -18,7 +18,7 @@ in {
     users.users.builder.group = "builder";
   };
 
-  darwinModule = { config, pkgs, ... }: {
+  darwinModule = { ... }: {
     imports = [ shared ];
 
     users.knownUsers = [ "builder" ];
