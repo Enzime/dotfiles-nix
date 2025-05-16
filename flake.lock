@@ -277,11 +277,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747021051,
-        "narHash": "sha256-SgjlNYKRWixhVG9ZP96VIoQ0aeE4WG6JxLAwfN7+S6s=",
+        "lastModified": 1747367476,
+        "narHash": "sha256-gaX/g8eux+er7xhCHxUNhvFwTl++xWkQg2emMkzbJjE=",
         "owner": "Enzime",
         "repo": "nix-darwin",
-        "rev": "c089246572da6aa60227f4f13eb664daa45a874f",
+        "rev": "12ed969b2d5c1f303a31942c6f83ca2b0579d0d5",
         "type": "github"
       },
       "original": {

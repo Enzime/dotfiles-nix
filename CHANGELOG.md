@@ -1,3 +1,5 @@
+- Changed `Calendar.app` to inherit `start week on` from `Language & Region`
+- Enabled sidebar and timezone support in `Calendar.app`
 - Changed `firefox-addons-overlay` to explicitly specify its inputs
 - Removed `no-todos`
 - Disabled updating extensions automatically in Firefox
