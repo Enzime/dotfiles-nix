@@ -25,10 +25,5 @@ self: super: {
           "hash" = "sha256-jfdtLBsd1IvntJHZOJ0pxIrwjIUOcG3thfyjTMNIMK4=";
         };
       }.${super.hostPlatform.system};
-
-    meta = assert old.meta.broken == super.stdenv.hostPlatform.isDarwin;
-      old.meta // {
-        broken = false;
-      };
   });
 }
