@@ -1,10 +1,10 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.nix-darwin.url = "github:Enzime/nix-darwin/test";
+  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin/pull/1341/merge";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.home-manager.url = "github:nix-community/home-manager/pull/7051/merge";
+  inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.systems.url = "path:./flake.systems.nix";
@@ -96,8 +96,6 @@
             };
 
             treefmt = {
-              projectRootFile = ".git/config";
-
               programs.deadnix.enable = true;
               programs.deadnix.no-lambda-arg = true;
 
@@ -376,9 +374,9 @@
               };
             };
 
-            # nix build ~/.config/home-manager#darwinConfigurations.chi.system
+            # nix build ~/.config/home-manager#darwinConfigurations.hyperion-macos.system
             # OR
-            # darwin-rebuild build --flake ~/.config/home-manager#chi
+            # darwin-rebuild build --flake ~/.config/home-manager#hyperion-macos
             baseDarwinConfigurations =
               optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
                 ${hostname} = nix-darwin.lib.darwinSystem {
@@ -470,22 +468,6 @@
             };
           };
       in mkConfigurations [
-        {
-          host = "chi";
-          user = "enzime";
-          system = "aarch64-darwin";
-          modules =
-            builtins.attrNames { inherit (modules) linux-builder personal; };
-        }
-        {
-          host = "hermes";
-          hostSuffix = "-macos";
-          user = "enzime";
-          system = "aarch64-darwin";
-          modules = builtins.attrNames {
-            inherit (modules) android laptop linux-builder personal;
-          };
-        }
         {
           host = "hyperion";
           hostSuffix = "-macos";

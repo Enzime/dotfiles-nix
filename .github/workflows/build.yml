@@ -9,12 +9,6 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - name: chi
-            output: darwinConfigurations.chi.config.withoutLinuxBuilder.system.build.toplevel
-            runs-on: macos-latest
-          - name: hermes-macos
-            output: darwinConfigurations.hermes-macos.config.withoutLinuxBuilder.system.build.toplevel
-            runs-on: macos-latest
           - name: hyperion-macos
             output: darwinConfigurations.hyperion-macos.config.system.build.toplevel
             runs-on: macos-latest

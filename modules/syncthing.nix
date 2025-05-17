@@ -51,9 +51,9 @@
     in {
       devices = lib.mkMerge (map mkDevice [
         {
-          name = "hermes-macos";
+          name = "hyperion-macos";
           id =
-            "QMDYKCN-4RSWSNS-QXKQREU-VTIEPQJ-X4RA4PX-KJJMMHU-DFWE6RS-BXNCEAF";
+            "OEAWYP7-XUL5L4A-WH4PM4P-UNTIIXC-3C2LWFY-F2WPKNY-H4TFMWI-IFZSCQU";
         }
         {
           name = "phi-nixos";
@@ -129,11 +129,27 @@
           };
         }
         {
+          id = "3fpud-18f7a";
+          name = "Screenshots.hyperion";
+          devices = {
+            # Managed manually currently
+            hyperion-macos = { };
+            phi-nixos = {
+              path = "/data/Pictures/Screenshots.hyperion";
+              type = "receiveonly";
+              versioning = {
+                type = "trashcan";
+                params.cleanoutDays = "14";
+              };
+            };
+          };
+        }
+        {
           id = "dd8lo-8p1o4";
           name = "Gramps";
           devices = {
             # Managed manually currently
-            hermes-macos = { };
+            hyperion-macos = { };
             phi-nixos = {
               path = "${config.users.users.${user}.home}/.local/share/gramps";
             };
@@ -152,8 +168,6 @@
       gui = {
         user = host;
         password = {
-          hermes =
-            "$2a$10$Ebr8QF6JgFbEyHNc2U6jjOj0WUAeqg0V1JKd1ymAIOuktUU0yr2A6";
           phi = "$2a$10$CTnvJaVO1L.dluML7fTYde2bh7E5rluYCtcW5rptoabXD1U8JZZsq";
           sigma =
             "$2a$10$wdfmhwbLNu9jSForuNG5pe2AAqL8d67G1TIa/Gk7DTO/SM6uuIZve";

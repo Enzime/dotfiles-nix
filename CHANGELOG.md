@@ -1,3 +1,12 @@
+- Use `syncthing-macos` on `hyperion-macos`
+- Removed `hermes-macos`
+- Removed `chi`
+- Changed Dock to autohide on macOS
+- Fixed encrypted Joplin backups on macOS
+- Updated `chi` and `hermes-macos` to `system.stateVersion = 6`
+- Fixed Firefox in the dock on `chi` not working
+- Fixed `/mnt/phi` showing up on `phi`
+- Removed `syncthing-macos` and `joplin-desktop` overlays
 - Changed `Calendar.app` to inherit `start week on` from `Language & Region`
 - Enabled sidebar and timezone support in `Calendar.app`
 - Changed `firefox-addons-overlay` to explicitly specify its inputs

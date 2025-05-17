@@ -28,6 +28,8 @@
 
     # disable `Add full stop with double-space`
     system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
+
+    system.defaults.dock.autohide = true;
   };
 
   nixosModule = { pkgs, ... }: {
