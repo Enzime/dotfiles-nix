@@ -1,3 +1,4 @@
+- Removed `syncthing-macos` and `joplin-desktop` overlays
 - Changed `Calendar.app` to inherit `start week on` from `Language & Region`
 - Enabled sidebar and timezone support in `Calendar.app`
 - Changed `firefox-addons-overlay` to explicitly specify its inputs
