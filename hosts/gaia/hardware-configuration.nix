@@ -1,0 +1,95 @@
+{ options, config, pkgs, lib, ... }: {
+  imports = [{
+    config = lib.optionalAttrs (options ? clan) {
+      clan.core.vars.generators.luks = {
+        files.password.neededFor = "partitioning";
+        runtimeInputs = [ pkgs.coreutils pkgs.xkcdpass ];
+        script = ''
+          xkcdpass --numwords 6 --random-delimiters --valid-delimiters='1234567890!@#$%^&*()-_+=,.<>/?' --case random | tr -d "\n" > $out/password
+        '';
+      };
+    };
+  }];
+
+  disko.devices = {
+    disk.primary = {
+      type = "disk";
+      device = "/dev/vda";
+      content = {
+        type = "gpt";
+
+        partitions.esp = {
+          size = "500M";
+          type = "EF00";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+          };
+        };
+
+        partitions.luks = {
+          size = "100%";
+          content = {
+            type = "luks";
+            name = "crypted";
+            passwordFile = if !config.disko.testMode then
+              config.clan.core.vars.generators.luks.files.password.path
+            else
+              toString (pkgs.writeText "password" "apple");
+            content = {
+              type = "zfs";
+              pool = "rpool";
+            };
+          };
+        };
+      };
+    };
+
+    zpool.rpool = {
+      type = "zpool";
+      rootFsOptions = {
+        canmount = "off";
+        mountpoint = "none";
+
+        compression = "zstd";
+        "com.sun:auto-snapshot" = "false";
+        relatime = "on";
+      };
+
+      datasets.root = {
+        type = "zfs_fs";
+        mountpoint = "/";
+
+        postCreateHook =
+          "zfs list -t snapshot -H -o name | grep -E '^rpool/root@blank$' || zfs snapshot rpool/root@blank";
+      };
+
+      datasets.nix = {
+        type = "zfs_fs";
+        mountpoint = "/nix";
+      };
+
+      datasets.persist = {
+        type = "zfs_fs";
+        mountpoint = "/persist";
+      };
+
+      datasets.logs = {
+        type = "zfs_fs";
+        mountpoint = "/var/log";
+
+        options.acltype = "posixacl";
+        options.xattr = "sa";
+      };
+    };
+  };
+
+  fileSystems."/persist".neededForBoot = true;
+
+  systemd.services.zfs-mount = {
+    serviceConfig = {
+      ExecStart = [ "${config.boot.zfs.package}/sbin/zfs mount -a -o remount" ];
+    };
+  };
+}

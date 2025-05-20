@@ -1,3 +1,41 @@
+- Removed `networking.networkmanager.enableDefaultPlugins`
+- Use `nixVersions.latest` for `cached-nix-fmt` for `nix formatter build`
+- Disabled `hoopsnake` in VMs as initrd secrets are not supported in VMs yet
+- Disabled Anonymous Usage Reporting in `syncthing`
+- Use `hoopsnake` for SSH server inside initrd for remote unlocking
+- Added `virtualisation.allVmVariants` to configure `virtualisation.vmVariant{,WithBootLoader,WithDisko}` at the same time
+- Disabled automated deployments
+- Removed `spotify-tray`
+- Removed `thunar` overlay
+- Fixed `systemd-oomd` failing to start because its user hadn't been created yet by `userborn`
+- Added `perlless` module
+- Replaced `preservation` shim with stub to prevent module system being applied twice
+- Use `nixpkgs.*` options in `nix-darwin` for instantiating `nixpkgs` modularly
+- Fixed `gaia-apply` getting stuck on host key verifiction when used with a new server
+- Fixed `facter.json` getting created inside `machines/` instead of `hosts/`
+- Use `wifi` Clan service to manage wireless credentials
+- Removed `~/.zshrc.secrets`
+- Migrated `agenix` secrets to `vars`
+- Fixed NixOS VMs freezing on network access on macOS host
+- Fixed `systemd-machine-id-commit.service` failing with `preservation`
+- Added `preservation` stub to fix standalone `home-manager` no longer evaluating
+- Added `preservation` shim to support being configured from `home-manager`
+- Replaced `impermanence` with `preservation`
+- Fixed `vmWithDisko` for `gaia` trying to use `vars` for LUKS encryption password
+- Fixed `postCreateHook` for `eris` not being idempotent
+- Use `vars` to store LUKS encryption password for `gaia`
+- Added `variants` module for running VMs on various combinations of platforms
+- Removed `expire-password` activation script
+- Use `users` Clan service to manage user passwords
+- Use `emergency-access` Clan service for recovery console if boot fails in `initrd`
+- Fixed `*-{apply,destroy}` scripts not passing arguments to OpenTofu
+- Fixed `ssh-copy-id` failing on Vultr servers
+- Use SSH host keys for `sops-nix` encryption even when OpenSSH server is disabled
+- Use `programs.ssh.knownHosts` for remote builders
+- Use shared SSH keypair for remote builds instead of host keys
+- Use `vars` to store `syncthing` GUI password and password hash
+- Use `vars` to store Tailscale auth key
+- Added `gaia`
 - Use `networking.networkmanager.enableDefaultPlugins`
 - Disabled autoupdating in Spotify on macOS
 - Removed `firefox`, `remmina` and `spotify` overlays

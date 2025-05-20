@@ -36,32 +36,33 @@
 
     packages.cached-nix-fmt = pkgs.writeShellApplication {
       name = "cached-nix-fmt";
-      runtimeInputs =
-        builtins.attrValues { inherit (pkgs) coreutils moreutils; };
-      text =
-        assert lib.versionOlder pkgs.nixVersions.latest.version "2.29.0"; ''
-          set -x
+      runtimeInputs = builtins.attrValues {
+        inherit (pkgs) coreutils moreutils;
+        inherit (pkgs.nixVersions) latest;
+      };
+      text = ''
+        set -x
 
-          TOPLEVEL=$(git rev-parse --show-toplevel)
-          FORMATTER_DIR="$TOPLEVEL/.formatter"
-          FORMATTER_BINARY="$FORMATTER_DIR/binary"
+        TOPLEVEL=$(git rev-parse --show-toplevel)
+        FORMATTER_DIR="$TOPLEVEL/.formatter"
+        FORMATTER_BINARY="$FORMATTER_DIR/binary"
 
-          if [[ ! -e "$FORMATTER_BINARY" || "$(stat -c %Y "$FORMATTER_BINARY")" -lt "$(date -d "7 days ago" +%s)" ]]; then
-            rm -rf "$FORMATTER_DIR"
-            mkdir -p "$FORMATTER_DIR"
+        if [[ ! -e "$FORMATTER_BINARY" || "$(stat -c %Y "$FORMATTER_BINARY")" -lt "$(date -d "7 days ago" +%s)" ]]; then
+          rm -rf "$FORMATTER_DIR"
+          mkdir -p "$FORMATTER_DIR"
 
-            echo "/*" | sponge "$FORMATTER_DIR/.gitignore"
+          echo "/*" | sponge "$FORMATTER_DIR/.gitignore"
 
-            if nix eval .#formatter."$(nix config show system)" > /dev/null; then
-              FORMATTER=$(nix shell nix/latest-release -c nix formatter build --out-link "$FORMATTER_DIR/store-path")
-            else
-              FORMATTER="${lib.getExe self'.packages.noop-treefmt}"
-            fi
-
-            ln -sf "$FORMATTER" "$FORMATTER_BINARY"
+          if nix eval .#formatter."$(nix config show system)" > /dev/null; then
+            FORMATTER=$(nix formatter build --out-link "$FORMATTER_DIR/store-path")
+          else
+            FORMATTER="${lib.getExe self'.packages.noop-treefmt}"
           fi
-          exec "$FORMATTER_BINARY" "$@"
-        '';
+
+          ln -sf "$FORMATTER" "$FORMATTER_BINARY"
+        fi
+        exec "$FORMATTER_BINARY" "$@"
+      '';
     };
 
     packages.noop-treefmt = pkgs.writeShellApplication {

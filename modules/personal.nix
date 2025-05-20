@@ -41,7 +41,7 @@
       };
     };
 
-  homeModule = { config, pkgs, lib, ... }:
+  homeModule = { pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) optionalAttrs;
@@ -57,8 +57,6 @@
 
       programs.firefox.profiles.personal.isDefault = true;
 
-      home.persistence."/persist${config.home.homeDirectory}" = {
-        directories = [ ".config/joplin-desktop" ".gramps" ];
-      };
+      preservation.directories = [ ".config/joplin-desktop" ".gramps" ];
     };
 }

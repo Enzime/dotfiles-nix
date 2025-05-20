@@ -17,12 +17,6 @@
   inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.agenix.url = "github:ryantm/agenix";
-  inputs.agenix.inputs.darwin.follows = "nix-darwin";
-  inputs.agenix.inputs.home-manager.follows = "home-manager";
-  inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.agenix.inputs.systems.follows = "systems";
-
   inputs.firefox-addons-overlay.url = "path:overlays/firefox-addons";
   inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -44,7 +38,7 @@
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nixos-anywhere.inputs.treefmt-nix.follows = "";
 
-  inputs.impermanence.url = "github:nix-community/impermanence";
+  inputs.preservation.url = "github:Enzime/preservation/home-manager";
 
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -60,6 +54,12 @@
 
   inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
   inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.hoopsnake.url = "github:boinkor-net/hoopsnake/pull/114/merge";
+  inputs.hoopsnake.inputs.flake-parts.follows = "flake-parts";
+  inputs.hoopsnake.inputs.devshell.follows = "";
+  inputs.hoopsnake.inputs.generate-go-sri.follows = "";
+  inputs.hoopsnake.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {

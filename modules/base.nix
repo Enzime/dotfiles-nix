@@ -1,6 +1,6 @@
 let
-  shared = { config, configRevision, inputs, user, host, hostname, keys, pkgs
-    , lib, ... }: {
+  shared =
+    { config, configRevision, inputs, user, hostname, keys, pkgs, lib, ... }: {
       # Add flake revision to `nixos-version --json`
       system.configurationRevision = configRevision.full;
 
@@ -14,7 +14,6 @@ let
         inherit (pkgs) killall wget ranger zip unzip sshfs;
       }) ++ [
         inputs.home-manager.packages.${pkgs.system}.default
-        inputs.agenix.packages.${pkgs.system}.default
         inputs.clan-core.packages.${pkgs.system}.default
       ];
 
@@ -77,15 +76,15 @@ let
 
       programs.zsh.enable = true;
 
-      age.secrets.zshrc = let file = ../secrets/zshrc_${host}.age;
-      in lib.mkIf (builtins.pathExists file) {
-        inherit file;
-        path = "${config.users.users.${user}.home}/.zshrc.secrets";
-        owner = user;
-      };
-
       programs.nix-index-database.comma.enable = true;
     };
+
+  preservationStub = { lib, ... }: {
+    key = "preservation#stub";
+
+    options.preservation =
+      lib.mkOption { type = lib.types.lazyAttrsOf lib.types.unspecified; };
+  };
 in {
   imports = [
     "alacritty"
@@ -97,6 +96,7 @@ in {
     "sops"
     "syncthing"
     "termite"
+    "variants"
     "vcs"
     "vm"
     "vscode"
@@ -123,28 +123,11 @@ in {
       [ config.services.tailscale.interfaceName ];
 
     services.openssh.settings.PermitRootLogin = "prohibit-password";
-    services.openssh.hostKeys = [{
-      path = "/etc/ssh/ssh_host_ed25519_key";
-      type = "ed25519";
-    }];
 
     users.users.${user} = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
-      initialPassword = "apple";
     };
-
-    system.activationScripts.expire-password = ''
-      if [[ $(passwd -S ${user} | cut -d" " -f 3) == "1970-01-02" ]]; then
-        passwd --expire ${user}
-      fi
-    '';
-
-    system.autoUpgrade.enable = true;
-    system.autoUpgrade.flake = "github:Enzime/dotfiles-nix";
-    system.autoUpgrade.persistent = true;
-
-    environment.persistence."/persist".enable = false;
   };
 
   darwinModule = { user, host, inputs, config, pkgs, lib, ... }: {
@@ -184,9 +167,11 @@ in {
     services.tailscale.overrideLocalDns = lib.mkDefault true;
   };
 
-  homeModule = { config, inputs, moduleList, pkgs, lib, ... }:
+  homeModule = { config, inputs, pkgs, lib, ... }:
     let inherit (pkgs.stdenv) hostPlatform;
     in {
+      imports = [ preservationStub ];
+
       home.stateVersion = "22.11";
 
       # Replace `with pkgs;` with `inherit (pkgs)`
@@ -356,9 +341,6 @@ in {
       xdg.configFile."ranger/commands.py".source = ../files/commands.py;
 
       systemd.user.startServices = lib.mkIf hostPlatform.isLinux "sd-switch";
-
-      home.persistence =
-        lib.mkIf (!builtins.elem "impermanence" moduleList) (lib.mkForce { });
 
       programs.home-manager.enable = true;
     };

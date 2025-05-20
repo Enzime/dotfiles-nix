@@ -15,11 +15,6 @@
     nohook resolv.conf
   '';
 
-  networking.networkmanager.ensureProfiles.profiles.network-1.connection.autoconnect =
-    false;
-  networking.networkmanager.ensureProfiles.profiles.network-2.connection.autoconnect =
-    false;
-
   nix.registry.ln.to = {
     type = "git";
     url = "file:///home/${user}/nix/nixpkgs";

@@ -114,8 +114,7 @@
         fi
       '';
 
-      home.persistence."/persist${config.home.homeDirectory}".directories =
-        map (name: ".mozilla/firefox/${name}")
+      preservation.directories = map (name: ".mozilla/firefox/${name}")
         (builtins.attrNames cfg.profiles);
     };
 }

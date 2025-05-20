@@ -273,8 +273,7 @@
           "chat.commandCenter.enabled" = false;
         };
 
-      home.persistence."/persist${config.home.homeDirectory}".directories =
-        [ ".config/Code" ];
+      preservation.directories = [ ".config/Code" ];
 
       home.file.".vscode-server/data/Machine/settings.json".source =
         (pkgs.formats.json { }).generate "vscode-server-settings.json" {

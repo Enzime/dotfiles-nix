@@ -5,10 +5,6 @@ if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
   fi
 fi
 
-function agenix {
-  $(which -p agenix) $@ -i =(op read "op://trimcmujfu5fjcx5u4u752yk2i/6gedf3cheamokyw47sq4wbxlsy/private key?ssh-format=openssh")
-}
-
 function ga {
   if [[ -z $1 ]]; then
     git add -p
@@ -163,7 +159,3 @@ unalias gcF 2>/dev/null || true
 unalias gcFS 2>/dev/null || true
 unalias gfc 2>/dev/null || true
 unalias gr 2>/dev/null || true
-
-if [[ -e ~/.zshrc.secrets ]]; then
-  source ~/.zshrc.secrets
-fi

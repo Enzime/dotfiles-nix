@@ -31,7 +31,7 @@ let
       [ a ] ++ unique (concatMap getModuleList imports);
 
   mkConfiguration = { host, hostSuffix ? "", user, system
-    , nixos ? hasSuffix "linux" system, modules }:
+    , nixos ? hasSuffix "linux" system, modules, tags ? [ ] }:
     { self, inputs, lib, ... }:
     let
       flakeOverlays = attrNames (filterAttrs (_: type: type == "directory")
@@ -40,11 +40,13 @@ let
         map (name: getAttrFromPath [ "${name}-overlay" "overlay" ] inputs)
         flakeOverlays;
 
-      pkgs = import inputs.nixpkgs {
-        inherit system;
+      nixpkgs = {
         config.allowUnfree = true;
         overlays = importedRegularOverlays ++ importedFlakeOverlays;
+        hostPlatform = system;
       };
+
+      isDarwin = hasSuffix "darwin" system;
 
       moduleList = unique (concatMap getModuleList ([ "base" ] ++ modules));
       modulesToImport = map (name: getAttr name modules') moduleList;
@@ -57,8 +59,7 @@ let
       darwinModules = map (getAttr "darwinModule")
         (filter (hasAttr "darwinModule") modulesToImport);
       home = [
-        inputs.nix-index-database.hmModules.nix-index
-        inputs.impermanence.nixosModules.home-manager.impermanence
+        inputs.nix-index-database.homeModules.nix-index
         (pathTo ./hosts/${host}/home.nix)
       ] ++ homeModules;
 
@@ -71,24 +72,39 @@ let
 
       extraHomeManagerArgs = { inherit inputs configRevision keys moduleList; };
     in {
+      imports = [{
+        clan = optionalAttrs (builtins.length tags > 0) {
+          inventory.machines.${hostname}.tags = tags;
+        };
+      }];
+
+      clan = optionalAttrs nixos {
+        inventory.instances.primary-user-password.roles.default.machines.${hostname}.settings =
+          {
+            inherit user;
+          };
+      };
+
       # nix build ~/.config/home-manager#nixosConfigurations.phi-nixos.config.system.build.toplevel
       # OR
       # nixos-rebuild build --flake ~/.config/home-manager#phi-nixos
       flake.baseNixosConfigurations = optionalAttrs nixos {
         ${hostname} = inputs.nixpkgs.lib.nixosSystem {
           modules = [
-            {
-              nixpkgs = {
-                inherit (pkgs) config overlays;
-                hostPlatform = system;
-              };
-            }
+            { inherit nixpkgs; }
             inputs.flake-utils-plus.nixosModules.autoGenFromInputs
-            inputs.agenix.nixosModules.age
             inputs.disko.nixosModules.disko
-            inputs.impermanence.nixosModules.impermanence
+            inputs.preservation.nixosModules.preservation
             inputs.nix-index-database.nixosModules.nix-index
+            inputs.hoopsnake.nixosModules.default
             (pathTo ./hosts/${host}/configuration.nix)
+            ({ options, ... }: {
+              config = lib.optionalAttrs (options ? facter) {
+                facter.reportPath = lib.mkIf
+                  (builtins.pathExists (pathTo ./hosts/${host}/facter.json))
+                  (lib.mkForce (pathTo ./hosts/${host}/facter.json));
+              };
+            })
           ] ++ nixosModules ++ [
             inputs.home-manager.nixosModules.home-manager
             {
@@ -111,49 +127,53 @@ let
       # nix build ~/.config/home-manager#darwinConfigurations.hyperion-macos.system
       # OR
       # darwin-rebuild build --flake ~/.config/home-manager#hyperion-macos
-      flake.baseDarwinConfigurations =
-        optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-          ${hostname} = inputs.nix-darwin.lib.darwinSystem {
-            inherit system pkgs inputs;
-            modules = [
-              inputs.flake-utils-plus.darwinModules.autoGenFromInputs
-              inputs.agenix.darwinModules.age
-              inputs.nix-index-database.darwinModules.nix-index
-              (pathTo ./hosts/${host}/darwin-configuration.nix)
-            ] ++ darwinModules ++ [
-              inputs.home-manager.darwinModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
+      flake.baseDarwinConfigurations = optionalAttrs isDarwin {
+        ${hostname} = inputs.nix-darwin.lib.darwinSystem {
+          inherit inputs;
+          modules = [
+            { inherit nixpkgs; }
+            inputs.flake-utils-plus.darwinModules.autoGenFromInputs
+            inputs.nix-index-database.darwinModules.nix-index
+            (pathTo ./hosts/${host}/darwin-configuration.nix)
+          ] ++ darwinModules ++ [
+            inputs.home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
 
-                home-manager.users.${user}.imports = home;
-                home-manager.extraSpecialArgs = extraHomeManagerArgs;
-              }
-            ];
-            specialArgs = { inherit configRevision user host hostname keys; };
-          };
+              home-manager.users.${user}.imports = home;
+              home-manager.extraSpecialArgs = extraHomeManagerArgs;
+            }
+          ];
+          specialArgs = { inherit configRevision user host hostname keys; };
         };
+      };
 
       # nix build ~/.config/home-manager#homeConfigurations.enzime@phi-nixos.activationPackage
       # OR
       # home-manager build --flake ~/.config/home-manager#enzime@phi-nixos
       flake.homeConfigurations."${user}@${hostname}" =
         inputs.home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [{
-            home.username = user;
-            home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then
-              "/Users/${user}"
-            else
-              "/home/${user}";
-          }] ++ home;
+          pkgs = import inputs.nixpkgs {
+            inherit (nixpkgs) config overlays;
+            system = nixpkgs.hostPlatform;
+          };
+          modules = [
+            ({ pkgs, ... }: {
+              home.username = user;
+              home.homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then
+                "/Users/${user}"
+              else
+                "/home/${user}";
+            })
+          ] ++ home;
           extraSpecialArgs = extraHomeManagerArgs;
         };
 
       flake.checks.${system} = (optionalAttrs nixos {
         "nixos-${hostname}" =
           self.nixosConfigurations.${hostname}.config.system.build.toplevel;
-      }) // (optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+      }) // (optionalAttrs isDarwin {
         "nix-darwin-${hostname}" =
           self.darwinConfigurations.${hostname}.config.system.build.toplevel;
       }) // {
@@ -161,14 +181,14 @@ let
           self.homeConfigurations."${user}@${hostname}".activationPackage;
       };
 
-      perSystem = { system, self', pkgs, ... }: {
+      perSystem = { system, self', inputs', pkgs, ... }: {
         terraformConfigurations = optionalAttrs (builtins.pathExists
           (pathTo ./hosts/${host}/terraform-configuration.nix)) {
             ${hostname} = inputs.terranix.lib.terranixConfiguration {
               inherit system;
               modules =
                 [ (pathTo ./hosts/${host}/terraform-configuration.nix) ];
-              extraArgs = { inherit inputs hostname keys; };
+              extraArgs = { inherit self' inputs inputs' host hostname keys; };
             };
           };
 
@@ -184,7 +204,7 @@ let
                 if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
                 cp ${self'.terraformConfigurations.${hostname}} config.tf.json \
                   && ${mainProgram} init \
-                  && ${mainProgram} apply
+                  && ${mainProgram} apply "$@"
               '';
             };
 
@@ -195,7 +215,7 @@ let
                 if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
                 cp ${self'.terraformConfigurations.${hostname}} config.tf.json \
                   && ${mainProgram} init \
-                  && ${mainProgram} destroy
+                  && ${mainProgram} destroy "$@"
               '';
             };
           });

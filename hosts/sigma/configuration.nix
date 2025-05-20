@@ -24,7 +24,7 @@
 
   services.fprintd.enable = true;
 
-  environment.persistence."/persist".directories = [ "/var/lib/fprint" ];
+  preservation.preserveAt."/persist".directories = [ "/var/lib/fprint" ];
 
   programs.captive-browser.interface = "wlp170s0";
 

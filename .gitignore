@@ -5,3 +5,4 @@ config.tf.json
 .terraform*
 *.tfstate*
 *.qcow2
+*.fd

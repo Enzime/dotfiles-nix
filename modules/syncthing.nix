@@ -25,7 +25,7 @@
     '';
   };
 
-  nixosModule = { config, user, host, hostname, lib, ... }: {
+  nixosModule = { config, user, hostname, lib, ... }: {
     services.syncthing.enable = true;
     services.syncthing.user = user;
     services.syncthing.group = "users";
@@ -75,6 +75,11 @@
           name = "eris";
           id =
             "OSL7C3U-VQS2KVT-WRK3WTK-4XDJR2D-AGDAL3Q-PA2YPVB-QQ72LAR-EDBZPQL";
+        }
+        {
+          name = "gaia";
+          id =
+            "TEDPAFO-UL3CHS7-ZB5SAKP-QXBUQOD-5WPXYMT-DEXQLFR-ET4DMWY-IMZTPQS";
         }
         {
           name = "pixel-6a";
@@ -181,14 +186,13 @@
       ]);
 
       gui = {
-        user = host;
-        password = {
-          phi = "$2a$10$CTnvJaVO1L.dluML7fTYde2bh7E5rluYCtcW5rptoabXD1U8JZZsq";
-          sigma =
-            "$2a$10$wdfmhwbLNu9jSForuNG5pe2AAqL8d67G1TIa/Gk7DTO/SM6uuIZve";
-          eris = "$2a$10$pDw1ciPdbkXp3fhTqYBJGeO9JEcrF2EMZXVAXrn1q3cenn64lJPsO";
-        }.${host};
+        user = hostname;
+        password = assert !config.services.syncthing ? guiPasswordFile;
+          config.clan.core.vars.generators.syncthing.files.password-hash.value;
       };
+
+      # disable Anonymous Usage Reporting
+      options.urAccepted = -1;
     };
   };
 }

@@ -3,7 +3,6 @@
     devShells.default = pkgs.mkShell {
       buildInputs = builtins.attrValues {
         inherit (inputs'.home-manager.packages) home-manager;
-        inherit (inputs'.agenix.packages) agenix;
         inherit (inputs'.clan-core.packages) clan-cli;
         inherit (self'.packages) terraform;
       };

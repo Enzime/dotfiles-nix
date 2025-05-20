@@ -1,57 +1,71 @@
-let
-  homeModule = { lib, ... }:
-    let inherit (lib) mkVMOverride;
-    in {
-      services.polybar.config."bar/centre".monitor = mkVMOverride "Virtual-1";
-
-      xsession.windowManager.i3.config.workspaceOutputAssign = mkVMOverride [{
-        workspace = "101";
-        output = "Virtual-1";
-      }];
-
-      wayland.windowManager.sway.config.workspaceOutputAssign = mkVMOverride [{
-        workspace = "1";
-        output = "Virtual-1";
-      }];
-
-      systemd.user.services.swayidle = mkVMOverride { };
-
-      wayland.windowManager.sway.config.output = {
-        Virtual-1 = { scale = "2"; };
-      };
-    };
-in {
+{
   darwinModule = { options, hostname, lib, ... }:
     let inherit (lib) mkIf mkVMOverride;
     in mkIf (options ? virtualisation) {
       networking.hostName = mkVMOverride "${hostname}-vm";
     };
 
-  nixosModule = { config, user, pkgs, lib, ... }:
-    let
-      inherit (lib) mkForce mkVMOverride;
+  nixosModule = { config, pkgs, lib, ... }: {
+    options.virtualisation.allVmVariants =
+      lib.mkOption { type = lib.types.deferredModule; };
 
-      shared = {
-        home-manager.sharedModules = [ homeModule ];
+    config = {
+      virtualisation.allVmVariants = { user, config, ... }: {
+        home-manager.sharedModules = [
+          ({ lib, ... }: {
+            services.polybar.config."bar/centre".monitor =
+              lib.mkVMOverride "Virtual-1";
 
-        users.users.root.password = "apple";
+            xsession.windowManager.i3.config.workspaceOutputAssign =
+              lib.mkVMOverride [{
+                workspace = "101";
+                output = "Virtual-1";
+              }];
+
+            wayland.windowManager.sway.config.workspaceOutputAssign =
+              lib.mkVMOverride [{
+                workspace = "1";
+                output = "Virtual-1";
+              }];
+
+            systemd.user.services.swayidle = lib.mkVMOverride { };
+
+            wayland.windowManager.sway.config.output = {
+              Virtual-1 = { scale = "2"; };
+            };
+          })
+        ];
+
+        users.users.root = {
+          password = "apple";
+          hashedPasswordFile = lib.mkForce null;
+        };
+
         users.users.${user} = {
-          password = mkVMOverride "apple";
-          initialPassword = mkForce null;
-          hashedPasswordFile = mkForce null;
+          password = "apple";
+          hashedPasswordFile = lib.mkForce null;
         };
 
         # WORKAROUND: home-manager for `root` will attempt to GC unless it is disabled
         nix.settings.min-free = 0;
 
-        system.activationScripts.expire-password = mkForce "";
+        virtualisation.qemu = let pkgs' = config.virtualisation.host.pkgs;
+        in {
+          options = lib.mkIf pkgs'.stdenv.hostPlatform.isLinux [
+            "-display gtk,grab-on-hover=true,gl=on"
+            # Use a better fake GPU
+            (lib.mkIf pkgs'.stdenv.hostPlatform.isx86_64
+              "-vga none -device virtio-vga-gl")
+          ];
 
-        virtualisation.qemu.options = [
-          "-display gtk,grab-on-hover=true,gl=on"
-          # Use a better fake GPU
-          (lib.mkIf pkgs.stdenv.hostPlatform.isx86_64
-            "-vga none -device virtio-vga-gl")
-        ];
+          networkingOptions = lib.mkIf pkgs'.stdenv.hostPlatform.isDarwin
+            (lib.mkForce [
+              "-device virtio-net-pci,netdev=user.0"
+              ''-netdev vmnet-shared,id=user.0,"$QEMU_NET_OPTS"''
+            ]);
+        };
+
+        services.tailscale.authKeyFile = lib.mkForce null;
 
         zramSwap.enable = true;
         zramSwap.memoryPercent = 250;
@@ -60,18 +74,22 @@ in {
           export WLR_NO_HARDWARE_CURSORS=1
         '';
       };
-    in {
-      virtualisation.vmVariant = shared;
+
+      virtualisation.vmVariant = config.virtualisation.allVmVariants;
+
+      virtualisation.vmVariantWithBootLoader =
+        config.virtualisation.allVmVariants;
 
       virtualisation.vmVariantWithDisko = {
-        imports = [ shared ];
+        imports = [ config.virtualisation.allVmVariants ];
 
         disko.testMode = true;
 
-        virtualisation.fileSystems =
-          lib.mkIf config.environment.persistence."/persist".enable {
-            "/persist".neededForBoot = true;
-          };
+        virtualisation.fileSystems = lib.mkIf config.preservation.enable {
+          "/persist".neededForBoot = true;
+        };
       };
     };
+
+  };
 }

@@ -20,6 +20,7 @@ in {
           android bluetooth deluge nextcloud personal printers samba scanners
           sway wireless virt-manager;
       };
+      tags = [ "wireless-personal" ];
     }
     {
       host = "sigma";
@@ -28,6 +29,7 @@ in {
       modules = builtins.attrNames {
         inherit (modules) impermanence laptop personal sway;
       };
+      tags = [ "wireless-personal" ];
     }
     {
       host = "eris";
@@ -36,5 +38,24 @@ in {
       modules =
         builtins.attrNames { inherit (modules) deluge reflector vncserver; };
     }
+    {
+      host = "gaia";
+      user = "enzime";
+      system = "x86_64-linux";
+      modules = builtins.attrNames {
+        inherit (modules) hoopsnake impermanence vncserver;
+      };
+    }
   ];
+
+  clan = {
+    inventory.instances = {
+      wifi = {
+        roles.default.machines.phi-nixos.settings.networks = {
+          home.autoConnect = false;
+          hotspot.autoConnect = false;
+        };
+      };
+    };
+  };
 }

@@ -14,7 +14,7 @@ You can then run a NixOS VM on Linux with:
 $ nix run .#phi-nixos-vm
 ```
 
-All the possible hostnames are `eris`, `phi-nixos` and `sigma`
+All the possible hostnames are `eris`, `gaia`, `phi-nixos` and `sigma`
 
 ## See also
 

@@ -65,11 +65,8 @@ in {
     };
   };
 
-  nixosModule = { user, pkgs, lib, ... }: {
+  nixosModule = { user, ... }: {
     imports = [ shared ];
-
-    environment.systemPackages = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64
-      (builtins.attrValues { inherit (pkgs) spotify-tray; });
 
     programs._1password-gui.polkitPolicyOwners = [ user ];
   };
@@ -83,7 +80,6 @@ in {
         inherit (pkgs) qalculate-gtk remmina signal-desktop-bin;
       } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
         # Works on every platform except `aarch64-linux`
-        # Spotify is only necessary for the icons on Linux
         inherit (pkgs) spotify;
       });
 
@@ -97,9 +93,7 @@ in {
           fi
         '');
 
-      home.persistence."/persist${config.home.homeDirectory}" = {
-        directories = [ ".config/1Password" ];
-      };
+      preservation.directories = [ ".config/1Password" ];
 
       programs.ghostty.enable = true;
 

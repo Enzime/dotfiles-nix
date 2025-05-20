@@ -9,6 +9,14 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxOi/S1TLBg8/ZRX5XfCTlM8A+I0q0pQksrxtfjdYFP";
     sigma =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxRoznXzz/T6s5UeHG1uoHCXGfXSpy27eTEzC0/EUW+";
+
+    clan = {
+      web01 =
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDypEkNI1qtN/+MBDFfSSuoZm8g2oj4wBaFoUqTWC0JF";
+
+      build01 =
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOUr97pcoz2RGJT9VDk1zv+1yxJCPRp1X4f/8vwd1Z7V";
+    };
   };
 
   signing = {

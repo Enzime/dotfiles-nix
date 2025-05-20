@@ -1,25 +1,45 @@
 {
-  nixosModule = { config, user, host, pkgs, lib, ... }: {
-    environment.persistence."/persist" = {
-      enable = lib.mkForce true;
-      hideMounts = true;
+  imports = [ "perlless" ];
+
+  nixosModule = { options, config, user, pkgs, lib, ... }: {
+    imports = [{
+      config = lib.optionalAttrs (options ? clan) {
+        clan.core.facts.secretUploadDirectory = "/persist/var/lib/sops-nix";
+
+        sops.age.keyFile = "/persist/var/lib/sops-nix/key.txt";
+      };
+    }];
+
+    preservation.enable = true;
+
+    preservation.preserveAt."/persist" = {
       directories = [
         "/var/lib/nixos"
         "/var/lib/systemd"
         "/var/lib/alsa"
         "/var/lib/tailscale"
+        "/var/lib/sops-nix"
       ];
-      files = [ "/etc/machine-id" "/etc/zfs/zpool.cache" ];
-      # We need this to create `/persist/home/<user>` for the home-manager module
-      users.${user}.files = [ ".persist" ];
-    };
 
-    programs.fuse.userAllowOther = true;
+      files = [
+        {
+          file = "/etc/machine-id";
+          inInitrd = true;
+        }
+        {
+          file = "/etc/zfs/zpool.cache";
+          inInitrd = true;
+        }
+      ];
+
+      users.${user} = config.home-manager.users.${user}.preservation;
+    };
 
     boot.initrd.systemd.enable = true;
     boot.initrd.systemd.services.rollback = {
       description = "Rollback ZFS datasets to a pristine state";
       wantedBy = [ "initrd.target" ];
+      requires = [ "zfs-import-rpool.service" ];
       after = [ "zfs-import-rpool.service" ];
       before = [ "sysroot.mount" ];
       path = builtins.attrValues { inherit (pkgs) zfs; };
@@ -30,44 +50,30 @@
       '';
     };
 
-    services.openssh.hostKeys = lib.mkForce [{
-      path = "/persist/etc/ssh/ssh_host_ed25519_key";
-      type = "ed25519";
-    }];
+    # https://github.com/nix-community/preservation/blob/286737ba485f30c1687c833e66f5901a6c8dc019/docs/src/examples.md?plain=1#L32-L36
+    systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
 
-    services.tailscale.authKeyFile = "/persist/tailscale.key";
-
-    systemd.services.tailscaled-autoconnect.serviceConfig.ExecStartPost =
-      lib.getExe (pkgs.writeShellApplication {
-        name = "tailscaled-autoconnect-cleanup";
-        text = ''
-          if [[ -f ${config.services.tailscale.authKeyFile} ]]; then
-            rm -v ${config.services.tailscale.authKeyFile}
-          fi
-        '';
-      });
-
-    users.mutableUsers = false;
-
-    age.secrets.password_hash.file =
-      ../secrets/password-hash_${user}-${host}.age;
-
-    users.users.${user} = {
-      hashedPasswordFile = config.age.secrets.password_hash.path;
-      password = lib.mkForce null;
+    # WORKAROUND: necessary while VMs don't have `vars` yet
+    virtualisation.allVmVariants = {
+      services.openssh.hostKeys = lib.mkForce [{
+        path = "/persist/etc/ssh/ssh_host_ed25519_key";
+        type = "ed25519";
+      }];
     };
 
-    system.activationScripts.expire-password = lib.mkForce "";
+    services.tailscale.authKeyFile =
+      config.clan.core.vars.generators.tailscale.files.auth-key.path;
+
+    users.mutableUsers = false;
 
     services.syncthing.dataDir =
       "/persist${config.users.users.${user}.home}/Sync";
   };
 
-  homeModule = { config, ... }: {
-    home.persistence."/persist${config.home.homeDirectory}" = {
+  homeModule = {
+    preservation = {
       directories = [ "dotfiles" "Sync" ];
       files = [ ".ssh/known_hosts" ".zsh_history" ];
-      allowOther = true;
     };
 
     # By default, zsh will use rename to atomically update `.zsh_history`

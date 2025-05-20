@@ -1,5 +1,3 @@
-{ config, ... }:
-
 {
   wayland.windowManager.sway.config.output = { eDP-1 = { scale = "1.5"; }; };
 
@@ -11,6 +9,5 @@
   xdg.userDirs.download = "$HOME/Downloads";
   xdg.userDirs.pictures = "$HOME/Pictures";
 
-  home.persistence."/persist${config.home.homeDirectory}".directories =
-    [ "Code" "Downloads" "Pictures" "Work" ];
+  preservation.directories = [ "Code" "Downloads" "Pictures" "Work" ];
 }

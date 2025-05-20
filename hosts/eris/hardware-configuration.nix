@@ -74,7 +74,8 @@
         options.mountpoint = "legacy";
 
         options."com.sun:auto-snapshot" = "true";
-        postCreateHook = "zfs snapshot rpool/root@blank";
+        postCreateHook =
+          "zfs list -t snapshot -H -o name | grep -E '^rpool/root@blank$' || zfs snapshot rpool/root@blank";
       };
 
       datasets.nix = {
