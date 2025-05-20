@@ -1,3 +1,4 @@
+- Added `gaia`
 - Use `networking.networkmanager.enableDefaultPlugins`
 - Disabled autoupdating in Spotify on macOS
 - Removed `firefox`, `remmina` and `spotify` overlays
