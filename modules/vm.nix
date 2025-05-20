@@ -31,35 +31,38 @@ in {
     let
       inherit (lib) mkForce mkVMOverride;
 
-      shared = {
-        home-manager.sharedModules = [ homeModule ];
+      shared = { config, ... }:
+        let pkgs' = config.virtualisation.host.pkgs;
+        in {
+          home-manager.sharedModules = [ homeModule ];
 
-        users.users.root.password = "apple";
-        users.users.${user} = {
-          password = mkVMOverride "apple";
-          initialPassword = mkForce null;
-          hashedPasswordFile = mkForce null;
+          users.users.root.password = "apple";
+          users.users.${user} = {
+            password = mkVMOverride "apple";
+            initialPassword = mkForce null;
+            hashedPasswordFile = mkForce null;
+          };
+
+          # WORKAROUND: home-manager for `root` will attempt to GC unless it is disabled
+          nix.settings.min-free = 0;
+
+          system.activationScripts.expire-password = mkForce "";
+
+          virtualisation.qemu.options =
+            lib.mkIf pkgs'.stdenv.hostPlatform.isLinux [
+              "-display gtk,grab-on-hover=true,gl=on"
+              # Use a better fake GPU
+              (lib.mkIf pkgs'.stdenv.hostPlatform.isx86_64
+                "-vga none -device virtio-vga-gl")
+            ];
+
+          zramSwap.enable = true;
+          zramSwap.memoryPercent = 250;
+
+          programs.sway.extraSessionCommands = ''
+            export WLR_NO_HARDWARE_CURSORS=1
+          '';
         };
-
-        # WORKAROUND: home-manager for `root` will attempt to GC unless it is disabled
-        nix.settings.min-free = 0;
-
-        system.activationScripts.expire-password = mkForce "";
-
-        virtualisation.qemu.options = [
-          "-display gtk,grab-on-hover=true,gl=on"
-          # Use a better fake GPU
-          (lib.mkIf pkgs.stdenv.hostPlatform.isx86_64
-            "-vga none -device virtio-vga-gl")
-        ];
-
-        zramSwap.enable = true;
-        zramSwap.memoryPercent = 250;
-
-        programs.sway.extraSessionCommands = ''
-          export WLR_NO_HARDWARE_CURSORS=1
-        '';
-      };
     in {
       virtualisation.vmVariant = shared;
 

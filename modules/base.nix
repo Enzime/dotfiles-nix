@@ -97,6 +97,7 @@ in {
     "sops"
     "syncthing"
     "termite"
+    "variants"
     "vcs"
     "vm"
     "vscode"
