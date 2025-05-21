@@ -4,7 +4,7 @@
       false;
   };
 
-  homeModule = { config, pkgs, lib, ... }:
+  homeModule = { config, inputs, pkgs, lib, ... }:
     let inherit (pkgs.stdenv) hostPlatform;
     in {
       home.file.".vscode-server/extensions".source =
@@ -180,6 +180,11 @@
             lib.getExe config.programs.neovim.finalPackage;
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = lib.getExe pkgs.nil;
+          "nix.serverSettings".nil.formatting.command = [
+            (lib.getExe inputs.self.formatter.${pkgs.hostPlatform.system})
+            "--stdin"
+            "example.nix"
+          ];
           "extensions.experimental.affinity" = {
             "asvetliakov.vscode-neovim" = 1;
           };
@@ -187,6 +192,8 @@
           "workbench.colorTheme" = "Monokai";
           "markdown-preview-github-styles.colorTheme" = "light";
 
+          "editor.formatOnSave" = true;
+          # Primarily for ESLint
           "editor.codeActionsOnSave" = { "source.fixAll" = "explicit"; };
 
           "editor.lineNumbers" = "relative";

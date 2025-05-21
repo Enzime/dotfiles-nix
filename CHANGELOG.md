@@ -1,3 +1,11 @@
+- Moved `mkConfiguration` into `lib.nix`
+- Refactored `mkConfiguration` to allow using `terraformConfigurations` from all platforms
+- Refactored `mkConfiguration` to output a `flake-parts` module
+- Refactored `flake.nix` into separate `flake-parts` modules
+- Use OpenTofu instead of Terraform
+- Enabled format on save in VSCode
+- Use `treefmt` to format Nix code in VSCode
+- Use `clan machines update` instead of `deploy-<hostname>` for macOS
 - Use `syncthing-macos` on `hyperion-macos`
 - Removed `hermes-macos`
 - Removed `chi`
