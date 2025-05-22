@@ -13,7 +13,7 @@
   };
 
   system.defaults.dock.persistent-apps = [
-    "${pkgs.firefox-bin}/Applications/Firefox.app"
+    "/Applications/Firefox.app"
     "${pkgs.ghostty-bin}/Applications/Ghostty.app"
     "/Applications/1Password.app"
     "${pkgs.vscode}/Applications/Visual Studio Code.app"

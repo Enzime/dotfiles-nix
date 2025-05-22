@@ -72,7 +72,7 @@
 
     # By default, zsh will use rename to atomically update `.zsh_history`
     # however this breaks our symlink-based persistence
-    programs.zsh.initExtra = ''
+    programs.zsh.initContent = ''
       setopt NO_HIST_SAVE_BY_COPY
     '';
   };

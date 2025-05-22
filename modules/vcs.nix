@@ -17,7 +17,7 @@ in {
       userName = "Michael Hoang";
       userEmail = "enzime@users.noreply.github.com";
 
-      ignores = [ "/worktrees" "result" ];
+      ignores = [ "/worktrees" "result*" ".DS_Store" ];
 
       delta.enable = true;
 

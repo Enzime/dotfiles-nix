@@ -3,11 +3,17 @@
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) syncthing-macos; };
 
+    launchd.user.agents.syncthing = {
+      command =
+        ''"/Applications/Nix Apps/Syncthing.app/Contents/MacOS/Syncthing"'';
+      serviceConfig.RunAtLoad = true;
+    };
+
     system.defaults.CustomUserPreferences."com.github.xor-gate.syncthing-macosx" =
       {
         SUEnableAutomaticChecks = false;
         SUSendProfileInfo = 0;
-        StartAtLogin = 1;
+        StartAtLogin = 0;
         URI = "http://${hostname}:8384";
       };
 
@@ -64,6 +70,11 @@
           name = "sigma";
           id =
             "MYUB4WO-KFBERW6-VC3VXYY-K32WL7S-CX7X5NP-5JZYCEE-NNLYRT5-UXWP6AP";
+        }
+        {
+          name = "eris";
+          id =
+            "OSL7C3U-VQS2KVT-WRK3WTK-4XDJR2D-AGDAL3Q-PA2YPVB-QQ72LAR-EDBZPQL";
         }
         {
           name = "pixel-6a";
@@ -129,11 +140,13 @@
           };
         }
         {
-          id = "3fpud-18f7a";
+          id = "a2j2q-rjjju";
           name = "Screenshots.hyperion";
           devices = {
             # Managed manually currently
-            hyperion-macos = { };
+            hyperion-macos = {
+              path = "${config.users.users.${user}.home}/Pictures/Screenshots";
+            };
             phi-nixos = {
               path = "/data/Pictures/Screenshots.hyperion";
               type = "receiveonly";
@@ -149,7 +162,9 @@
           name = "Gramps";
           devices = {
             # Managed manually currently
-            hyperion-macos = { };
+            hyperion-macos = {
+              path = "${config.users.users.${user}.home}/.local/share/gramps";
+            };
             phi-nixos = {
               path = "${config.users.users.${user}.home}/.local/share/gramps";
             };

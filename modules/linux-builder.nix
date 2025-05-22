@@ -25,7 +25,7 @@
             name = "bootstrap-${host}-linux-builder";
             runtimeInputs = [ ];
             text = ''
-              set -euxo pipefail
+              set -x
 
               op read "op://trimcmujfu5fjcx5u4u752yk2i/${host}-linux-builder Nix signing key/key" | ssh root@linux-builder bash -c "cat > /etc/nix/key; chmod 400 /etc/nix/key"
               ssh root@linux-builder tailscale up

@@ -4,9 +4,9 @@
     ./clan.nix
     ./configurations.nix
     ./devShells.nix
+    ./formatter.nix
     ./lib.nix
     ./terraform.nix
-    ./treefmt.nix
     ./vm.nix
   ];
 }

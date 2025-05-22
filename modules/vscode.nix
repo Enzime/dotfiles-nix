@@ -181,7 +181,8 @@
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = lib.getExe pkgs.nil;
           "nix.serverSettings".nil.formatting.command = [
-            (lib.getExe inputs.self.formatter.${pkgs.hostPlatform.system})
+            (lib.getExe
+              inputs.self.packages.${pkgs.hostPlatform.system}.cached-nix-fmt)
             "--stdin"
             "example.nix"
           ];
@@ -205,7 +206,10 @@
           "trailing-spaces.highlightCurrentLine" = false;
 
           "search.useGlobalIgnoreFiles" = true;
-          "files.exclude" = { "**/.direnv" = true; };
+          "files.exclude" = {
+            "**/.direnv" = true;
+            "**/.jj" = true;
+          };
 
           # Don't use VS Code's 3 way merge editor
           "git.mergeEditor" = false;
@@ -220,9 +224,6 @@
 
           "editor.bracketPairColorization.enabled" = true;
           "editor.guides.bracketPairs" = true;
-          "colorize.include" = [ "*" ];
-          "colorize.colorized_colors" = [ "HEXA" "ARGB" "RGB" "HSL" ];
-          "colorize.hide_current_line_decorations" = false;
 
           "terminal.integrated.scrollback" = 1000000;
 

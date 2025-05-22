@@ -1,3 +1,25 @@
+- Fixed GitHub Actions not substituting from Cachix
+- Disabled GitHub Actions substituting from `cache.clan.lol`
+- Fixed `remmina` not building in GitHub Actions
+- Fixed app updates not disabled in `firefox-bin-unwrapped`
+- Use `sandbox = true` on macOS in GitHub Actions
+- Removed unnecessary `set -euo pipefail` as `writeShellApplication` sets it by default
+- Added `noop-treefmt` package to run as the cached formatter for flakes that don't have a formatter set
+- Added `cached-nix-fmt` package for caching `nix fmt`
+- Fixed VSCode formatting all projects using `nixfmt-classic`
+- Renamed `treefmt` flake-parts module to `formatter`
+- Fixed 1Password browser extension not integrating with 1Password desktop app on macOS
+- Fixed `firefox-bin-unwrapped` not being signed on macOS
+- Use `firefox-bin-unwrapped` on macOS
+- Fixed `syncthing-macos` not starting on login
+- Fixed `remmina` not being able to find Python 3
+- Use `programs.zsh.initContent` instead of `programs.zsh.initExtra` in `impermanence` module
+- Fixed `Screenshots.hyperion` not being synced
+- Added `eris`'s Syncthing device ID
+- Added `.DS_Store` to global `gitignore` to prevent `jj` from tracking them
+- Updated `spotify`
+- Removed settings for `vscode-colorize`
+- Changed `VSCode` to never show `.jj` in the sidebar
 - Moved `mkConfiguration` into `lib.nix`
 - Refactored `mkConfiguration` to allow using `terraformConfigurations` from all platforms
 - Refactored `mkConfiguration` to output a `flake-parts` module
