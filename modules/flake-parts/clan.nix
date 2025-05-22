@@ -4,6 +4,8 @@
 
     pkgsForSystem = system: inputs.nixpkgs.legacyPackages.${system};
 
+    secrets.age.plugins = [ "age-plugin-1p" ];
+
     machines = builtins.mapAttrs (hostname: configuration: {
       imports = configuration._module.args.modules;
 
