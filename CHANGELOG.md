@@ -1,3 +1,6 @@
+- Use `autoArchive` in `nil` through VSCode to automatically fetch flake inputs
+- Use `ProxyJump` to connect to `build02`
+- Renamed `samba` share to `<hostname>` to make the source clearer when using `Finder.app`
 - Fixed GitHub Actions not substituting from Cachix
 - Disabled GitHub Actions substituting from `cache.clan.lol`
 - Fixed `remmina` not building in GitHub Actions

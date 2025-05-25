@@ -186,6 +186,7 @@
             "--stdin"
             "example.nix"
           ];
+          "nix.serverSettings".nil.nix.flake.autoArchive = true;
           "extensions.experimental.affinity" = {
             "asvetliakov.vscode-neovim" = 1;
           };

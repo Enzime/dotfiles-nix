@@ -1,7 +1,8 @@
 {
-  nixosModule = { user, ... }: {
+  nixosModule = { user, hostname, ... }: {
     services.samba.enable = true;
-    services.samba.settings.everything = {
+    # Set password for user with `sudo smbpasswd -a <user>`
+    services.samba.settings.${hostname} = {
       path = "/";
       "read only" = "no";
       "guest ok" = "no";

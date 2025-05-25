@@ -16,8 +16,8 @@ in {
         Hostname fda9:b487:2919:3547:3699:9336:90ec:cb59
 
       Host build02
+        ProxyJump tunnel@clan.lol
         Hostname build02.tailfc885e.ts.net
-        User admin
 
       Host storinator01
         ProxyJump tunnel@clan.lol
