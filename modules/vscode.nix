@@ -281,13 +281,19 @@
           "nix.serverPath" = lib.getExe pkgs.nil;
         };
 
-      programs.git.extraConfig.core.editor =
-        "${pkgs.writeShellScript "use-vscode-sometimes" ''
-          if [[ $TERM_PROGRAM = "vscode" ]]; then
-            code --wait "$@"
-          else
-            vim "$@"
-          fi
-        ''}";
+      programs.git.extraConfig.core.editor = lib.getExe
+        (pkgs.writeShellApplication {
+          name = "use-vscode-sometimes";
+          text = ''
+            if [[ $TERM_PROGRAM = "vscode" ]]; then
+              code --wait "$@"
+            else
+              vim "$@"
+            fi
+          '';
+        });
+
+      programs.jujutsu.settings.ui.editor =
+        config.programs.git.extraConfig.core.editor;
     };
 }

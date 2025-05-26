@@ -1,3 +1,6 @@
+- Removed `ghostty`, `1password`, `joplin`, `mas` and `sequential` overlays
+- Fixed `sudo ranger` not working
+- Use VSCode to edit `jujutsu` commit messages
 - Use `autoArchive` in `nil` through VSCode to automatically fetch flake inputs
 - Use `ProxyJump` to connect to `build02`
 - Renamed `samba` share to `<hostname>` to make the source clearer when using `Finder.app`
