@@ -9,8 +9,9 @@ in {
   darwinModule = { pkgs, lib, ... }: {
     imports = [ shared ];
 
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) alt-tab-macos raycast utm; };
+    environment.systemPackages = builtins.attrValues {
+      inherit (pkgs) alt-tab-macos raycast utm zed-editor;
+    };
 
     launchd.user.agents.raycast = {
       command = ''"/Applications/Nix Apps/Raycast.app/Contents/MacOS/Raycast"'';

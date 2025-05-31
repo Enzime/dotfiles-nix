@@ -1,3 +1,6 @@
+- Use native `age` keys for `sops` on `hyperion-macos`
+- Use `zed-editor` on macOS
+- Use `ice-bar` on macOS
 - Removed `ghostty`, `1password`, `joplin`, `mas` and `sequential` overlays
 - Fixed `sudo ranger` not working
 - Use VSCode to edit `jujutsu` commit messages
