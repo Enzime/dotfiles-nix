@@ -1,3 +1,6 @@
+- Use `networking.networkmanager.enableDefaultPlugins`
+- Disabled autoupdating in Spotify on macOS
+- Removed `firefox`, `remmina` and `spotify` overlays
 - Use native `age` keys for `sops` on `hyperion-macos`
 - Use `zed-editor` on macOS
 - Use `ice-bar` on macOS

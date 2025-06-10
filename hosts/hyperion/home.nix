@@ -7,5 +7,5 @@ let
 in {
   home.file."${platformConfigDir}/sops/age/keys.txt".source =
     config.lib.file.mkOutOfStoreSymlink
-    "${config.home.homeDirectory}/${platformConfigDir}/sops/age/keys.txt.native";
+    "${config.home.homeDirectory}/${platformConfigDir}/sops/age/keys.txt.combined";
 }
