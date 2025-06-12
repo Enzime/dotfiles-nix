@@ -1,41 +1,57 @@
-{ config, inputs, hostname, keys, pkgs, lib, ... }:
+{ config, self', inputs', hostname, keys, lib, ... }:
 
-{
-  terraform.required_providers.hcloud.source = "hetznercloud/hcloud";
-  terraform.required_providers.onepassword.source = "1Password/onepassword";
+let clan = inputs'.clan-core.packages.clan-cli;
+in {
   terraform.required_providers.local.source = "hashicorp/local";
   terraform.required_providers.tailscale.source = "tailscale/tailscale";
+  terraform.required_providers.tls.source = "hashicorp/tls";
+  terraform.required_providers.vultr.source = "vultr/vultr";
 
-  provider.onepassword.account = "my.1password.com";
-
-  data.onepassword_item.hcloud_token = {
-    vault = "r3fgka56ukyvdslqp3jxc37e3q";
-    uuid = "sjilzoukc5ouqsvq7gwkzi7amm";
+  data.external.vultr-api-key = {
+    program = [ (lib.getExe self'.packages.get-clan-secret) "vultr-api-key" ];
   };
 
-  data.onepassword_item.tailscale_api_key = {
-    vault = "r3fgka56ukyvdslqp3jxc37e3q";
-    uuid = "he4ygqtulfjb7dhhk3chvhrdge";
+  data.external.tailscale-api-key = {
+    program =
+      [ (lib.getExe self'.packages.get-clan-secret) "tailscale-api-key" ];
   };
 
-  provider.hcloud.token =
-    config.data.onepassword_item.hcloud_token "credential";
+  provider.vultr.api_key = config.data.external.vultr-api-key "result.secret";
   provider.tailscale.api_key =
-    config.data.onepassword_item.tailscale_api_key "credential";
+    config.data.external.tailscale-api-key "result.secret";
 
-  resource.hcloud_ssh_key.enzime = {
-    name = "enzime";
-    public_key = keys.users.enzime;
+  resource.tls_private_key.ssh_deploy_key = { algorithm = "ED25519"; };
+
+  resource.local_sensitive_file.ssh_deploy_key = {
+    filename = "${lib.tf.ref "path.module"}/.terraform-deploy-key";
+    file_permission = "600";
+    content =
+      config.resource.tls_private_key.ssh_deploy_key "private_key_openssh";
   };
 
-  resource.hcloud_server.${hostname} = {
-    name = hostname;
-    image = "debian-12";
-    server_type = "cax31";
-    location = "nbg1";
-    ssh_keys = [ (config.resource.hcloud_ssh_key.enzime "id") ];
-    shutdown_before_deletion = true;
-    backups = false;
+  resource.vultr_ssh_key.enzime = {
+    name = "Enzime";
+    ssh_key = keys.users.enzime;
+  };
+
+  resource.vultr_ssh_key.terraform = {
+    name = "Terraform";
+    ssh_key =
+      config.resource.tls_private_key.ssh_deploy_key "public_key_openssh";
+  };
+
+  resource.vultr_instance.${hostname} = {
+    label = hostname;
+    region = "sgp";
+    plan = "vc2-2c-4gb";
+    # Debian 12
+    os_id = 2136;
+    enable_ipv6 = true;
+    ssh_key_ids = [
+      (config.resource.vultr_ssh_key.terraform "id")
+      (config.resource.vultr_ssh_key.enzime "id")
+    ];
+    backups = "disabled";
   };
 
   resource.tailscale_tailnet_key.terraform = {
@@ -43,40 +59,45 @@
     expiry = 86400; # 1 day
     reusable = false;
     recreate_if_invalid = "always";
-  };
 
-  resource.onepassword_item.tailscale_auth_key = {
-    vault = "r3fgka56ukyvdslqp3jxc37e3q";
-    title = "Tailscale Auth key";
-    category = "password";
-    password = config.resource.tailscale_tailnet_key.terraform "key";
-  };
-
-  module.install = {
-    source = "${inputs.nixos-anywhere}/terraform/install";
-    target_host = config.resource.hcloud_server.${hostname} "ipv4_address";
-    flake = ".#${hostname}";
-    build_on_remote = true;
-    extra_environment = {
-      TAILSCALE_AUTH_KEY_UUID =
-        config.resource.onepassword_item.tailscale_auth_key "uuid";
+    provisioner.local-exec = {
+      command =
+        "echo '${config.resource.tailscale_tailnet_key.terraform "key"}' | ${
+          lib.getExe clan
+        } vars set --debug ${hostname} tailscale/auth-key";
     };
-    extra_files_script = lib.getExe (pkgs.writeShellApplication {
-      name = "extra-files";
-      # 1Password CLI requires setgid so we want to use the one from the system
-      text = ''
-        mkdir -p etc/ssh etc/nix tmp
-        op read "op://o3urqzwged2afsdmxqkjjazstq/56zbrbwh5ctqzh5jz2a2iixol4/private key?ssh-format=openssh" | sed 's/\r$//' > etc/ssh/ssh_host_ed25519_key
-        chmod 400 etc/ssh/ssh_host_ed25519_key
-        echo "${keys.hosts.${hostname}}" > etc/ssh/ssh_host_ed25519_key.pub
-        chmod 444 etc/ssh/ssh_host_ed25519_key.pub
-        op read "op://r3fgka56ukyvdslqp3jxc37e3q/kfbpbjzox2h2qapi74p5dzqld4/key" > etc/nix/key
-        chmod 400 etc/nix/key
-        echo "${keys.signing.${hostname}}" > etc/nix/key.pub
-        chmod 444 etc/nix/key.pub
-        op read "op://r3fgka56ukyvdslqp3jxc37e3q/$TAILSCALE_AUTH_KEY_UUID/password" > tmp/tailscale.key
-        chmod 400 tmp/tailscale.key
+  };
+
+  # TODO: SSH host keys in vars
+
+  # Manually append `true` to `.bashrc` to workaround `ssh-copy-id` bug
+  resource.null_resource."install-${hostname}" = {
+    triggers = {
+      instance_id = config.resource.vultr_instance.${hostname} "id";
+    };
+    depends_on = [ "tailscale_tailnet_key.terraform" ];
+    provisioner.local-exec = {
+      command = let
+        targetHost =
+          "root@${config.resource.vultr_instance.${hostname} "main_ip"}";
+      in ''
+        set -e
+
+        if ! ssh ${targetHost} exit; then
+          ssh ${targetHost} "echo true >> ~/.bashrc"
+        fi
+
+        # assert that it worked!
+        ssh ${targetHost} exit
+
+        ${lib.getExe clan} machines install ${hostname} \
+          --update-hardware-config nixos-facter \
+          --target-host ${targetHost} \
+          -i '${
+            config.resource.local_sensitive_file.ssh_deploy_key "filename"
+          }' \
+          --yes --debug
       '';
-    });
+    };
   };
 }

@@ -1,7 +1,15 @@
-{ lib, ... }:
+{ options, config, lib, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    {
+      config = lib.optionalAttrs (options ? clan) {
+        sops.age.sshKeyPaths = assert !config.services.openssh.enable;
+          [ "/etc/ssh/ssh_host_ed25519_key" ];
+      };
+    }
+  ];
 
   boot.loader.grub.enable = true;
 

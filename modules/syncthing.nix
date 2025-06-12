@@ -187,7 +187,7 @@
           sigma =
             "$2a$10$wdfmhwbLNu9jSForuNG5pe2AAqL8d67G1TIa/Gk7DTO/SM6uuIZve";
           eris = "$2a$10$pDw1ciPdbkXp3fhTqYBJGeO9JEcrF2EMZXVAXrn1q3cenn64lJPsO";
-        }.${host};
+        }.${host} or config.clan.core.vars.generators.syncthing.files.password-hash.value;
       };
     };
   };

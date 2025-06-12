@@ -161,14 +161,14 @@ let
           self.homeConfigurations."${user}@${hostname}".activationPackage;
       };
 
-      perSystem = { system, self', pkgs, ... }: {
+      perSystem = { system, self', inputs', pkgs, ... }: {
         terraformConfigurations = optionalAttrs (builtins.pathExists
           (pathTo ./hosts/${host}/terraform-configuration.nix)) {
             ${hostname} = inputs.terranix.lib.terranixConfiguration {
               inherit system;
               modules =
                 [ (pathTo ./hosts/${host}/terraform-configuration.nix) ];
-              extraArgs = { inherit inputs hostname keys; };
+              extraArgs = { inherit self' inputs inputs' hostname keys; };
             };
           };
 

@@ -5,7 +5,29 @@ let
     };
   };
 in {
-  nixosModule = shared;
+  nixosModule = { options, pkgs, lib, ... }: {
+    imports = [ shared ];
+
+    config = lib.optionalAttrs (options ? clan) {
+      clan.core.vars.generators.tailscale = {
+        share = true;
+        prompts.auth-key.persist = true;
+      };
+
+      clan.core.vars.generators.syncthing = {
+        # can be secret once https://github.com/NixOS/nixpkgs/pull/290485 is merged
+        files.password-hash.secret = false;
+        files.password.deploy = false;
+
+        runtimeInputs = [ pkgs.coreutils pkgs.mkpasswd pkgs.xkcdpass ];
+
+        script = ''
+          xkcdpass --numwords 3 --delimiter - --count 1 | tr -d "\n" > "$out"/password
+          mkpasswd -s -m sha-512 < "$out"/password | tr -d "\n" > "$out"/password-hash
+        '';
+      };
+    };
+  };
 
   darwinModule = shared;
 
