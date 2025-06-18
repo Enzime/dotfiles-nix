@@ -1,3 +1,4 @@
+- Use `vars` to store `syncthing` GUI password
 - Use `vars` to store Tailscale auth key
 - Added `gaia`
 - Use `networking.networkmanager.enableDefaultPlugins`
