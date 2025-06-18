@@ -1,7 +1,17 @@
 let
-  shared = { options, hostname, lib, ... }: {
+  shared = { options, hostname, pkgs, lib, ... }: {
     config = lib.optionalAttrs (options ? clan) {
       clan.core.networking.targetHost = "root@${hostname}";
+
+      clan.core.vars.generators.nix-remote-build = {
+        share = true;
+        files.key = { };
+        files."key.pub".secret = false;
+        runtimeInputs = [ pkgs.coreutils pkgs.openssh ];
+        script = ''
+          ssh-keygen -t ed25519 -N "" -C "" -f "$out"/key
+        '';
+      };
     };
   };
 in {
