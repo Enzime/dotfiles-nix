@@ -26,17 +26,28 @@
 
   nix.distributedBuilds = true;
 
-  nix.buildMachines = [{
-    # Use ssh-ng for trustless remote building of input-addressed derivations
-    # i.e. not requiring remote user to be a trusted-user
-    protocol = "ssh-ng";
-    hostName = "clan.lol";
-    sshUser = "enzime";
-    sshKey = "/etc/ssh/ssh_host_ed25519_key";
-    system = "x86_64-linux";
-    supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
-    maxJobs = 96;
-  }];
+  # Use ssh-ng for trustless remote building of input-addressed derivations
+  # i.e. not requiring remote user to be a trusted-user
+  nix.buildMachines = [
+    {
+      protocol = "ssh-ng";
+      hostName = "clan.lol";
+      sshUser = "builder";
+      sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
+      system = "x86_64-linux";
+      supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+      maxJobs = 96;
+    }
+    {
+      protocol = "ssh-ng";
+      hostName = "build01";
+      sshUser = "builder";
+      sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
+      system = "aarch64-linux";
+      supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+      maxJobs = 96;
+    }
+  ];
 
   system.stateVersion = 6;
 }

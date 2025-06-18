@@ -1,16 +1,50 @@
 let
-  shared = { options, hostname, pkgs, lib, ... }: {
-    config = lib.optionalAttrs (options ? clan) {
-      clan.core.networking.targetHost = "root@${hostname}";
+  shared = { options, config, hostname, pkgs, lib, ... }: {
+    imports = [{
+      config = lib.optionalAttrs (options ? clan) {
+        clan.core.networking.targetHost = "root@${hostname}";
 
-      clan.core.vars.generators.nix-remote-build = {
-        share = true;
-        files.key = { };
-        files."key.pub".secret = false;
-        runtimeInputs = [ pkgs.coreutils pkgs.openssh ];
-        script = ''
-          ssh-keygen -t ed25519 -N "" -C "" -f "$out"/key
-        '';
+        clan.core.vars.generators.nix-remote-build = {
+          share = true;
+          files.key = { };
+          files."key.pub".secret = false;
+          runtimeInputs = [ pkgs.coreutils pkgs.openssh ];
+          script = ''
+            ssh-keygen -t ed25519 -N "" -C "" -f "$out"/key
+          '';
+        };
+      };
+    }];
+
+    config = {
+      programs.ssh.extraConfig = ''
+        Host build01
+          ProxyJump clan-tunnel
+          Hostname fda9:b487:2919:3547:3699:9336:90ec:cb59
+
+        Host build02
+          ProxyJump clan-tunnel
+          Hostname build02.tailfc885e.ts.net
+
+        Host storinator01
+          ProxyJump clan-tunnel
+          Hostname fda9:b487:2919:3547:3699:9393:7f57:6e6b
+
+        Host clan-tunnel
+          Hostname clan.lol
+          User tunnel
+          IdentityFile ${config.clan.core.vars.generators.nix-remote-build.files.key.path}
+      '';
+
+      programs.ssh.knownHosts = {
+        "clan.lol".publicKey =
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDypEkNI1qtN/+MBDFfSSuoZm8g2oj4wBaFoUqTWC0JF";
+
+        "build01" = {
+          extraHostNames = [ "fda9:b487:2919:3547:3699:9336:90ec:cb59" ];
+          publicKey =
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOUr97pcoz2RGJT9VDk1zv+1yxJCPRp1X4f/8vwd1Z7V";
+        };
       };
     };
   };
@@ -46,20 +80,4 @@ in {
   };
 
   darwinModule = shared;
-
-  homeModule = {
-    home.file.".ssh/config".text = ''
-      Host build01
-        ProxyJump tunnel@clan.lol
-        Hostname fda9:b487:2919:3547:3699:9336:90ec:cb59
-
-      Host build02
-        ProxyJump tunnel@clan.lol
-        Hostname build02.tailfc885e.ts.net
-
-      Host storinator01
-        ProxyJump tunnel@clan.lol
-        Hostname fda9:b487:2919:3547:3699:9393:7f57:6e6b
-    '';
-  };
 }
