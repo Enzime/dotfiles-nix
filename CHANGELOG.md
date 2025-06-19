@@ -1,3 +1,7 @@
+- Use shared SSH keypair for remote builds instead of host keys
+- Use `vars` to store `syncthing` GUI password
+- Use `vars` to store Tailscale auth key
+- Added `gaia`
 - Use `networking.networkmanager.enableDefaultPlugins`
 - Disabled autoupdating in Spotify on macOS
 - Removed `firefox`, `remmina` and `spotify` overlays

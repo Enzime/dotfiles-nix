@@ -21,6 +21,9 @@ jobs:
           - name: eris
             output: nixosConfigurations.eris.config.system.build.toplevel
             runs-on: ubuntu-latest
+          - name: gaia
+            output: nixosConfigurations.gaia.config.system.build.toplevel
+            runs-on: ubuntu-latest
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runs-on }}

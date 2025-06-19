@@ -25,7 +25,7 @@
     '';
   };
 
-  nixosModule = { config, user, host, hostname, lib, ... }: {
+  nixosModule = { config, user, hostname, lib, ... }: {
     services.syncthing.enable = true;
     services.syncthing.user = user;
     services.syncthing.group = "users";
@@ -181,13 +181,9 @@
       ]);
 
       gui = {
-        user = host;
-        password = {
-          phi = "$2a$10$CTnvJaVO1L.dluML7fTYde2bh7E5rluYCtcW5rptoabXD1U8JZZsq";
-          sigma =
-            "$2a$10$wdfmhwbLNu9jSForuNG5pe2AAqL8d67G1TIa/Gk7DTO/SM6uuIZve";
-          eris = "$2a$10$pDw1ciPdbkXp3fhTqYBJGeO9JEcrF2EMZXVAXrn1q3cenn64lJPsO";
-        }.${host};
+        user = hostname;
+        password =
+          config.clan.core.vars.generators.syncthing.files.password-hash.value;
       };
     };
   };

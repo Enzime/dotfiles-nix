@@ -36,5 +36,11 @@ in {
       modules =
         builtins.attrNames { inherit (modules) deluge reflector vncserver; };
     }
+    {
+      host = "gaia";
+      user = "enzime";
+      system = "x86_64-linux";
+      modules = builtins.attrNames { inherit (modules) vncserver; };
+    }
   ];
 }
