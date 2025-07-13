@@ -181,47 +181,20 @@ let
           self.homeConfigurations."${user}@${hostname}".activationPackage;
       };
 
-      perSystem = { system, self', inputs', pkgs, ... }: {
-        terraformConfigurations = optionalAttrs (builtins.pathExists
-          (pathTo ./hosts/${host}/terraform-configuration.nix)) {
-            ${hostname} = inputs.terranix.lib.terranixConfiguration {
-              inherit system;
-              modules =
-                [ (pathTo ./hosts/${host}/terraform-configuration.nix) ];
-              extraArgs = { inherit self' inputs inputs' host hostname keys; };
-            };
-          };
+      flake.terranixModules = optionalAttrs (builtins.pathExists
+        (pathTo ./hosts/${host}/terraform-configuration.nix)) {
+          ${hostname}.imports = [
+            (pathTo ./modules/terranix/base.nix)
+            (inputs.flake-parts.lib.importApply
+              (pathTo ./hosts/${host}/terraform-configuration.nix) {
+                inherit host hostname keys;
+              })
+          ];
 
-        packages = optionalAttrs (builtins.pathExists
-          (pathTo ./hosts/${host}/terraform-configuration.nix)) (let
-            inherit (self'.packages) terraform;
-            inherit (terraform.meta) mainProgram;
-          in {
-            "${hostname}-apply" = pkgs.writeShellApplication {
-              name = "${hostname}-apply";
-              runtimeInputs = [ terraform ];
-              text = ''
-                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-                cp ${self'.terraformConfigurations.${hostname}} config.tf.json \
-                  && ${mainProgram} init \
-                  && ${mainProgram} apply "$@"
-              '';
-            };
-
-            "${hostname}-destroy" = pkgs.writeShellApplication {
-              name = "${hostname}-destroy";
-              runtimeInputs = [ terraform ];
-              text = ''
-                if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
-                cp ${self'.terraformConfigurations.${hostname}} config.tf.json \
-                  && ${mainProgram} init \
-                  && ${mainProgram} destroy "$@"
-              '';
-            };
-          });
-      };
+          everything.imports = [ self.terranixModules.${hostname} ];
+        };
     };
 in {
-  inherit mkConfiguration;
+  inherit mkConfiguration pathTo;
   modules = modules';
 }

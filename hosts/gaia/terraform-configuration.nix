@@ -1,33 +1,15 @@
-{ config, self', inputs', host, hostname, keys, lib, ... }:
+{ host, hostname, keys, ... }:
+{ config, self', inputs', lib, ... }:
 
 let clan = inputs'.clan-core.packages.clan-cli;
 in {
-  terraform.required_providers.local.source = "hashicorp/local";
-  terraform.required_providers.tailscale.source = "tailscale/tailscale";
-  terraform.required_providers.tls.source = "hashicorp/tls";
   terraform.required_providers.vultr.source = "vultr/vultr";
 
   data.external.vultr-api-key = {
     program = [ (lib.getExe self'.packages.get-clan-secret) "vultr-api-key" ];
   };
 
-  data.external.tailscale-api-key = {
-    program =
-      [ (lib.getExe self'.packages.get-clan-secret) "tailscale-api-key" ];
-  };
-
   provider.vultr.api_key = config.data.external.vultr-api-key "result.secret";
-  provider.tailscale.api_key =
-    config.data.external.tailscale-api-key "result.secret";
-
-  resource.tls_private_key.ssh_deploy_key = { algorithm = "ED25519"; };
-
-  resource.local_sensitive_file.ssh_deploy_key = {
-    filename = "${lib.tf.ref "path.module"}/.terraform-deploy-key";
-    file_permission = "600";
-    content =
-      config.resource.tls_private_key.ssh_deploy_key "private_key_openssh";
-  };
 
   resource.vultr_ssh_key.enzime = {
     name = "Enzime";
@@ -40,33 +22,24 @@ in {
       config.resource.tls_private_key.ssh_deploy_key "public_key_openssh";
   };
 
+  data.vultr_os.debian = {
+    filter = {
+      name = "name";
+      values = [ "Debian 13 x64 (trixie)" ];
+    };
+  };
+
   resource.vultr_instance.${hostname} = {
     label = hostname;
     region = "sgp";
     plan = "vc2-2c-4gb";
-    # Debian 12
-    os_id = 2136;
+    os_id = config.data.vultr_os.debian "id";
     enable_ipv6 = true;
     ssh_key_ids = [
       (config.resource.vultr_ssh_key.terraform "id")
       (config.resource.vultr_ssh_key.enzime "id")
     ];
     backups = "disabled";
-  };
-
-  resource.tailscale_tailnet_key.terraform = {
-    description = "Terraform";
-    expiry = 7776000; # 90 days
-    reusable = true;
-    preauthorized = true;
-    recreate_if_invalid = "always";
-
-    provisioner.local-exec = {
-      command =
-        "echo '${config.resource.tailscale_tailnet_key.terraform "key"}' | ${
-          lib.getExe clan
-        } vars set --debug ${hostname} tailscale/auth-key";
-    };
   };
 
   resource.tailscale_oauth_client."hoopsnake-${hostname}" = {
@@ -97,7 +70,10 @@ in {
     triggers = {
       instance_id = config.resource.vultr_instance.${hostname} "id";
     };
-    depends_on = [ "tailscale_tailnet_key.terraform" ];
+    depends_on = [
+      "tailscale_tailnet_key.terraform"
+      "tailscale_oauth_client.hoopsnake-${hostname}"
+    ];
     provisioner.local-exec = {
       command = let
         targetHost =
@@ -131,6 +107,7 @@ in {
         mv machines/${host}/facter.json hosts/${host}
         rm -d machines/${host}
         rm -d machines
+        git add --intent-to-add machines/gaia/facter.json
 
         ${lib.getExe clan} machines install ${hostname} \
           --target-host ${targetHost} \

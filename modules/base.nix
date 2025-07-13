@@ -11,7 +11,7 @@ let
       nix.channel.enable = false;
 
       environment.systemPackages = (builtins.attrValues {
-        inherit (pkgs) killall wget ranger zip unzip sshfs;
+        inherit (pkgs) killall nix-output-monitor ranger sshfs unzip wget zip;
       }) ++ [
         inputs.home-manager.packages.${pkgs.system}.default
         inputs.clan-core.packages.${pkgs.system}.default
@@ -103,7 +103,7 @@ in {
     "xdg"
   ];
 
-  nixosModule = { config, user, ... }: {
+  nixosModule = { config, user, hostname, lib, ... }: {
     imports = [ shared ];
 
     i18n.defaultLocale = "en_AU.UTF-8";
@@ -117,8 +117,6 @@ in {
     programs.neovim.vimAlias = true;
     programs.neovim.defaultEditor = true;
 
-    networking.useDHCP = true;
-
     networking.firewall.trustedInterfaces =
       [ config.services.tailscale.interfaceName ];
 
@@ -127,6 +125,24 @@ in {
     users.users.${user} = {
       isNormalUser = true;
       extraGroups = [ "wheel" ];
+    };
+
+    image.modules.iso-installer = {
+      networking.hostName = lib.mkForce "${hostname}-installer";
+
+      # Use `<user>` instead of `nixos`
+      users.users.nixos.enable = false;
+
+      services.getty.autologinUser = lib.mkForce user;
+
+      users.users.${user} = {
+        hashedPasswordFile = lib.mkForce null;
+        # `su`, `swaylock` and `polkit` are all broken with an empty password
+        password = "apple";
+        extraGroups = [ "networkmanager" ];
+      };
+
+      users.users.root.hashedPasswordFile = lib.mkForce null;
     };
   };
 

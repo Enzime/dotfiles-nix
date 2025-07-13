@@ -64,10 +64,14 @@
     services.tailscale.authKeyFile =
       config.clan.core.vars.generators.tailscale.files.auth-key.path;
 
-    users.mutableUsers = false;
-
     services.syncthing.dataDir =
       "/persist${config.users.users.${user}.home}/Sync";
+
+    image.modules.iso-installer = {
+      preservation.enable = lib.mkForce false;
+
+      boot.initrd.systemd.enable = lib.mkForce false;
+    };
   };
 
   homeModule = {

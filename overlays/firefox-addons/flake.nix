@@ -16,12 +16,24 @@
             inherit (prev) fetchurl lib stdenv;
           };
       in {
-        firefox-addons = addons // (let inherit (prev.lib) mapAttrs;
+        firefox-addons = addons // (let
+          inherit (prev.lib) mapAttrs;
+          inherit (addons) buildFirefoxXpiAddon;
         in mapAttrs (name: addon:
           if addons ? ${name} then
             throw "firefox-addons.${name} already exists"
           else
-            addon) { });
+            addon) {
+              purple-private-windows = buildFirefoxXpiAddon {
+                pname = "purple-private-windows";
+                version = "1.1";
+                addonId = "purplePrivateWindows@waldemar.b";
+                url =
+                  "https://addons.mozilla.org/firefox/downloads/file/3423600/purple_private_windows-1.1.xpi";
+                sha256 = "sha256-FMu5tY7PwPTpUzrnbK2igfJhSCKUb1OMSPIhjIBwLok=";
+                meta = { };
+              };
+            });
       };
   };
 }

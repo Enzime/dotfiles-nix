@@ -6,7 +6,7 @@
     ./devShells.nix
     ./formatter.nix
     ./lib.nix
-    ./terraform.nix
+    ./terranix.nix
     ./vm.nix
   ];
 }

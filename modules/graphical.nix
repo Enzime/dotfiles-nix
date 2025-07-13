@@ -36,8 +36,8 @@ in {
       hideSpaceNumberLabels = "true";
       # Only show windows from current space
       spacesToShow = 1;
-      hideWindowlessApps = "true";
-      holdShortcut = "\\u2318";
+      showWindowlessApps = 1;
+      holdShortcut = "⌘";
       startAtLogin = "false";
 
       blacklist = lib.generators.toJSON { } [
@@ -143,9 +143,20 @@ in {
             pkgs.firefox-addons.web-archives
           ];
 
-        # Disable tab bar when using vertical tabs
         userChrome = ''
-          #TabsToolbar { visibility: collapse !important; }
+          /* Disable tab bar when using Tree Style Tabs panel is open
+            https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-horizontal-tabs-at-the-top-of-the-window-1349-1672-2147 */
+
+          html#main-window body:has(#sidebar-box[sidebarcommand=treestyletab_piro_sakura_ne_jp-sidebar-action][checked=true]:not([hidden=true])) #TabsToolbar {
+            visibility: collapse !important;
+          }
+
+          /* Hide header at the top of the Tree Style Tabs panel
+            https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-the-tree-style-tab-header-at-the-top-of-the-sidebar */
+
+          #sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+            display: none;
+          }
         '';
       };
 

@@ -41,21 +41,29 @@
       };
     };
 
-  homeModule = { pkgs, lib, ... }:
+  homeModule = { config, pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) optionalAttrs;
     in {
       home.packages = builtins.attrValues ({
-        inherit (pkgs) gramps;
+        inherit (pkgs) gh gramps nixpkgs-review;
       } // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64)
         || hostPlatform.isDarwin) {
           # not currently built for `aarch64-linux`
-          inherit (pkgs) joplin-desktop;
+          joplin-desktop =
+            assert (hostPlatform.isLinux && hostPlatform.isAarch64)
+              -> !pkgs.joplin-desktop.meta.available;
+            pkgs.joplin-desktop;
         }
         // optionalAttrs hostPlatform.isDarwin { inherit (pkgs) sequential; });
 
       programs.firefox.profiles.personal.isDefault = true;
+
+      home.file."Documents/iCloud" = lib.mkIf hostPlatform.isDarwin {
+        source = config.lib.file.mkOutOfStoreSymlink
+          "${config.home.homeDirectory}/Library/Mobile Documents/com~apple~CloudDocs/Documents";
+      };
 
       preservation.directories = [ ".config/joplin-desktop" ".gramps" ];
     };

@@ -56,7 +56,8 @@
           pkgs.firefox-addons.clearurls
           pkgs.firefox-addons.ublock-origin
           pkgs.firefox-addons.youtube-nonstop
-          pkgs.firefox-addons.kagi-privacy-pass
+          pkgs.firefox-addons.kagi-search
+          pkgs.firefox-addons.purple-private-windows
         ];
 
         search = {

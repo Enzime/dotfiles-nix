@@ -1,10 +1,17 @@
-{ config, ... }:
+{ options, config, pkgs, lib, ... }:
 
 {
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  imports = [{
+    config = lib.optionalAttrs (options ? clan) {
+      clan.core.vars.generators.luks = {
+        files.password.neededFor = "partitioning";
+        runtimeInputs = [ pkgs.coreutils pkgs.xkcdpass ];
+        script = ''
+          xkcdpass --numwords 6 --random-delimiters --valid-delimiters='1234567890!@#$%^&*()-_+=,.<>/?' --case random | tr -d "\n" > $out/password
+        '';
+      };
+    };
+  }];
 
   disko.devices = {
     disk.primary = {
@@ -28,8 +35,8 @@
           content = {
             type = "luks";
             name = "crypted";
-            passwordFile = "/tmp/secret.key";
-            askPassword = config.disko.testMode;
+            passwordFile =
+              config.clan.core.vars.generators.luks.files.password.path;
             content = {
               type = "zfs";
               pool = "rpool";
@@ -84,5 +91,10 @@
     serviceConfig = {
       ExecStart = [ "${config.boot.zfs.package}/sbin/zfs mount -a -o remount" ];
     };
+  };
+
+  virtualisation.vmVariantWithDisko = {
+    disko.devices.disk.primary.content.partitions.luks.content.passwordFile =
+      lib.mkForce (toString (pkgs.writeText "password" "apple"));
   };
 }

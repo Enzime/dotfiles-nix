@@ -70,12 +70,6 @@ in {
           htpasswd -niBC 10 "" < "$out"/password | tr -d ':\n' > "$out"/password-hash
         '';
       };
-
-      # We still want to use the SSH host keys even if we disable OpenSSH
-      sops.age.sshKeyPaths = lib.mkIf (!config.services.openssh.enable)
-        (lib.optionals (!config.services.openssh.enable)
-          (assert options.sops.age.sshKeyPaths.default == [ ];
-            [ "/etc/ssh/ssh_host_ed25519_key" ]));
     };
   };
 

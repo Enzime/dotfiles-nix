@@ -1,3 +1,31 @@
+- Removed warning when using `nixfmt-classic` through `treefmt-nix`
+- Fixed `iCloud` symlink being created on Linux
+- Added assert guard for when `joplin-desktop` is available on `aarch64-linux`
+- Added `nom` and `nixpkgs-review`
+- Fixed AltTab on macOS not starting
+- Fixed `eris` trying to use non-existent SSH host keys
+- Use `services.logind.settings.Login` instead of `services.logind.extraConfig`
+- Fixed `kexec` sometimes failing after first boot by using Debian 13 instead of Debian 12
+- Use `vultr_os` to get the Operating System ID from Vultr
+- Added `iCloud` symlink inside `~/Documents` on macOS
+- Use `virtualisation.vmVariantWithDisko` to override the `disko` configuration in VMs with `disko`
+- Fixed Kagi not logged in when using private browsing
+- Use Firefox addon to make private windows purple
+- Disabled Firefox sidebar header when using Tree Style Tabs
+- Changed Firefox tab bar to show when not using Tree Style Tabs
+- Disabled `hoopsnake` on `sigma` as that was causing wireless to not work
+- Use `lutris` `home-manager` module
+- Use low prio version of Clan binary cache to use other substituters when possible
+- Fixed `on.<system>` not extending `virtualization.vmVariant`
+- Fixed installer ISO not building with machines using LUKS
+- Use `<user>` instead of `nixos` on installer ISO
+- Use `unsafeDiscardReferences` to drop references to the build closure for ISO images
+- Use `nixos-facter` on `sigma`
+- Removed explicitly setting `networking.useDHCP` as it matches the defaults
+- Use `image.modules.iso-installer` to configure `system.build.images.iso-installer`
+- Replaced `{gaia,sigma}-{apply,destroy}` with `tf-{apply,destroy}` to manage everything at once
+- Added `terraformConfigurations.<system>.everything` to share Terraform state between multiple machines
+- Refactored shared Terraform code into `base` module
 - Removed `networking.networkmanager.enableDefaultPlugins`
 - Use `nixVersions.latest` for `cached-nix-fmt` for `nix formatter build`
 - Disabled `hoopsnake` in VMs as initrd secrets are not supported in VMs yet

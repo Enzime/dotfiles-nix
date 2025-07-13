@@ -1,4 +1,4 @@
-{ user, pkgs, lib, ... }:
+{ user, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -11,9 +11,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostId = "215212b4";
-
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 true;
 
   nix.registry.ln.to = {
     type = "git";

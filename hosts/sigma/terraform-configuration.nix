@@ -1,85 +1,62 @@
-{ config, inputs, hostname, keys, pkgs, lib, ... }:
+{ host, hostname, ... }:
+{ config, inputs', lib, ... }:
 
-{
-  terraform.required_providers.onepassword.source = "1Password/onepassword";
-  terraform.required_providers.local.source = "hashicorp/local";
-  terraform.required_providers.tailscale.source = "tailscale/tailscale";
+let clan = inputs'.clan-core.packages.clan-cli;
+in {
+  resource.tailscale_oauth_client."hoopsnake-${hostname}" = {
+    description = "Hoopsnake on ${hostname}";
+    scopes = [ "auth_keys" "devices:core" ];
+    tags = [ "tag:initrd" ];
 
-  provider.onepassword.account = "my.1password.com";
+    provisioner.local-exec = {
+      command = ''
+        set -ex
 
-  data.onepassword_item.tailscale_api_key = {
-    vault = "r3fgka56ukyvdslqp3jxc37e3q";
-    uuid = "he4ygqtulfjb7dhhk3chvhrdge";
-  };
+        echo '${lib.tf.ref "self.id"}' | ${
+          lib.getExe clan
+        } vars set --debug ${hostname} hoopsnake/tailscale-client-id
 
-  provider.tailscale.api_key =
-    config.data.onepassword_item.tailscale_api_key "credential";
-
-  resource.tailscale_tailnet_key.terraform = {
-    description = "Terraform";
-    expiry = 86400; # 1 day
-    reusable = false;
-    recreate_if_invalid = "always";
-  };
-
-  resource.onepassword_item.tailscale_auth_key = {
-    vault = "r3fgka56ukyvdslqp3jxc37e3q";
-    title = "Tailscale Auth key";
-    category = "password";
-    password = config.resource.tailscale_tailnet_key.terraform "key";
-  };
-
-  module.install = {
-    source = "${inputs.nixos-anywhere}/terraform/install";
-    target_host = hostname;
-    flake = ".#${hostname}";
-    build_on_remote = pkgs.system
-      != inputs.self.nixosConfigurations.${hostname}.pkgs.system;
-    extra_environment = {
-      TAILSCALE_AUTH_KEY_UUID =
-        config.resource.onepassword_item.tailscale_auth_key "uuid";
-    };
-    disk_encryption_key_scripts = [{
-      path = "/tmp/secret.key";
-      script = lib.getExe (pkgs.writeShellApplication {
-        name = "get-luks-passphrase";
-        text = ''
-          askPassword() {
-            IFS= read -r -e -p "Enter LUKS passphrase: " -s password < /dev/tty
-            echo >&2
-            IFS= read -r -e -p "Enter LUKS passphrase again: " -s password_check < /dev/tty
-            [ "$password" = "$password_check" ]
-          }
-
-          until askPassword; do
-            echo "Passwords did not match, please try again." >&2
-          done
-
-          echo "$password"
-        '';
-      });
-    }];
-    extra_files_script = lib.getExe (pkgs.writeShellApplication {
-      name = "extra-files";
-      # 1Password CLI requires setgid so we want to use the one from the system
-      text = ''
-        mkdir -p persist/etc/ssh
-        op read "op://o3urqzwged2afsdmxqkjjazstq/cbhneyjvapzvchxywtz6xgrchq/private key?ssh-format=openssh" | sed 's/\r$//' > persist/etc/ssh/ssh_host_ed25519_key
-        chmod 400 persist/etc/ssh/ssh_host_ed25519_key
-        echo "${
-          keys.hosts.${hostname}
-        }" > persist/etc/ssh/ssh_host_ed25519_key.pub
-        chmod 444 persist/etc/ssh/ssh_host_ed25519_key.pub
-      '' + (lib.optionalString (keys.signing ? ${hostname}) ''
-        mkdir -p etc/nix
-        op read "op://r3fgka56ukyvdslqp3jxc37e3q/kfbpbjzox2h2qapi74p5dzqld4/key" > etc/nix/key
-        chmod 400 etc/nix/key
-        echo "${keys.signing.${hostname}}" > etc/nix/key.pub
-        chmod 444 etc/nix/key.pub
-      '') + ''
-        op read "op://r3fgka56ukyvdslqp3jxc37e3q/$TAILSCALE_AUTH_KEY_UUID/password" > persist/tailscale.key
-        chmod 400 persist/tailscale.key
+        echo '${lib.tf.ref "self.key"}' | ${
+          lib.getExe clan
+        } vars set --debug ${hostname} hoopsnake/tailscale-client-secret
       '';
-    });
+    };
+  };
+
+  resource.null_resource."install-${hostname}" = {
+    depends_on = [
+      "tailscale_tailnet_key.terraform"
+      "tailscale_oauth_client.hoopsnake-${hostname}"
+    ];
+    provisioner.local-exec = {
+      command = let targetHost = "root@sigma-installer";
+      in ''
+        set -ex
+
+        # Remove this section when `clan machines install --update-hardware-config nixos-facter`
+        # supports writing to `hosts/<host>/facter.json`
+        ${lib.getExe clan} machines install ${hostname} \
+          --update-hardware-config nixos-facter \
+          --target-host ${targetHost} \
+          -i '${
+            config.resource.local_sensitive_file.ssh_deploy_key "filename"
+          }' \
+          --phases kexec \
+          --yes --debug
+
+        mv machines/${host}/facter.json hosts/${host}
+        rm -d machines/${host}
+        rm -d machines
+
+        ${lib.getExe clan} machines install ${hostname} \
+          --target-host ${targetHost} \
+          --build-on remote \
+          -i '${
+            config.resource.local_sensitive_file.ssh_deploy_key "filename"
+          }' \
+          --phases disko,install,reboot \
+          --yes --debug
+      '';
+    };
   };
 }

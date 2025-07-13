@@ -1,5 +1,5 @@
 {
-  nixosModule = { inputs, lib, extendModules, ... }:
+  nixosModule = { config, inputs, lib, extendModules, ... }:
     let
       systems = import inputs.systems;
 
@@ -10,6 +10,8 @@
 
     in {
       options = {
+        extendModules = lib.mkOption { default = extendModules; };
+
         as = forLinuxSystems (system:
           lib.mkOption {
             description = ''
@@ -28,7 +30,7 @@
             description = ''
               Extra configuration when using `on.${system}`
             '';
-            inherit (extendModules {
+            inherit (config.virtualisation.vmVariant.extendModules {
               modules = [
                 (let
                   shared = { pkgs, ... }: {

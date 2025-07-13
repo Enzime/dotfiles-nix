@@ -13,7 +13,7 @@
       } --config ${
         pkgs.writeText "greetd-sway-config" ''
           exec "${lib.getExe pkgs.wayvnc} &"
-          exec "${lib.getExe pkgs.greetd.regreet}; swaymsg exit"
+          exec "${lib.getExe pkgs.regreet}; swaymsg exit"
 
           include /etc/sway/config.d/*
         ''

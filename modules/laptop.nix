@@ -38,11 +38,11 @@
         KEYBOARD_KEY_3a=esc
     '';
 
-    services.logind.extraConfig = ''
-      HandlePowerKey=lock
-      HandleLidSwitch=suspend-then-hibernate
-      HandleLidSwitchExternalPower=lock
-    '';
+    services.logind.settings.Login = {
+      HandlePowerKey = "lock";
+      HandleLidSwitch = "suspend-then-hibernate";
+      HandleLidSwitchExternalPower = "lock";
+    };
 
     systemd.sleep.extraConfig = ''
       HibernateDelaySec=5m

@@ -33,10 +33,8 @@
           content = {
             type = "luks";
             name = "crypted";
-            passwordFile = if !config.disko.testMode then
-              config.clan.core.vars.generators.luks.files.password.path
-            else
-              toString (pkgs.writeText "password" "apple");
+            passwordFile =
+              config.clan.core.vars.generators.luks.files.password.path;
             content = {
               type = "zfs";
               pool = "rpool";
@@ -91,5 +89,10 @@
     serviceConfig = {
       ExecStart = [ "${config.boot.zfs.package}/sbin/zfs mount -a -o remount" ];
     };
+  };
+
+  virtualisation.vmVariantWithDisko = {
+    disko.devices.disk.primary.content.partitions.luks.content.passwordFile =
+      lib.mkForce (toString (pkgs.writeText "password" "apple"));
   };
 }

@@ -54,6 +54,7 @@ in {
         roles.default.machines.phi-nixos.settings.networks = {
           home.autoConnect = false;
           hotspot.autoConnect = false;
+          jaden.autoConnect = false;
         };
       };
     };

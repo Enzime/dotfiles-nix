@@ -38,7 +38,7 @@
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nixos-anywhere.inputs.treefmt-nix.follows = "";
 
-  inputs.preservation.url = "github:Enzime/preservation/home-manager";
+  inputs.preservation.url = "github:nix-community/preservation";
 
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -52,10 +52,10 @@
   # This causes a stack overflow when set to empty string or relative path inputs
   inputs.clan-core.inputs.treefmt-nix.follows = "flake-compat";
 
-  inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
+  inputs.treefmt-nix.url = "github:numtide/treefmt-nix/pull/407/merge";
   inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.hoopsnake.url = "github:boinkor-net/hoopsnake/pull/114/merge";
+  inputs.hoopsnake.url = "github:boinkor-net/hoopsnake";
   inputs.hoopsnake.inputs.flake-parts.follows = "flake-parts";
   inputs.hoopsnake.inputs.devshell.follows = "";
   inputs.hoopsnake.inputs.generate-go-sri.follows = "";

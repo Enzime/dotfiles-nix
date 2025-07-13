@@ -11,6 +11,10 @@
 
     config = {
       virtualisation.allVmVariants = { user, config, ... }: {
+        # Prevent module from getting imported twice when using `nixosConfigurations.<host>.config.on.<system>.system.build.vmWithDisko`
+        # which leads to QEMU options being repeated
+        key = "vm#allVmVariants";
+
         home-manager.sharedModules = [
           ({ lib, ... }: {
             services.polybar.config."bar/centre".monitor =
@@ -73,6 +77,9 @@
         programs.sway.extraSessionCommands = ''
           export WLR_NO_HARDWARE_CURSORS=1
         '';
+
+        facter.report =
+          lib.mkOptionDefault { virtualisation = lib.mkForce "qemu"; };
       };
 
       virtualisation.vmVariant = config.virtualisation.allVmVariants;
@@ -82,8 +89,6 @@
 
       virtualisation.vmVariantWithDisko = {
         imports = [ config.virtualisation.allVmVariants ];
-
-        disko.testMode = true;
 
         virtualisation.fileSystems = lib.mkIf config.preservation.enable {
           "/persist".neededForBoot = true;

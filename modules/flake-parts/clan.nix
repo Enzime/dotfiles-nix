@@ -60,6 +60,7 @@
         };
         roles.default.settings.networks.home = { };
         roles.default.settings.networks.hotspot = { };
+        roles.default.settings.networks.jaden = { };
         roles.default.tags.wireless-personal = { };
       };
     };
