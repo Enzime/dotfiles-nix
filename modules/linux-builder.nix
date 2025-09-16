@@ -1,5 +1,5 @@
 {
-  darwinModule = { host, keys, options, config, extendModules, pkgs, lib, ... }:
+  darwinModule = { host, keys, extendModules, pkgs, lib, ... }:
     let
       withoutLinuxBuilderVariant = extendModules {
         modules = [{ nix.linux-builder.enable = lib.mkForce false; }];

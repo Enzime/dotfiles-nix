@@ -5,7 +5,7 @@
       networking.hostName = mkVMOverride "${hostname}-vm";
     };
 
-  nixosModule = { config, pkgs, lib, ... }: {
+  nixosModule = { config, lib, ... }: {
     options.virtualisation.allVmVariants =
       lib.mkOption { type = lib.types.deferredModule; };
 
