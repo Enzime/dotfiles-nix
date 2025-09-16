@@ -227,6 +227,7 @@
           "editor.guides.bracketPairs" = true;
 
           "terminal.integrated.scrollback" = 1000000;
+          "terminal.integrated.stickyScroll.enabled" = false;
 
           "files.associations" = {
             "flake.lock" = "json";

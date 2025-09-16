@@ -12,7 +12,7 @@
     programs.evince.enable = true;
   };
 
-  homeModule = { config, pkgs, lib, ... }:
+  homeModule = { pkgs, lib, ... }:
     let
       sharedConfig = {
         bars = [ ];

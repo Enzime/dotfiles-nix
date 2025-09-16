@@ -35,7 +35,7 @@
       sshUser = "builder";
       sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
       system = "x86_64-linux";
-      supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+      supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
       maxJobs = 96;
     }
     {
@@ -44,7 +44,7 @@
       sshUser = "builder";
       sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
       system = "aarch64-linux";
-      supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+      supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
       maxJobs = 96;
     }
   ];

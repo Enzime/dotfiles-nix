@@ -1,3 +1,11 @@
+- Use `hash` instead of `sha256` as argument to fetchers
+- Fixed `iina` not launching from `ranger`
+- Removed `zed-editor`
+- Use latest version of `nixos-anywhere` when running `clan machines install`
+- Fixed first line of `jj log` being shadowed in the builtin VSCode terminal
+- Fixed NixOS tests not being built on remote builders
+- Fixed activation time secrets not being accessible when installing
+- Fixed `hoopsnake` trying to use EOL Go version
 - Removed warning when using `nixfmt-classic` through `treefmt-nix`
 - Fixed `iCloud` symlink being created on Linux
 - Added assert guard for when `joplin-desktop` is available on `aarch64-linux`

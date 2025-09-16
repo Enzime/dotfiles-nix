@@ -15,7 +15,7 @@ in {
             owner = "airodactyl";
             repo = "hybrid-krompus.vim";
             rev = "1b008739e0fcc04c69f0a71e222949f38bf3fada";
-            sha256 = "sha256-ZOuuHeeZaIZVVdf1mh35Y4WaVTWVYXboG0+l/GscVUg=";
+            hash = "sha256-ZOuuHeeZaIZVVdf1mh35Y4WaVTWVYXboG0+l/GscVUg=";
           };
           meta.homepage = "https://github.com/airodactyl/hybrid-krompus.vim";
         };
@@ -27,7 +27,7 @@ in {
             owner = "airodactyl";
             repo = "neovim-ranger";
             rev = "8726761cb7582582e60f3b1ee6498acc6d3c03a7";
-            sha256 = "sha256-gHFO39R5/YdJ2wm5x3pjNZF30HOWLHmH/bcou920IwY=";
+            hash = "sha256-gHFO39R5/YdJ2wm5x3pjNZF30HOWLHmH/bcou920IwY=";
           };
           meta.homepage = "https://github.com/airodactyl/neovim-ranger";
         };
@@ -39,7 +39,7 @@ in {
             owner = "haya14busa";
             repo = "vim-operator-flashy";
             rev = "b24673a9b0d5d60b26d202deb13d4ebf90d7a2ae";
-            sha256 = "sha256-CGU7wzr2SQHH0oT9S5Oj3K1XxznRNAA9qdi7QNlRW4A=";
+            hash = "sha256-CGU7wzr2SQHH0oT9S5Oj3K1XxznRNAA9qdi7QNlRW4A=";
           };
           meta.homepage = "https://github.com/haya14busa/vim-operator-flashy";
         };

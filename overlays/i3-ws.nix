@@ -10,7 +10,7 @@ self: super: {
         owner = "Enzime";
         repo = pname;
         rev = "bca34b6b10509088ceac03fb9a1ef27808165ccb";
-        sha256 = "1i014hsi80wsaxmdpl8ccwhpvnclkl14w4r0mbci3yqap8a32wgn";
+        hash = "1i014hsi80wsaxmdpl8ccwhpvnclkl14w4r0mbci3yqap8a32wgn";
         fetchSubmodules = true;
       };
 

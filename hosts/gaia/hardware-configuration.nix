@@ -61,6 +61,8 @@
 
         postCreateHook =
           "zfs list -t snapshot -H -o name | grep -E '^rpool/root@blank$' || zfs snapshot rpool/root@blank";
+        postMountHook =
+          "mkdir -p ${config.disko.rootMountPoint}/var/lib/sops-nix";
       };
 
       datasets.nix = {
@@ -71,6 +73,11 @@
       datasets.persist = {
         type = "zfs_fs";
         mountpoint = "/persist";
+
+        postMountHook = ''
+          mkdir -p ${config.disko.rootMountPoint}/persist/var/lib/sops-nix
+          mount --bind ${config.disko.rootMountPoint}/persist/var/lib/sops-nix ${config.disko.rootMountPoint}/var/lib/sops-nix
+        '';
       };
 
       datasets.logs = {

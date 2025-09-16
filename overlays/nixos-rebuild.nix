@@ -6,7 +6,7 @@ self: super: {
           name = "fix-cross-building-flakes.patch";
           url =
             "https://github.com/Enzime/nixpkgs/commit/8f7debeafaff06c2a5f039402d207712f2001770.patch";
-          sha256 = "sha256-7ZS6RLqrekftJVx4C/OSLcESAwS5kaIxw9tujkI4YXo=";
+          hash = "sha256-7ZS6RLqrekftJVx4C/OSLcESAwS5kaIxw9tujkI4YXo=";
         })
       ];
     in {
