@@ -1,3 +1,4 @@
+- Fixed `hoopsnake` trying to use EOL Go version
 - Removed warning when using `nixfmt-classic` through `treefmt-nix`
 - Fixed `iCloud` symlink being created on Linux
 - Added assert guard for when `joplin-desktop` is available on `aarch64-linux`

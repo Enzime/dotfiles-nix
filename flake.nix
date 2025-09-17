@@ -55,7 +55,7 @@
   inputs.treefmt-nix.url = "github:numtide/treefmt-nix/pull/407/merge";
   inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.hoopsnake.url = "github:boinkor-net/hoopsnake";
+  inputs.hoopsnake.url = "github:boinkor-net/hoopsnake/pull/119/merge";
   inputs.hoopsnake.inputs.flake-parts.follows = "flake-parts";
   inputs.hoopsnake.inputs.devshell.follows = "";
   inputs.hoopsnake.inputs.generate-go-sri.follows = "";
