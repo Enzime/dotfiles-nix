@@ -58,6 +58,7 @@
 
   services.nextcloud.home = "/data/Nextcloud";
 
+  services.tailscale.extraSetFlags = [ "--advertise-exit-node" ];
   services.tailscale.useRoutingFeatures = "both";
 
   services.syncthing.dataDir = "${config.users.users.${user}.home}/sync";

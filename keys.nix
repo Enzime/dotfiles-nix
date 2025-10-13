@@ -2,6 +2,8 @@
   users = {
     enzime =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINKZfejb9htpSB5K9p0RuEowErkba2BMKaze93ZVkQIE";
+    nathan =
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF/8b0o0mOY2IAadhWxLzDqunZUa9cqh+amVxExKD5co";
   };
 
   hosts = {

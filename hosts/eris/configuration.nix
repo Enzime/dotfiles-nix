@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ user, keys, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -7,14 +7,17 @@
 
   networking.hostId = "536c3bf5";
 
-  services.openssh.enable = lib.mkForce false;
-
-  # `extraUpFlags` without `authKeyFile` isn't currently supported
-  # services.tailscale.extraUpFlags = [ "--ssh" "--advertise-tags" "tag:eris" "--advertise-exit-node" ];
+  services.tailscale.extraSetFlags = [ "--advertise-exit-node" ];
+  services.tailscale.extraUpFlags = [ "--advertise-tags" "tag:eris" ];
   services.tailscale.useRoutingFeatures = "server";
 
   zramSwap.enable = true;
   zramSwap.memoryPercent = 250;
+
+  users.users.${user} = {
+    openssh.authorizedKeys.keys =
+      builtins.attrValues { inherit (keys.users) nathan; };
+  };
 
   # Check that this can be bumped before changing it
   system.stateVersion = "23.11";

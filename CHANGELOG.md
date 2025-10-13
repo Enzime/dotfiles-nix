@@ -1,3 +1,6 @@
+- Use new Clan `niks3` cache
+- Use `services.tailscale.extra{Set,Up}Flags`
+- Fixed `i3-ws` not using SRI hash
 - Use `hash` instead of `sha256` as argument to fetchers
 - Fixed `iina` not launching from `ranger`
 - Removed `zed-editor`

@@ -1,7 +1,7 @@
 let
   shared = { keys, ... }: {
     nix.settings.substituters =
-      [ "https://enzime.cachix.org" "https://cache-low-prio.clan.lol" ];
+      [ "https://enzime.cachix.org" "https://cache.clan.lol" ];
     nix.settings.trusted-public-keys = builtins.attrValues {
       inherit (keys.signing) aether chi-linux-builder echo;
 
