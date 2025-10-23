@@ -3,7 +3,7 @@
     environment.systemPackages = builtins.attrValues { inherit (pkgs) iina; };
   };
 
-  homeModule = { pkgs, ... }: {
+  homeModule = {
     programs.mpv.enable = true;
     programs.mpv.bindings = {
       "BS" = "cycle pause";
@@ -58,8 +58,5 @@
       osc = "no";
       osd-bar = "no";
     };
-
-    home.file.".mozilla/native-messaging-hosts/ff2mpv.json".source =
-      "${pkgs.ff2mpv}/lib/mozilla/native-messaging-hosts/ff2mpv.json";
   };
 }

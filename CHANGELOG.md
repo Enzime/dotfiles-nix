@@ -1,3 +1,6 @@
+- Disabled address autofill in Firefox
+- Added `consent-o-matic` Firefox extension
+- Removed `ff2mpv`, `hover-zoom-plus` and `web-archives` Firefox extensions
 - Use new Clan `niks3` cache
 - Use `services.tailscale.extra{Set,Up}Flags`
 - Fixed `i3-ws` not using SRI hash

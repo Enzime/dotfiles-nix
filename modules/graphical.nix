@@ -127,8 +127,6 @@ in {
         extensions.packages =
           config.programs.firefox.profiles.base.extensions.packages ++ [
             pkgs.firefox-addons.copy-selected-links
-            pkgs.firefox-addons.ff2mpv
-            pkgs.firefox-addons.hover-zoom-plus
             pkgs.firefox-addons.improved-tube
             pkgs.firefox-addons.multi-account-containers
             pkgs.firefox-addons.old-reddit-redirect
@@ -139,7 +137,6 @@ in {
             pkgs.firefox-addons.translate-web-pages
             pkgs.firefox-addons.tree-style-tab
             pkgs.firefox-addons.tst-wheel-and-double
-            pkgs.firefox-addons.web-archives
           ];
 
         userChrome = ''

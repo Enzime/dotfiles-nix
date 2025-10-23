@@ -58,6 +58,7 @@
           pkgs.firefox-addons.youtube-nonstop
           pkgs.firefox-addons.kagi-search
           pkgs.firefox-addons.purple-private-windows
+          pkgs.firefox-addons.consent-o-matic
         ];
 
         search = {
@@ -87,6 +88,7 @@
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "app.normandy.enabled" = false;
           "signon.firefoxRelay.feature" = "disabled";
+          "extensions.formautofill.addresses.enabled" = false;
 
           "browser.aboutConfig.showWarning" = false;
 
