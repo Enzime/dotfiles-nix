@@ -2,6 +2,7 @@
 result
 /.pre-commit-config.yaml
 config.tf.json
+terragrunt.hcl.json
 .terraform*
 *.tfstate*
 *.qcow2

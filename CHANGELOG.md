@@ -1,3 +1,16 @@
+- Use `restic` to back up `phi-nixos`
+- Migrated DNS from zone.ee to deSEC
+- Added B2 bucket for `restic`
+- Removed unused 1Password provider from Terraform
+- Use custom OpenTofu external key provider instead of passing in passphrase as a variable
+- Migrated Terraform local state file to encrypted remote state in Backblaze B2
+- Fixed `terragrunt` not supporting custom `endpoints` for remote state backends
+- Use `terragrunt`
+- Fixed OpenTofu always updating the SSH public key on Vultr even when it didn't change
+- Fixed `Shift-Enter` not working in `claude-code` inside Ghostty
+- Added `zellij`
+- Added `masked-email-manager` Firefox extension
+- Added `claude-code`
 - Disabled address autofill in Firefox
 - Added `consent-o-matic` Firefox extension
 - Removed `ff2mpv`, `hover-zoom-plus` and `web-archives` Firefox extensions

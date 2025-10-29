@@ -20,6 +20,8 @@
       quit-after-last-window-closed = true;
 
       auto-update = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "off";
+
+      keybind = "shift+enter=text:\\n";
     };
 
     programs.ghostty.themes.hybrid-krompus = {

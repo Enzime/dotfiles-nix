@@ -6,22 +6,6 @@
     in {
       imports = [{
         config = lib.optionalAttrs (options ? clan) {
-          clan.core.vars.generators.acme-zoneee = {
-            share = true;
-            prompts.api-user.persist = true;
-            prompts.api-key.persist = true;
-
-            files.api-user.deploy = false;
-            files.api-key.deploy = false;
-            files.credentials = { };
-
-            script = ''
-              touch "$out"/credentials
-              printf >>"$out"/credentials "ZONEEE_API_USER=%s\n" "$(cat "$prompts"/api-user)"
-              printf >>"$out"/credentials "ZONEEE_API_KEY=%s\n" "$(cat "$prompts"/api-key)"
-            '';
-          };
-
           clan.core.vars.generators.nextcloud = {
             files.admin-password = { };
             runtimeInputs = [ pkgs.coreutils pkgs.xkcdpass ];
@@ -45,15 +29,9 @@
           config.clan.core.vars.generators.nextcloud.files.admin-password.path;
       };
 
-      security.acme.certs.${hostname} = {
-        dnsProvider = "zoneee";
-        credentialsFile =
-          config.clan.core.vars.generators.acme-zoneee.files.credentials.path;
-      };
-
       services.nginx.virtualHosts.${hostname} = {
         forceSSL = true;
-        useACMEHost = hostname;
+        enableACME = true;
       };
 
       users.users.${user}.extraGroups = [ "nextcloud" ];

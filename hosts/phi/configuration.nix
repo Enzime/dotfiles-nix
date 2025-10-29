@@ -63,6 +63,9 @@
 
   services.syncthing.dataDir = "${config.users.users.${user}.home}/sync";
 
+  services.restic.backups.b2.paths = [ "/" ];
+  services.restic.backups.b2.exclude = [ "/os/windows/*" ];
+
   # Check that this can be bumped before changing it
   system.stateVersion = "22.05";
 }

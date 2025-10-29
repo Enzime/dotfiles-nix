@@ -8,7 +8,7 @@ in {
       user = "enzime";
       system = "aarch64-darwin";
       modules =
-        builtins.attrNames { inherit (modules) android laptop personal; };
+        builtins.attrNames { inherit (modules) ai android laptop personal; };
     }
     {
       host = "phi";
@@ -17,8 +17,8 @@ in {
       system = "x86_64-linux";
       modules = builtins.attrNames {
         inherit (modules)
-          android bluetooth deluge nextcloud personal printers samba scanners
-          sway wireless virt-manager;
+          android bluetooth deluge nextcloud personal printers restic samba
+          scanners sway wireless virt-manager;
       };
       tags = [ "wireless-personal" ];
     }

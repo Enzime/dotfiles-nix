@@ -21,7 +21,7 @@ self: super: {
         (super.fetchpatch {
           name = "fix-iina-from-rifle.patch";
           url =
-            "https://github.com/ranger/ranger/pull/3141/commits/c0a473ca41c2025c53859e0cf33da825025b2299.patch";
+            "https://github.com/ranger/ranger/pull/3141/commits/f18096b0bd1d65c33edcddeab734acfbb19bb2dd.patch";
           hash = "sha256-i4nfxd0caIZWksHX8Qr0wE++Iuwa4VkId+kxBGzR3Jg=";
         })
       ];

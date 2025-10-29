@@ -1,0 +1,62 @@
+## General Guidelines
+
+- Follow XDG desktop standards
+- Regularly reason about security implications of the code
+- Use `$HOME/.claude/outputs` as a scratch directory.
+- In the Bash tool use absolute paths over `cd`
+
+## Nix-specific
+
+- Use `--log-format bar-with-logs` with Nix for improved build log output.
+- Add new untracked files in Nix flakes with `git add`.
+- The version of nix doesn't support the `--rebuild` flag.
+- Prefer nix to fetch python dependencies
+- When looking for build dependencies in a nix-shell/nix develop, check
+  environment variables for store paths to find the correct dependency versions.
+- On nix build failures, filter nix log output for the root cause instead of
+  time-intense rebuilding.
+- My nix.conf has remote builders for aarch64-linux/aarch64-darwin/x86_64-linux
+  by default, for NixOS tests therefore use x86_64-linux on macOS machines
+- Use nix-locate to find packages by path. i.e. `nix-locate bin/ip`
+- Use `nix run` to execute applications that are not installed.
+- Use `nix eval` instead of `nix flake show` to look up attributes in a flake.
+- Do not use `nix flake check` on the whole flake; it is too slow. Instead,
+  build individual tests.
+
+## Code Quality & Testing
+
+- Format code with `nix fmt .` if the current project has a flake with a
+  formatter defined.
+- Write shell scripts that pass `shellcheck`.
+- Write Python code for 3.13 that conforms to `ruff format`, `ruff check` and
+  `mypy`
+- Add debug output or unit tests when troubleshooting i.e. dbg!() in Rust
+- When writing test use realistic inputs/outputs that test the actual code as
+  opposed to mocked out versions
+- IMPORTANT: GOOD: When given a linter error, address the root cause of the
+  linting error. BAD: silencing lint errors. Exhaustivly fix all linter errors.
+
+## Git
+
+- When writing commit messages/comments focus on the WHY rather than the WHAT.
+- Always test/lint/format your code before committing.
+- Use `gfc` to full clone repositories and do it inside `$HOME/Code/claude`
+- Always run `jj git init --colocate` after cloning a repo so that it has Jujutsu
+- Use `ghro:org/repo` when cloning GitHub repos
+- Rename the remote to `upstream` after cloning before running Jujutsu
+- Configure Jujutsu to use the new remote name only by setting `git.fetch`
+- Don't enable automatic local bookmark creation in Jujutsu
+- Use the gh tool to interact with GitHub i.e.: `gh run view 18256703410 --log`
+- Use the tea CLI tool to interact with Gitea i.e.: `tea pr 5519 --comments`
+
+## Search
+
+- Recommended: Use GitHub code search to find examples for libraries and APIs:
+  `gh search code "foo lang:nix"`.
+- Prefer cloning source code over web searches for more accurate results.
+  Various projects are available in `$HOME/Code`, including:
+- `$HOME/Code/nixpkgs`
+- `$HOME/Work/clan/clan-core`
+- Use Kagi instead of the Websearch tool for better search results:
+- `kagi-search "nixpkgs buildPythonPackage examples"`
+- `kagi-search -j "nix flake inputs follows" | jq -r '.[0].url'`

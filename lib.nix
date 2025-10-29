@@ -184,7 +184,7 @@ let
       flake.terranixModules = optionalAttrs (builtins.pathExists
         (pathTo ./hosts/${host}/terraform-configuration.nix)) {
           ${hostname}.imports = [
-            (pathTo ./modules/terranix/base.nix)
+            self.terranixModules.base
             (inputs.flake-parts.lib.importApply
               (pathTo ./hosts/${host}/terraform-configuration.nix) {
                 inherit host hostname keys;

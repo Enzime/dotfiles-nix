@@ -128,6 +128,7 @@ in {
           config.programs.firefox.profiles.base.extensions.packages ++ [
             pkgs.firefox-addons.copy-selected-links
             pkgs.firefox-addons.improved-tube
+            pkgs.firefox-addons.masked-email-manager
             pkgs.firefox-addons.multi-account-containers
             pkgs.firefox-addons.old-reddit-redirect
             pkgs.firefox-addons.reddit-enhancement-suite

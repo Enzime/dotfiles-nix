@@ -61,6 +61,10 @@
   inputs.hoopsnake.inputs.generate-go-sri.follows = "";
   inputs.hoopsnake.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.nixpkgs-terraform-providers-bin.url =
+    "github:nix-community/nixpkgs-terraform-providers-bin";
+  inputs.nixpkgs-terraform-providers-bin.inputs.nixpkgs.follows = "nixpkgs";
+
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {
       inherit inputs;

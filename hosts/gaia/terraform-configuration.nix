@@ -19,7 +19,7 @@ in {
   resource.vultr_ssh_key.terraform = {
     name = "Terraform";
     ssh_key =
-      config.resource.tls_private_key.ssh_deploy_key "public_key_openssh";
+      lib.tf.ref "trimspace(tls_private_key.ssh_deploy_key.public_key_openssh)";
   };
 
   data.vultr_os.debian = {
