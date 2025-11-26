@@ -1,7 +1,7 @@
 {
   homeModule = { config, pkgs, lib, ... }:
     let
-      platformConfigDir = if pkgs.hostPlatform.isDarwin then
+      platformConfigDir = if pkgs.stdenv.hostPlatform.isDarwin then
         "Library/Application Support"
       else
         config.xdg.configHome;

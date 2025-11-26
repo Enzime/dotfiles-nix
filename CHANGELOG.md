@@ -1,3 +1,28 @@
+- Fixed system clipboard not working when `neovim` is run inside of Zellij
+- Fixed `acme` certificates not being preserved
+- Fixed Joplin backups on both Linux and macOS
+- Use `$XDG_DATA_HOME/go` instead of `~/go` for `GOPATH`
+- Use `zellij` instead of `tmux` automatically when connecting over SSH
+- Use `bitwarden`
+- Changed `zellij` to support `C-b s` to open the session manager
+- Fixed `zellij` not returning to normal mode after some `tmux` keybindings
+- Removed `eris`
+- Fixed LUKS unlock prompt timing out on `gaia`
+- Added `workspaces` to global `gitignore`
+- Fixed OpenTofu always updating the deSEC AAAA record even when it didn't change
+- Moved `reflector` to `gaia`
+- Use latest version of `claude-code` from `numtide/llm-agents.nix`
+- Fixed `syncthing` permission denied when trying to configure GUI password
+- Use `services.syncthing.guiPasswordFile` instead of `services.syncthing.settings.gui.password`
+- Use `pkgs.terraform-providers.<owner>_<pname>` instead of `pkgs.terraform-providers.<pname>`
+- Fixed Clan erroring when vars are shared between NixOS and nix-darwin
+- Removed `ranger-iina` patch
+- Fixed `spotify.src` pointing to a different version
+- Use `programs.git.settings` instead of `programs.git.extraConfig`
+- Use `pkgs.stdenv.hostPlatform.system` instead of `pkgs.{system,hostPlatform.system}`
+- Updated `gaia` and `sigma` `syncthing` IDs as they're not persisted across reinstalls currently
+- Removed Signal Backup from `syncthing`
+- Removed Signal from Pixel 6a
 - Use `restic` to back up `phi-nixos`
 - Migrated DNS from zone.ee to deSEC
 - Added B2 bucket for `restic`

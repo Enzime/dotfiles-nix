@@ -18,12 +18,6 @@ self: super: {
             "https://github.com/Enzime/ranger/commit/9e60541f3e360e2019d0b671852249771b843761.patch";
           hash = "sha256-R3Qia9++n8SC/fG72GwLYbjwmx/oyEm5BfC2/6nziqI=";
         })
-        (super.fetchpatch {
-          name = "fix-iina-from-rifle.patch";
-          url =
-            "https://github.com/ranger/ranger/pull/3141/commits/f18096b0bd1d65c33edcddeab734acfbb19bb2dd.patch";
-          hash = "sha256-i4nfxd0caIZWksHX8Qr0wE++Iuwa4VkId+kxBGzR3Jg=";
-        })
       ];
     });
 }

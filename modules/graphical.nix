@@ -76,7 +76,8 @@ in {
       inherit (lib) optionalAttrs;
     in {
       home.packages = builtins.attrValues ({
-        inherit (pkgs) qalculate-gtk remmina signal-desktop-bin;
+        inherit (pkgs)
+          bitwarden-desktop qalculate-gtk remmina signal-desktop-bin;
       } // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
         # Works on every platform except `aarch64-linux`
         inherit (pkgs) spotify;
@@ -104,7 +105,7 @@ in {
         else
           "~/.1password/agent.sock";
       in ''
-        Match host * exec "test -z $SSH_CONNECTION"
+        Match exec "test -z $SSH_CONNECTION"
           IdentityAgent "${_1password-agent}"
           ForwardAgent yes
 
@@ -126,6 +127,7 @@ in {
 
         extensions.packages =
           config.programs.firefox.profiles.base.extensions.packages ++ [
+            pkgs.firefox-addons.bitwarden
             pkgs.firefox-addons.copy-selected-links
             pkgs.firefox-addons.improved-tube
             pkgs.firefox-addons.masked-email-manager

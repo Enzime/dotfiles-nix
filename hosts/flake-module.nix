@@ -32,18 +32,11 @@ in {
       tags = [ "wireless-personal" ];
     }
     {
-      host = "eris";
-      user = "human";
-      system = "x86_64-linux";
-      modules =
-        builtins.attrNames { inherit (modules) deluge reflector vncserver; };
-    }
-    {
       host = "gaia";
       user = "enzime";
       system = "x86_64-linux";
       modules = builtins.attrNames {
-        inherit (modules) hoopsnake impermanence vncserver;
+        inherit (modules) reflector hoopsnake impermanence vncserver;
       };
     }
   ];

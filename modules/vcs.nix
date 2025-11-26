@@ -1,7 +1,7 @@
 let
   shared = { config, user, ... }: {
     home-manager.users.root.programs.git.enable = true;
-    home-manager.users.root.programs.git.extraConfig.safe.directory =
+    home-manager.users.root.programs.git.settings.safe.directory =
       "${config.users.users.${user}.home}/dotfiles";
   };
 in {
@@ -14,14 +14,10 @@ in {
 
     programs.git = {
       enable = true;
-      userName = "Michael Hoang";
-      userEmail = "enzime@users.noreply.github.com";
 
-      ignores = [ "/worktrees" "result*" ".DS_Store" ];
+      ignores = [ "/worktrees" "/workspaces" "result*" ".DS_Store" ];
 
-      delta.enable = true;
-
-      extraConfig = {
+      settings = {
         advice = { addIgnoredFile = false; };
         am = { threeWay = true; };
         core = { hooksPath = "~/.config/git/hooks"; };
@@ -48,6 +44,10 @@ in {
           };
 
           "___PUSH_DISABLED___" = { pushInsteadOf = [ "ghro:" "bbro:" ]; };
+        };
+        user = {
+          name = "Michael Hoang";
+          email = "enzime@users.noreply.github.com";
         };
       };
     };
@@ -89,5 +89,8 @@ in {
 
       ui.default-command = "log";
     };
+
+    programs.delta.enable = true;
+    programs.delta.enableGitIntegration = true;
   };
 }

@@ -3,7 +3,7 @@
     packages.github-actions-nix-config = pkgs.writeTextFile {
       name = "github-actions-nix.conf";
       text = let
-        cfg = self.nixosConfigurations.eris.config.nix.settings;
+        cfg = self.nixosConfigurations.gaia.config.nix.settings;
         substituters =
           lib.filter (value: !lib.hasInfix "clan.lol" value) cfg.substituters;
       in ''

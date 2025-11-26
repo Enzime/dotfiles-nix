@@ -98,6 +98,13 @@
     };
   };
 
+  # WORKAROUND: LUKS unlock prompt times out
+  # https://github.com/NixOS/nixpkgs/issues/250003
+  boot.initrd.systemd.services.zfs-import-rpool = {
+    after = [ "cryptsetup.target" ];
+    wants = [ "cryptsetup.target" ];
+  };
+
   virtualisation.vmVariantWithDisko = {
     disko.devices.disk.primary.content.partitions.luks.content.passwordFile =
       lib.mkForce (toString (pkgs.writeText "password" "apple"));

@@ -13,8 +13,8 @@ let
       environment.systemPackages = (builtins.attrValues {
         inherit (pkgs) killall nix-output-monitor ranger sshfs unzip wget zip;
       }) ++ [
-        inputs.home-manager.packages.${pkgs.system}.default
-        inputs.clan-core.packages.${pkgs.system}.default
+        inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
 
       users.users.root = {
@@ -214,14 +214,12 @@ in {
         EDITOR = "vim";
         VISUAL = "vim";
         MANROFFOPT = "-P -c";
+        GOPATH = "${config.xdg.dataHome}/go";
       };
 
       home.file.".ssh/config".text = lib.mkAfter ''
         Host phi
           HostName phi-nixos
-
-        Host eris
-          User human
 
         Include config.local
       '';
@@ -301,6 +299,8 @@ in {
       programs.direnv.nix-direnv.enable = true;
 
       programs.neovim.enable = true;
+      programs.neovim.package =
+        inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
       programs.neovim.vimAlias = true;
       programs.neovim.plugins = [
         # Plugins that are always loaded

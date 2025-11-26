@@ -36,5 +36,7 @@
           config.clan.core.vars.generators.acme-desec.files.token.path;
       };
     };
+
+    preservation.preserveAt."/persist".directories = [ "/var/lib/acme" ];
   };
 }

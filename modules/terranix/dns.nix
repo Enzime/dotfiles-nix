@@ -6,9 +6,12 @@ let
     ipv6 = "fd7a:115c:a1e0:ab12:4843:cd96:6266:571d";
   };
 
-  eris = {
-    ipv4 = "139.99.238.120";
-    ipv6 = "2402:1f00:8100:400::1028";
+  gaia = {
+    ipv4 = config.resource.vultr_instance.gaia "main_ip";
+    # WORKAROUND: Vultr returns IPv6 addresses with leading zeroes
+    # https://github.com/vultr/terraform-provider-vultr/issues/271
+    ipv6 = lib.tf.ref ''
+      cidrhost("${config.resource.vultr_instance.gaia "v6_main_ip"}/128", 0)'';
   };
 
   styx = {
@@ -78,7 +81,7 @@ in {
     domain = config.resource.desec_domain.enzim_ee "name";
     subname = "reflector";
     type = "A";
-    records = [ eris.ipv4 ];
+    records = [ gaia.ipv4 ];
     ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
   };
 
@@ -86,7 +89,7 @@ in {
     domain = config.resource.desec_domain.enzim_ee "name";
     subname = "reflector";
     type = "AAAA";
-    records = [ eris.ipv6 ];
+    records = [ gaia.ipv6 ];
     ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
   };
 

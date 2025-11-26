@@ -1,8 +1,5 @@
-if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-  tmux attach-session -t ssh || tmux new-session -s ssh
-  if ! tmux has-session -t ssh; then
-    exit
-  fi
+if [[ $- =~ i ]] && [[ -z "$ZELLIJ" ]] && [[ -n "$SSH_TTY" ]]; then
+  zellij attach --create ssh
 fi
 
 function ga {

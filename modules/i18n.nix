@@ -4,7 +4,7 @@
       i18n.inputMethod.enable = true;
       i18n.inputMethod.type = "fcitx5";
       i18n.inputMethod.fcitx5.addons =
-        builtins.attrValues { inherit (pkgs) fcitx5-unikey; };
+        builtins.attrValues { inherit (pkgs.qt6Packages) fcitx5-unikey; };
 
       xdg.configFile."fcitx5/profile".force = true;
       xdg.configFile."fcitx5/profile".text = ''

@@ -182,7 +182,7 @@
           "nix.serverPath" = lib.getExe pkgs.nil;
           "nix.serverSettings".nil.formatting.command = [
             (lib.getExe
-              inputs.self.packages.${pkgs.hostPlatform.system}.cached-nix-fmt)
+              inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cached-nix-fmt)
             "--stdin"
             "example.nix"
           ];
@@ -281,7 +281,7 @@
           "nix.serverPath" = lib.getExe pkgs.nil;
         };
 
-      programs.git.extraConfig.core.editor = lib.getExe
+      programs.git.settings.core.editor = lib.getExe
         (pkgs.writeShellApplication {
           name = "use-vscode-sometimes";
           text = ''
@@ -294,6 +294,6 @@
         });
 
       programs.jujutsu.settings.ui.editor =
-        config.programs.git.extraConfig.core.editor;
+        config.programs.git.settings.core.editor;
     };
 }

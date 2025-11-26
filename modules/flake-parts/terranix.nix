@@ -13,7 +13,9 @@
 
       packages.tf = pkgs.opentofu.withPlugins (p:
         builtins.attrValues {
-          inherit (p) desec external hcloud local null tailscale tls vultr;
+          inherit (p)
+            valodim_desec hashicorp_external hetznercloud_hcloud hashicorp_local
+            hashicorp_null tailscale_tailscale hashicorp_tls vultr_vultr;
 
           inherit (inputs'.nixpkgs-terraform-providers-bin.legacyPackages.providers.Backblaze)
             b2;
@@ -73,7 +75,7 @@
       };
 
       packages.tf-init = pkgs.writeShellApplication {
-        name = "tf-apply";
+        name = "tf-init";
         runtimeInputs = [ self'.packages.tf self'.packages.tg ];
         text = let inherit (self'.packages.tg.meta) mainProgram;
         in ''

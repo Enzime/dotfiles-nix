@@ -5,7 +5,8 @@
     virtualisation.memorySize = 3 * 1024;
 
     virtualisation.host.pkgs = import inputs.nixpkgs {
-      system = builtins.replaceStrings [ "linux" ] [ "darwin" ] pkgs.system;
+      system = builtins.replaceStrings [ "linux" ] [ "darwin" ]
+        pkgs.stdenv.hostPlatform.system;
       inherit (pkgs) config overlays;
     };
 

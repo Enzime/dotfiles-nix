@@ -5,7 +5,7 @@ self: super: {
         throw "terraform-providers.${name} already exists"
       else
         plugin) {
-          desec = super.terraform-providers.mkProvider (let
+          valodim_desec = super.terraform-providers.mkProvider (let
             version = "0.6.1";
             owner = "Valodim";
             pname = "desec";

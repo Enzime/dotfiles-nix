@@ -25,7 +25,19 @@
     '';
   };
 
-  nixosModule = { config, user, hostname, lib, ... }: {
+  nixosModule = { options, config, user, hostname, pkgs, lib, ... }: {
+    imports = [{
+      config = lib.optionalAttrs (options ? clan) {
+        clan.core.vars.generators.syncthing = {
+          files.password = { };
+          runtimeInputs = [ pkgs.coreutils pkgs.xkcdpass ];
+          script = ''
+            xkcdpass --numwords 3 --delimiter - --count 1 | tr -d "\n" > "$out"/password
+          '';
+        };
+      };
+    }];
+
     services.syncthing.enable = true;
     services.syncthing.user = user;
     services.syncthing.group = "users";
@@ -34,6 +46,8 @@
     services.syncthing.guiAddress = "0.0.0.0:8384";
     services.syncthing.overrideDevices = true;
     services.syncthing.overrideFolders = true;
+
+    services.syncthing.guiPasswordFile = "$CREDENTIALS_DIRECTORY/gui-password";
 
     services.syncthing.settings = let
       mkDevice = { name, id, hostname ? name }: {
@@ -69,43 +83,16 @@
         {
           name = "sigma";
           id =
-            "MYUB4WO-KFBERW6-VC3VXYY-K32WL7S-CX7X5NP-5JZYCEE-NNLYRT5-UXWP6AP";
-        }
-        {
-          name = "eris";
-          id =
-            "OSL7C3U-VQS2KVT-WRK3WTK-4XDJR2D-AGDAL3Q-PA2YPVB-QQ72LAR-EDBZPQL";
+            "IU52G3V-Z5YCNHH-R7WEYEI-BPDXUMH-7T374SL-LRN5TZW-WAMOJL7-SK5LFQV";
         }
         {
           name = "gaia";
           id =
-            "TEDPAFO-UL3CHS7-ZB5SAKP-QXBUQOD-5WPXYMT-DEXQLFR-ET4DMWY-IMZTPQS";
-        }
-        {
-          name = "pixel-6a";
-          id =
-            "NURXDKI-MPMVCY3-24YQHHX-6PDTE47-YP6QVO3-PC47MAP-BJY6LO6-6HLJAAQ";
+            "GMBP5QR-5VCPMTG-FBMIZK3-WXJXU2F-75P5QHZ-6KKOKEE-HLHMQLX-IJJPPAP";
         }
       ]);
 
       folders = lib.mkMerge (map mkFolder [
-        {
-          id = "7y829-o47k9";
-          name = "Signal Backup";
-          devices = {
-            phi-nixos = {
-              path = "/data/Backup/Signal";
-              type = "receiveonly";
-
-              versioning = {
-                type = "staggered";
-                # Keep old versions for 14 days
-                params.maxAge = toString (14 * 24 * 60 * 60);
-              };
-            };
-            pixel-6a = { };
-          };
-        }
         {
           id = "2odnx-6qz1l";
           name = "Pictures.sigma";
@@ -185,14 +172,15 @@
         }
       ]);
 
-      gui = {
-        user = hostname;
-        password = assert !config.services.syncthing ? guiPasswordFile;
-          config.clan.core.vars.generators.syncthing.files.password-hash.value;
-      };
+      gui.user = hostname;
 
       # disable Anonymous Usage Reporting
       options.urAccepted = -1;
+    };
+
+    systemd.services.syncthing-init = {
+      serviceConfig.LoadCredential =
+        "gui-password:${config.clan.core.vars.generators.syncthing.files.password.path}";
     };
   };
 }
