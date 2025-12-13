@@ -6,7 +6,6 @@ jobs:
     timeout-minutes: 7200
 
     strategy:
-      fail-fast: true
       matrix:
         include:
           - name: hyperion-macos
@@ -46,8 +45,14 @@ jobs:
         run: |
           nix build --print-build-logs .#github-actions-nix-config --out-link nix.conf.extra
           sudo mv nix.conf.extra /etc/nix
-      - if: runner.environment == 'github-hosted' && runner.os == 'macOS'
-        run: sudo launchctl kickstart -k system/org.nixos.nix-daemon
+      - name: Restart Nix daemon to load custom Nix configuration
+        if: runner.environment == 'github-hosted'
+        run: |
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            sudo launchctl kickstart -k system/org.nixos.nix-daemon
+          else
+            sudo systemctl restart nix-daemon
+          fi
       - uses: cachix/cachix-action@v16
         with:
           name: enzime

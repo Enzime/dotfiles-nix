@@ -11,7 +11,7 @@
     };
   };
 
-  nixosModule = { host, lib, utils, ... }:
+  nixosModule = { config, host, lib, utils, ... }:
     lib.mkIf (host != "phi") {
       fileSystems."/mnt/phi" = {
         device = "enzime@phi:/";
@@ -21,7 +21,10 @@
           "noauto"
           "x-systemd.automount"
           "_netdev"
-          "IdentityFile=/etc/ssh/ssh_host_ed25519_key"
+          "IdentityFile=${
+            (lib.findFirst (k: k.type == "ed25519") { }
+              config.services.openssh.hostKeys).path
+          }"
           "allow_other"
           "uid=1000"
           "gid=100"

@@ -24,8 +24,6 @@
   signing = {
     "enzime.cachix.org" =
       "enzime.cachix.org-1:RvUdpEy6SEXlqvKYOVHpn5lNsJRsAZs6vVK1MFqJ9k4=";
-    "cache.clan.lol" =
-      "cache.clan.lol-1:3KztgSAB5R1M+Dz7vzkBGzXdodizbgLXGXKXlcQLA28=";
     aether = "aether-1:fMOnq1aouEVTB6pz6TvszTrXQhrQAbPePlilPafmsHs=";
     chi-linux-builder =
       "chi-linux-builder-1:u0hwDFmxev8B65kKbSAjBP7nGR+it429j/UbsdZd3gs=";
@@ -34,5 +32,14 @@
       "hermes-macos-1:H8qFV4OhrWSbfHsQV6R2VzE2t3N+3nzItt856oWG0Kc=";
     hermes-linux-builder =
       "hermes-linux-builder-1:tibNs5BpVb54V17EimjfobHDgut+y9cfHMD57vojLmo=";
+
+    clan = {
+      cache = "cache.clan.lol-1:3KztgSAB5R1M+Dz7vzkBGzXdodizbgLXGXKXlcQLA28=";
+
+      build01 = "build01-1:IqW8nGF/1I5wsTSn8tytzaTI+/4+4qkZ4HVKHTN1yfY=";
+      build02 = "build02-1:niCWHDbtJ8q51n53apuW28B4BoNbqh7rwBfm2A4XeyI=";
+      build-x86-01 =
+        "build-x86-01-1:6ttBEKGF+6oOGJCQDbbaylpXmVcgoXNuKqlDHRsMv5Q=";
+    };
   };
 }

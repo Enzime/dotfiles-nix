@@ -108,17 +108,11 @@
           ${lib.getExe pkgs._1password-gui} --lock &
         fi
       '';
-    in [
-      {
-        event = "before-sleep";
-        command = "${loginctl} lock-session";
-      }
-      {
-        event = "lock";
-        command =
-          "${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} output '*' dpms off";
-      }
-    ];
+    in {
+      before-sleep = "${loginctl} lock-session";
+      lock =
+        "${lock1Password} && ${swaylock} -f -c 000000 && ${swaymsg} output '*' dpms off";
+    };
     services.swayidle.timeouts = let
       swaymsg = lib.getExe' pkgs.sway "swaymsg";
       loginctl = lib.getExe' pkgs.systemd "loginctl";

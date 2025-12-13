@@ -93,6 +93,38 @@ in {
     ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
   };
 
+  resource.desec_rrset.A_test_enzim_ee = {
+    domain = config.resource.desec_domain.enzim_ee "name";
+    subname = "test";
+    type = "A";
+    records = [ gaia.ipv4 ];
+    ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
+  };
+
+  resource.desec_rrset.AAAA_test_enzim_ee = {
+    domain = config.resource.desec_domain.enzim_ee "name";
+    subname = "test";
+    type = "AAAA";
+    records = [ gaia.ipv6 ];
+    ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
+  };
+
+  resource.desec_rrset.A_matrix_test_enzim_ee = {
+    domain = config.resource.desec_domain.enzim_ee "name";
+    subname = "matrix.test";
+    type = "A";
+    records = [ gaia.ipv4 ];
+    ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
+  };
+
+  resource.desec_rrset.AAAA_matrix_test_enzim_ee = {
+    domain = config.resource.desec_domain.enzim_ee "name";
+    subname = "matrix.test";
+    type = "AAAA";
+    records = [ gaia.ipv6 ];
+    ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
+  };
+
   resource.desec_rrset.CNAME_fm1__domainkey_enzim_ee = {
     domain = config.resource.desec_domain.enzim_ee "name";
     subname = "fm1._domainkey";

@@ -4,7 +4,7 @@
   nixosModule = { options, config, user, pkgs, lib, ... }: {
     imports = [{
       config = lib.optionalAttrs (options ? clan) {
-        clan.core.facts.secretUploadDirectory = "/persist/var/lib/sops-nix";
+        clan.core.vars.sops.secretUploadDirectory = "/persist/var/lib/sops-nix";
 
         sops.age.keyFile = "/persist/var/lib/sops-nix/key.txt";
       };

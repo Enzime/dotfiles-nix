@@ -40,7 +40,7 @@
     }
     {
       protocol = "ssh-ng";
-      hostName = "build01";
+      hostName = "build01.clan.lol";
       sshUser = "builder";
       sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
       system = "aarch64-linux";

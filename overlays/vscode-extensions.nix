@@ -55,5 +55,18 @@ in {
             --replace "wget --no-proxy" "wget --no-proxy --no-continue"
         '';
       });
-  }) (fromMarketplaceRefs [ ]);
+  }) (fromMarketplaceRefs [{
+    name = "jjk";
+    publisher = "jjk";
+    version = "0.8.1";
+    hash = "sha256-2JUn6wkWgZKZzhitQy6v9R/rCNLrt7DBtt59707hp6c=";
+    patches = [
+      (super.fetchpatch {
+        name = "syntax-highlight-git-diffs.patch";
+        url =
+          "https://github.com/Enzime/jjk/commit/ca36c755ef8c34163623dda6bab0b4f3528b2a36.patch";
+        hash = "sha256-VjOweKrGY3aLwFIFZNNZemzLpEov/omovLcN+WhYZD4=";
+      })
+    ];
+  }]);
 }

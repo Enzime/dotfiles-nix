@@ -1,3 +1,19 @@
+- Fixed GitHub Actions not using substituters on Linux
+- Changed GitHub Actions to not stop when one build fails
+- Removed unused `neovim` overlay
+- Added `jjk` VSCode extension
+- Fixed clearing nicknames on `mautrix-signal` not being bridged
+- Use VisualJJ
+- Added Git diff to default `jj describe` message like `git commit`
+- Fixed `watchman` not actually being configured in Jujutsu
+- Use `jjui`
+- Added `jujutsu` section to `CLAUDE.md`
+- Fixed wrong path for SSH host key on systems with `preservation`
+- Use `clan.lol` as a remote builder for `gaia`
+- Added `build-x86-01` and `build01` to `trusted-public-keys`
+- Added support for exit nodes in `tailscaled on macOS`
+- Added test Matrix server on `gaia`
+- Fixed `terragrunt` trying to configure Backblaze B2 state bucket in unsupported ways
 - Fixed system clipboard not working when `neovim` is run inside of Zellij
 - Fixed `acme` certificates not being preserved
 - Fixed Joplin backups on both Linux and macOS

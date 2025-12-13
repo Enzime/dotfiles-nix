@@ -18,15 +18,6 @@ let
 
     config = {
       programs.ssh.extraConfig = ''
-        Host build01
-          Hostname fda9:b487:2919:3547:3699:9336:90ec:cb59
-
-        Host build02
-          Hostname build02.tailfc885e.ts.net
-
-        Host storinator01
-          Hostname fda9:b487:2919:3547:3699:9393:7f57:6e6b
-
         Host clan-tunnel
           Hostname clan.lol
           User tunnel
@@ -39,7 +30,7 @@ let
       programs.ssh.knownHosts = {
         "clan.lol".publicKey = keys.hosts.clan.web01;
 
-        build01 = {
+        "build01.clan.lol" = {
           extraHostNames = [ "fda9:b487:2919:3547:3699:9336:90ec:cb59" ];
           publicKey = keys.hosts.clan.build01;
         };
@@ -60,3 +51,4 @@ in {
 
   darwinModule = shared;
 }
+

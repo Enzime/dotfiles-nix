@@ -8,7 +8,6 @@
 ## Nix-specific
 
 - Use `--log-format bar-with-logs` with Nix for improved build log output.
-- Add new untracked files in Nix flakes with `git add`.
 - The version of nix doesn't support the `--rebuild` flag.
 - Prefer nix to fetch python dependencies
 - When looking for build dependencies in a nix-shell/nix develop, check
@@ -41,13 +40,21 @@
 - When writing commit messages/comments focus on the WHY rather than the WHAT.
 - Always test/lint/format your code before committing.
 - Use `gfc` to full clone repositories and do it inside `$HOME/Code/claude`
-- Always run `jj git init --colocate` after cloning a repo so that it has Jujutsu
-- Use `ghro:org/repo` when cloning GitHub repos
+- Use `gsc` instead of `gfc` to shallow clone repositories
+- Always use `ghro:org/repo` when cloning GitHub repos
 - Rename the remote to `upstream` after cloning before running Jujutsu
-- Configure Jujutsu to use the new remote name only by setting `git.fetch`
-- Don't enable automatic local bookmark creation in Jujutsu
+- Try to always use `jj` instead of `git`
 - Use the gh tool to interact with GitHub i.e.: `gh run view 18256703410 --log`
 - Use the tea CLI tool to interact with Gitea i.e.: `tea pr 5519 --comments`
+
+## Jujutsu
+
+- Instead of stashing Git changes, you can just switch to a new Jujutsu change
+- Always run `jj git init` after cloning a Git repo so that it has Jujutsu support
+- Configure Jujutsu to use the new remote name only by setting `git.fetch`
+- Don't enable automatic local bookmark creation in Jujutsu
+- Avoid using interactive commands like `jj describe`, `jj split` and `jj squash` without `-m`
+- Don't abandon empty working copy commits they'll just get recreated, just move somewhere else like the end of a branch using `jj new`
 
 ## Search
 

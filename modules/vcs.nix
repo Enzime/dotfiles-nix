@@ -10,7 +10,7 @@ in {
   darwinModule = shared;
 
   homeModule = { pkgs, ... }: {
-    home.packages = builtins.attrValues { inherit (pkgs) watchman; };
+    home.packages = builtins.attrValues { inherit (pkgs) jjui watchman; };
 
     programs.git = {
       enable = true;
@@ -86,6 +86,16 @@ in {
     programs.jujutsu.settings = {
       user.name = "Michael Hoang";
       user.email = "enzime@users.noreply.github.com";
+
+      fsmonitor.backend = "watchman";
+
+      templates.draft_commit_description = ''
+        concat(
+          builtin_draft_commit_description,
+          "JJ:\nJJ: ignore-rest\n",
+          diff.git(),
+        )
+      '';
 
       ui.default-command = "log";
     };

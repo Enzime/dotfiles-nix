@@ -2,12 +2,11 @@ let
   shared = { keys, ... }: {
     nix.settings.substituters =
       [ "https://enzime.cachix.org" "https://cache.clan.lol" ];
-    nix.settings.trusted-public-keys = builtins.attrValues {
+    nix.settings.trusted-public-keys = builtins.attrValues ({
       inherit (keys.signing) aether chi-linux-builder echo;
 
       "enzime.cachix.org" = keys.signing."enzime.cachix.org";
-      "cache.clan.lol" = keys.signing."cache.clan.lol";
-    };
+    } // keys.signing.clan);
   };
 in {
   nixosModule = shared;
