@@ -18,6 +18,11 @@
 
       services.swayidle.enable = lib.mkForce false;
 
+      wayland.windowManager.sway.config.workspaceOutputAssign = [{
+        workspace = "1";
+        output = "HEADLESS-1";
+      }];
+
       systemd.user.services.import-path = {
         Unit = { Description = "Import PATH from zsh"; };
         Service = {

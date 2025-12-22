@@ -3,7 +3,7 @@
 
   darwinModule = { user, pkgs, ... }: {
     environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) rectangle; };
+      builtins.attrValues { inherit (pkgs) airdrop-cli rectangle; };
 
     launchd.user.agents.rectangle = {
       command =

@@ -2,9 +2,8 @@
 let
   inherit (builtins) readDir;
   inherit (lib)
-    attrNames concatMap filter filterAttrs getAttr getAttrFromPath hasAttr
-    hasSuffix mapAttrs' mapAttrsToList nameValuePair optionalAttrs removeSuffix
-    unique;
+    concatMap filter filterAttrs getAttr hasAttr hasSuffix mapAttrs'
+    mapAttrsToList nameValuePair optionalAttrs removeSuffix unique;
   inherit (lib.path) removePrefix;
 
   importFrom = path: filename: import (path + ("/" + filename));
@@ -34,15 +33,11 @@ let
     , nixos ? hasSuffix "linux" system, modules, tags ? [ ] }:
     { self, inputs, lib, ... }:
     let
-      flakeOverlays = attrNames (filterAttrs (_: type: type == "directory")
-        (readDir (pathTo ./overlays)));
-      importedFlakeOverlays =
-        map (name: getAttrFromPath [ "${name}-overlay" "overlay" ] inputs)
-        flakeOverlays;
+      flakeOverlays = builtins.attrValues self.overlays;
 
       nixpkgs = {
         config.allowUnfree = true;
-        overlays = importedRegularOverlays ++ importedFlakeOverlays;
+        overlays = importedRegularOverlays ++ flakeOverlays;
         hostPlatform = system;
       };
 

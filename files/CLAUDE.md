@@ -64,6 +64,3 @@
   Various projects are available in `$HOME/Code`, including:
 - `$HOME/Code/nixpkgs`
 - `$HOME/Work/clan/clan-core`
-- Use Kagi instead of the Websearch tool for better search results:
-- `kagi-search "nixpkgs buildPythonPackage examples"`
-- `kagi-search -j "nix flake inputs follows" | jq -r '.[0].url'`

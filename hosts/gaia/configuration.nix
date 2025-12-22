@@ -5,6 +5,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
 
   networking.hostId = "8425e349";
 
@@ -50,7 +51,8 @@
     sshUser = "builder";
     sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
     system = "x86_64-linux";
-    supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
+    supportedFeatures =
+      [ "kvm" "benchmark" "big-parallel" "nixos-test" "uid-range" ];
     maxJobs = 96;
   }];
 

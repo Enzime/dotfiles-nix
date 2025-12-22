@@ -58,7 +58,6 @@
           pkgs.firefox-addons.youtube-nonstop
           pkgs.firefox-addons.kagi-search
           pkgs.firefox-addons.purple-private-windows
-          pkgs.firefox-addons.consent-o-matic
         ];
 
         search = {

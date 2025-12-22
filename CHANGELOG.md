@@ -1,3 +1,20 @@
+- Fixed `claude-code` in `llm-agents.nix` not building with `sandbox`
+- Removed `source ~/.zshrc` keybinding in `zsh`
+- Use `airdrop-cli`
+- Removed `consent-o-matic`, `improved-tube`, `redirector` Firefox addons
+- Removed `jjk` and `visualjj` VSCode extensions
+- Use `mullvad` through Tailscale
+- Fixed `vncserver` on `gaia` not opening on workspace 1
+- Removed subflakes to ensure lock file works between both Nix and Lix
+- Fixed `clan` not correctly overriding Nix with Lix
+- Use Lix
+- Disabled GitLens warnings regarding Git being disabled
+- Use `systemctl-tui`
+- Use `readeck`
+- Use `boot.loader.systemd-boot.configurationLimit` on `gaia` to prevent `/boot` running out of space
+- Added `.claude` to global `gitignore`
+- Use Amphetamine on macOS
+- Removed `shell.nix` and `flake-compat`
 - Fixed GitHub Actions not using substituters on Linux
 - Changed GitHub Actions to not stop when one build fails
 - Removed unused `neovim` overlay

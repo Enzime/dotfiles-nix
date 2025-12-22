@@ -4,6 +4,7 @@
     ./clan.nix
     ./configurations.nix
     ./devShells.nix
+    ./firefox-addons.nix
     ./formatter.nix
     ./lib.nix
     ./terranix.nix

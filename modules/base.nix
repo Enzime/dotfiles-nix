@@ -109,7 +109,7 @@ in {
     "xdg"
   ];
 
-  nixosModule = { config, user, hostname, lib, ... }: {
+  nixosModule = { config, user, hostname, pkgs, lib, ... }: {
     imports = [ shared ];
 
     i18n.defaultLocale = "en_AU.UTF-8";
@@ -118,6 +118,9 @@ in {
       "${config.users.users.${user}.home}/dotfiles";
 
     hardware.enableRedistributableFirmware = true;
+
+    environment.systemPackages =
+      builtins.attrValues { inherit (pkgs) systemctl-tui; };
 
     programs.neovim.enable = true;
     programs.neovim.vimAlias = true;

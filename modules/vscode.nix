@@ -21,11 +21,9 @@
       programs.vscode.profiles.default.extensions = [
         pkgs.vscode-extensions.asvetliakov.vscode-neovim
         pkgs.vscode-extensions.eamodio.gitlens
-        pkgs.vscode-extensions.jjk.jjk
         (pkgs.vscode-extensions.ms-vscode-remote.remote-ssh.override {
           useLocalExtensions = true;
         })
-        pkgs.vscode-extensions.visualjj.visualjj
 
         pkgs.vscode-extensions.bierner.comment-tagged-templates
         pkgs.vscode-extensions.bierner.emojisense
@@ -224,6 +222,12 @@
             domain = "git.clan.lol";
             type = "Gitea";
           }];
+
+          # Don't warn when Git is disabled due to conflicts with jjk
+          "gitlens.advanced.messages" = {
+            "suppressGitDisabledWarning" = true;
+            "suppressGitMissingWarning" = true;
+          };
 
           "editor.bracketPairColorization.enabled" = true;
           "editor.guides.bracketPairs" = true;

@@ -1,9 +1,19 @@
 {
-  imports = [ "graphical" "i18n" "ios" "mullvad" "pim" ];
+  imports = [ "graphical" "i18n" "ios" "pim" ];
 
   darwinModule = { pkgs, lib, ... }: {
     environment.systemPackages =
       builtins.attrValues { inherit (pkgs) apparency; };
+
+    launchd.user.agents.install-amphetamine = {
+      command = "${lib.getExe pkgs.mas} install 937984704";
+      serviceConfig.RunAtLoad = true;
+    };
+
+    launchd.user.agents.amphetamine = {
+      command = ''"/Applications/Amphetamine.app/Contents/MacOS/Amphetamine"'';
+      serviceConfig.RunAtLoad = true;
+    };
 
     launchd.user.agents.install-flighty = {
       command = "${lib.getExe pkgs.mas} install 1358823008";

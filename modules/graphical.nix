@@ -129,17 +129,17 @@ in {
           config.programs.firefox.profiles.base.extensions.packages ++ [
             pkgs.firefox-addons.bitwarden
             pkgs.firefox-addons.copy-selected-links
-            pkgs.firefox-addons.improved-tube
             pkgs.firefox-addons.masked-email-manager
             pkgs.firefox-addons.multi-account-containers
             pkgs.firefox-addons.old-reddit-redirect
+            pkgs.firefox-addons.readeck
             pkgs.firefox-addons.reddit-enhancement-suite
-            pkgs.firefox-addons.redirector
             pkgs.firefox-addons.sponsorblock
             pkgs.firefox-addons.tetrio-plus
             pkgs.firefox-addons.translate-web-pages
             pkgs.firefox-addons.tree-style-tab
             pkgs.firefox-addons.tst-wheel-and-double
+            pkgs.firefox-addons.violentmonkey
           ];
 
         userChrome = ''

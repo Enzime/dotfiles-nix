@@ -123,12 +123,6 @@ function peco_select_history {
   zle accept-line
 }
 
-function source-zshrc {
-  zle push-line
-  BUFFER="source ~/.zshrc"
-  zle accept-line
-}
-
 zle -N peco_select_history
 bindkey '^R' peco_select_history
 bindkey -r '^S'
@@ -136,14 +130,12 @@ bindkey -r '^S'
 autoload -z edit-command-line
 zle -N edit-command-line
 
-zle -N source-zshrc
 zle -N carry-ranger
 zle -N carry-ranger-cd
 
 bindkey '^E^E' edit-command-line
 bindkey '^Er' carry-ranger
 bindkey '^Ec' carry-ranger-cd
-bindkey '^E^R' source-zshrc
 
 bindkey -r '^[OA'
 bindkey -r '^[OB'

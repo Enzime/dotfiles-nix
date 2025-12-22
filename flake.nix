@@ -7,18 +7,16 @@
   inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.systems.url = "path:./flake.systems.nix";
-  inputs.systems.flake = false;
-
-  inputs.flake-compat.url = "github:nix-community/flake-compat";
+  inputs.systems.url = "github:nix-systems/default";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.flake-utils.inputs.systems.follows = "systems";
   inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.firefox-addons-overlay.url = "path:overlays/firefox-addons";
-  inputs.firefox-addons-overlay.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.firefox-addons.url =
+    "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+  inputs.firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -43,14 +41,14 @@
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core";
+  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core?shallow=1";
   inputs.clan-core.inputs.disko.follows = "disko";
   inputs.clan-core.inputs.flake-parts.follows = "flake-parts";
   inputs.clan-core.inputs.nixpkgs.follows = "nixpkgs";
   inputs.clan-core.inputs.nix-darwin.follows = "nix-darwin";
   inputs.clan-core.inputs.systems.follows = "systems";
   # This causes a stack overflow when set to empty string or relative path inputs
-  inputs.clan-core.inputs.treefmt-nix.follows = "flake-compat";
+  inputs.clan-core.inputs.treefmt-nix.follows = "systems";
 
   inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
   inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";

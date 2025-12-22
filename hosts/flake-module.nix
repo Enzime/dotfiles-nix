@@ -36,7 +36,7 @@ in {
       user = "enzime";
       system = "x86_64-linux";
       modules = builtins.attrNames {
-        inherit (modules) reflector hoopsnake impermanence vncserver;
+        inherit (modules) hoopsnake impermanence readeck reflector vncserver;
       };
     }
   ];

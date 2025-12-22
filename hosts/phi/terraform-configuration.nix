@@ -24,7 +24,7 @@ in {
       "writeBuckets"
       "writeFiles"
     ];
-    bucket_id = config.resource.b2_bucket.restic "id";
+    bucket_ids = [ (config.resource.b2_bucket.restic "id") ];
 
     provisioner.local-exec = {
       command = ''

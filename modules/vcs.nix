@@ -15,7 +15,7 @@ in {
     programs.git = {
       enable = true;
 
-      ignores = [ "/worktrees" "/workspaces" "result*" ".DS_Store" ];
+      ignores = [ "/worktrees" "/workspaces" "result*" ".DS_Store" ".claude" ];
 
       settings = {
         advice = { addIgnoredFile = false; };

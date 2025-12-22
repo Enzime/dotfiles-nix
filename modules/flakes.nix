@@ -1,6 +1,6 @@
 let
   shared = { pkgs, ... }: {
-    nix.package = pkgs.nixVersions.latest;
+    nix.package = pkgs.lixPackageSets.latest.lix;
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nix.settings.warn-dirty = false;

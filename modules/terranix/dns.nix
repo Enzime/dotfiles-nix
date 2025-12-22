@@ -93,6 +93,22 @@ in {
     ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
   };
 
+  resource.desec_rrset.A_readeck_enzim_ee = {
+    domain = config.resource.desec_domain.enzim_ee "name";
+    subname = "readeck";
+    type = "A";
+    records = [ gaia.ipv4 ];
+    ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
+  };
+
+  resource.desec_rrset.AAAA_readeck_enzim_ee = {
+    domain = config.resource.desec_domain.enzim_ee "name";
+    subname = "readeck";
+    type = "AAAA";
+    records = [ gaia.ipv6 ];
+    ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
+  };
+
   resource.desec_rrset.A_test_enzim_ee = {
     domain = config.resource.desec_domain.enzim_ee "name";
     subname = "test";
