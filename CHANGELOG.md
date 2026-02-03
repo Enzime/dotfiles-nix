@@ -1,3 +1,4 @@
+- Use `~/Code/claude/:scratch`
 - Fixed `claude-code` in `llm-agents.nix` not building with `sandbox`
 - Removed `source ~/.zshrc` keybinding in `zsh`
 - Use `airdrop-cli`

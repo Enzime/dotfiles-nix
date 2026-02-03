@@ -2,22 +2,13 @@
 
 - Follow XDG desktop standards
 - Regularly reason about security implications of the code
-- Use `$HOME/.claude/outputs` as a scratch directory.
+- Use `~/Code/claude/:scratch` as a scratch directory.
 - In the Bash tool use absolute paths over `cd`
 
 ## Nix-specific
 
 - Use `--log-format bar-with-logs` with Nix for improved build log output.
-- The version of nix doesn't support the `--rebuild` flag.
-- Prefer nix to fetch python dependencies
-- When looking for build dependencies in a nix-shell/nix develop, check
-  environment variables for store paths to find the correct dependency versions.
-- On nix build failures, filter nix log output for the root cause instead of
-  time-intense rebuilding.
-- My nix.conf has remote builders for aarch64-linux/aarch64-darwin/x86_64-linux
-  by default, for NixOS tests therefore use x86_64-linux on macOS machines
-- Use nix-locate to find packages by path. i.e. `nix-locate bin/ip`
-- Use `nix run` to execute applications that are not installed.
+- Use `nix run` or `nix shell <installable> -c` to use programs that might not be installed.
 - Use `nix eval` instead of `nix flake show` to look up attributes in a flake.
 - Do not use `nix flake check` on the whole flake; it is too slow. Instead,
   build individual tests.
@@ -45,7 +36,6 @@
 - Rename the remote to `upstream` after cloning before running Jujutsu
 - Try to always use `jj` instead of `git`
 - Use the gh tool to interact with GitHub i.e.: `gh run view 18256703410 --log`
-- Use the tea CLI tool to interact with Gitea i.e.: `tea pr 5519 --comments`
 
 ## Jujutsu
 
