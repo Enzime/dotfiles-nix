@@ -1,3 +1,4 @@
+- Use merge queues on GitHub
 - Use `~/Code/claude/:scratch`
 - Fixed `claude-code` in `llm-agents.nix` not building with `sandbox`
 - Removed `source ~/.zshrc` keybinding in `zsh`
