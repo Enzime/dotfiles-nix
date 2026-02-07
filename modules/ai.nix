@@ -20,10 +20,7 @@
         allow = [ ];
         defaultMode = "default";
       };
-      enabledPlugins = {
-        "pyright-lsp@claude-plugins-official" = true;
-        "clangd-lsp@claude-plugins-official" = true;
-      };
+      enabledPlugins = { "pyright-lsp@claude-plugins-official" = true; };
       alwaysThinkingEnabled = true;
       cleanupPeriodDays = 99999;
       hooks = {
