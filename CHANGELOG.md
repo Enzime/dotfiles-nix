@@ -1,3 +1,4 @@
+- Use `claude-code-sandbox` on macOS
 - Removed `clangd-lsp` Claude Code plugin
 - Use `~/Code/claude/:scratch`
 - Fixed `claude-code` in `llm-agents.nix` not building with `sandbox`

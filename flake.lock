@@ -64,6 +64,29 @@
         "url": "https://git.clan.lol/clan/clan-core"
       }
     },
+    "claude-code-sandbox": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770402515,
+        "narHash": "sha256-3Xw+aKX4KR96AlKamL8s3YCp0RVKR2scBXhTEJQtY3Y=",
+        "owner": "neko-kai",
+        "repo": "claude-code-sandbox",
+        "rev": "dc4ba7c5c39b943ae409fe6aba9563ae874f20c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "neko-kai",
+        "repo": "claude-code-sandbox",
+        "type": "github"
+      }
+    },
     "data-mesher": {
       "inputs": {
         "flake-parts": [
@@ -500,6 +523,7 @@
     "root": {
       "inputs": {
         "clan-core": "clan-core",
+        "claude-code-sandbox": "claude-code-sandbox",
         "disko": "disko",
         "firefox-addons": "firefox-addons",
         "flake-parts": "flake-parts",
