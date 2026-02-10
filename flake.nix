@@ -68,6 +68,10 @@
   inputs.llm-agents.inputs.blueprint.inputs.systems.follows = "systems";
   inputs.llm-agents.inputs.treefmt-nix.follows = "treefmt-nix";
 
+  inputs.claude-code-sandbox.url = "github:neko-kai/claude-code-sandbox";
+  inputs.claude-code-sandbox.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.claude-code-sandbox.inputs.flake-utils.follows = "flake-utils";
+
   inputs.neovim-nightly-overlay.url =
     "github:nix-community/neovim-nightly-overlay";
   inputs.neovim-nightly-overlay.inputs.flake-parts.follows = "flake-parts";
