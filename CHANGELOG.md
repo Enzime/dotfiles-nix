@@ -1,3 +1,4 @@
+- Fix `claude-code-sandbox` not working with Lix
 - Use `claude-code-sandbox` on macOS
 - Fixed `mirror` GitHub Actions workflow running on forks
 - Removed `clangd-lsp` Claude Code plugin
