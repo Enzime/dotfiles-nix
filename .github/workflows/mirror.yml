@@ -2,6 +2,7 @@ on: [push, delete]
 
 jobs:
   to_gitea:
+    if: ${{ !github.event.repository.fork }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
