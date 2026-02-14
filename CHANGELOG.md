@@ -1,3 +1,4 @@
+- Removed `post-checkout` hook
 - Fixed `mirror` GitHub Actions workflow running on forks
 - Removed `clangd-lsp` Claude Code plugin
 - Use `~/Code/claude/:scratch`

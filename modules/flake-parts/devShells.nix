@@ -11,20 +11,8 @@
       };
 
       shellHook = ''
-        POST_CHECKOUT_HOOK=$(git rev-parse --git-common-dir)/hooks/post-checkout
-        TMPFILE=$(mktemp)
-        if curl -o $TMPFILE --fail https://raw.githubusercontent.com/Enzime/dotfiles-nix/HEAD/files/post-checkout; then
-          if [[ -e $POST_CHECKOUT_HOOK ]]; then
-            echo "Removing existing $POST_CHECKOUT_HOOK"
-            rm $POST_CHECKOUT_HOOK
-          fi
-          echo "Replacing $POST_CHECKOUT_HOOK with $TMPFILE"
-          cp $TMPFILE $POST_CHECKOUT_HOOK
-          chmod a+x $POST_CHECKOUT_HOOK
-        fi
-
-        if [[ -e $POST_CHECKOUT_HOOK ]]; then
-          $POST_CHECKOUT_HOOK
+        if [[ -e $(git rev-parse --show-toplevel)/.git-blame-ignore-revs ]]; then
+          git config --local blame.ignoreRevsFile .git-blame-ignore-revs
         fi
       '';
     };
