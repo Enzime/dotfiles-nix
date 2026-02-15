@@ -189,6 +189,8 @@ in {
 
     users.knownUsers = [ "root" user ];
 
+    nix.settings.sandbox = true;
+
     services.tailscale.overrideLocalDns = lib.mkDefault true;
   };
 
