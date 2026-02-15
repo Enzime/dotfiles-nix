@@ -2,7 +2,7 @@
   homeModule = { config, inputs, lib, pkgs, ... }: {
     home.packages = builtins.attrValues {
       inherit (inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system})
-        ccstatusline ccusage;
+        ccstatusline;
 
       claude-code =
         inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code.overrideAttrs
