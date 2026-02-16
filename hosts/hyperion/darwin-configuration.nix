@@ -15,13 +15,9 @@
   system.defaults.dock.persistent-apps = [
     "/Applications/Firefox.app"
     "${pkgs.ghostty-bin}/Applications/Ghostty.app"
-    "/Applications/1Password.app"
     "${pkgs.vscode}/Applications/Visual Studio Code.app"
     "${pkgs.spotify}/Applications/Spotify.app"
-    "/System/Applications/Calendar.app"
-    "${pkgs.joplin-desktop}/Applications/Joplin.app"
-    "/System/Applications/System Settings.app"
-    "/System/Applications/iPhone Mirroring.app"
+    "/Applications/Element.app"
   ];
 
   nix.distributedBuilds = true;
