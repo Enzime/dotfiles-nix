@@ -1,8 +1,10 @@
 {
   nixosModule =
-    { user, ... }:
+    { user, pkgs, ... }:
     {
-      programs.adb.enable = true;
+      environment.systemPackages = builtins.attrValues {
+        inherit (pkgs) android-tools;
+      };
 
       users.users.${user}.extraGroups = [ "adbusers" ];
     };

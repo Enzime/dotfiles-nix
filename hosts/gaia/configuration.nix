@@ -44,7 +44,7 @@
   };
 
   nixpkgs.config.permittedInsecurePackages =
-    assert pkgs.mautrix-signal.version == "25.12";
+    assert pkgs.mautrix-signal.version == "26.02";
     [ "olm-3.2.16" ];
 
   nix.distributedBuilds = true;

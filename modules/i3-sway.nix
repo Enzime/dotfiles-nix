@@ -149,8 +149,7 @@
       wayland.windowManager.sway.config = sharedConfig;
 
       home.packages = builtins.attrValues {
-        inherit (pkgs) bemenu powermenu;
-        inherit (pkgs.xfce) thunar;
+        inherit (pkgs) bemenu powermenu thunar;
       };
 
       programs.alacritty.enable = true;
