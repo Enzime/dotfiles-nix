@@ -1,5 +1,6 @@
 self: super: {
-  i3-ws = assert !super ? i3-ws;
+  i3-ws =
+    assert !super ? i3-ws;
     super.stdenv.mkDerivation (finalAttrs: {
       pname = "i3-ws";
       version = "git-2017-07-30";
@@ -12,11 +13,9 @@ self: super: {
         fetchSubmodules = true;
       };
 
-      buildInputs =
-        builtins.attrValues { inherit (super) i3 jsoncpp libsigcxx; };
+      buildInputs = builtins.attrValues { inherit (super) i3 jsoncpp libsigcxx; };
 
-      nativeBuildInputs =
-        builtins.attrValues { inherit (super) cmake pkg-config; };
+      nativeBuildInputs = builtins.attrValues { inherit (super) cmake pkg-config; };
 
       meta.mainProgram = finalAttrs.pname;
     });

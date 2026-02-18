@@ -1,4 +1,9 @@
-{ user, config, pkgs, ... }:
+{
+  user,
+  config,
+  pkgs,
+  ...
+}:
 
 {
   networking.knownNetworkServices = [ "Wi-Fi" ];
@@ -31,8 +36,13 @@
       sshUser = "builder";
       sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
       system = "x86_64-linux";
-      supportedFeatures =
-        [ "kvm" "benchmark" "big-parallel" "nixos-test" "uid-range" ];
+      supportedFeatures = [
+        "kvm"
+        "benchmark"
+        "big-parallel"
+        "nixos-test"
+        "uid-range"
+      ];
       maxJobs = 96;
     }
     {
@@ -41,8 +51,13 @@
       sshUser = "builder";
       sshKey = config.clan.core.vars.generators.nix-remote-build.files.key.path;
       system = "aarch64-linux";
-      supportedFeatures =
-        [ "kvm" "benchmark" "big-parallel" "nixos-test" "uid-range" ];
+      supportedFeatures = [
+        "kvm"
+        "benchmark"
+        "big-parallel"
+        "nixos-test"
+        "uid-range"
+      ];
       maxJobs = 96;
     }
   ];

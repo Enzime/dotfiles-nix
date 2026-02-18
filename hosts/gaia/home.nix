@@ -1,8 +1,10 @@
 {
-  wayland.windowManager.sway.config.workspaceOutputAssign = [{
-    workspace = "1";
-    output = "VGA-1";
-  }];
+  wayland.windowManager.sway.config.workspaceOutputAssign = [
+    {
+      workspace = "1";
+      output = "VGA-1";
+    }
+  ];
 
-  wayland.windowManager.sway.config.startup = [{ command = "firefox"; }];
+  wayland.windowManager.sway.config.startup = [ { command = "firefox"; } ];
 }

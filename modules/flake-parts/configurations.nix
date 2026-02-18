@@ -1,4 +1,5 @@
-{ lib, flake-parts-lib, ... }: {
+{ lib, flake-parts-lib, ... }:
+{
   imports = [
     (flake-parts-lib.mkTransposedPerSystemModule {
       name = "terraformConfigurations";

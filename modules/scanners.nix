@@ -1,10 +1,11 @@
 {
-  nixosModule = { user, pkgs, ... }: {
-    hardware.sane.enable = true;
+  nixosModule =
+    { user, pkgs, ... }:
+    {
+      hardware.sane.enable = true;
 
-    users.users.${user}.extraGroups = [ "scanner" ];
+      users.users.${user}.extraGroups = [ "scanner" ];
 
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) simple-scan; };
-  };
+      environment.systemPackages = builtins.attrValues { inherit (pkgs) simple-scan; };
+    };
 }

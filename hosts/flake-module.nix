@@ -1,14 +1,22 @@
 { self-lib, ... }:
-let inherit (self-lib) modules;
-in {
+let
+  inherit (self-lib) modules;
+in
+{
   imports = map self-lib.mkConfiguration [
     {
       host = "hyperion";
       hostSuffix = "-macos";
       user = "enzime";
       system = "aarch64-darwin";
-      modules =
-        builtins.attrNames { inherit (modules) ai android laptop personal; };
+      modules = builtins.attrNames {
+        inherit (modules)
+          ai
+          android
+          laptop
+          personal
+          ;
+      };
     }
     {
       host = "phi";
@@ -17,8 +25,19 @@ in {
       system = "x86_64-linux";
       modules = builtins.attrNames {
         inherit (modules)
-          android bluetooth deluge nextcloud personal printers restic samba
-          scanners sway wireless virt-manager;
+          android
+          bluetooth
+          deluge
+          nextcloud
+          personal
+          printers
+          restic
+          samba
+          scanners
+          sway
+          wireless
+          virt-manager
+          ;
       };
       tags = [ "wireless-personal" ];
     }
@@ -27,7 +46,12 @@ in {
       user = "enzime";
       system = "x86_64-linux";
       modules = builtins.attrNames {
-        inherit (modules) impermanence laptop personal sway;
+        inherit (modules)
+          impermanence
+          laptop
+          personal
+          sway
+          ;
       };
       tags = [ "wireless-personal" ];
     }
@@ -36,7 +60,13 @@ in {
       user = "enzime";
       system = "x86_64-linux";
       modules = builtins.attrNames {
-        inherit (modules) hoopsnake impermanence readeck reflector vncserver;
+        inherit (modules)
+          hoopsnake
+          impermanence
+          readeck
+          reflector
+          vncserver
+          ;
       };
     }
   ];

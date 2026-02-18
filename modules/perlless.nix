@@ -1,11 +1,13 @@
 {
-  nixosModule = { modulesPath, lib, ... }: {
-    imports = [ (modulesPath + "/profiles/perlless.nix") ];
+  nixosModule =
+    { modulesPath, lib, ... }:
+    {
+      imports = [ (modulesPath + "/profiles/perlless.nix") ];
 
-    system.forbiddenDependenciesRegexes = lib.mkForce [ ];
+      system.forbiddenDependenciesRegexes = lib.mkForce [ ];
 
-    image.modules.iso-installer = {
-      disabledModules = [ (modulesPath + "/profiles/perlless.nix") ];
+      image.modules.iso-installer = {
+        disabledModules = [ (modulesPath + "/profiles/perlless.nix") ];
+      };
     };
-  };
 }

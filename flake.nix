@@ -14,8 +14,7 @@
   inputs.flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
   inputs.flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.firefox-addons.url =
-    "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+  inputs.firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
   inputs.firefox-addons.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.disko.url = "github:nix-community/disko";
@@ -59,8 +58,7 @@
   inputs.hoopsnake.inputs.generate-go-sri.follows = "";
   inputs.hoopsnake.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixpkgs-terraform-providers-bin.url =
-    "github:nix-community/nixpkgs-terraform-providers-bin";
+  inputs.nixpkgs-terraform-providers-bin.url = "github:nix-community/nixpkgs-terraform-providers-bin";
   inputs.nixpkgs-terraform-providers-bin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.llm-agents.url = "github:numtide/llm-agents.nix";
@@ -68,34 +66,35 @@
   inputs.llm-agents.inputs.blueprint.inputs.systems.follows = "systems";
   inputs.llm-agents.inputs.treefmt-nix.follows = "treefmt-nix";
 
-  inputs.claude-code-sandbox.url =
-    "github:neko-kai/claude-code-sandbox/pull/5/merge";
+  inputs.claude-code-sandbox.url = "github:neko-kai/claude-code-sandbox/pull/5/merge";
   inputs.claude-code-sandbox.inputs.nixpkgs.follows = "nixpkgs";
   inputs.claude-code-sandbox.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.neovim-nightly-overlay.url =
-    "github:nix-community/neovim-nightly-overlay";
+  inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   inputs.neovim-nightly-overlay.inputs.flake-parts.follows = "flake-parts";
   inputs.neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {
-      inherit inputs;
-      specialArgs = {
-        self-lib = (import ./lib.nix) { inherit (inputs.nixpkgs) lib; };
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake
+      {
+        inherit inputs;
+        specialArgs = {
+          self-lib = (import ./lib.nix) { inherit (inputs.nixpkgs) lib; };
+        };
+      }
+      {
+        imports = [
+          inputs.clan-core.flakeModules.default
+          inputs.treefmt-nix.flakeModule
+
+          ./hosts/flake-module.nix
+          ./modules/flake-parts/flake-module.nix
+          ./.github/flake-module.nix
+        ];
+        systems = import inputs.systems;
+
+        # Dirty hack to enable debug mode in `nix repl`
+        debug = builtins ? currentSystem;
       };
-    } {
-      imports = [
-        inputs.clan-core.flakeModules.default
-        inputs.treefmt-nix.flakeModule
-
-        ./hosts/flake-module.nix
-        ./modules/flake-parts/flake-module.nix
-        ./.github/flake-module.nix
-      ];
-      systems = import inputs.systems;
-
-      # Dirty hack to enable debug mode in `nix repl`
-      debug = builtins ? currentSystem;
-    };
 }

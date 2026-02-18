@@ -1,8 +1,15 @@
 { hostname, ... }:
-{ config, inputs', lib, ... }:
+{
+  config,
+  inputs',
+  lib,
+  ...
+}:
 
-let clan = inputs'.clan-core.packages.clan-cli;
-in {
+let
+  clan = inputs'.clan-core.packages.clan-cli;
+in
+{
   resource.b2_application_key.restic = {
     key_name = "restic";
     # default list when manually creating application key through Backblaze web interface
@@ -30,17 +37,11 @@ in {
       command = ''
         set -ex
 
-        echo '${lib.tf.ref "self.application_key_id"}' | ${
-          lib.getExe clan
-        } vars set --debug ${hostname} restic-backblaze/key-id
+        echo '${lib.tf.ref "self.application_key_id"}' | ${lib.getExe clan} vars set --debug ${hostname} restic-backblaze/key-id
 
-        echo '${lib.tf.ref "self.application_key"}' | ${
-          lib.getExe clan
-        } vars set --debug ${hostname} restic-backblaze/app-key
+        echo '${lib.tf.ref "self.application_key"}' | ${lib.getExe clan} vars set --debug ${hostname} restic-backblaze/app-key
 
-        ${
-          lib.getExe clan
-        } vars generate --debug ${hostname} --generator restic-backblaze-environment
+        ${lib.getExe clan} vars generate --debug ${hostname} --generator restic-backblaze-environment
       '';
     };
   };

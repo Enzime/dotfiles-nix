@@ -1,48 +1,52 @@
 {
-  imports = [ "firefox" "fonts" "greetd" ];
+  imports = [
+    "firefox"
+    "fonts"
+    "greetd"
+  ];
 
-  darwinModule = { user, pkgs, ... }: {
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) airdrop-cli rectangle; };
+  darwinModule =
+    { user, pkgs, ... }:
+    {
+      environment.systemPackages = builtins.attrValues { inherit (pkgs) airdrop-cli rectangle; };
 
-    launchd.user.agents.rectangle = {
-      command =
-        ''"/Applications/Nix Apps/Rectangle.app/Contents/MacOS/Rectangle"'';
-      serviceConfig.RunAtLoad = true;
+      launchd.user.agents.rectangle = {
+        command = ''"/Applications/Nix Apps/Rectangle.app/Contents/MacOS/Rectangle"'';
+        serviceConfig.RunAtLoad = true;
+      };
+
+      # Close Terminal if shell exited cleanly
+      system.activationScripts.extraActivation.text = ''
+        if [[ -f ~${user}/Library/Preferences/com.apple.Terminal.plist ]]; then
+          sudo -u ${user} plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~${user}/Library/Preferences/com.apple.Terminal.plist
+        fi
+      '';
+
+      # WORKAROUND: Screensaver starts on the login screen and cannot be closed from VNC
+      system.defaults.CustomSystemPreferences."/Library/Preferences/com.apple.screensaver".loginWindowIdleTime =
+        0;
+
+      system.defaults.screencapture.location = "~/Pictures/Screenshots";
+
+      system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
+
+      # disable `Add full stop with double-space`
+      system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
+
+      system.defaults.dock.autohide = true;
     };
 
-    # Close Terminal if shell exited cleanly
-    system.activationScripts.extraActivation.text = ''
-      if [[ -f ~${user}/Library/Preferences/com.apple.Terminal.plist ]]; then
-        sudo -u ${user} plutil -replace "Window Settings.Basic.shellExitAction" -integer 1 ~${user}/Library/Preferences/com.apple.Terminal.plist
-      fi
-    '';
+  nixosModule =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = builtins.attrValues { inherit (pkgs) gparted pavucontrol; };
 
-    # WORKAROUND: Screensaver starts on the login screen and cannot be closed from VNC
-    system.defaults.CustomSystemPreferences."/Library/Preferences/com.apple.screensaver".loginWindowIdleTime =
-      0;
+      services.xserver.enable = true;
 
-    system.defaults.screencapture.location = "~/Pictures/Screenshots";
-
-    system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
-
-    # disable `Add full stop with double-space`
-    system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
-
-    system.defaults.dock.autohide = true;
-  };
-
-  nixosModule = { pkgs, ... }: {
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) gparted pavucontrol; };
-
-    services.xserver.enable = true;
-
-    services.pulseaudio.enable = false;
-    services.pipewire.enable = true;
-    services.pipewire.alsa.enable = true;
-    services.pipewire.alsa.support32Bit = true;
-    services.pipewire.pulse.enable = true;
-  };
+      services.pulseaudio.enable = false;
+      services.pipewire.enable = true;
+      services.pipewire.alsa.enable = true;
+      services.pipewire.alsa.support32Bit = true;
+      services.pipewire.pulse.enable = true;
+    };
 }
-

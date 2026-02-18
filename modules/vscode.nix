@@ -1,22 +1,32 @@
 {
   darwinModule = {
-    system.defaults.CustomUserPreferences."com.microsoft.VSCode"."ApplePressAndHoldEnabled" =
-      false;
+    system.defaults.CustomUserPreferences."com.microsoft.VSCode"."ApplePressAndHoldEnabled" = false;
   };
 
-  homeModule = { config, inputs, pkgs, lib, ... }:
-    let inherit (pkgs.stdenv) hostPlatform;
-    in {
-      home.file.".vscode-server/extensions".source =
-        config.home.file.".vscode/extensions".source;
+  homeModule =
+    {
+      config,
+      inputs,
+      pkgs,
+      lib,
+      ...
+    }:
+    let
+      inherit (pkgs.stdenv) hostPlatform;
+    in
+    {
+      home.file.".vscode-server/extensions".source = config.home.file.".vscode/extensions".source;
 
       programs.vscode.enable = true;
       # Don't install `vscode` unless `graphical` module is specified
-      programs.vscode.package = lib.mkDefault (pkgs.emptyDirectory // {
-        pname = "vscode";
-        # Required for version check to generate extensions.json
-        version = "1.74.0";
-      });
+      programs.vscode.package = lib.mkDefault (
+        pkgs.emptyDirectory
+        // {
+          pname = "vscode";
+          # Required for version check to generate extensions.json
+          version = "1.74.0";
+        }
+      );
       programs.vscode.mutableExtensionsDir = false;
       programs.vscode.profiles.default.extensions = [
         pkgs.vscode-extensions.asvetliakov.vscode-neovim
@@ -40,14 +50,17 @@
         pkgs.vscode-extensions.xadillax.viml
         pkgs.vscode-extensions.nefrob.vscode-just-syntax
         pkgs.vscode-extensions.golang.go
-      ] ++ lib.optionals (hostPlatform.isx86_64 || hostPlatform.isDarwin) [
+      ]
+      ++ lib.optionals (hostPlatform.isx86_64 || hostPlatform.isDarwin) [
         (pkgs.vscode-extensions.ms-python.python.override {
           pythonUseFixed = true;
         })
       ];
       programs.vscode.profiles.default.keybindings =
-        let mod = if hostPlatform.isDarwin then "cmd" else "ctrl";
-        in [
+        let
+          mod = if hostPlatform.isDarwin then "cmd" else "ctrl";
+        in
+        [
           # Fix `C-e` not working in terminal
           {
             key = "ctrl+e";
@@ -64,8 +77,7 @@
           {
             key = "ctrl+o";
             command = "-vscode-neovim.send";
-            when =
-              "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'";
+            when = "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'";
           }
 
           # Use `C-,` as a leader key
@@ -118,16 +130,14 @@
           {
             key = "ctrl+w";
             command = "-workbench.action.terminal.killEditor";
-            when =
-              "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'";
+            when = "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'";
           }
 
           # Disable `C-k` passthrough as VS Code uses `C-k` as the starting chord extensively
           {
             key = "ctrl+k";
             command = "-vscode-neovim.send";
-            when =
-              "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'";
+            when = "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'";
           }
 
           # Use `C-S-k` for clearing the terminal
@@ -166,8 +176,10 @@
           }
         ];
       programs.vscode.profiles.default.userSettings =
-        let nvimSystem = if hostPlatform.isDarwin then "darwin" else "linux";
-        in {
+        let
+          nvimSystem = if hostPlatform.isDarwin then "darwin" else "linux";
+        in
+        {
           "update.mode" = "manual";
           "extensions.autoUpdate" = false;
           "extensions.autoCheckUpdates" = false;
@@ -181,8 +193,7 @@
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = lib.getExe pkgs.nil;
           "nix.serverSettings".nil.formatting.command = [
-            (lib.getExe
-              inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cached-nix-fmt)
+            (lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cached-nix-fmt)
             "--stdin"
             "example.nix"
           ];
@@ -196,7 +207,9 @@
 
           "editor.formatOnSave" = true;
           # Primarily for ESLint
-          "editor.codeActionsOnSave" = { "source.fixAll" = "explicit"; };
+          "editor.codeActionsOnSave" = {
+            "source.fixAll" = "explicit";
+          };
 
           "editor.lineNumbers" = "relative";
           "editor.renderFinalNewline" = "off";
@@ -216,12 +229,16 @@
           "git.mergeEditor" = false;
 
           # Don't use GitLens to edit git rebase commands
-          "workbench.editorAssociations" = { "git-rebase-todo" = "default"; };
+          "workbench.editorAssociations" = {
+            "git-rebase-todo" = "default";
+          };
 
-          "gitlens.remotes" = [{
-            domain = "git.clan.lol";
-            type = "Gitea";
-          }];
+          "gitlens.remotes" = [
+            {
+              domain = "git.clan.lol";
+              type = "Gitea";
+            }
+          ];
 
           # Don't warn when Git is disabled due to conflicts with jjk
           "gitlens.advanced.messages" = {
@@ -283,12 +300,13 @@
       preservation.directories = [ ".config/Code" ];
 
       home.file.".vscode-server/data/Machine/settings.json".source =
-        (pkgs.formats.json { }).generate "vscode-server-settings.json" {
-          "nix.serverPath" = lib.getExe pkgs.nil;
-        };
+        (pkgs.formats.json { }).generate "vscode-server-settings.json"
+          {
+            "nix.serverPath" = lib.getExe pkgs.nil;
+          };
 
-      programs.git.settings.core.editor = lib.getExe
-        (pkgs.writeShellApplication {
+      programs.git.settings.core.editor = lib.getExe (
+        pkgs.writeShellApplication {
           name = "use-vscode-sometimes";
           text = ''
             if [[ $TERM_PROGRAM = "vscode" ]]; then
@@ -297,9 +315,9 @@
               vim "$@"
             fi
           '';
-        });
+        }
+      );
 
-      programs.jujutsu.settings.ui.editor =
-        config.programs.git.settings.core.editor;
+      programs.jujutsu.settings.ui.editor = config.programs.git.settings.core.editor;
     };
 }

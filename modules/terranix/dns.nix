@@ -1,4 +1,9 @@
-{ config, self', lib, ... }:
+{
+  config,
+  self',
+  lib,
+  ...
+}:
 
 let
   phi-nixos = {
@@ -10,24 +15,29 @@ let
     ipv4 = config.resource.vultr_instance.gaia "main_ip";
     # WORKAROUND: Vultr returns IPv6 addresses with leading zeroes
     # https://github.com/vultr/terraform-provider-vultr/issues/271
-    ipv6 = lib.tf.ref ''
-      cidrhost("${config.resource.vultr_instance.gaia "v6_main_ip"}/128", 0)'';
+    ipv6 = lib.tf.ref ''cidrhost("${config.resource.vultr_instance.gaia "v6_main_ip"}/128", 0)'';
   };
 
   styx = {
     ipv4 = "194.195.254.56";
     ipv6 = "2400:8907::f03c:92ff:fe04:4f40";
   };
-in {
+in
+{
   terraform.required_providers.desec.source = "Valodim/desec";
 
   data.external.desec-api-key = {
-    program = [ (lib.getExe self'.packages.get-clan-secret) "desec-api-key" ];
+    program = [
+      (lib.getExe self'.packages.get-clan-secret)
+      "desec-api-key"
+    ];
   };
 
   provider.desec.api_token = config.data.external.desec-api-key "result.secret";
 
-  resource.desec_domain.enzim_ee = { name = "enzim.ee"; };
+  resource.desec_domain.enzim_ee = {
+    name = "enzim.ee";
+  };
 
   resource.desec_rrset.A_enzim_ee = {
     domain = config.resource.desec_domain.enzim_ee "name";
@@ -209,8 +219,10 @@ in {
     domain = config.resource.desec_domain.enzim_ee "name";
     subname = "";
     type = "MX";
-    records =
-      [ "10 in1-smtp.messagingengine.com." "20 in2-smtp.messagingengine.com." ];
+    records = [
+      "10 in1-smtp.messagingengine.com."
+      "20 in2-smtp.messagingengine.com."
+    ];
     ttl = config.resource.desec_domain.enzim_ee "minimum_ttl";
   };
 

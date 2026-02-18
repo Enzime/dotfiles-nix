@@ -1,6 +1,17 @@
 let
   shared =
-    { config, configRevision, inputs, user, hostname, keys, pkgs, lib, ... }: {
+    {
+      config,
+      configRevision,
+      inputs,
+      user,
+      hostname,
+      keys,
+      pkgs,
+      lib,
+      ...
+    }:
+    {
       # Add flake revision to `nixos-version --json`
       system.configurationRevision = configRevision.full;
 
@@ -10,23 +21,31 @@ let
 
       nix.channel.enable = false;
 
-      environment.systemPackages = (builtins.attrValues {
-        inherit (pkgs) killall nix-output-monitor ranger sshfs unzip wget zip;
-      }) ++ [
-        inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
+      environment.systemPackages =
+        (builtins.attrValues {
+          inherit (pkgs)
+            killall
+            nix-output-monitor
+            ranger
+            sshfs
+            unzip
+            wget
+            zip
+            ;
+        })
+        ++ [
+          inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default
+          inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default
+        ];
 
       users.users.root = {
-        openssh.authorizedKeys.keys =
-          builtins.attrValues { inherit (keys.users) enzime; };
+        openssh.authorizedKeys.keys = builtins.attrValues { inherit (keys.users) enzime; };
       };
 
       users.users.${user} = {
         # WORKAROUND: Fixes alacritty's terminfo not being found on macOS over SSH
         shell = pkgs.zsh;
-        openssh.authorizedKeys.keys =
-          builtins.attrValues { inherit (keys.users) enzime; };
+        openssh.authorizedKeys.keys = builtins.attrValues { inherit (keys.users) enzime; };
       };
 
       # Generate `/etc/nix/inputs/<input>` and `/etc/nix/registry.json` using FUP
@@ -53,28 +72,30 @@ let
 
       nix.settings.builders-use-substitutes = true;
 
-      nix.settings.secret-key-files =
-        lib.mkIf (keys.signing ? ${hostname}) [ "/etc/nix/key" ];
+      nix.settings.secret-key-files = lib.mkIf (keys.signing ? ${hostname}) [ "/etc/nix/key" ];
 
-      nix.settings.trusted-public-keys = builtins.attrValues
-        (lib.optionalAttrs (keys.signing ? ${hostname}) {
+      nix.settings.trusted-public-keys = builtins.attrValues (
+        lib.optionalAttrs (keys.signing ? ${hostname}) {
           self = keys.signing.${hostname};
-        });
+        }
+      );
 
       home-manager.users.root.home.stateVersion = "24.05";
 
       # We don't use `programs.ssh.extraConfig` because the SSH module
       # sets a bunch of settings we don't necessarily want
-      home-manager.users.root.home.file.".ssh/config".text = let
-        hostKey = if pkgs.stdenv.hostPlatform.isDarwin then
-          "/etc/ssh/ssh_host_ed25519_key"
-        else
-          (lib.findFirst (k: k.type == "ed25519") { }
-            config.services.openssh.hostKeys).path;
-      in ''
-        Host *
-          IdentityFile ${hostKey}
-      '';
+      home-manager.users.root.home.file.".ssh/config".text =
+        let
+          hostKey =
+            if pkgs.stdenv.hostPlatform.isDarwin then
+              "/etc/ssh/ssh_host_ed25519_key"
+            else
+              (lib.findFirst (k: k.type == "ed25519") { } config.services.openssh.hostKeys).path;
+        in
+        ''
+          Host *
+            IdentityFile ${hostKey}
+        '';
 
       services.openssh.enable = true;
 
@@ -85,13 +106,15 @@ let
       programs.nix-index-database.comma.enable = true;
     };
 
-  preservationStub = { lib, ... }: {
-    key = "preservation#stub";
+  preservationStub =
+    { lib, ... }:
+    {
+      key = "preservation#stub";
 
-    options.preservation =
-      lib.mkOption { type = lib.types.lazyAttrsOf lib.types.unspecified; };
-  };
-in {
+      options.preservation = lib.mkOption { type = lib.types.lazyAttrsOf lib.types.unspecified; };
+    };
+in
+{
   imports = [
     "alacritty"
     "builder"
@@ -109,94 +132,121 @@ in {
     "xdg"
   ];
 
-  nixosModule = { config, user, hostname, pkgs, lib, ... }: {
-    imports = [ shared ];
+  nixosModule =
+    {
+      config,
+      user,
+      hostname,
+      pkgs,
+      lib,
+      ...
+    }:
+    {
+      imports = [ shared ];
 
-    i18n.defaultLocale = "en_AU.UTF-8";
+      i18n.defaultLocale = "en_AU.UTF-8";
 
-    environment.etc."nixos".source =
-      "${config.users.users.${user}.home}/dotfiles";
+      environment.etc."nixos".source = "${config.users.users.${user}.home}/dotfiles";
 
-    hardware.enableRedistributableFirmware = true;
+      hardware.enableRedistributableFirmware = true;
 
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) systemctl-tui; };
+      environment.systemPackages = builtins.attrValues { inherit (pkgs) systemctl-tui; };
 
-    programs.neovim.enable = true;
-    programs.neovim.vimAlias = true;
-    programs.neovim.defaultEditor = true;
+      programs.neovim.enable = true;
+      programs.neovim.vimAlias = true;
+      programs.neovim.defaultEditor = true;
 
-    networking.firewall.trustedInterfaces =
-      [ config.services.tailscale.interfaceName ];
+      networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
 
-    services.openssh.settings.PermitRootLogin = "prohibit-password";
-
-    users.users.${user} = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-    };
-
-    image.modules.iso-installer = {
-      networking.hostName = lib.mkForce "${hostname}-installer";
-
-      # Use `<user>` instead of `nixos`
-      users.users.nixos.enable = false;
-
-      services.getty.autologinUser = lib.mkForce user;
+      services.openssh.settings.PermitRootLogin = "prohibit-password";
 
       users.users.${user} = {
-        hashedPasswordFile = lib.mkForce null;
-        # `su`, `swaylock` and `polkit` are all broken with an empty password
-        password = "apple";
-        extraGroups = [ "networkmanager" ];
+        isNormalUser = true;
+        extraGroups = [ "wheel" ];
       };
 
-      users.users.root.hashedPasswordFile = lib.mkForce null;
-    };
-  };
+      image.modules.iso-installer = {
+        networking.hostName = lib.mkForce "${hostname}-installer";
 
-  darwinModule = { user, host, inputs, config, pkgs, lib, ... }: {
-    imports = [ shared ];
+        # Use `<user>` instead of `nixos`
+        users.users.nixos.enable = false;
 
-    system.primaryUser = user;
+        services.getty.autologinUser = lib.mkForce user;
 
-    # Used for `system.nixpkgsRevision`
-    nixpkgs.source = inputs.nixpkgs;
+        users.users.${user} = {
+          hashedPasswordFile = lib.mkForce null;
+          # `su`, `swaylock` and `polkit` are all broken with an empty password
+          password = "apple";
+          extraGroups = [ "networkmanager" ];
+        };
 
-    # This already gets set by FUP
-    nixpkgs.flake.setFlakeRegistry = false;
-    nixpkgs.flake.setNixPath = false;
-
-    networking.computerName = host;
-
-    environment.etc."nix-darwin".source =
-      "${config.users.users.${user}.home}/dotfiles";
-
-    environment.shells = [ pkgs.zsh ];
-
-    users.users.root = {
-      uid = 0;
-      # Necessary otherwise `home-manager` will error out
-      home = "/var/root";
-      # WORKAROUND: Fixes alacritty's terminfo not being found over SSH
-      shell = pkgs.zsh;
+        users.users.root.hashedPasswordFile = lib.mkForce null;
+      };
     };
 
-    users.users.${user} = {
-      uid = 501;
-      home = "/Users/${user}";
+  darwinModule =
+    {
+      user,
+      host,
+      inputs,
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
+    {
+      imports = [ shared ];
+
+      system.primaryUser = user;
+
+      # Used for `system.nixpkgsRevision`
+      nixpkgs.source = inputs.nixpkgs;
+
+      # This already gets set by FUP
+      nixpkgs.flake.setFlakeRegistry = false;
+      nixpkgs.flake.setNixPath = false;
+
+      networking.computerName = host;
+
+      environment.etc."nix-darwin".source = "${config.users.users.${user}.home}/dotfiles";
+
+      environment.shells = [ pkgs.zsh ];
+
+      users.users.root = {
+        uid = 0;
+        # Necessary otherwise `home-manager` will error out
+        home = "/var/root";
+        # WORKAROUND: Fixes alacritty's terminfo not being found over SSH
+        shell = pkgs.zsh;
+      };
+
+      users.users.${user} = {
+        uid = 501;
+        home = "/Users/${user}";
+      };
+
+      users.knownUsers = [
+        "root"
+        user
+      ];
+
+      nix.settings.sandbox = true;
+
+      services.tailscale.overrideLocalDns = lib.mkDefault true;
     };
 
-    users.knownUsers = [ "root" user ];
-
-    nix.settings.sandbox = true;
-
-    services.tailscale.overrideLocalDns = lib.mkDefault true;
-  };
-
-  homeModule = { config, inputs, pkgs, lib, ... }:
-    let inherit (pkgs.stdenv) hostPlatform;
-    in {
+  homeModule =
+    {
+      config,
+      inputs,
+      pkgs,
+      lib,
+      ...
+    }:
+    let
+      inherit (pkgs.stdenv) hostPlatform;
+    in
+    {
       imports = [ preservationStub ];
 
       home.stateVersion = "22.11";
@@ -205,8 +255,17 @@ in {
       # https://nix.dev/anti-patterns/language#with-attrset-expression
       home.packages = builtins.attrValues {
         inherit (pkgs)
-          peco ripgrep jq htop ranger tmux tree magic-wormhole-rs hishtory
-          zellij;
+          peco
+          ripgrep
+          jq
+          htop
+          ranger
+          tmux
+          tree
+          magic-wormhole-rs
+          hishtory
+          zellij
+          ;
 
         reptyr = lib.mkIf hostPlatform.isLinux pkgs.reptyr;
       };
@@ -214,11 +273,12 @@ in {
       # Allow fonts to be specified in `home.packages`
       fonts.fontconfig.enable = true;
 
-      xdg.configFile."home-manager".source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/dotfiles";
+      xdg.configFile."home-manager".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles";
 
       # Remove this once we have autoGenFromInputs for home-manager
-      home.extraBuilderCommands = assert (!(config.nix or { }) ? linkInputs);
+      home.extraBuilderCommands =
+        assert (!(config.nix or { }) ? linkInputs);
         "ln -sv ${inputs.self} $out/dotfiles";
 
       home.sessionVariables = {
@@ -243,7 +303,9 @@ in {
       '';
 
       programs.aria2.enable = true;
-      programs.aria2.settings = { continue = true; };
+      programs.aria2.settings = {
+        continue = true;
+      };
 
       programs.zsh = {
         enable = true;
@@ -324,46 +386,44 @@ in {
         pkgs.vimPlugins.vim-operator-flashy
         pkgs.vimPlugins.vim-illuminate
         pkgs.vimPlugins.vim-argwrap
-      ] ++ map (plugin: {
-        inherit plugin;
-        optional = true;
-      }) [
-        # Plugins for standalone Neovim
-        pkgs.vimPlugins.hybrid-krompus-vim
-        pkgs.vimPlugins.neovim-ranger
+      ]
+      ++
+        map
+          (plugin: {
+            inherit plugin;
+            optional = true;
+          })
+          [
+            # Plugins for standalone Neovim
+            pkgs.vimPlugins.hybrid-krompus-vim
+            pkgs.vimPlugins.neovim-ranger
 
-        pkgs.vimPlugins.denite-nvim
-        pkgs.vimPlugins.editorconfig-nvim
-        pkgs.vimPlugins.lightline-vim
-        pkgs.vimPlugins.vim-commentary
-        pkgs.vimPlugins.vim-css-color
-        pkgs.vimPlugins.vim-fugitive
-        pkgs.vimPlugins.vim-signature
-        pkgs.vimPlugins.undotree
+            pkgs.vimPlugins.denite-nvim
+            pkgs.vimPlugins.editorconfig-nvim
+            pkgs.vimPlugins.lightline-vim
+            pkgs.vimPlugins.vim-commentary
+            pkgs.vimPlugins.vim-css-color
+            pkgs.vimPlugins.vim-fugitive
+            pkgs.vimPlugins.vim-signature
+            pkgs.vimPlugins.undotree
 
-        pkgs.vimPlugins.ale
-        pkgs.vimPlugins.vim-beancount
-        pkgs.vimPlugins.vim-cpp-enhanced-highlight
-        pkgs.vimPlugins.vim-javascript
-        pkgs.vimPlugins.vim-jsx-pretty
-        pkgs.vimPlugins.vim-nix
-      ];
+            pkgs.vimPlugins.ale
+            pkgs.vimPlugins.vim-beancount
+            pkgs.vimPlugins.vim-cpp-enhanced-highlight
+            pkgs.vimPlugins.vim-javascript
+            pkgs.vimPlugins.vim-jsx-pretty
+            pkgs.vimPlugins.vim-nix
+          ];
       programs.neovim.extraConfig = lib.readFile ../files/init.vim;
 
-      xdg.dataFile."nvim/rplugin.vim".source =
-        pkgs.runCommand "update-remote-plugins" { } ''
-          NVIM_RPLUGIN_MANIFEST=$out timeout 5s ${
-            lib.getExe config.programs.neovim.finalPackage
-          } \
-            -i NONE \
-            -n \
-            -u ${
-              pkgs.writeText "init.lua"
-              config.xdg.configFile."nvim/init.lua".text
-            } \
-            -c UpdateRemotePlugins \
-            -c quit
-        '';
+      xdg.dataFile."nvim/rplugin.vim".source = pkgs.runCommand "update-remote-plugins" { } ''
+        NVIM_RPLUGIN_MANIFEST=$out timeout 5s ${lib.getExe config.programs.neovim.finalPackage} \
+          -i NONE \
+          -n \
+          -u ${pkgs.writeText "init.lua" config.xdg.configFile."nvim/init.lua".text} \
+          -c UpdateRemotePlugins \
+          -c quit
+      '';
 
       xdg.configFile."ranger/rc.conf".source = ../files/rc.conf;
       xdg.configFile."ranger/commands.py".source = ../files/commands.py;

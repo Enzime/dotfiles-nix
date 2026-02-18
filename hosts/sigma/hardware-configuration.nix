@@ -1,17 +1,28 @@
-{ options, config, pkgs, lib, ... }:
+{
+  options,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports = [{
-    config = lib.optionalAttrs (options ? clan) {
-      clan.core.vars.generators.luks = {
-        files.password.neededFor = "partitioning";
-        runtimeInputs = [ pkgs.coreutils pkgs.xkcdpass ];
-        script = ''
-          xkcdpass --numwords 6 --random-delimiters --valid-delimiters='1234567890!@#$%^&*()-_+=,.<>/?' --case random | tr -d "\n" > $out/password
-        '';
+  imports = [
+    {
+      config = lib.optionalAttrs (options ? clan) {
+        clan.core.vars.generators.luks = {
+          files.password.neededFor = "partitioning";
+          runtimeInputs = [
+            pkgs.coreutils
+            pkgs.xkcdpass
+          ];
+          script = ''
+            xkcdpass --numwords 6 --random-delimiters --valid-delimiters='1234567890!@#$%^&*()-_+=,.<>/?' --case random | tr -d "\n" > $out/password
+          '';
+        };
       };
-    };
-  }];
+    }
+  ];
 
   disko.devices = {
     disk.primary = {
@@ -35,8 +46,7 @@
           content = {
             type = "luks";
             name = "crypted";
-            passwordFile =
-              config.clan.core.vars.generators.luks.files.password.path;
+            passwordFile = config.clan.core.vars.generators.luks.files.password.path;
             content = {
               type = "zfs";
               pool = "rpool";
@@ -61,8 +71,7 @@
         type = "zfs_fs";
         mountpoint = "/";
 
-        postCreateHook =
-          "zfs list -t snapshot -H -o name | grep -E '^rpool/root@blank$' || zfs snapshot rpool/root@blank";
+        postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^rpool/root@blank$' || zfs snapshot rpool/root@blank";
       };
 
       datasets.nix = {
@@ -94,7 +103,8 @@
   };
 
   virtualisation.vmVariantWithDisko = {
-    disko.devices.disk.primary.content.partitions.luks.content.passwordFile =
-      lib.mkForce (toString (pkgs.writeText "password" "apple"));
+    disko.devices.disk.primary.content.partitions.luks.content.passwordFile = lib.mkForce (
+      toString (pkgs.writeText "password" "apple")
+    );
   };
 }

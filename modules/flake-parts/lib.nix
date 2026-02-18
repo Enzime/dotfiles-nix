@@ -1,1 +1,4 @@
-{ self-lib, ... }: { flake.lib = self-lib; }
+{ self-lib, ... }:
+{
+  flake.lib = self-lib;
+}

@@ -1,7 +1,15 @@
-{ config, self', inputs', lib, ... }:
+{
+  config,
+  self',
+  inputs',
+  lib,
+  ...
+}:
 
-let clan = inputs'.clan-core.packages.clan-cli;
-in {
+let
+  clan = inputs'.clan-core.packages.clan-cli;
+in
+{
   terraform.backend.s3 = {
     endpoints.s3 = "https://s3.us-west-001.backblazeb2.com";
     bucket = "enzime-dotfiles-tf-state";
@@ -29,8 +37,7 @@ in {
       chain = lib.tf.ref "key_provider.external.passphrase";
     };
 
-    method.aes_gcm.encryption_method.keys =
-      lib.tf.ref "key_provider.pbkdf2.state_encryption_password";
+    method.aes_gcm.encryption_method.keys = lib.tf.ref "key_provider.pbkdf2.state_encryption_password";
 
     state.enforced = true;
     state.method = "method.aes_gcm.encryption_method";
@@ -44,12 +51,13 @@ in {
   terraform.required_providers.tls.source = "hashicorp/tls";
 
   data.external.tailscale-api-key = {
-    program =
-      [ (lib.getExe self'.packages.get-clan-secret) "tailscale-api-key" ];
+    program = [
+      (lib.getExe self'.packages.get-clan-secret)
+      "tailscale-api-key"
+    ];
   };
 
-  provider.tailscale.api_key =
-    config.data.external.tailscale-api-key "result.secret";
+  provider.tailscale.api_key = config.data.external.tailscale-api-key "result.secret";
 
   resource.tailscale_tailnet_key.terraform = {
     description = "Terraform";
@@ -62,19 +70,17 @@ in {
     # `hostname` however any machine would work as this is shared
     # between all machines.
     provisioner.local-exec = {
-      command =
-        "echo '${config.resource.tailscale_tailnet_key.terraform "key"}' | ${
-          lib.getExe clan
-        } vars set --debug sigma tailscale/auth-key";
+      command = "echo '${config.resource.tailscale_tailnet_key.terraform "key"}' | ${lib.getExe clan} vars set --debug sigma tailscale/auth-key";
     };
   };
 
-  resource.tls_private_key.ssh_deploy_key = { algorithm = "ED25519"; };
+  resource.tls_private_key.ssh_deploy_key = {
+    algorithm = "ED25519";
+  };
 
   resource.local_sensitive_file.ssh_deploy_key = {
     filename = "${lib.tf.ref "path.module"}/.terraform-deploy-key";
     file_permission = "600";
-    content =
-      config.resource.tls_private_key.ssh_deploy_key "private_key_openssh";
+    content = config.resource.tls_private_key.ssh_deploy_key "private_key_openssh";
   };
 }

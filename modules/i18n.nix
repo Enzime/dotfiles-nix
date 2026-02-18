@@ -1,10 +1,10 @@
 {
-  homeModule = { pkgs, lib, ... }:
+  homeModule =
+    { pkgs, lib, ... }:
     lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       i18n.inputMethod.enable = true;
       i18n.inputMethod.type = "fcitx5";
-      i18n.inputMethod.fcitx5.addons =
-        builtins.attrValues { inherit (pkgs.qt6Packages) fcitx5-unikey; };
+      i18n.inputMethod.fcitx5.addons = builtins.attrValues { inherit (pkgs.qt6Packages) fcitx5-unikey; };
 
       xdg.configFile."fcitx5/profile".force = true;
       xdg.configFile."fcitx5/profile".text = ''

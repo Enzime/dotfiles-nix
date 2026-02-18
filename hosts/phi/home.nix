@@ -6,8 +6,10 @@
     };
   };
 
-  wayland.windowManager.sway.config.workspaceOutputAssign = [{
-    workspace = "1";
-    output = "DP-1";
-  }];
+  wayland.windowManager.sway.config.workspaceOutputAssign = [
+    {
+      workspace = "1";
+      output = "DP-1";
+    }
+  ];
 }

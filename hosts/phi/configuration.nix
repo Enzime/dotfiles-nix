@@ -1,4 +1,11 @@
-{ config, user, keys, pkgs, lib, ... }:
+{
+  config,
+  user,
+  keys,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -7,8 +14,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.netbootxyz.enable = true;
 
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 true;
+  hardware.cpu.amd.updateMicrocode = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 true;
 
   networking.nameservers = [ "1.1.1.1" ];
   networking.dhcpcd.extraConfig = ''
@@ -30,14 +36,16 @@
   '';
 
   # LWJGL 2 doesn't support modelines with text after WxH
-  services.xserver.xrandrHeads = [{
-    output = "DisplayPort-0";
-    primary = true;
-    monitorConfig = ''
-      ModeLine "3440x1441"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
-      Option "PreferredMode" "3440x1441"
-    '';
-  }];
+  services.xserver.xrandrHeads = [
+    {
+      output = "DisplayPort-0";
+      primary = true;
+      monitorConfig = ''
+        ModeLine "3440x1441"  1086.75  3440 3744 4128 4816  1440 1443 1453 1568 -hsync +vsync
+        Option "PreferredMode" "3440x1441"
+      '';
+    }
+  ];
 
   services.udev.extraHwdb = ''
     evdev:name:USB-HID Keyboard:dmi:*
@@ -52,8 +60,7 @@
 
   # For /mnt/phi on other systems
   users.users.${user} = {
-    openssh.authorizedKeys.keys =
-      builtins.attrValues { inherit (keys.hosts) sigma; };
+    openssh.authorizedKeys.keys = builtins.attrValues { inherit (keys.hosts) sigma; };
   };
 
   services.nextcloud.home = "/data/Nextcloud";

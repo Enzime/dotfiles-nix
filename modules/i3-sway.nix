@@ -12,7 +12,8 @@
     programs.evince.enable = true;
   };
 
-  homeModule = { pkgs, lib, ... }:
+  homeModule =
+    { pkgs, lib, ... }:
     let
       sharedConfig = {
         bars = [ ];
@@ -48,74 +49,75 @@
 
         modifier = "Mod1";
 
-        keybindings = let mod = sharedConfig.modifier;
-        in {
-          "XF86AudioMute" = "exec ${lib.getExe pkgs.pamixer} -t";
-          "XF86AudioLowerVolume" = "exec ${lib.getExe pkgs.pamixer} -d 5";
-          "XF86AudioRaiseVolume" = "exec ${lib.getExe pkgs.pamixer} -i 5";
+        keybindings =
+          let
+            mod = sharedConfig.modifier;
+          in
+          {
+            "XF86AudioMute" = "exec ${lib.getExe pkgs.pamixer} -t";
+            "XF86AudioLowerVolume" = "exec ${lib.getExe pkgs.pamixer} -d 5";
+            "XF86AudioRaiseVolume" = "exec ${lib.getExe pkgs.pamixer} -i 5";
 
-          "${mod}+Return" = "exec ${lib.getExe pkgs.alacritty}";
+            "${mod}+Return" = "exec ${lib.getExe pkgs.alacritty}";
 
-          "Mod4+e" = "exec ${lib.getExe pkgs.powermenu}";
+            "Mod4+e" = "exec ${lib.getExe pkgs.powermenu}";
 
-          "${mod}+Shift+q" = "kill";
-          "${mod}+d" = "exec ${lib.getExe' pkgs.bemenu "bemenu-run"} -l 30";
+            "${mod}+Shift+q" = "kill";
+            "${mod}+d" = "exec ${lib.getExe' pkgs.bemenu "bemenu-run"} -l 30";
 
-          "Control+${mod}+Left" = "focus output left";
-          "Control+${mod}+Right" = "focus output right";
+            "Control+${mod}+Left" = "focus output left";
+            "Control+${mod}+Right" = "focus output right";
 
-          "${mod}+Left" = "focus left";
-          "${mod}+Down" = "focus down";
-          "${mod}+Up" = "focus up";
-          "${mod}+Right" = "focus right";
+            "${mod}+Left" = "focus left";
+            "${mod}+Down" = "focus down";
+            "${mod}+Up" = "focus up";
+            "${mod}+Right" = "focus right";
 
-          "Control+${mod}+h" = "focus output left";
-          "Control+${mod}+l" = "focus output right";
+            "Control+${mod}+h" = "focus output left";
+            "Control+${mod}+l" = "focus output right";
 
-          "${mod}+h" = "focus left";
-          "${mod}+j" = "focus down";
-          "${mod}+k" = "focus up";
-          "${mod}+l" = "focus right";
+            "${mod}+h" = "focus left";
+            "${mod}+j" = "focus down";
+            "${mod}+k" = "focus up";
+            "${mod}+l" = "focus right";
 
-          "Control+${mod}+Shift+Left" =
-            "move container to output left; focus output left";
-          "Control+${mod}+Shift+Right" =
-            "move container to output right; focus output right";
+            "Control+${mod}+Shift+Left" = "move container to output left; focus output left";
+            "Control+${mod}+Shift+Right" = "move container to output right; focus output right";
 
-          "${mod}+Shift+Left" = "move left";
-          "${mod}+Shift+Down" = "move down";
-          "${mod}+Shift+Up" = "move up";
-          "${mod}+Shift+Right" = "move right";
+            "${mod}+Shift+Left" = "move left";
+            "${mod}+Shift+Down" = "move down";
+            "${mod}+Shift+Up" = "move up";
+            "${mod}+Shift+Right" = "move right";
 
-          "Control+${mod}+Shift+h" =
-            "move container to output left; focus output left";
-          "Control+${mod}+Shift+l" =
-            "move container to output right; focus output right";
+            "Control+${mod}+Shift+h" = "move container to output left; focus output left";
+            "Control+${mod}+Shift+l" = "move container to output right; focus output right";
 
-          "${mod}+Shift+h" = "move left";
-          "${mod}+Shift+j" = "move down";
-          "${mod}+Shift+k" = "move up";
-          "${mod}+Shift+l" = "move right";
+            "${mod}+Shift+h" = "move left";
+            "${mod}+Shift+j" = "move down";
+            "${mod}+Shift+k" = "move up";
+            "${mod}+Shift+l" = "move right";
 
-          "${mod}+Shift+v" = "split h";
-          "${mod}+v" = "split v";
-          "${mod}+f" = "fullscreen toggle";
+            "${mod}+Shift+v" = "split h";
+            "${mod}+v" = "split v";
+            "${mod}+f" = "fullscreen toggle";
 
-          "${mod}+s" = "layout stacking";
-          "${mod}+w" = "layout tabbed";
-          "${mod}+e" = "layout toggle split";
+            "${mod}+s" = "layout stacking";
+            "${mod}+w" = "layout tabbed";
+            "${mod}+e" = "layout toggle split";
 
-          "${mod}+Shift+space" = "floating toggle";
-          "${mod}+space" = "focus mode_toggle";
+            "${mod}+Shift+space" = "floating toggle";
+            "${mod}+space" = "focus mode_toggle";
 
-          "${mod}+a" = "focus parent";
+            "${mod}+a" = "focus parent";
 
-          "${mod}+o" = "mode osu";
-          "${mod}+r" = "mode resize";
-        };
+            "${mod}+o" = "mode osu";
+            "${mod}+r" = "mode resize";
+          };
 
         modes = {
-          osu = { End = "mode default"; };
+          osu = {
+            End = "mode default";
+          };
           resize = {
             h = "resize shrink width 2 px or 2 ppt";
             j = "resize grow height 2 px or 2 ppt";
@@ -141,7 +143,8 @@
           };
         };
       };
-    in {
+    in
+    {
       xsession.windowManager.i3.config = sharedConfig;
       wayland.windowManager.sway.config = sharedConfig;
 
@@ -173,11 +176,12 @@
           PartOf = [ "graphical-session.target" ];
         };
 
-        Install = { WantedBy = [ "graphical-session.target" ]; };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
 
         Service = {
-          ExecStart =
-            "${pkgs.pantheon.pantheon-agent-polkit}/libexec/policykit-1-pantheon/io.elementary.desktop.agent-polkit";
+          ExecStart = "${pkgs.pantheon.pantheon-agent-polkit}/libexec/policykit-1-pantheon/io.elementary.desktop.agent-polkit";
           Restart = "on-failure";
         };
       };

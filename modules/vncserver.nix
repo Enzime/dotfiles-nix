@@ -1,16 +1,25 @@
 {
-  imports = [ "greetd" "sway" ];
+  imports = [
+    "greetd"
+    "sway"
+  ];
 
-  nixosModule = { user, ... }: { users.users.${user}.linger = true; };
+  nixosModule =
+    { user, ... }:
+    {
+      users.users.${user}.linger = true;
+    };
 
-  homeModule = { pkgs, lib, ... }@args:
+  homeModule =
+    { pkgs, lib, ... }@args:
     let
       vncEnvironment = [
         "WLR_BACKENDS=headless"
         "WLR_LIBINPUT_NO_DEVICES=1"
         "WAYLAND_DISPLAY=wayland-1"
       ];
-    in {
+    in
+    {
       # Move regular wayvnc to another port
       xdg.configFile."wayvnc/config".text = ''
         port=5901
@@ -18,13 +27,17 @@
 
       services.swayidle.enable = lib.mkForce false;
 
-      wayland.windowManager.sway.config.workspaceOutputAssign = [{
-        workspace = "1";
-        output = "HEADLESS-1";
-      }];
+      wayland.windowManager.sway.config.workspaceOutputAssign = [
+        {
+          workspace = "1";
+          output = "HEADLESS-1";
+        }
+      ];
 
       systemd.user.services.import-path = {
-        Unit = { Description = "Import PATH from zsh"; };
+        Unit = {
+          Description = "Import PATH from zsh";
+        };
         Service = {
           Environment = [
             # Necessary for running interactive Zsh (`zsh -i` which sources `~/.zshrc`) which
@@ -35,9 +48,7 @@
             "__NIXOS_SET_ENVIRONMENT_DONE="
           ];
           Type = "oneshot";
-          ExecStart = "${
-              lib.getExe pkgs.zsh
-            } -ic 'systemctl --user import-environment PATH'";
+          ExecStart = "${lib.getExe pkgs.zsh} -ic 'systemctl --user import-environment PATH'";
           RemainAfterExit = true;
         };
       };
@@ -45,23 +56,31 @@
       systemd.user.services.wayvnc-headless = lib.mkIf (args ? osConfig) {
         Unit = {
           Description = "VNC server for headless session";
-          Requires = [ "import-path.service" "sway-headless.service" ];
-          After = [ "import-path.service" "sway-headless.service" ];
+          Requires = [
+            "import-path.service"
+            "sway-headless.service"
+          ];
+          After = [
+            "import-path.service"
+            "sway-headless.service"
+          ];
         };
         Service = {
           Type = "exec";
           ExecStart = "${lib.getExe pkgs.wayvnc} --config=${
-              pkgs.writeTextFile {
-                name = "wayvnc-headless.conf";
-                text = ''
-                  address=0.0.0.0
-                  port=5900
-                '';
-              }
-            }";
+            pkgs.writeTextFile {
+              name = "wayvnc-headless.conf";
+              text = ''
+                address=0.0.0.0
+                port=5900
+              '';
+            }
+          }";
           Environment = vncEnvironment;
         };
-        Install = { WantedBy = [ "default.target" ]; };
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
       };
 
       systemd.user.services.sway-headless = {
@@ -74,7 +93,9 @@
           Environment = vncEnvironment;
           ExecStart = lib.getExe pkgs.sway;
         };
-        Install = { WantedBy = [ "default.target" ]; };
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
       };
     };
 }

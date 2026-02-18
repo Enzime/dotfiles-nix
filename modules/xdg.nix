@@ -1,9 +1,11 @@
 {
-  homeModule = { pkgs, lib, ... }:
+  homeModule =
+    { pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) mkIf mkDefault;
-    in mkIf hostPlatform.isLinux {
+    in
+    mkIf hostPlatform.isLinux {
       xdg.userDirs = {
         enable = true;
         desktop = mkDefault "$HOME";

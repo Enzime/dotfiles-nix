@@ -1,27 +1,40 @@
 {
-  imports = [ "graphical" "i18n" "ios" "pim" ];
+  imports = [
+    "graphical"
+    "i18n"
+    "ios"
+    "pim"
+  ];
 
-  darwinModule = { pkgs, lib, ... }: {
-    environment.systemPackages =
-      builtins.attrValues { inherit (pkgs) apparency; };
+  darwinModule =
+    { pkgs, lib, ... }:
+    {
+      environment.systemPackages = builtins.attrValues { inherit (pkgs) apparency; };
 
-    launchd.user.agents.install-amphetamine = {
-      command = "${lib.getExe pkgs.mas} install 937984704";
-      serviceConfig.RunAtLoad = true;
+      launchd.user.agents.install-amphetamine = {
+        command = "${lib.getExe pkgs.mas} install 937984704";
+        serviceConfig.RunAtLoad = true;
+      };
+
+      launchd.user.agents.amphetamine = {
+        command = ''"/Applications/Amphetamine.app/Contents/MacOS/Amphetamine"'';
+        serviceConfig.RunAtLoad = true;
+      };
+
+      launchd.user.agents.install-flighty = {
+        command = "${lib.getExe pkgs.mas} install 1358823008";
+        serviceConfig.RunAtLoad = true;
+      };
     };
 
-    launchd.user.agents.amphetamine = {
-      command = ''"/Applications/Amphetamine.app/Contents/MacOS/Amphetamine"'';
-      serviceConfig.RunAtLoad = true;
-    };
-
-    launchd.user.agents.install-flighty = {
-      command = "${lib.getExe pkgs.mas} install 1358823008";
-      serviceConfig.RunAtLoad = true;
-    };
-  };
-
-  nixosModule = { config, host, lib, utils, ... }:
+  nixosModule =
+    {
+      config,
+      host,
+      lib,
+      utils,
+      ...
+    }:
     lib.mkIf (host != "phi") {
       fileSystems."/mnt/phi" = {
         device = "enzime@phi:/";
@@ -31,10 +44,7 @@
           "noauto"
           "x-systemd.automount"
           "_netdev"
-          "IdentityFile=${
-            (lib.findFirst (k: k.type == "ed25519") { }
-              config.services.openssh.hostKeys).path
-          }"
+          "IdentityFile=${(lib.findFirst (k: k.type == "ed25519") { } config.services.openssh.hostKeys).path}"
           "allow_other"
           "uid=1000"
           "gid=100"
@@ -54,30 +64,40 @@
       };
     };
 
-  homeModule = { config, pkgs, lib, ... }:
+  homeModule =
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     let
       inherit (pkgs.stdenv) hostPlatform;
       inherit (lib) optionalAttrs;
-    in {
-      home.packages = builtins.attrValues ({
-        inherit (pkgs) gh gramps nixpkgs-review;
-      } // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64)
-        || hostPlatform.isDarwin) {
+    in
+    {
+      home.packages = builtins.attrValues (
+        {
+          inherit (pkgs) gh gramps nixpkgs-review;
+        }
+        // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64) || hostPlatform.isDarwin) {
           # not currently built for `aarch64-linux`
           joplin-desktop =
-            assert (hostPlatform.isLinux && hostPlatform.isAarch64)
-              -> !pkgs.joplin-desktop.meta.available;
+            assert (hostPlatform.isLinux && hostPlatform.isAarch64) -> !pkgs.joplin-desktop.meta.available;
             pkgs.joplin-desktop;
         }
-        // optionalAttrs hostPlatform.isDarwin { inherit (pkgs) sequential; });
+        // optionalAttrs hostPlatform.isDarwin { inherit (pkgs) sequential; }
+      );
 
       programs.firefox.profiles.personal.isDefault = true;
 
       home.file."Documents/iCloud" = lib.mkIf hostPlatform.isDarwin {
-        source = config.lib.file.mkOutOfStoreSymlink
-          "${config.home.homeDirectory}/Library/Mobile Documents/com~apple~CloudDocs/Documents";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Library/Mobile Documents/com~apple~CloudDocs/Documents";
       };
 
-      preservation.directories = [ ".config/joplin-desktop" ".gramps" ];
+      preservation.directories = [
+        ".config/joplin-desktop"
+        ".gramps"
+      ];
     };
 }

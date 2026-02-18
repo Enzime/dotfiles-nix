@@ -2,71 +2,87 @@ self: super:
 
 let
   inherit (super.lib)
-    foldl getAttrFromPath getVersion hasAttrByPath recursiveUpdate splitString;
+    foldl
+    getAttrFromPath
+    getVersion
+    hasAttrByPath
+    recursiveUpdate
+    splitString
+    ;
   inherit (super.vscode-utils) extensionsFromVscodeMarketplace;
 
-  attrsetFromPathValue = { path, value, start ? 0 }:
+  attrsetFromPathValue =
+    {
+      path,
+      value,
+      start ? 0,
+    }:
 
     if start == builtins.length path then
       value
-    else {
-      ${builtins.elemAt path start} = attrsetFromPathValue {
-        inherit path value;
-        start = start + 1;
+    else
+      {
+        ${builtins.elemAt path start} = attrsetFromPathValue {
+          inherit path value;
+          start = start + 1;
+        };
       };
-    };
 
-  attrsetFromDottedPathValue = path: value:
+  attrsetFromDottedPathValue =
+    path: value:
     attrsetFromPathValue {
       path = splitString "." path;
       inherit value;
     };
 
-  compareVersions = a: b:
-    builtins.compareVersions (getVersion a) (getVersion b);
+  compareVersions = a: b: builtins.compareVersions (getVersion a) (getVersion b);
 
-  ensureNotOutdatedExtension = ext:
+  ensureNotOutdatedExtension =
+    ext:
     let
       path = splitString "." ext.vscodeExtUniqueId;
 
       alreadyInNixpkgs = hasAttrByPath path super.vscode-extensions;
-    in if alreadyInNixpkgs
-    && compareVersions ext (getAttrFromPath path super.vscode-extensions)
-    != 1 then
-      throw
-      "vscode-extensions.${ext.vscodeExtUniqueId} is older than the version in Nixpkgs"
+    in
+    if alreadyInNixpkgs && compareVersions ext (getAttrFromPath path super.vscode-extensions) != 1 then
+      throw "vscode-extensions.${ext.vscodeExtUniqueId} is older than the version in Nixpkgs"
     else
       ext;
 
-  extensionToAttrset = ext:
-    attrsetFromDottedPathValue ext.vscodeExtUniqueId
-    (ensureNotOutdatedExtension ext);
+  extensionToAttrset =
+    ext: attrsetFromDottedPathValue ext.vscodeExtUniqueId (ensureNotOutdatedExtension ext);
 
-  extensionsAttrsetFromList = extensions:
-    foldl recursiveUpdate { } (map extensionToAttrset extensions);
-  fromMarketplaceRefs = mktplcRefs:
-    extensionsAttrsetFromList (extensionsFromVscodeMarketplace mktplcRefs);
-in {
-  vscode-extensions = recursiveUpdate (recursiveUpdate super.vscode-extensions {
-    ms-vscode-remote.remote-ssh =
-      super.vscode-extensions.ms-vscode-remote.remote-ssh.overrideAttrs (old: {
-        postPatch = (old.postPatch or "") + ''
-          substituteInPlace "out/extension.js" \
-            --replace "wget --no-proxy" "wget --no-proxy --no-continue"
-        '';
-      });
-  }) (fromMarketplaceRefs [{
-    name = "jjk";
-    publisher = "jjk";
-    version = "0.8.1";
-    hash = "sha256-2JUn6wkWgZKZzhitQy6v9R/rCNLrt7DBtt59707hp6c=";
-    patches = [
-      (super.fetchpatch {
-        name = "syntax-highlight-git-diffs.patch";
-        url =
-          "https://github.com/Enzime/jjk/commit/ca36c755ef8c34163623dda6bab0b4f3528b2a36.patch";
-        hash = "sha256-VjOweKrGY3aLwFIFZNNZemzLpEov/omovLcN+WhYZD4=";
+  extensionsAttrsetFromList =
+    extensions: foldl recursiveUpdate { } (map extensionToAttrset extensions);
+  fromMarketplaceRefs =
+    mktplcRefs: extensionsAttrsetFromList (extensionsFromVscodeMarketplace mktplcRefs);
+in
+{
+  vscode-extensions =
+    recursiveUpdate
+      (recursiveUpdate super.vscode-extensions {
+        ms-vscode-remote.remote-ssh =
+          super.vscode-extensions.ms-vscode-remote.remote-ssh.overrideAttrs
+            (old: {
+              postPatch = (old.postPatch or "") + ''
+                substituteInPlace "out/extension.js" \
+                  --replace "wget --no-proxy" "wget --no-proxy --no-continue"
+              '';
+            });
       })
-    ];
-  }]);
+      (fromMarketplaceRefs [
+        {
+          name = "jjk";
+          publisher = "jjk";
+          version = "0.8.1";
+          hash = "sha256-2JUn6wkWgZKZzhitQy6v9R/rCNLrt7DBtt59707hp6c=";
+          patches = [
+            (super.fetchpatch {
+              name = "syntax-highlight-git-diffs.patch";
+              url = "https://github.com/Enzime/jjk/commit/ca36c755ef8c34163623dda6bab0b4f3528b2a36.patch";
+              hash = "sha256-VjOweKrGY3aLwFIFZNNZemzLpEov/omovLcN+WhYZD4=";
+            })
+          ];
+        }
+      ]);
 }
