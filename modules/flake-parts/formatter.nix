@@ -11,7 +11,7 @@
         programs.deadnix.enable = true;
         programs.deadnix.no-lambda-arg = true;
 
-        programs.nixfmt-classic.enable = true;
+        programs.nixfmt.enable = true;
         programs.statix.enable = true;
         programs.shellcheck.enable = true;
 
