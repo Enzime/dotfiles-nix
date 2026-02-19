@@ -294,7 +294,7 @@
           "window.titleBarStyle" = "custom";
 
           # Disable Copilot
-          "chat.commandCenter.enabled" = false;
+          "terminal.integrated.initialHint" = false;
         };
 
       preservation.directories = [ ".config/Code" ];
