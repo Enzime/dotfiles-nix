@@ -98,7 +98,7 @@
               export WLR_NO_HARDWARE_CURSORS=1
             '';
 
-            facter.report = lib.mkOptionDefault { virtualisation = lib.mkForce "qemu"; };
+            hardware.facter.report = lib.mkOptionDefault { virtualisation = lib.mkForce "qemu"; };
           };
 
         virtualisation.vmVariant = config.virtualisation.allVmVariants;

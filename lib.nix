@@ -120,16 +120,11 @@ let
             inputs.nix-index-database.nixosModules.nix-index
             inputs.hoopsnake.nixosModules.default
             (pathTo ./hosts/${host}/configuration.nix)
-            (
-              { options, ... }:
-              {
-                config = lib.optionalAttrs (options ? facter) {
-                  facter.reportPath = lib.mkIf (builtins.pathExists (pathTo ./hosts/${host}/facter.json)) (
-                    lib.mkForce (pathTo ./hosts/${host}/facter.json)
-                  );
-                };
-              }
-            )
+            {
+              hardware.facter.reportPath = lib.mkIf (builtins.pathExists (pathTo ./hosts/${host}/facter.json)) (
+                lib.mkForce (pathTo ./hosts/${host}/facter.json)
+              );
+            }
           ]
           ++ nixosModules
           ++ [
