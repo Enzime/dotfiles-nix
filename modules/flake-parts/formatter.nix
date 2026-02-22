@@ -47,7 +47,6 @@
         name = "cached-nix-fmt";
         runtimeInputs = builtins.attrValues {
           inherit (pkgs) coreutils moreutils;
-          inherit (pkgs.nixVersions) latest;
         };
         text = ''
           set -x
@@ -62,14 +61,18 @@
 
             echo "/*" | sponge "$FORMATTER_DIR/.gitignore"
 
-            if nix eval .#formatter."$(nix config show system)" > /dev/null; then
-              FORMATTER=$(nix formatter build --out-link "$FORMATTER_DIR/store-path")
+            INSTALLABLE=".#formatter.${pkgs.stdenv.hostPlatform.system}"
+
+            # shellcheck disable=SC2016
+            if FORMATTER=$(nix eval --raw --apply 'p: "''${p}/bin/''${p.meta.mainProgram}"' "$INSTALLABLE" 2>/dev/null); then
+              nix build "$INSTALLABLE" --out-link "$FORMATTER_DIR/store-path"
             else
               FORMATTER="${lib.getExe self'.packages.noop-treefmt}"
             fi
 
             ln -sf "$FORMATTER" "$FORMATTER_BINARY"
           fi
+
           exec "$FORMATTER_BINARY" "$@"
         '';
       };
