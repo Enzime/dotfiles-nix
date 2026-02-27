@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin";
+  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin/pull/1701/merge";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";

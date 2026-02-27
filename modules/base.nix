@@ -86,11 +86,7 @@ let
       # sets a bunch of settings we don't necessarily want
       home-manager.users.root.home.file.".ssh/config".text =
         let
-          hostKey =
-            if pkgs.stdenv.hostPlatform.isDarwin then
-              "/etc/ssh/ssh_host_ed25519_key"
-            else
-              (lib.findFirst (k: k.type == "ed25519") { } config.services.openssh.hostKeys).path;
+          hostKey = (lib.findFirst (k: k.type == "ed25519") { } config.services.openssh.hostKeys).path;
         in
         ''
           Host *
