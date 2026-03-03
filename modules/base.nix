@@ -226,7 +226,7 @@ in
         user
       ];
 
-      nix.settings.sandbox = true;
+      nix.settings.sandbox = "relaxed";
 
       services.tailscale.overrideLocalDns = lib.mkDefault true;
     };
