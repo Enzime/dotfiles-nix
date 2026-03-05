@@ -27,6 +27,7 @@ in
           "result*"
           ".DS_Store"
           ".claude"
+          ".sprite"
         ];
 
         settings = {

@@ -24,6 +24,8 @@
             tuicr
             ;
 
+          inherit (pkgs) sprites;
+
           inherit claude-code;
         }
         // (lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
