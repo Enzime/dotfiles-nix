@@ -78,7 +78,12 @@
     {
       home.packages = builtins.attrValues (
         {
-          inherit (pkgs) gh gramps nixpkgs-review;
+          inherit (pkgs)
+            anki
+            gh
+            gramps
+            nixpkgs-review
+            ;
         }
         // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64) || hostPlatform.isDarwin) {
           # not currently built for `aarch64-linux`
