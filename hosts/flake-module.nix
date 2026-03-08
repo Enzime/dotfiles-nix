@@ -13,6 +13,7 @@ in
         inherit (modules)
           ai
           android
+          gaming
           laptop
           personal
           ;
