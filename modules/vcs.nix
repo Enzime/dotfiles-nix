@@ -72,6 +72,12 @@ in
                 "bbro:"
               ];
             };
+            "https://git.clan.lol/" = {
+              insteadOf = [
+                "clan:"
+                "clanro:"
+              ];
+            };
 
             "ssh://git@github.com/" = {
               insteadOf = "ghp:";
@@ -81,11 +87,16 @@ in
               insteadOf = "bbp:";
               pushInsteadOf = "bb:";
             };
+            "ssh://git@git.clan.lol/" = {
+              insteadOf = "clanp:";
+              pushInsteadOf = "clan:";
+            };
 
             "___PUSH_DISABLED___" = {
               pushInsteadOf = [
                 "ghro:"
                 "bbro:"
+                "clanro:"
               ];
             };
           };
