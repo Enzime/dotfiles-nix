@@ -62,8 +62,9 @@
   inputs.nixpkgs-terraform-providers-bin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.llm-agents.url = "github:numtide/llm-agents.nix";
+  inputs.llm-agents.inputs.flake-parts.follows = "flake-parts";
   inputs.llm-agents.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.llm-agents.inputs.blueprint.inputs.systems.follows = "systems";
+  inputs.llm-agents.inputs.systems.follows = "systems";
   inputs.llm-agents.inputs.treefmt-nix.follows = "treefmt-nix";
 
   inputs.claude-code-sandbox.url = "github:neko-kai/claude-code-sandbox/pull/7/merge";
