@@ -249,6 +249,8 @@
           "editor.bracketPairColorization.enabled" = true;
           "editor.guides.bracketPairs" = true;
 
+          "terminal.external.osxExec" = "Ghostty.app";
+
           "terminal.integrated.scrollback" = 1000000;
           "terminal.integrated.stickyScroll.enabled" = false;
 
