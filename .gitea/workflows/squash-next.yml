@@ -1,0 +1,44 @@
+name: Squash next branch
+on:
+  push:
+    branches:
+      - next
+  workflow_dispatch:
+jobs:
+  squash-next:
+    runs-on: nix
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+      - name: Squash next into single commit on top of main
+        run: |
+          set -euo pipefail
+
+          git fetch origin main next
+
+          # Skip if next is already exactly 1 commit ahead of main (already squashed)
+          commit_count=$(git rev-list --count origin/main..origin/next)
+          if [ "$commit_count" -le 1 ]; then
+            echo "next is $commit_count commit(s) ahead of main, nothing to squash"
+            exit 0
+          fi
+
+          # Check there are actual tree differences
+          if git diff --quiet origin/main origin/next; then
+            echo "No tree differences between main and next, resetting next to main"
+            git push origin origin/main:refs/heads/next --force
+            exit 0
+          fi
+
+          # Squash all changes into a single commit on top of main
+          git checkout origin/main
+          git merge --squash origin/next
+
+          git \
+            -c user.name=hyperbot \
+            -c user.email=hyperbot@clan.lol \
+            commit -m "flake: bump inputs"
+
+          git push origin HEAD:refs/heads/next --force

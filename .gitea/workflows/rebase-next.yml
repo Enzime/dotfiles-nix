@@ -1,0 +1,75 @@
+name: Rebase next on main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  rebase-next:
+    runs-on: nix
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+      - name: Rebase next onto updated main
+        env:
+          GITEA_TOKEN: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+          GITEA_URL: ${{ gitea.server_url }}
+          GITEA_REPO: ${{ gitea.repository }}
+        run: |
+          set -euo pipefail
+
+          git fetch origin main next
+
+          # Save the current next ref before resetting
+          NEXT_REF=$(git rev-parse origin/next)
+
+          # Check if next has any tree differences from main
+          if git diff --quiet origin/main origin/next; then
+            echo "No differences between main and next, resetting next to main"
+            git push origin origin/main:refs/heads/next --force
+            exit 0
+          fi
+
+          # Reset next to main
+          git push origin origin/main:refs/heads/next --force
+
+          # Create a new branch from main with the squashed changes
+          git checkout origin/main
+          git merge --squash "$NEXT_REF"
+
+          git \
+            -c user.name=hyperbot \
+            -c user.email=hyperbot@clan.lol \
+            commit -m "flake: bump inputs"
+
+          # Force push the rebase branch
+          git push origin HEAD:refs/heads/next-rebase --force
+
+          # Create PR using tea CLI
+          nix shell nixpkgs#tea -c tea logins add \
+            --name gitea \
+            --url "$GITEA_URL" \
+            --token "$GITEA_TOKEN" \
+            --no-version-check
+
+          PR_URL=$(nix shell nixpkgs#tea -c tea pulls create \
+            --login gitea \
+            --repo "$GITEA_REPO" \
+            --head next-rebase \
+            --base next \
+            --title "flake: bump inputs" 2>&1 | tail -1)
+
+          echo "Created PR: $PR_URL"
+
+          # Extract PR number and enable auto-merge via Gitea API
+          PR_NUMBER=$(echo "$PR_URL" | grep -oP '/pulls/\K[0-9]+')
+
+          curl -s -X POST \
+            -H "Authorization: token $GITEA_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"Do":"merge","merge_when_checks_succeed":true,"delete_branch_after_merge":true}' \
+            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls/$PR_NUMBER/merge"
+
+          echo "Auto-merge enabled for PR #$PR_NUMBER"
