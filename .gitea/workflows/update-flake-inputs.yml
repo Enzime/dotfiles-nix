@@ -1,0 +1,24 @@
+name: Update Flake Inputs
+on:
+  schedule:
+    - cron: "0 */5 * * *"
+  workflow_dispatch:
+  repository_dispatch:
+jobs:
+  update-flake-inputs:
+    runs-on: nix
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update flake inputs
+        uses: Mic92/update-flake-inputs-gitea@main
+        with:
+          gitea-token: ${{ secrets.CI_BOT_TOKEN }}
+          github-token: ${{ secrets.CI_BOT_GITHUB_TOKEN }}
+          auto-merge: true
+          base-branch: next
+          git-author-name: hyperbot
+          git-author-email: hyperbot@clan.lol
+          git-committer-name: hyperbot
+          git-committer-email: hyperbot@clan.lol
