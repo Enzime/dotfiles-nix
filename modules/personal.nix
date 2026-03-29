@@ -80,6 +80,7 @@
         {
           inherit (pkgs)
             anki
+            discord
             gh
             gramps
             nixpkgs-review
@@ -87,6 +88,10 @@
         }
         // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64) || hostPlatform.isDarwin) {
           # not currently built for `aarch64-linux`
+          discord =
+            assert (hostPlatform.isLinux && hostPlatform.isAarch64) -> !pkgs.discord.meta.available;
+            pkgs.discord;
+
           joplin-desktop =
             assert (hostPlatform.isLinux && hostPlatform.isAarch64) -> !pkgs.joplin-desktop.meta.available;
             pkgs.joplin-desktop;
