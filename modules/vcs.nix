@@ -87,7 +87,7 @@ in
               insteadOf = "bbp:";
               pushInsteadOf = "bb:";
             };
-            "ssh://git@git.clan.lol/" = {
+            "ssh://gitea@git.clan.lol/" = {
               insteadOf = "clanp:";
               pushInsteadOf = "clan:";
             };
