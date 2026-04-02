@@ -15,6 +15,8 @@
 
   services.openssh.openFirewall = lib.mkForce false;
 
+  services.tailscale.extraUpFlags = [ "--advertise-tags=tag:gaia" ];
+
   zramSwap.enable = true;
   zramSwap.memoryPercent = 250;
 
