@@ -72,12 +72,15 @@
           name = "matrix-synapse";
           input = "clan-core";
         };
-        roles.default.machines.gaia.settings = {
-          acmeEmail = "letsencrypt@enzim.ee";
-          server_tld = "test.enzim.ee";
-          app_domain = "matrix.test.enzim.ee";
-          users.admin.admin = true;
-          users.enzime = { };
+        roles.default = {
+          machines.gaia.settings = {
+            acmeEmail = "letsencrypt@enzim.ee";
+            server_tld = "test.enzim.ee";
+            app_domain = "matrix.test.enzim.ee";
+            users.admin.admin = true;
+            users.enzime = { };
+          };
+          extraModules = [ ../../modules/nixos/matrix-server.nix ];
         };
       };
     };

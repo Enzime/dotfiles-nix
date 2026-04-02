@@ -30,6 +30,9 @@
           "/var/lib/alsa"
           "/var/lib/tailscale"
           "/var/lib/sops-nix"
+        ]
+        ++ lib.optionals config.services.postgresql.enable [
+          "/var/lib/postgresql"
         ];
 
         files = [
