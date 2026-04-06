@@ -33,8 +33,8 @@ self: super: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
         name = "support-s3-endpoints.patch";
-        url = "https://github.com/gruntwork-io/terragrunt/commit/75e10069932050bd52912a027ea3e53b507bbbd3.patch";
-        hash = "sha256-I5HLv893ZmL8t19PPrwFrzfJgUcw72UdGEFOY0iXZHk=";
+        url = "https://github.com/gruntwork-io/terragrunt/commit/d679c86b86049c3150ac26156bf1616aeeab555b.patch";
+        hash = "sha256-oUdxwBkALtqoV6EPD+nSLaCurGY4XIf6kmWWTX746cE=";
       })
     ];
   });
