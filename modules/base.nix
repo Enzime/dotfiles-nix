@@ -80,7 +80,7 @@ let
         }
       );
 
-      home-manager.users.root.home.stateVersion = "24.05";
+      home-manager.users.root.home.stateVersion = "26.05";
 
       # We don't use `programs.ssh.extraConfig` because the SSH module
       # sets a bunch of settings we don't necessarily want
@@ -245,7 +245,7 @@ in
     {
       imports = [ preservationStub ];
 
-      home.stateVersion = "22.11";
+      home.stateVersion = "26.05";
 
       # Replace `with pkgs;` with `inherit (pkgs)`
       # https://nix.dev/anti-patterns/language#with-attrset-expression

@@ -26,7 +26,7 @@
           address=0.0.0.0
         '';
 
-        home.stateVersion = "24.11";
+        home.stateVersion = "26.05";
       };
     };
 }
