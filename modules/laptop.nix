@@ -4,7 +4,6 @@
   nixosModule =
     {
       config,
-      user,
       pkgs,
       lib,
       ...
@@ -60,9 +59,6 @@
         HibernateDelaySec=5m
       '';
 
-      programs.light.enable = true;
-      users.users.${user}.extraGroups = [ "video" ];
-
       programs.captive-browser.enable = true;
     };
 
@@ -109,8 +105,8 @@
       inherit (pkgs.stdenv) hostPlatform;
 
       keybindings = {
-        "XF86MonBrightnessDown" = "exec ${lib.getExe pkgs.light} -U 10";
-        "XF86MonBrightnessUp" = "exec ${lib.getExe pkgs.light} -A 10";
+        "XF86MonBrightnessDown" = "exec ${lib.getExe pkgs.brightnessctl} set 10%-";
+        "XF86MonBrightnessUp" = "exec ${lib.getExe pkgs.brightnessctl} set +10%";
       };
     in
     mkIf hostPlatform.isLinux {
