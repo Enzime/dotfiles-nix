@@ -95,7 +95,7 @@ in
             bitwarden-desktop
             qalculate-gtk
             remmina
-            signal-desktop-bin
+            signal-desktop
             ;
         }
         // optionalAttrs (!hostPlatform.isLinux || !hostPlatform.isAarch64) {
