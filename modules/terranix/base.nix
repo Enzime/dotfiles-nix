@@ -53,14 +53,13 @@ in
 
   provider.onepassword.account = "my.1password.com";
 
-  data.external.tailscale-api-key = {
-    program = [
-      (lib.getExe self'.packages.get-clan-secret)
-      "tailscale-api-key"
-    ];
+  data.onepassword_item.tailscale-oauth-client = {
+    vault = "r3fgka56ukyvdslqp3jxc37e3q";
+    title = "Tailscale OAuth client";
   };
 
-  provider.tailscale.api_key = config.data.external.tailscale-api-key "result.secret";
+  provider.tailscale.oauth_client_id = config.data.onepassword_item.tailscale-oauth-client "username";
+  provider.tailscale.oauth_client_secret = config.data.onepassword_item.tailscale-oauth-client "password";
 
   resource.tailscale_oauth_client.terraform = {
     description = "Terraform";
