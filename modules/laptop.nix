@@ -55,9 +55,7 @@
         HandleLidSwitchExternalPower = "lock";
       };
 
-      systemd.sleep.extraConfig = ''
-        HibernateDelaySec=5m
-      '';
+      systemd.sleep.settings.Sleep.HibernateDelaySec = "5m";
 
       programs.captive-browser.enable = true;
     };
