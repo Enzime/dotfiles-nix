@@ -11,6 +11,9 @@ in
   services.matrix-synapse.settings.federation_domain_whitelist = [ ];
 
   services.mautrix-signal.enable = true;
+  services.mautrix-signal.package = pkgs.mautrix-signal.override {
+    withGoolm = true;
+  };
   services.mautrix-signal.settings = {
     network.displayname_template = ''{{or .Nickname .ContactName .ProfileName .PhoneNumber "Unknown user"}} (Signal)'';
 
@@ -31,10 +34,6 @@ in
 
     logging.min_level = "debug";
   };
-
-  nixpkgs.config.permittedInsecurePackages =
-    assert pkgs.mautrix-signal.version == "26.02";
-    [ "olm-3.2.16" ];
 
   preservation.preserveAt."/persist".directories = [
     {
