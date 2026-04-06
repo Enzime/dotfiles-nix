@@ -40,6 +40,8 @@
               vultr_vultr
               ;
 
+            onepassword = p."1password_onepassword";
+
             inherit (inputs'.nixpkgs-terraform-providers-bin.legacyPackages.providers.Backblaze)
               b2
               ;

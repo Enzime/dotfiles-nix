@@ -47,8 +47,11 @@ in
   };
 
   terraform.required_providers.local.source = "hashicorp/local";
+  terraform.required_providers.onepassword.source = "1Password/onepassword";
   terraform.required_providers.tailscale.source = "tailscale/tailscale";
   terraform.required_providers.tls.source = "hashicorp/tls";
+
+  provider.onepassword.account = "my.1password.com";
 
   data.external.tailscale-api-key = {
     program = [
@@ -58,6 +61,22 @@ in
   };
 
   provider.tailscale.api_key = config.data.external.tailscale-api-key "result.secret";
+
+  resource.tailscale_oauth_client.terraform = {
+    description = "Terraform";
+    scopes = [ "all" ];
+
+    lifecycle.create_before_destroy = true;
+  };
+
+  resource.onepassword_item.tailscale-oauth-client = {
+    vault = "r3fgka56ukyvdslqp3jxc37e3q";
+    title = "Tailscale OAuth client";
+    # They only support reading API Credentials from the Terraform provider
+    category = "login";
+    username = config.resource.tailscale_oauth_client.terraform "id";
+    password = config.resource.tailscale_oauth_client.terraform "key";
+  };
 
   resource.tailscale_tailnet_key.terraform = {
     description = "Terraform";
