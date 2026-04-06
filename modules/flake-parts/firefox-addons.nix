@@ -5,12 +5,11 @@
     overlays.firefox-addons =
       final: prev:
       let
-        # We need to import default.nix to use buildFirefoxXpiAddon which doesn't get exported in flake.nix
-        # WORKAROUND: In Nix 2.14+, firefox-addons.outPath points to the subdirectory rather than the root
-        #             so we need to use sourceInfo.outPath to maintain backwards compatibility
-        addons = import "${inputs.firefox-addons.sourceInfo.outPath}/pkgs/firefox-addons" {
-          inherit (prev) fetchurl lib stdenv;
-        };
+        inherit (inputs.firefox-addons.lib.${prev.stdenv.hostPlatform.system}) buildFirefoxXpiAddon;
+
+        # We need to use their overlay directly instead of packages as it won't use
+        # our config like allowing unfree packages
+        addons = (inputs.firefox-addons.overlays.default final prev).firefox-addons;
       in
       {
         firefox-addons =
@@ -18,7 +17,6 @@
           // (
             let
               inherit (prev.lib) mapAttrs;
-              inherit (addons) buildFirefoxXpiAddon;
             in
             mapAttrs
               (name: addon: if addons ? ${name} then throw "firefox-addons.${name} already exists" else addon)
