@@ -108,16 +108,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1772930576,
+        "lastModified": 1774530070,
         "narHash": "sha256-+x6pDQFh12sHASQwwh7QZ+fFYGh9u8bgQxT3RGA+5Uo=",
         "owner": "neko-kai",
         "repo": "claude-code-sandbox",
-        "rev": "68ab197e514259c6f9466b047ee098796f790146",
+        "rev": "5858db4adbac19361882575ee32a5836b2ed41ec",
         "type": "github"
       },
       "original": {
         "owner": "neko-kai",
-        "ref": "pull/7/merge",
         "repo": "claude-code-sandbox",
         "type": "github"
       }
@@ -389,16 +388,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1772203386,
-        "narHash": "sha256-tfQdmnBcia3xLkv65FzIKw9svdKYb8pAHUODHOj1FWw=",
+        "lastModified": 1775037210,
+        "narHash": "sha256-KM2WYj6EA7M/FVZVCl3rqWY+TFV5QzSyyGE2gQxeODU=",
         "owner": "nix-darwin",
         "repo": "nix-darwin",
-        "rev": "21558c87f3a388abee3ab6d9a735046661add835",
+        "rev": "06648f4902343228ce2de79f291dd5a58ee12146",
         "type": "github"
       },
       "original": {
         "owner": "nix-darwin",
-        "ref": "pull/1701/merge",
         "repo": "nix-darwin",
         "type": "github"
       }

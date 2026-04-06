@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin/pull/1701/merge";
+  inputs.nix-darwin.url = "github:nix-darwin/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.home-manager.url = "github:nix-community/home-manager";
@@ -67,7 +67,7 @@
   inputs.llm-agents.inputs.systems.follows = "systems";
   inputs.llm-agents.inputs.treefmt-nix.follows = "treefmt-nix";
 
-  inputs.claude-code-sandbox.url = "github:neko-kai/claude-code-sandbox/pull/7/merge";
+  inputs.claude-code-sandbox.url = "github:neko-kai/claude-code-sandbox";
   inputs.claude-code-sandbox.inputs.nixpkgs.follows = "nixpkgs";
   inputs.claude-code-sandbox.inputs.flake-utils.follows = "flake-utils";
 
