@@ -7,7 +7,7 @@
   inputs.home-manager.url = "github:nix-community/home-manager";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.systems.url = "github:nix-systems/default";
+  inputs.systems.url = "github:nix-systems/default/pull/2/merge";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.flake-utils.inputs.systems.follows = "systems";
