@@ -139,7 +139,7 @@
             resumeCommand = "${swaymsg} output '*' dpms on";
           }
         ];
-      services.swayidle.systemdTarget = "sway-session.target";
+      services.swayidle.systemdTargets = [ "sway-session.target" ];
 
       programs.waybar.settings = [
         {
@@ -182,7 +182,7 @@
       ];
 
       programs.waybar.systemd.enable = true;
-      programs.waybar.systemd.target = "sway-session.target";
+      programs.waybar.systemd.targets = [ "sway-session.target" ];
 
       systemd.user.services.polybar = lib.mkIf config.services.polybar.enable {
         Unit = {
