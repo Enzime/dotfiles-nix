@@ -4,7 +4,7 @@
   inputs.nix-darwin.url = "github:nix-darwin/nix-darwin";
   inputs.nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.home-manager.url = "github:nix-community/home-manager";
+  inputs.home-manager.url = "github:nix-community/home-manager/pull/9085/merge";
   inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.systems.url = "github:nix-systems/default/pull/2/merge";
