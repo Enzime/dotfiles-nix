@@ -65,6 +65,7 @@
           "pyright-lsp@claude-plugins-official" = true;
         };
         alwaysThinkingEnabled = true;
+        effortLevel = "high";
         cleanupPeriodDays = 99999;
         hooks = {
           Stop = [
