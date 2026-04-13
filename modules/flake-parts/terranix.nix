@@ -30,6 +30,7 @@
           p:
           builtins.attrValues {
             inherit (p)
+              go-gitea_gitea
               valodim_desec
               hashicorp_external
               hetznercloud_hcloud
@@ -131,10 +132,18 @@
               inherit (self'.packages.tg.meta) mainProgram;
             in
             ''
+              set -x
+
               if [[ -e config.tf.json ]]; then rm -f config.tf.json; fi
               if [[ -e terragrunt.hcl.json ]]; then rm -f terragrunt.hcl.json; fi
               cp ${self'.terraformConfigurations.everything} config.tf.json
               cp ${self'.terraformConfigurations.terragrunt} terragrunt.hcl.json
+              # Without using Terragrunt units or deferred actions which are not stable yet
+              # we can't have a provider authenticate using a Terraform managed resource
+              if ! ${mainProgram} state show gitea_user.hyperbot &>/dev/null 2>&1; then
+                ${mainProgram} apply -target=gitea_user.hyperbot
+              fi
+
               ${mainProgram} apply "$@"
             '';
         };
@@ -180,12 +189,14 @@
       backblaze = ../terranix/backblaze.nix;
       base = ../terranix/base.nix;
       dns = ../terranix/dns.nix;
+      gitea = ../terranix/gitea.nix;
       tailscale = ../terranix/tailscale.nix;
 
       everything.imports = [
         self.terranixModules.backblaze
         self.terranixModules.base
         self.terranixModules.dns
+        self.terranixModules.gitea
       ];
     };
   };

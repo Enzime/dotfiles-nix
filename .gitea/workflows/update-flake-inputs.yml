@@ -14,11 +14,11 @@ jobs:
       - name: Update flake inputs
         uses: Mic92/update-flake-inputs-gitea@main
         with:
-          gitea-token: ${{ secrets.CI_BOT_TOKEN }}
-          github-token: ${{ secrets.CI_BOT_GITHUB_TOKEN }}
+          gitea-token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+          github-token: ${{ secrets.HYPERBOT_GITHUB_TOKEN }}
           auto-merge: true
           base-branch: next
           git-author-name: hyperbot
-          git-author-email: hyperbot@clan.lol
+          git-author-email: hyperbot@enzim.ee
           git-committer-name: hyperbot
-          git-committer-email: hyperbot@clan.lol
+          git-committer-email: hyperbot@enzim.ee
