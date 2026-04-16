@@ -57,6 +57,10 @@
           authorizedKeysFile = pkgs.writeText "authorized_keys" (
             lib.concatStringsSep "\n" config.users.users.root.openssh.authorizedKeys.keys
           );
+          commandLine = [
+            "/bin/systemctl"
+            "default"
+          ];
         };
         tailscale = {
           name = "${config.networking.hostName}-unlock";

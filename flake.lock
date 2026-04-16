@@ -283,16 +283,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1776332439,
-        "narHash": "sha256-JaKR0NARlXR3OkhKbRLNcZFyLIbmDaWgF9qrwxNLyIY=",
+        "lastModified": 1776357966,
+        "narHash": "sha256-RjB16cOdKXak+/C4DMVkDRPuZforS8EciuyKj6G5eQM=",
         "owner": "boinkor-net",
         "repo": "hoopsnake",
-        "rev": "8a207ebf5a5dc777e92a5ab0ca20db806061cb3d",
+        "rev": "0ac56b283ecd322e9dcc98069871c236f89d036b",
         "type": "github"
       },
       "original": {
         "owner": "boinkor-net",
-        "ref": "pull/123/merge",
         "repo": "hoopsnake",
         "type": "github"
       }
