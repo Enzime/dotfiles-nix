@@ -61,6 +61,7 @@
         tailscale = {
           name = "${config.networking.hostName}-unlock";
           tags = [ "tag:initrd" ];
+          preauthorized = true;
         };
       };
 
