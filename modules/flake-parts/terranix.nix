@@ -169,6 +169,10 @@
             backend = "s3";
             config = self'.terraformConfigurations.everything.config.terraform.backend.s3;
           };
+          terraform.extra_arguments.init_upgrade = {
+            commands = [ "init" ];
+            arguments = [ "-upgrade" ];
+          };
         };
       };
 
