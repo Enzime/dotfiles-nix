@@ -78,6 +78,12 @@ in
                 "clanro:"
               ];
             };
+            "https://gitea.com/" = {
+              insteadOf = [
+                "gitea:"
+                "gitearo:"
+              ];
+            };
 
             "ssh://git@github.com/" = {
               insteadOf = "ghp:";
@@ -91,12 +97,17 @@ in
               insteadOf = "clanp:";
               pushInsteadOf = "clan:";
             };
+            "ssh://git@gitea.com/" = {
+              insteadOf = "giteap:";
+              pushInsteadOf = "gitea:";
+            };
 
             "___PUSH_DISABLED___" = {
               pushInsteadOf = [
                 "ghro:"
                 "bbro:"
                 "clanro:"
+                "gitearo:"
               ];
             };
           };
