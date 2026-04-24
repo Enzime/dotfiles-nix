@@ -27,7 +27,22 @@ self: super: {
           }
         );
       }
-    );
+    )
+    // {
+      go-gitea_gitea = super.terraform-providers.go-gitea_gitea.override (
+        old:
+        assert old.rev == "v0.7.0";
+        {
+          owner = "gitea";
+          repo = "terraform-provider-gitea";
+          rev = "7c771be11041c1ab625bfc68d8f1fb16a5fa1514";
+          version = "0.8.0";
+          hash = "sha256-L14lXHwLPUg+3DCRPnO1RJRCH2aKTu3FQSTqEEDc92A=";
+          vendorHash = "sha256-NQXqzEXjX1kAHD0DjoQVP6DAdLmeOG005criUTL8gSQ=";
+          mkProviderFetcher = args: super.fetchFromGitea (args // { domain = "gitea.com"; });
+        }
+      );
+    };
 
   terragrunt = super.terragrunt.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
