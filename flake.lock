@@ -257,16 +257,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1775922797,
-        "narHash": "sha256-0zOYf2pWgeUSqCj9c+6IdkjQLzM1S0JeU5kZN5cCsm4=",
+        "lastModified": 1777054018,
+        "narHash": "sha256-tTNS7V6xN/LX1KZ0TrdOnj375ZrsUlLoce4qxZwDN9U=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "74d1506e6a8e299cec677e6cf0f502c4e11af3e4",
+        "rev": "ffbd94a1c9d7d3e1258e51c084ab2109da04f2b1",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "pull/9085/merge",
         "repo": "home-manager",
         "type": "github"
       }
@@ -610,16 +609,16 @@
     },
     "systems": {
       "locked": {
-        "lastModified": 1774848269,
+        "lastModified": 1774449309,
         "narHash": "sha256-brhZ8DmuGtzkCYHJg4HEd602amKm89Y9ytsFZ5uWD1w=",
         "owner": "nix-systems",
         "repo": "default",
-        "rev": "b8281db72ee949ecefee232aa9713237209de286",
+        "rev": "c29398b59d2048c4ab79345812849c9bd15e9150",
         "type": "github"
       },
       "original": {
         "owner": "nix-systems",
-        "ref": "pull/2/merge",
+        "ref": "future-26.11",
         "repo": "default",
         "type": "github"
       }
