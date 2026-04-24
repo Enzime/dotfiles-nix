@@ -283,11 +283,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767001347,
-        "narHash": "sha256-IsnKPt/ImCKptY3tcNAe9HDrsg362EenOwdp4Bzn4zg=",
+        "lastModified": 1776357966,
+        "narHash": "sha256-RjB16cOdKXak+/C4DMVkDRPuZforS8EciuyKj6G5eQM=",
         "owner": "boinkor-net",
         "repo": "hoopsnake",
-        "rev": "9a0f65949da8f2b62870a267dbae7e6e2e6fe326",
+        "rev": "0ac56b283ecd322e9dcc98069871c236f89d036b",
         "type": "github"
       },
       "original": {
