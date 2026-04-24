@@ -74,6 +74,14 @@
     ];
   };
 
+  resource.gitea_repository_collaborator.hyperconfig-hyperbot = {
+    owner = "Enzime";
+    repo = "hyperconfig";
+    username = "hyperbot";
+    permission = "write";
+    depends_on = [ "gitea_user.hyperbot" ];
+  };
+
   resource.gitea_repository_actions_secret.hyperbot-gitea-token = {
     repository_owner = "enzime";
     repository = "hyperconfig";
