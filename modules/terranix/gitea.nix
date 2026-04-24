@@ -61,6 +61,19 @@
     title = "GitHub readonly PAT";
   };
 
+  resource.gitea_repository_branch_protection.hyperconfig-main = {
+    username = "Enzime";
+    name = "hyperconfig";
+    rule_name = "main";
+    enable_push = false;
+    block_merge_on_rejected_reviews = true;
+    status_check_patterns = [
+      "buildbot/nix-eval"
+      "buildbot/nix-build"
+      "gitea-mq"
+    ];
+  };
+
   resource.gitea_repository_actions_secret.hyperbot-gitea-token = {
     repository_owner = "enzime";
     repository = "hyperconfig";
