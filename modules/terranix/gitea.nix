@@ -75,6 +75,21 @@
     ];
   };
 
+  resource.gitea_repository_branch_protection.hyperconfig-next = {
+    username = "Enzime";
+    name = "hyperconfig";
+    rule_name = "next";
+    enable_push = true;
+    push_whitelist_users = [ "hyperbot" ];
+    block_merge_on_rejected_reviews = true;
+    block_admin_merge_override = true;
+    status_check_patterns = [
+      "buildbot/nix-eval"
+      "buildbot/nix-build"
+      "gitea-mq"
+    ];
+  };
+
   resource.gitea_repository_collaborator.hyperconfig-hyperbot = {
     owner = "Enzime";
     repo = "hyperconfig";
