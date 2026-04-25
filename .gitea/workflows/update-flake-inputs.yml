@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
       - name: Update flake inputs
         uses: Mic92/update-flake-inputs-gitea@main
         with:
