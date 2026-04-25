@@ -16,6 +16,9 @@ jobs:
         run: |
           set -euo pipefail
 
+          git config user.name hyperbot
+          git config user.email hyperbot@clan.lol
+
           git fetch origin main next
 
           # Skip if next is already exactly 1 commit ahead of main (already squashed)
@@ -35,10 +38,6 @@ jobs:
           # Squash all changes into a single commit on top of main
           git checkout origin/main
           git merge --squash origin/next
-
-          git \
-            -c user.name=hyperbot \
-            -c user.email=hyperbot@clan.lol \
-            commit -m "flake: bump inputs"
+          git commit -m "flake: bump inputs"
 
           git push origin HEAD:refs/heads/next --force

@@ -20,14 +20,24 @@ jobs:
         run: |
           set -euo pipefail
 
+          git config user.name hyperbot
+          git config user.email hyperbot@clan.lol
+
           git fetch origin main next
 
           # Save the current next ref before resetting
           NEXT_REF=$(git rev-parse origin/next)
 
+          # Check if next has any commits beyond main
+          if [ "$(git rev-list --count origin/main..origin/next)" -eq 0 ]; then
+            echo "next has no commits beyond main, resetting next to main"
+            git push origin origin/main:refs/heads/next --force
+            exit 0
+          fi
+
           # Check if next has any tree differences from main
           if git diff --quiet origin/main origin/next; then
-            echo "No differences between main and next, resetting next to main"
+            echo "No tree differences between main and next, resetting next to main"
             git push origin origin/main:refs/heads/next --force
             exit 0
           fi
@@ -35,36 +45,44 @@ jobs:
           # Reset next to main
           git push origin origin/main:refs/heads/next --force
 
-          # Create a new branch from main with the squashed changes
+          # Try to squash-merge the old next changes onto main
+          # If this fails (e.g. merge conflict), next is already reset to main
           git checkout origin/main
-          git merge --squash "$NEXT_REF"
-
-          git \
-            -c user.name=hyperbot \
-            -c user.email=hyperbot@clan.lol \
-            commit -m "flake: bump inputs"
+          if ! git merge --squash "$NEXT_REF"; then
+            echo "Merge conflict, next has been reset to main"
+            exit 0
+          fi
+          git commit -m "flake: bump inputs"
 
           # Force push the rebase branch
           git push origin HEAD:refs/heads/next-rebase --force
 
-          # Create PR using tea CLI
-          nix shell nixpkgs#tea -c tea logins add \
-            --name gitea \
-            --url "$GITEA_URL" \
-            --token "$GITEA_TOKEN" \
-            --no-version-check
+          # Check for existing open PR from next-rebase to next
+          PR_NUMBER=$(curl -s \
+            -H "Authorization: token $GITEA_TOKEN" \
+            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls?state=open&head=next-rebase&base=next" \
+            | nix shell nixpkgs#jq -c '.[] | .number' | head -1)
 
-          PR_URL=$(nix shell nixpkgs#tea -c tea pulls create \
-            --login gitea \
-            --repo "$GITEA_REPO" \
-            --head next-rebase \
-            --base next \
-            --title "flake: bump inputs" 2>&1 | tail -1)
+          if [ -z "$PR_NUMBER" ]; then
+            # Create PR using tea CLI
+            nix shell nixpkgs#tea -c tea logins add \
+              --name gitea \
+              --url "$GITEA_URL" \
+              --token "$GITEA_TOKEN" \
+              --no-version-check
 
-          echo "Created PR: $PR_URL"
+            PR_URL=$(nix shell nixpkgs#tea -c tea pulls create \
+              --login gitea \
+              --repo "$GITEA_REPO" \
+              --head next-rebase \
+              --base next \
+              --title "flake: bump inputs" 2>&1 | tail -1)
 
-          # Extract PR number and enable auto-merge via Gitea API
-          PR_NUMBER=$(echo "$PR_URL" | grep -oP '/pulls/\K[0-9]+')
+            echo "Created PR: $PR_URL"
+            PR_NUMBER=$(echo "$PR_URL" | grep -oP '/pulls/\K[0-9]+')
+          else
+            echo "Reusing existing PR #$PR_NUMBER"
+          fi
 
           curl -s -X POST \
             -H "Authorization: token $GITEA_TOKEN" \
