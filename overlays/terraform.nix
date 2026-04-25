@@ -29,19 +29,46 @@ self: super: {
       }
     )
     // {
-      go-gitea_gitea = super.terraform-providers.go-gitea_gitea.override (
-        old:
-        assert old.rev == "v0.7.0";
-        {
-          owner = "gitea";
-          repo = "terraform-provider-gitea";
-          rev = "7c771be11041c1ab625bfc68d8f1fb16a5fa1514";
-          version = "0.8.0";
-          hash = "sha256-L14lXHwLPUg+3DCRPnO1RJRCH2aKTu3FQSTqEEDc92A=";
-          vendorHash = "sha256-NQXqzEXjX1kAHD0DjoQVP6DAdLmeOG005criUTL8gSQ=";
-          mkProviderFetcher = args: super.fetchFromGitea (args // { domain = "gitea.com"; });
-        }
-      );
+      go-gitea_gitea =
+        (super.terraform-providers.go-gitea_gitea.override (
+          old:
+          assert old.rev == "v0.7.0";
+          {
+            owner = "gitea";
+            repo = "terraform-provider-gitea";
+            rev = "7c771be11041c1ab625bfc68d8f1fb16a5fa1514";
+            version = "0.8.0";
+            hash = "sha256-L14lXHwLPUg+3DCRPnO1RJRCH2aKTu3FQSTqEEDc92A=";
+            proxyVendor = true;
+            vendorHash = "sha256-TezGIhbyZY+moXEzQVqdys9R7URlUZzMFy3OjRYHZBA=";
+            mkProviderFetcher = args: super.fetchFromGitea (args // { domain = "gitea.com"; });
+          }
+        )).overrideAttrs
+          (prev: {
+            patches = (prev.patches or [ ]) ++ [
+              (super.fetchpatch {
+                name = "configure-admin-bypass.patch";
+                url = "https://gitea.com/Enzime/terraform-provider-gitea/commit/47a1d5cf017e12b2c5183f043201d8bd17461035.patch";
+                hash = "sha256-PQaSx/8u/7cG7QIgZ7V7JdFu/ClADMHvhv88LYE+fcI=";
+              })
+            ];
+
+            postPatch = ''
+              echo 'replace code.gitea.io/sdk/gitea => gitea.com/Enzime/go-sdk/gitea v0.24.2-0.20260424234109-469754782127' >> go.mod
+              echo 'gitea.com/Enzime/go-sdk/gitea v0.24.2-0.20260424234109-469754782127 h1:KArANW8MQFd9KogV/v2LDSeceCQZhJ6rGvSXfbrXOSQ=' >> go.sum
+              echo 'gitea.com/Enzime/go-sdk/gitea v0.24.2-0.20260424234109-469754782127/go.mod h1:uDFWYBU8dgZsgOHwe6C/6olxvf8FHguNB3wW1i83fgg=' >> go.sum
+            '';
+
+            env = prev.env // {
+              GOFLAGS = prev.env.GOFLAGS + " -mod=mod";
+            };
+
+            passthru.overrideModAttrs = final': prev': {
+              preBuild = (prev'.preBuild or "") + ''
+                GOFLAGS="-mod=mod" go mod tidy
+              '';
+            };
+          });
     };
 
   terragrunt = super.terragrunt.overrideAttrs (old: {
@@ -50,6 +77,16 @@ self: super: {
         name = "support-s3-endpoints.patch";
         url = "https://github.com/gruntwork-io/terragrunt/commit/d679c86b86049c3150ac26156bf1616aeeab555b.patch";
         hash = "sha256-oUdxwBkALtqoV6EPD+nSLaCurGY4XIf6kmWWTX746cE=";
+      })
+    ];
+  });
+
+  opentofu = super.opentofu.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [
+      (super.fetchpatch {
+        name = "fix-upgrade-with-nix.patch";
+        url = "https://github.com/opentofu/opentofu/commit/e763cd121ff58aa504e9c8b2515e30c26df026a8.patch";
+        hash = "sha256-jQPssSFA4/zs+EGngGg+dT/J7KWLdSrtjOYEtEWPIJg=";
       })
     ];
   });

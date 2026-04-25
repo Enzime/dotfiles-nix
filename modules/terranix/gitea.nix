@@ -67,6 +67,7 @@
     rule_name = "main";
     enable_push = false;
     block_merge_on_rejected_reviews = true;
+    block_admin_merge_override = true;
     status_check_patterns = [
       "buildbot/nix-eval"
       "buildbot/nix-build"
