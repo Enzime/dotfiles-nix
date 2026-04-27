@@ -12,9 +12,11 @@
 - Use `nix eval` instead of `nix flake show` to look up attributes in a flake.
 - Do not use `nix flake check` on the whole flake; it is too slow. Instead,
   build individual tests.
+- Don't pipe `nix build` through `head` or `tail` — it suppresses streaming
+  output, so you can't see logs as they arrive.
 - After `nix build` completes (success or failure), run `nix log` to get the
   build output. Never run `nix build` a second time just to check output — that
-  clears failure logs. Don't use `head` or `tail` on `nix build` output.
+  clears failure logs.
 - Remote builders for `aarch64-linux`, `aarch64-darwin`, and `x86_64-linux` are
   configured in `nix.conf`. For NixOS tests on macOS, target `x86_64-linux` which
   will be built using a remote builder.
