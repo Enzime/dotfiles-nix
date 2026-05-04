@@ -85,8 +85,8 @@
           # Check for existing open PR from next-rebase to next
           PR_NUMBER=$(curl -s \
             -H "Authorization: token $GITEA_TOKEN" \
-            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls?state=open&head=next-rebase&base=next" \
-            | jq -r '.[0].number')
+            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls?state=open&base_branch=next" \
+            | jq -r '[.[] | select(.head.ref == "next-rebase")] | .[0].number')
 
           if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" = "null" ]; then
             # Create PR using tea CLI
