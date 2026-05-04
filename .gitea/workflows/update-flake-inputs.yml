@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
       - name: Update flake inputs
-        uses: Mic92/update-flake-inputs-gitea@pull/110/merge
+        uses: Enzime/update-flake-inputs-gitea@110+112
         with:
           gitea-token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
           github-token: ${{ secrets.HYPERBOT_GITHUB_TOKEN }}
