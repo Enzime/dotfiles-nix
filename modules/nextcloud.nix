@@ -32,7 +32,7 @@
       ];
 
       services.nextcloud.enable = true;
-      services.nextcloud.package = pkgs.nextcloud32;
+      services.nextcloud.package = pkgs.nextcloud33;
       services.nextcloud.hostName = hostname;
       services.nextcloud.settings.trusted_domains = [ "reflector.enzim.ee" ];
       services.nextcloud.https = true;
