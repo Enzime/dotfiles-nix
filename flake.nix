@@ -92,6 +92,7 @@
           ./hosts/flake-module.nix
           ./modules/flake-parts/flake-module.nix
           ./.github/flake-module.nix
+          ./.gitea/flake-module.nix
         ];
         systems = import inputs.systems;
 
