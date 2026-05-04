@@ -58,12 +58,12 @@ jobs:
           git push origin HEAD:refs/heads/next-rebase --force
 
           # Check for existing open PR from next-rebase to next
-          PR_NUMBER=$(curl -s \
+          PR_NUMBER=$(nix run nixpkgs#curl -- -s \
             -H "Authorization: token $GITEA_TOKEN" \
             "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls?state=open&head=next-rebase&base=next" \
-            | nix shell nixpkgs#jq -c '.[] | .number' | head -1)
+            | nix run nixpkgs#jq -- -r '.[0].number')
 
-          if [ -z "$PR_NUMBER" ]; then
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" = "null" ]; then
             # Create PR using tea CLI
             nix shell nixpkgs#tea -c tea logins add \
               --name gitea \
@@ -84,10 +84,10 @@ jobs:
             echo "Reusing existing PR #$PR_NUMBER"
           fi
 
-          curl -s -X POST \
+          nix run nixpkgs#curl -- -s -X POST \
             -H "Authorization: token $GITEA_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{"Do":"merge","merge_when_checks_succeed":true,"delete_branch_after_merge":true}' \
+            -d '{"merge_when_checks_succeed":true,"delete_branch_after_merge":true}' \
             "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls/$PR_NUMBER/merge"
 
           echo "Auto-merge enabled for PR #$PR_NUMBER"
