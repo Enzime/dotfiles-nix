@@ -15,6 +15,8 @@
         programs.statix.enable = true;
         programs.shellcheck.enable = true;
 
+        programs.actionlint.enable = true;
+
         settings.formatter.nil = {
           # https://github.com/cachix/git-hooks.nix/blob/fa466640195d38ec97cf0493d6d6882bc4d14969/modules/hooks.nix#L3242-L3261
           command = lib.getExe (
