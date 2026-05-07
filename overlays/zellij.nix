@@ -19,11 +19,6 @@ self: super: {
         hash = "sha256-MjrUI//hq49wcyyuJ5CtUiMqaLGKhlBTz/rXw2qUAMA=";
         excludes = [ "**/*.snap" ];
       })
-      (super.fetchpatch {
-        name = "report-osc52.patch";
-        url = "https://github.com/Enzime/zellij/commit/60acd439985339e518f090821c0e4eb366ce6014.patch";
-        hash = "sha256-hG1VEtydGy3Q9vL2pL/lVEWidq5OcWQWLXay5HpvU7s=";
-      })
     ];
   });
 }
