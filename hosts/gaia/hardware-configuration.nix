@@ -107,6 +107,8 @@
     };
   };
 
+  boot.zfs.forceImportRoot = false;
+
   # WORKAROUND: LUKS unlock prompt times out
   # https://github.com/NixOS/nixpkgs/issues/250003
   boot.initrd.systemd.services.zfs-import-rpool = {

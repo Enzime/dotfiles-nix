@@ -102,6 +102,8 @@
     };
   };
 
+  boot.zfs.forceImportRoot = false;
+
   virtualisation.vmVariantWithDisko = {
     disko.devices.disk.primary.content.partitions.luks.content.passwordFile = lib.mkForce (
       toString (pkgs.writeText "password" "apple")
