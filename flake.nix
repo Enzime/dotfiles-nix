@@ -40,7 +40,8 @@
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core?shallow=1";
+  # https://git.clan.lol/clan/clan-core/pulls/7436
+  inputs.clan-core.url = "git+https://git.clan.lol/clan/clan-core?ref=push-kzxlmmnzyplr&shallow=1";
   inputs.clan-core.inputs.disko.follows = "disko";
   inputs.clan-core.inputs.flake-parts.follows = "flake-parts";
   inputs.clan-core.inputs.nixpkgs.follows = "nixpkgs";
