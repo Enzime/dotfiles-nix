@@ -3,11 +3,11 @@ self: super: {
     assert !super ? steam-bin;
     super.stdenvNoCC.mkDerivation {
       pname = "steam";
-      version = "1769025840";
+      version = "1778003620";
 
       src = super.fetchurl {
-        url = "https://steamcdn-a.akamaihd.net/client/appdmg_osx.zip.391cd59d411530a3881267f0c4dfb276dba95838";
-        hash = "sha256-5sfhL4mGILMtvGKFqqObWwthazNsTVE7vg9vnve0lug=";
+        url = "https://steamcdn-a.akamaihd.net/client/appdmg_osx.zip.984652b88a9737e3f4e77c656d9ffa67d5042c2c";
+        hash = "sha256-i/TOi0vLxQ9kKYjJVVWfYF56h3NyEW56Kz/RNVAEvts=";
       };
 
       # The fetched file has a hash suffix but is actually a zip
