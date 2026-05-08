@@ -72,10 +72,6 @@
   inputs.claude-code-sandbox.inputs.nixpkgs.follows = "nixpkgs";
   inputs.claude-code-sandbox.inputs.flake-utils.follows = "flake-utils";
 
-  inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-  inputs.neovim-nightly-overlay.inputs.flake-parts.follows = "flake-parts";
-  inputs.neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
-
   # REMOVEME when qt6.qtwebengine builds in Nixpkgs
   # https://github.com/NixOS/nixpkgs/pull/515997
   inputs.nixpkgs-anki.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

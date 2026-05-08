@@ -368,8 +368,6 @@ in
       programs.direnv.nix-direnv.enable = true;
 
       programs.neovim.enable = true;
-      programs.neovim.package =
-        inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
       programs.neovim.vimAlias = true;
       programs.neovim.plugins = [
         # Plugins that are always loaded
