@@ -32,6 +32,8 @@ self: super: {
       # Don't strip/patch binaries - would break code signatures
       dontFixup = true;
 
+      passthru.updateScript = ../files/update-steam.sh;
+
       meta = {
         description = "Steam client for macOS with native Apple Silicon support";
         homepage = "https://store.steampowered.com";
