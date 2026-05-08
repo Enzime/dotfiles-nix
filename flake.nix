@@ -76,6 +76,10 @@
   inputs.neovim-nightly-overlay.inputs.flake-parts.follows = "flake-parts";
   inputs.neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
+  # REMOVEME when qt6.qtwebengine builds in Nixpkgs
+  # https://github.com/NixOS/nixpkgs/pull/515997
+  inputs.nixpkgs-anki.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake

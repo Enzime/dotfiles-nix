@@ -66,6 +66,7 @@
 
   homeModule =
     {
+      inputs,
       config,
       pkgs,
       lib,
@@ -79,12 +80,13 @@
       home.packages = builtins.attrValues (
         {
           inherit (pkgs)
-            anki
             discord
             gh
             gramps
             nixpkgs-review
             ;
+
+          inherit (inputs.nixpkgs-anki.legacyPackages.${hostPlatform.system}) anki;
         }
         // optionalAttrs ((hostPlatform.isLinux && hostPlatform.isx86_64) || hostPlatform.isDarwin) {
           # not currently built for `aarch64-linux`

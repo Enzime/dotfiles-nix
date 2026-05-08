@@ -513,6 +513,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-anki": {
+      "locked": {
+        "lastModified": 1776847175,
+        "narHash": "sha256-LPT9ai4kaFe2Uk86doNW5+m3IEswgEhrzSqQzCw28CU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "768447fd6212687857f4584585916e353dcec713",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-terraform-providers-bin": {
       "inputs": {
         "nixpkgs": [
@@ -565,6 +581,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-anywhere": "nixos-anywhere",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-anki": "nixpkgs-anki",
         "nixpkgs-terraform-providers-bin": "nixpkgs-terraform-providers-bin",
         "preservation": "preservation",
         "systems": "systems",
