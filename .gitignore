@@ -7,3 +7,4 @@ terragrunt.hcl.json
 *.tfstate*
 *.qcow2
 *.fd
+.terragrunt*
