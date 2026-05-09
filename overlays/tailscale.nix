@@ -3,8 +3,8 @@ self: super: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
         name = "support-exit-nodes-on-macos.patch";
-        url = "https://github.com/Enzime/tailscale/commit/bfe7be579c71e3fc4a405a2f47e0d8e518e8fc51.patch";
-        hash = "sha256-5oqQnfZUs4Y8iERNHrIFCJ5GYyYgfxax7mEQlfaAIeQ=";
+        url = "https://github.com/Enzime/tailscale/commit/2de687882bd4480ad538fb613ead1fb5339b6a00.patch";
+        hash = "sha256-xTQ4pbcj0AhTYfJMQSho6Mxf42bOCQuymiFKm+8Y07A=";
       })
     ];
   });
