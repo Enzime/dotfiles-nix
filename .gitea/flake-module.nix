@@ -71,10 +71,15 @@
           git push origin origin/main:refs/heads/next --force
 
           # Try to squash-merge the old next changes onto main
-          # If this fails (e.g. merge conflict), next is already reset to main
+          # If this fails (e.g. merge conflict) or produces no diff, next is
+          # already reset to main and the next-exclusive commits are dropped
           git checkout origin/main
           if ! git merge --squash "$NEXT_REF"; then
             echo "Merge conflict, next has been reset to main"
+            exit 0
+          fi
+          if git diff --cached --quiet; then
+            echo "Squash merge produced no changes, next has been reset to main"
             exit 0
           fi
           git commit -m "flake: bump inputs"
