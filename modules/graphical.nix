@@ -41,7 +41,27 @@ in
         # Only show windows from current space
         spacesToShow = 1;
         showWindowlessApps = 1;
-        holdShortcut = "⌘";
+        # Don't override the shortcut until we're running Nixpkgs that supports
+        # writing binary data
+        # https://github.com/NixOS/nixpkgs/pull/518660
+        holdShortcut =
+          assert !lib ? mkPlistData;
+          if (lib ? mkPlistData) then
+            {
+              secureData = lib.mkPlistData (
+                "YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9i"
+                + "amVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRyb290gAGmCwwZGhsc"
+                + "VSRudWxs1g0ODxAREhMUFRQXGF1tb2RpZmllckZsYWdzXxAbY2hhcmFjdGVy"
+                + "c0lnbm9yaW5nTW9kaWZpZXJzViRjbGFzc1pjaGFyYWN0ZXJzV2tleUNvZGVX"
+                + "dmVyc2lvboAEgACABYAAgAOAAlExEf//EgAQAADSHR4fIFokY2xhc3NuYW1l"
+                + "WCRjbGFzc2VzWlNSU2hvcnRjdXSiHyFYTlNPYmplY3QACAARABoAJAApADIA"
+                + "NwBJAEwAUQBTAFoAYABtAHsAmQCgAKsAswC7AL0AvwDBAMMAxQDHAMkAzADR"
+                + "ANYA4QDqAPUA+AAAAAAAAAIBAAAAAAAAACIAAAAAAAAAAAAAAAAAAAEB"
+              );
+              string = "⌘";
+            }
+          else
+            null;
         startAtLogin = "false";
 
         blacklist = lib.generators.toJSON { } [
