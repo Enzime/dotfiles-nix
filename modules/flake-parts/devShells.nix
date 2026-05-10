@@ -10,11 +10,8 @@
       devShells.default = pkgs.mkShell {
         buildInputs = builtins.attrValues {
           inherit (inputs'.home-manager.packages) home-manager;
+          inherit (inputs'.clan-core.packages) clan-cli;
           inherit (self'.packages) tf tg;
-
-          clan-cli = inputs'.clan-core.packages.clan-cli.override {
-            nix = pkgs.lixPackageSets.latest.lix;
-          };
         };
 
         shellHook = ''

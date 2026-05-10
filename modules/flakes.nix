@@ -2,7 +2,7 @@ let
   shared =
     { pkgs, ... }:
     {
-      nix.package = pkgs.lixPackageSets.latest.lix;
+      nix.package = pkgs.nixVersions.latest;
 
       nix.settings.experimental-features = [
         "nix-command"
