@@ -1,9 +1,6 @@
 ## General Guidelines
 
 - Follow XDG desktop standards
-- Regularly reason about security implications of the code
-- Use `~/Code/claude/:scratch` as a scratch directory.
-- In the Bash tool use absolute paths over `cd`
 
 ## Nix-specific
 
