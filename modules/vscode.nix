@@ -151,7 +151,7 @@
             command = "workbench.action.terminal.clear";
           }
 
-          # Disable `C-S-n` to reinforce `C-, C-r C-Enter` workflow
+          # Disable `C-S-n` to reinforce `C-, C-r C-Return` workflow
           {
             key = "ctrl+shift+n";
             command = "-workbench.action.newWindow";
@@ -173,6 +173,14 @@
           {
             key = "ctrl+m";
             command = "-editor.action.toggleTabFocusMode";
+          }
+
+          # Fix `S-Return` in Claude Code (send `A-Return` instead)
+          {
+            key = "shift+enter";
+            command = "workbench.action.terminal.sendSequence";
+            args.text = builtins.fromJSON ''"\u001b\r"'';
+            when = "terminalFocus";
           }
         ];
       programs.vscode.profiles.default.userSettings =
