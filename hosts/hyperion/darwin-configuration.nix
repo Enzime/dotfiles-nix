@@ -1,7 +1,6 @@
 {
   user,
   config,
-  pkgs,
   ...
 }:
 
@@ -19,9 +18,9 @@
 
   system.defaults.dock.persistent-apps = [
     "/Applications/Firefox.app"
-    "${pkgs.ghostty-bin}/Applications/Ghostty.app"
-    "${pkgs.vscode}/Applications/Visual Studio Code.app"
-    "${pkgs.spotify}/Applications/Spotify.app"
+    "${config.users.users.${user}.home}/Applications/Home Manager Apps/Ghostty.app"
+    "${config.users.users.${user}.home}/Applications/Home Manager Apps/Visual Studio Code.app"
+    "${config.users.users.${user}.home}/Applications/Home Manager Apps/Spotify.app"
     "/Applications/Element.app"
   ];
 
