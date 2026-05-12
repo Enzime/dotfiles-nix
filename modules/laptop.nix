@@ -70,7 +70,9 @@
     {
       time.timeZone = lib.mkForce null;
 
-      environment.systemPackages = builtins.attrValues { inherit (pkgs) aldente ice-bar; };
+      environment.systemPackages = builtins.attrValues {
+        inherit (pkgs) aldente betterdisplay ice-bar;
+      };
 
       launchd.user.agents.alDente = {
         command = ''"/Applications/Nix Apps/AlDente.app/Contents/MacOS/AlDente"'';
