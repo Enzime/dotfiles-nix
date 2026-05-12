@@ -1,18 +1,51 @@
 name: Update Flake Inputs
 on:
   schedule:
-    - cron: "0 */5 * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
   repository_dispatch:
+  pull_request:
+    types: [closed]
+    branches: [next]
 jobs:
   update-flake-inputs:
     runs-on: nix
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.merged && github.event.pull_request.head.ref == 'next-rebase') }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+      - name: Skip or close stale next-rebase PR
+        id: check_rebase
+        env:
+          GITEA_TOKEN: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+          GITEA_URL: ${{ github.server_url }}
+          GITEA_REPO: ${{ github.repository }}
+        run: |
+          pr_json=$(curl -s \
+            -H "Authorization: token $GITEA_TOKEN" \
+            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls?state=open&base_branch=next" \
+            | jq '[.[] | select(.head.ref == "next-rebase")] | .[0]')
+          if [ "$pr_json" = "null" ] || [ -z "$pr_json" ]; then
+            echo "no open next-rebase PR; proceeding"
+            exit 0
+          fi
+          pr_number=$(echo "$pr_json" | jq -r '.number')
+          age=$(echo "$pr_json" | jq -r '(now - (.updated_at | fromdateiso8601)) | floor')
+          if [ "$age" -lt 3600 ]; then
+            echo "next-rebase PR #$pr_number is ${age}s old (<1h); skipping flake updates this cycle"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "next-rebase PR #$pr_number is ${age}s old (stale); closing and proceeding"
+            curl -s -X PATCH \
+              -H "Authorization: token $GITEA_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{"state":"closed"}' \
+              "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls/$pr_number" > /dev/null
+          fi
       - name: Update flake inputs
+        if: steps.check_rebase.outputs.skip != 'true'
         uses: Mic92/update-flake-inputs-gitea@main
         with:
           gitea-token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}

@@ -67,6 +67,22 @@
             exit 0
           fi
 
+          # Close stale update-* PRs targeting next. We're about to force-reset
+          # next, putting them in conflict with what we're rebasing forward.
+          # update-flake-inputs will recreate fresh PRs against the new next.
+          curl -s \
+            -H "Authorization: token $GITEA_TOKEN" \
+            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls?state=open&base_branch=next" \
+            | jq -r '.[] | select(.head.ref | startswith("update-")) | .number' \
+            | while read -r PR_NUM; do
+              echo "Closing stale update-* PR #$PR_NUM"
+              curl -s -X PATCH \
+                -H "Authorization: token $GITEA_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d '{"state":"closed"}' \
+                "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls/$PR_NUM" > /dev/null
+            done
+
           # Reset next to main
           git push origin origin/main:refs/heads/next --force
 
