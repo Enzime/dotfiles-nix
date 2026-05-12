@@ -15,6 +15,6 @@ jobs:
       - name: Rebase next onto updated main
         env:
           GITEA_TOKEN: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
-          GITEA_URL: ${{ gitea.server_url }}
-          GITEA_REPO: ${{ gitea.repository }}
+          GITEA_URL: ${{ github.server_url }}
+          GITEA_REPO: ${{ github.repository }}
         run: nix run .#gitea-rebase-next
