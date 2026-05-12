@@ -40,6 +40,8 @@ in
         hideSpaceNumberLabels = "true";
         # Only show windows from current space
         spacesToShow = 1;
+        # Only show windows from current screen
+        screensToShow = 1;
         showWindowlessApps = 1;
         # Don't override the shortcut until we're running Nixpkgs that supports
         # writing binary data
