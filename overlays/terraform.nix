@@ -29,6 +29,12 @@ self: super: {
       }
     )
     // {
+      "1password_onepassword" = super.terraform-providers."1password_onepassword".override (old: {
+        rev = "v2.2.1";
+        hash = "sha256-1wi+SO0yKrlTWtUOQfcISGAAFHfddtsGhDaBD/7aYQg=";
+        vendorHash = "sha256-mTcvQC2MMnjr27P3UrTpQcHD0pWOC3vwKkHGJlnfFaU=";
+      });
+
       go-gitea_gitea =
         (super.terraform-providers.go-gitea_gitea.override (
           old:
