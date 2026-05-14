@@ -22,6 +22,7 @@ jobs:
           GITEA_TOKEN: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
           GITEA_URL: ${{ github.server_url }}
           GITEA_REPO: ${{ github.repository }}
+        shell: nix shell nixpkgs#curl nixpkgs#jq --command bash -e {0}
         run: |
           pr_json=$(curl -s \
             -H "Authorization: token $GITEA_TOKEN" \
