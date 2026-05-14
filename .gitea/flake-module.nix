@@ -42,6 +42,8 @@
             jq
             tea
             git
+            gnused
+            gnugrep
             ;
         };
         text = ''
@@ -130,13 +132,43 @@
             echo "Reusing existing PR #$PR_NUMBER"
           fi
 
-          curl -s -X POST \
-            -H "Authorization: token $GITEA_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"merge_when_checks_succeed":true,"delete_branch_after_merge":true}' \
-            "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls/$PR_NUMBER/merge"
+          # Enable auto-merge. Retry on 405 "Please try again later" — Gitea
+          # returns this while the mergeable status is recomputed after a
+          # push. 409 means a schedule is already active (survives force-push,
+          # since Gitea only clears it via explicit cancel), so treat as ok.
+          for attempt in 1 2 3 4 5; do
+            HTTP_BODY=$(curl -sS -w $'\n%{http_code}' -X POST \
+              -H "Authorization: token $GITEA_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{"merge_when_checks_succeed":true,"delete_branch_after_merge":true}' \
+              "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls/$PR_NUMBER/merge")
+            HTTP_CODE=$(printf '%s' "$HTTP_BODY" | tail -n1)
+            BODY=$(printf '%s' "$HTTP_BODY" | sed '$d')
 
-          echo "Auto-merge enabled for PR #$PR_NUMBER"
+            case "$HTTP_CODE" in
+              200|201)
+                echo "Auto-merge enabled for PR #$PR_NUMBER"
+                exit 0
+                ;;
+              409)
+                echo "Auto-merge already scheduled for PR #$PR_NUMBER"
+                exit 0
+                ;;
+              405)
+                if echo "$BODY" | grep -q "Please try again later"; then
+                  echo "Mergeable check not ready (attempt $attempt/5), retrying in 2s..."
+                  sleep 2
+                  continue
+                fi
+                ;;
+            esac
+
+            echo "Failed to enable auto-merge for PR #$PR_NUMBER: HTTP $HTTP_CODE $BODY" >&2
+            exit 1
+          done
+
+          echo "Auto-merge not enabled for PR #$PR_NUMBER after 5 attempts" >&2
+          exit 1
         '';
       };
     };
