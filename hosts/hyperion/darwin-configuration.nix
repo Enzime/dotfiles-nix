@@ -21,7 +21,6 @@
     "${config.users.users.${user}.home}/Applications/Home Manager Apps/Ghostty.app"
     "${config.users.users.${user}.home}/Applications/Home Manager Apps/Visual Studio Code.app"
     "${config.users.users.${user}.home}/Applications/Home Manager Apps/Spotify.app"
-    "/Applications/Element.app"
   ];
 
   nix.distributedBuilds = true;
