@@ -4,16 +4,12 @@ on:
     - cron: "0 1 * * *"
   workflow_dispatch:
   repository_dispatch:
-  pull_request:
-    types: [closed]
-    branches: [next]
 concurrency:
   group: update-flake-inputs
   cancel-in-progress: false
 jobs:
   update-flake-inputs:
     runs-on: nix
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged || github.event.pull_request.head.ref == 'next-rebase' }}
     steps:
       - uses: actions/checkout@v4
         with:

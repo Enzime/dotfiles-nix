@@ -4,7 +4,7 @@
     {
       packages.gitea-squash-next = pkgs.writeShellApplication {
         name = "gitea-squash-next";
-        runtimeInputs = builtins.attrValues { inherit (pkgs) git; };
+        runtimeInputs = builtins.attrValues { inherit (pkgs) curl git; };
         text = ''
           git config user.name hyperbot
           git config user.email hyperbot@clan.lol
@@ -31,6 +31,16 @@
           git commit -m "flake: bump inputs"
 
           git push origin HEAD:refs/heads/next --force
+
+          # Kick off update-flake-inputs now that next has settled, so we don't
+          # have to wait for the daily cron. Only fires on the actual-squash
+          # path — the self-retrigger from the force-push above hits the
+          # early-exit branch and does not dispatch.
+          curl -sS -X POST \
+            -H "Authorization: token $GITEA_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"ref":"main"}' \
+            "$GITEA_URL/api/v1/repos/$GITEA_REPO/actions/workflows/update-flake-inputs.yml/dispatches"
         '';
       };
 

@@ -13,4 +13,8 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
       - name: Squash next into single commit on top of main
+        env:
+          GITEA_TOKEN: ${{ secrets.HYPERBOT_GITEA_TOKEN }}
+          GITEA_URL: ${{ github.server_url }}
+          GITEA_REPO: ${{ github.repository }}
         run: nix run .#gitea-squash-next
