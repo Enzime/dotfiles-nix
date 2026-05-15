@@ -1,12 +1,13 @@
 name: Squash next branch
 on:
-  push:
-    branches:
-      - next
+  pull_request:
+    types: [closed]
+    branches: [next]
   workflow_dispatch:
 jobs:
   squash-next:
     runs-on: nix
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged }}
     steps:
       - uses: actions/checkout@v4
         with:

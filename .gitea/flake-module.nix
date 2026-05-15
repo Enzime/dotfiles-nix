@@ -11,31 +11,24 @@
 
           git fetch origin main next
 
-          # Skip if next is already exactly 1 commit ahead of main (already squashed)
           commit_count=$(git rev-list --count origin/main..origin/next)
           if [ "$commit_count" -le 1 ]; then
             echo "next is $commit_count commit(s) ahead of main, nothing to squash"
-            exit 0
-          fi
-
-          # Check there are actual tree differences
-          if git diff --quiet origin/main origin/next; then
+          elif git diff --quiet origin/main origin/next; then
             echo "No tree differences between main and next, resetting next to main"
             git push origin origin/main:refs/heads/next --force
-            exit 0
+          else
+            # Squash all changes into a single commit on top of main
+            git checkout origin/main
+            git merge --squash origin/next
+            git commit -m "flake: bump inputs"
+            git push origin HEAD:refs/heads/next --force
           fi
 
-          # Squash all changes into a single commit on top of main
-          git checkout origin/main
-          git merge --squash origin/next
-          git commit -m "flake: bump inputs"
-
-          git push origin HEAD:refs/heads/next --force
-
           # Kick off update-flake-inputs now that next has settled, so we don't
-          # have to wait for the daily cron. Only fires on the actual-squash
-          # path — the self-retrigger from the force-push above hits the
-          # early-exit branch and does not dispatch.
+          # have to wait for the daily cron. Safe to fire unconditionally:
+          # squash-next only runs on PR merges into next (no self-retrigger),
+          # so every invocation is a real "next changed" signal.
           curl -sS -X POST \
             -H "Authorization: token $GITEA_TOKEN" \
             -H "Content-Type: application/json" \
