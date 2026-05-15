@@ -3,13 +3,20 @@ on:
   schedule:
     - cron: "0 1 * * *"
   workflow_dispatch:
-  repository_dispatch:
+  pull_request:
+    types: [closed]
+    branches: [next]
 concurrency:
   group: update-flake-inputs
   cancel-in-progress: false
 jobs:
   update-flake-inputs:
     runs-on: nix
+    # On pull_request, only fire when next-rebase merges into next — squash-next
+    # early-exits in that case (next is 1 commit ahead of main, already squashed)
+    # and won't dispatch. All other merges into next go through squash-next's
+    # actual-squash path, which dispatches update-flake-inputs itself.
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.merged && github.event.pull_request.head.ref == 'next-rebase') }}
     steps:
       - uses: actions/checkout@v4
         with:
