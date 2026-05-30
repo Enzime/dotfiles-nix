@@ -91,8 +91,8 @@ self: super: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
         name = "fix-upgrade-with-nix.patch";
-        url = "https://github.com/opentofu/opentofu/commit/e763cd121ff58aa504e9c8b2515e30c26df026a8.patch";
-        hash = "sha256-jQPssSFA4/zs+EGngGg+dT/J7KWLdSrtjOYEtEWPIJg=";
+        url = "https://github.com/opentofu/opentofu/commit/99f8c6a9c2ec1a3b54fe39dee4c021984f9b5798.patch";
+        hash = "sha256-H5IWpnBeIqgQXeVfcb+0b+EnMtjQyBhnN99EIP7zMLg=";
       })
     ];
   });
