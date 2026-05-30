@@ -120,7 +120,6 @@ in
     "ghostty"
     "sops"
     "syncthing"
-    "termite"
     "variants"
     "vcs"
     "vm"
