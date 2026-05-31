@@ -73,7 +73,7 @@
 
   # REMOVEME when qt6.qtwebengine builds in Nixpkgs
   # https://github.com/NixOS/nixpkgs/pull/515997
-  inputs.nixpkgs-anki.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  inputs.nixpkgs-anki.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
 
   outputs =
     inputs:
