@@ -30,7 +30,6 @@
 
   inputs.nixos-anywhere.url = "github:nix-community/nixos-anywhere";
   inputs.nixos-anywhere.inputs.disko.follows = "disko";
-  inputs.nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
   inputs.nixos-anywhere.inputs.nixos-stable.follows = "";
   inputs.nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nixos-anywhere.inputs.treefmt-nix.follows = "";
