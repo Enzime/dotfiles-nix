@@ -48,7 +48,7 @@
   # This causes a stack overflow when set to empty string or relative path inputs
   inputs.clan-core.inputs.treefmt-nix.follows = "systems";
 
-  inputs.treefmt-nix.url = "github:numtide/treefmt-nix/pull/502/merge";
+  inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
   inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.hoopsnake.url = "github:boinkor-net/hoopsnake";
