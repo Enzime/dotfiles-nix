@@ -7,7 +7,7 @@
         runtimeInputs = builtins.attrValues { inherit (pkgs) curl git; };
         text = ''
           git config user.name hyperbot
-          git config user.email hyperbot@clan.lol
+          git config user.email hyperbot@enzim.ee
 
           git fetch origin main next
 
@@ -51,7 +51,7 @@
         };
         text = ''
           git config user.name hyperbot
-          git config user.email hyperbot@clan.lol
+          git config user.email hyperbot@enzim.ee
 
           git fetch origin main next
 
