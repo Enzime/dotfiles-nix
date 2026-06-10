@@ -192,11 +192,15 @@ let
       # OR
       # home-manager build --flake ~/.config/home-manager#enzime@phi-nixos
       flake.homeConfigurations."${user}@${hostname}" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import inputs.nixpkgs {
-          inherit (nixpkgs) config overlays;
-          system = nixpkgs.hostPlatform;
-        };
+        # home-manager reconstructs pkgs modularly so we just pass this in because it is still required
+        pkgs = inputs.nixpkgs.legacyPackages.${nixpkgs.hostPlatform};
         modules = [
+          {
+            nixpkgs = {
+              inherit (nixpkgs) config overlays;
+              system = nixpkgs.hostPlatform;
+            };
+          }
           (
             { pkgs, ... }:
             {
