@@ -1,5 +1,5 @@
 self: super: {
-  zellij = super.zellij.overrideAttrs (old: {
+  zellij-unwrapped = super.zellij-unwrapped.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
         name = "add-tmux-session-manager-keybinding.patch";
