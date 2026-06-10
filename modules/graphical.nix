@@ -1,5 +1,30 @@
 let
+  nixpkgsConfig =
+    {
+      lib,
+      pkgs,
+      _class,
+      ...
+    }@args:
+    lib.optionalAttrs (_class == "homeManager" -> !(args ? osConfig)) {
+      nixpkgs.config.permittedInsecurePackages = builtins.attrValues {
+        bitwarden-desktop = "electron-39.8.10";
+      };
+
+      # We can't use an assert guard on permittedInsecurePackages due to
+      # it being lazily evaluated only when there are insecure packages
+      # so instead we need to use an assertion.
+      assertions = [
+        {
+          assertion = pkgs.bitwarden-desktop.override.__functionArgs ? electron_39;
+          message = "bitwarden-desktop no longer depends on Electron 39";
+        }
+      ];
+    };
+
   shared = {
+    imports = [ nixpkgsConfig ];
+
     programs._1password-gui.enable = true;
     programs._1password.enable = true;
   };
@@ -111,6 +136,8 @@ in
       inherit (lib) optionalAttrs;
     in
     {
+      imports = [ nixpkgsConfig ];
+
       home.packages = builtins.attrValues (
         {
           inherit (pkgs)
