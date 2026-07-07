@@ -16,6 +16,10 @@
 
   hardware.cpu.amd.updateMicrocode = lib.mkIf pkgs.stdenv.hostPlatform.isx86_64 true;
 
+  # Configure kernel to reboot after panic in case systemd is stuck
+  boot.kernelParams = [ "panic=10" ];
+  systemd.settings.Manager.RuntimeWatchdogSec = "30s";
+
   networking.nameservers = [ "1.1.1.1" ];
   networking.dhcpcd.extraConfig = ''
     nohook resolv.conf
