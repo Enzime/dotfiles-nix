@@ -20,6 +20,8 @@
   boot.kernelParams = [ "panic=10" ];
   systemd.settings.Manager.RuntimeWatchdogSec = "30s";
 
+  networking.interfaces.enp34s0.wakeOnLan.enable = true;
+
   networking.nameservers = [ "1.1.1.1" ];
   networking.dhcpcd.extraConfig = ''
     nohook resolv.conf
