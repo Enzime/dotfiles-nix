@@ -84,6 +84,12 @@ in
                 "gitearo:"
               ];
             };
+            "https://git.geninf.io/" = {
+              insteadOf = [
+                "gen:"
+                "genro:"
+              ];
+            };
 
             "ssh://git@github.com/" = {
               insteadOf = "ghp:";
@@ -101,6 +107,10 @@ in
               insteadOf = "giteap:";
               pushInsteadOf = "gitea:";
             };
+            "ssh://gitea@git.geninf.io/" = {
+              insteadOf = "genp:";
+              pushInsteadOf = "gen:";
+            };
 
             "___PUSH_DISABLED___" = {
               pushInsteadOf = [
@@ -108,6 +118,7 @@ in
                 "bbro:"
                 "clanro:"
                 "gitearo:"
+                "genro:"
               ];
             };
           };
