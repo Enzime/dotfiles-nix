@@ -3,11 +3,11 @@
     { pkgs, lib, ... }:
     {
       services.greetd.enable = true;
-      programs.regreet.enable = true;
+      services.displayManager.regreet.enable = true;
 
-      programs.regreet.font.name = "DejaVu Sans";
-      programs.regreet.font.size = 12;
-      programs.regreet.font.package = pkgs.dejavu_fonts;
+      services.displayManager.regreet.font.name = "DejaVu Sans";
+      services.displayManager.regreet.font.size = 12;
+      services.displayManager.regreet.font.package = pkgs.dejavu_fonts;
 
       services.greetd.settings.default_session.command =
         "${lib.getExe' pkgs.dbus "dbus-run-session"} ${lib.getExe pkgs.sway} --config ${pkgs.writeText "greetd-sway-config" ''
