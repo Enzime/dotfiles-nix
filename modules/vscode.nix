@@ -189,7 +189,7 @@
         in
         {
           "update.mode" = "manual";
-          "extensions.autoUpdate" = false;
+          "extensions.autoUpdate" = "off";
           "extensions.autoCheckUpdates" = false;
 
           "telemetry.telemetryLevel" = "off";
