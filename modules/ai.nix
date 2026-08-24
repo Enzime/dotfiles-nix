@@ -15,6 +15,12 @@
               assert pkgs.stdenv.hostPlatform.system == "aarch64-darwin" -> old.doInstallCheck;
               pkgs.stdenv.hostPlatform.isLinux;
           });
+
+      omp = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp.overrideAttrs (old: {
+        doInstallCheck =
+          assert pkgs.stdenv.hostPlatform.system == "aarch64-darwin" -> old.doInstallCheck;
+          pkgs.stdenv.hostPlatform.isLinux;
+      });
     in
     {
       home.packages = builtins.attrValues (
@@ -26,7 +32,7 @@
 
           inherit (pkgs) herdr sprites;
 
-          inherit claude-code;
+          inherit claude-code omp;
         }
         // (lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
           inherit (inputs.claude-code-sandbox.packages.${pkgs.stdenv.hostPlatform.system})
