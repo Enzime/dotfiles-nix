@@ -24,7 +24,7 @@
             tuicr
             ;
 
-          inherit (pkgs) sprites;
+          inherit (pkgs) herdr sprites;
 
           inherit claude-code;
         }
