@@ -36,16 +36,6 @@ self: super: {
       });
     };
 
-  terragrunt = super.terragrunt.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [
-      (super.fetchpatch {
-        name = "support-s3-endpoints.patch";
-        url = "https://github.com/gruntwork-io/terragrunt/commit/d679c86b86049c3150ac26156bf1616aeeab555b.patch";
-        hash = "sha256-oUdxwBkALtqoV6EPD+nSLaCurGY4XIf6kmWWTX746cE=";
-      })
-    ];
-  });
-
   opentofu = super.opentofu.overrideAttrs (old: {
     patches = (old.patches or [ ]) ++ [
       (super.fetchpatch {
