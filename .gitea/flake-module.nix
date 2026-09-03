@@ -43,7 +43,6 @@
           inherit (pkgs)
             curl
             jq
-            tea
             git
             gnused
             gnugrep
@@ -115,22 +114,19 @@
             | jq -r '[.[] | select(.head.ref == "next-rebase")] | .[0].number')
 
           if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" = "null" ]; then
-            # Create PR using tea CLI
-            tea logins add \
-              --name gitea \
-              --url "$GITEA_URL" \
-              --token "$GITEA_TOKEN" \
-              --no-version-check
+            PR_JSON=$(curl -sS -X POST \
+              -H "Authorization: token $GITEA_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{"head":"next-rebase","base":"next","title":"flake: bump inputs"}' \
+              "$GITEA_URL/api/v1/repos/$GITEA_REPO/pulls")
 
-            PR_URL=$(tea pulls create \
-              --login gitea \
-              --repo "$GITEA_REPO" \
-              --head next-rebase \
-              --base next \
-              --title "flake: bump inputs" 2>&1 | tail -1)
+            PR_NUMBER=$(echo "$PR_JSON" | jq -r '.number // empty')
+            if [ -z "$PR_NUMBER" ]; then
+              echo "Failed to create PR: $PR_JSON" >&2
+              exit 1
+            fi
 
-            echo "Created PR: $PR_URL"
-            PR_NUMBER=$(echo "$PR_URL" | grep -oP '/pulls/\K[0-9]+')
+            echo "Created PR #$PR_NUMBER"
           else
             echo "Reusing existing PR #$PR_NUMBER"
           fi
