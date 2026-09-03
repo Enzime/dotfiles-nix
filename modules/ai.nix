@@ -14,6 +14,30 @@
             doInstallCheck =
               assert pkgs.stdenv.hostPlatform.system == "aarch64-darwin" -> old.doInstallCheck;
               pkgs.stdenv.hostPlatform.isLinux;
+
+            # WORKAROUND: https://github.com/anthropics/claude-code/issues/92278
+            nativeBuildInputs =
+              old.nativeBuildInputs
+              ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin pkgs.darwin.autoSignDarwinBinariesHook;
+
+            postInstall =
+              (old.postInstall or "")
+              + lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
+                # Both checks fail the build once upstream touches any of this,
+                # so the workaround gets dropped instead of silently living on.
+                grep -qaF 'ENOTDIR")return null;return{stdout:null,unreadReason:' $out/bin/claude || {
+                  echo "claude-code: EACCES is no longer fatal, drop this workaround" >&2
+                  exit 1
+                }
+
+                found=$(grep -oaF '/Library/Managed Preferences/' $out/bin/claude | wc -l)
+                [ "$found" -eq 3 ] || {
+                  echo "claude-code: expected 3 managed preferences paths, found $found" >&2
+                  exit 1
+                }
+
+                sed -i 's|/Library/Managed Preferences/|/Library/Managed-Preferences/|g' $out/bin/claude
+              '';
           });
 
       omp = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp.overrideAttrs (old: {
