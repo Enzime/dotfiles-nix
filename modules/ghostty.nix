@@ -18,7 +18,7 @@
       programs.ghostty.package =
         if pkgs.stdenv.hostPlatform.isDarwin then pkgs.ghostty-bin else pkgs.ghostty;
       programs.ghostty.settings = {
-        theme = "hybrid-krompus";
+        theme = "light:Pro Light,dark:hybrid-krompus";
         bold-is-bright = true;
 
         quit-after-last-window-closed = true;
