@@ -84,6 +84,24 @@
         })
       );
 
+      xdg.configFile."herdr/config.toml".text = ''
+        onboarding = false
+
+        [theme]
+        auto_switch = true
+        dark_name = "terminal"
+        light_name = "terminal"
+
+        [theme.custom.light]
+        subtext0 = "#3f3f3f"
+        overlay0 = "#6b6b6b"
+        overlay1 = "#707070"
+        surface0 = "#e8e8e8"
+        surface1 = "#d0d0d0"
+        active_row_bg = "#dcdcdc"
+        selection_bg = "#c8c8c8"
+      '';
+
       home.file.".claude/CLAUDE.md".source = ../files/CLAUDE.md;
 
       home.file.".claude/settings.json".text = lib.generators.toJSON { } {
