@@ -45,6 +45,16 @@
           assert pkgs.stdenv.hostPlatform.system == "aarch64-darwin" -> old.doInstallCheck;
           pkgs.stdenv.hostPlatform.isLinux;
       });
+
+      herdrAssets = "${pkgs.herdr.src}/src/integration/assets";
+
+      herdr-claude-hook = pkgs.writeShellApplication {
+        name = "herdr-claude-hook";
+        runtimeInputs = [ pkgs.python3 ];
+        text = ''
+          exec sh ${herdrAssets}/claude/herdr-agent-state.sh "$@"
+        '';
+      };
     in
     {
       home.packages = builtins.attrValues (
@@ -102,6 +112,11 @@
         selection_bg = "#c8c8c8"
       '';
 
+      home.file.".omp/agent/extensions/herdr-omp-agent-state.ts".source =
+        "${herdrAssets}/omp/herdr-agent-state.ts";
+
+      home.file.".claude/hooks/herdr-agent-state.sh".source = "${herdrAssets}/claude/herdr-agent-state.sh";
+
       home.file.".claude/CLAUDE.md".source = ../files/CLAUDE.md;
 
       home.file.".claude/settings.json".text = lib.generators.toJSON { } {
@@ -116,6 +131,18 @@
         effortLevel = "high";
         cleanupPeriodDays = 99999;
         hooks = {
+          SessionStart = [
+            {
+              matcher = "^(startup|resume|clear|compact|fork)$";
+              hooks = [
+                {
+                  type = "command";
+                  command = "${lib.getExe herdr-claude-hook} session";
+                  timeout = 10;
+                }
+              ];
+            }
+          ];
           Stop = [
             {
               matcher = "";
