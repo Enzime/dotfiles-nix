@@ -145,6 +145,8 @@ in
 
       hardware.enableRedistributableFirmware = true;
 
+      boot.loader.systemd-boot.configurationLimit = lib.mkDefault 5;
+
       environment.systemPackages = builtins.attrValues { inherit (pkgs) systemctl-tui; };
 
       programs.neovim.enable = true;
